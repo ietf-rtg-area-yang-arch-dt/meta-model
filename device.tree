@@ -1,15 +1,26 @@
 module: model-structure
    +--rw device
-      +--rw info
-      |  +--rw device-type?   enumeration
-      +--rw hardware
-      +--rw interfaces		/* physical description of interfaces */
-      |   +--rw ports*
-      |   +--ro type
-      |       +--ethernet
-      |       |  +--rw aggregates	
-      |       +--sonet
-      +--rw qos
+      +--rw info   /* TBD - Details for Future */ 
+      +--rw hardware /* Details for Future */
+      +--rw qos /* Details for Future */
+      +--rw if:interfaces /* RFC 7223 */
+         +--rw if:interface* [name]
+            ...
+            +--rw ipv4    /* RFC 7277 */
+               ...
+            |  +--rw vrrp	
+            |  +--rw icmp
+            |  +--rw arp
+            +--rw ipv6    /* RFC 7277 */
+               ...
+            |  +--rw vrrp	
+            |  +--rw nd
+            +--rw ethernet  /* RFC 7224 - Details for future */ 
+               +--rw lldp
+               +--rw ptp 
+            +--rw vlan    /* RFC 7224 - Details for future */
+            +--rw tunnel  /* RFC 7224 - Details for future */
+  
       +--rw logical-network-element
          +--rw logical-ntwk-element* [ntwk-element id]
             +--rw ntwk-element-id            uint8
@@ -80,7 +91,9 @@ module: model-structure
 	    |     +--rw options
 	    |        +--rw timeout?    uint8
 	    |        +--rw attempts?   uint8
-            +--rw users	   	       /* users and authentication are same constructs. If we want to be more with RFC, users should go away and use authenticatio */
+            +--rw users	   	       /* users and authentication are same constructs. 
+                                          If we want to be more with RFC, users should go away and use 
+                                          authentication */
 	    +--rw authentication
             |  +--rw user-authentication-order*   identityref
             |  +--rw user* [name]
@@ -93,30 +106,10 @@ module: model-structure
             +--rw acl
             +--rw networking instance* [ntwk_ins-name]
                +--rw ntwk_ins-name         string
-	       +--rw interface* 		
-               |  +--rw ethernet	
-               |  |  +--rw vlan		
-               |  +--rw addressing	
-               |     +--rw ipv4		
-               |     |  +--rw vrrp	
-               |     +--rw ipv6		
-               |        +--rw vrrp	
-               +--rw tunnels          
-               +--rw layer-2-protocols
-               |  +--rw vsi
-               |  +--rw ipv6-ndp
-               |  +--rw arp
-               |  +--rw rstp
-               |  +--rw lldp
-               |  +--rw ptp
 	       +--rw layer-3-protocols
                |  +--rw bgp
-               |  +--rw igp
-               |  |  +--rw is-is
-               |  |  +--rw ospf
-               |  |  |  +--rw ospf2
-               |  |  |  +--rw ospf3
-               |  |  +--rw igp-common
+               |  +--rw is-is
+               |  +--rw ospf
                |  +--rw bfd
                |  +--rw pim
                |  +--rw igmp
@@ -132,7 +125,8 @@ module: model-structure
                |        +--rw igp-congruent
                |        +--rw static
                +--rw routing-policy
-                  +--rw common
-                  +--rw bgp-policy
-                  +--rw igp-policy
-                  +--rw vrf-policy
+               |  +--rw common
+               |  +--rw bgp-policy
+               |  +--rw igp-policy
+               |  +--rw vrf-policy
+               +--rw applications
