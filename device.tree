@@ -21,8 +21,9 @@ module: model-structure
             |  +--rw nd
             |  +--rw dhcp
             +--rw ethernet  /* RFC 7224 - Details for future */ 
-               +--rw lldp
-               +--rw ptp 
+            |  +--rw network-instance-name
+            |  +--rw lldp
+            |  +--rw ptp 
             +--rw vlan    /* RFC 7224 - Details for future */
             +--rw tunnel  /* RFC 7224 - Details for future */
         +--rw logical-network-elements
@@ -30,43 +31,42 @@ module: model-structure
             +--rw network-element-id            uint8
             +--rw network-element-name?         string /* Optional descriptive name */
             +--rw device-view                boolean  /* Has visibility of entire node */
+	    +--rw default-network-instance-name     string  /* Routing for system management */
 	    +--system-management       /* RFC 7317 - Covers logical device management */
             |  ... 
-	    |  +--rw network-instance-name           string  /* Routing for system management */
 	    |  +--rw syslog
             |  +--rw statistics-collection
             |  +--rw tacacs
             |  +--rw snmp
             |  +--rw ssh
             |  +--rw netconf
-	    +--network-services
-            |  +--rw ntp-server
-            |  +--rw dns-server
-            |  +--rw dhcp-server
-            +--rw acl
+            +--rw ietf-acl   /* draft-ietf-netmod-acl-model */
             +--rw networking-instance* [network-instance-name]
                +--rw network-instance-name         string
-	       +--rw layer-3-protocols
+	       +--rw oam-protocols
+               |  +--rw bfd
+	       +--rw control-plane-protocols
                |  +--rw bgp
                |  +--rw is-is
                |  +--rw ospf
-               |  +--rw bfd
+               |  +--rw rsvp
+               |  +--rw segment-routing
+               |  +--rw ldp
                |  +--rw pim
                |  +--rw igmp
                |  +--rw static-routes
-               |  +--rw mpls-te
-               |     +--rw global
-               |     +--rw signaling
-               |     |  +--rw rsvp
-               |     |  +--rw segment-routing
-               |     |  +--rw ldp
-               |     +--rw label-switched-paths
-               |        +--rw constrained-path
-               |        +--rw igp-congruent
-               |        +--rw static
-               +--rw routing-policy
+               +--rw mpls
+               |  +--rw global
+               |  +--rw label-switched-paths
+               |     +--rw constrained-path
+               |     +--rw igp-congruent
+               |     +--rw static
+               +--rw policy
                |  +--rw common
                |  +--rw bgp-policy
                |  +--rw igp-policy
                |  +--rw vrf-policy
-               +--rw applications
+	       +--network-services
+               |  +--rw ntp-server
+               |  +--rw dns-server
+               |  +--rw dhcp-server
