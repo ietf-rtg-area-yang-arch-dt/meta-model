@@ -1,8 +1,8 @@
 module: model-structure
    +--rw device
-      +--rw info   /* TBD - Details for Future */ 
-      +--rw hardware /* Details for Future */
-      +--rw qos /* Details for Future */
+      +--rw info  
+      +--rw hardware 
+      +--rw qos 
       +--rw if:interfaces /* RFC 7223 */
          +--rw if:interface* [name]
             ...
@@ -10,15 +10,13 @@ module: model-structure
             +--rw ipv4    /* RFC 7277 */
             |  ...
             |  +--rw network-instance-name /* Scoped to interface network-element-id */
-            |  +--rw vrrp	
+            |  +--rw vrrp  /* For example, many of these are independent models */
             |  +--rw icmp
-            |  +--rw arp
             |  +--rw dhcp
             +--rw ipv6    /* RFC 7277 */
             |  ...
             |  +--rw network-instance-name /* Scoped to interface network-element-id */
-            |  +--rw vrrp	
-            |  +--rw nd
+            |  +--rw vrrp   
             |  +--rw dhcp
             +--rw ethernet  /* RFC 7224 - Details for future */ 
             |  +--rw network-instance-name
