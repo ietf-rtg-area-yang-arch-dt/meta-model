@@ -89,7 +89,8 @@ Open Issues:
    2. Do we need specific RIB policy or is there only RIB client policy? One requirement could
       be FIB installation policy. We are assuming RIB client policy is in the client.
    3. The argument as to whether various models should be rooted at the
-      logical-network-instance or networking-instance is an interesting one. 
+      logical-network-instance or networking-instance is an interesting one. For example,
+      key-chain and network-services. Thoughts?  
    4. This model may not support the zone-based policy firewall - TBD to figure this out. 
       Any opinion? 
    5. Need to describe how logical-network-instance administrators can access all 
