@@ -38,7 +38,8 @@ module: model-structure
             |  +--rw snmp
             |  +--rw ssh
             |  +--rw netconf
-            +--rw ietf-acl   /* draft-ietf-netmod-acl-model */
+            +--rw ietf-acl         /* draft-ietf-netmod-acl-model */
+            +--rw ietf-key-chain   /* draft-acee-rtgwg-keychain */
             +--rw networking-instance* [network-instance-name]
                +--rw network-instance-name         string
 	       +--rw oam-protocols
@@ -87,12 +88,14 @@ Open Issues:
    1. Protocol specific policies have been moved under the protocols (e.g., BGP). Thoughts?
    2. Do we need specific RIB policy or is there only RIB client policy? One requirement could
       be FIB installation policy. We are assuming RIB client policy is in the client.
-   3. This model may not support the zone-based policy firewall - TBD to figure this out. 
+   3. The argument as to whether various models should be rooted at the
+      logical-network-instance or networking-instance is an interesting one. 
+   4. This model may not support the zone-based policy firewall - TBD to figure this out. 
       Any opinion? 
-   4. Need to describe how logical-network-instance administrators can access all 
+   5. Need to describe how logical-network-instance administrators can access all 
       interfaces assigned to logical-network-instance. An administrator with the 
       global-view must assign the respective interfaces to the logical-network-instance. 
       Systems that only support allocation of interfaces to VRFs (and not 
       logical-network-elements) will require assignment to specific VRFs rather than 
       instance as a whole.
-   5. YANG model needed corresponding to the tree. 
+   6. YANG model needed corresponding to the tree. 
