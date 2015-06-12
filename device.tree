@@ -6,17 +6,17 @@ module: model-structure
       +--rw if:interfaces /* RFC 7223 */
          +--rw if:interface* [name]
             ...
-            +--rw  network-element-id 
+            +--rw  network-element-id  
             +--rw ipv4    /* RFC 7277 */
             |  ...
-            |  +--rw network-instance-name
+            |  +--rw network-instance-name /* Scoped to interface network-element-id */
             |  +--rw vrrp	
             |  +--rw icmp
             |  +--rw arp
             |  +--rw dhcp
             +--rw ipv6    /* RFC 7277 */
             |  ...
-            |  +--rw network-instance-name
+            |  +--rw network-instance-name /* Scoped to interface network-element-id */
             |  +--rw vrrp	
             |  +--rw nd
             |  +--rw dhcp
@@ -45,28 +45,56 @@ module: model-structure
                +--rw network-instance-name         string
 	       +--rw oam-protocols
                |  +--rw bfd
+               |  /* From ietf-routing */
+               +--rw type? 
+               +--rw enabled?
+               +--rw router-id?
+               +--rw description?
+               | /* Note - interfaces not copied */ 
+               +--rw common policy objects
+               +--rw vrf-policy
 	       +--rw control-plane-protocols
                |  +--rw bgp
+               |    +--rw policy
                |  +--rw is-is
+               |    +--rw policy
                |  +--rw ospf
+               |    +--rw policy
                |  +--rw rsvp
                |  +--rw segment-routing
                |  +--rw ldp
                |  +--rw pim
                |  +--rw igmp
                |  +--rw static-routes
+               +--rw ribs
+               |  +--rw rib* [name]
+               |  +--rw name
+               |  +--rw address-family?
+               |  +--rw policy
+               |  +--rw description?
                +--rw mpls
                |  +--rw global
                |  +--rw label-switched-paths
                |     +--rw constrained-path
                |     +--rw igp-congruent
                |     +--rw static
-               +--rw policy
-               |  +--rw common
-               |  +--rw bgp-policy
-               |  +--rw igp-policy
-               |  +--rw vrf-policy
 	       +--network-services
                |  +--rw ntp-server
                |  +--rw dns-server
                |  +--rw dhcp-server
+
+
+Open Issues: 
+
+   1. Protocol specific policies have been moved under the protocols (e.g., BGP). Thoughts?
+   2. Do we need specific RIB policy or is there only RIB client policy? One requirement could
+      be FIB installation policy. We are assuming RIB client policy is in the client.
+   3. This model may not support the zone-based policy firewall - TBD to figure this out. 
+      Any opinion? 
+   4. Need to describe how logical-network-instance administrators can access all 
+      interfaces assigned to logical-network-instance. An administrator with the 
+      global-view must assign the respective interfaces to the logical-network-instance. 
+      Systems that only support allocation of interfaces to VRFs (and not 
+      logical-network-elements) will require assignment to specific VRFs rather than 
+      instance as a whole.
+   5. YANG model needed corresponding to the tree. 
