@@ -41,7 +41,7 @@ module model-structure {
 
   grouping info {
     description
-      "base system information";
+      "Base system information";
 
     container info {
       description
@@ -82,6 +82,153 @@ module model-structure {
     }
   }
 
+  grouping interface-ip-common {
+    description
+      "interface-specific configuration for IP interfaces, IPv4 and
+      IPv6";
+
+  }
+
+  grouping interfaces {
+    description "interface-related models";
+    container interfaces {
+      description "Various interface models";
+      reference "RFC 7223 - A Yang Model for Interface Management";
+      list interface {
+        key "name";
+        description "List of interfaces keyed by name";
+        leaf name {
+            type string;
+            description "Interface name";
+        }
+        leaf bind-network-element-id {
+          type uint8; 
+          description "Logical network element ID to which
+                       interface is bound";
+        }
+        container ethernet {
+          description "Ethernet interface config, e.g., 10, 40,
+                       100GB Ethernet";
+          leaf bind-networking-instance-name {
+              type string; 
+              description "Networking Instance to which
+                           the Ethernet instance is bound";
+            }
+          container vsi {
+            description "Virtual switch instance (or virtual
+                         forwarding instance) for use in PWE3/VPLS
+                         services";
+
+          }
+          container rstp {
+              description "rapid spanning tree protocol";
+              reference "IEEE 802.1D-2004";
+          }
+          container lldp {
+              description "link layer discovery protocol";
+              reference "IEEE 802.1AB";
+          }
+          container ptp {
+              description
+                  "precision time protocol for time
+                   synchronization services. PTP typically requires
+                   per-interface configuration";
+              reference "IEEE 1588-2008";
+          }
+        }
+        container aggregates {
+            description
+              "LAGs, LACP, etc. for Ethernet interfaces";
+            reference "IEEE 802.1ad, 802.1AX";
+        }
+        container vlans {
+            description "VLANs, 802.1q, q-in-q, etc.";
+            reference "IEEE 802.1Q";
+        }
+        container lfm {
+            description
+               "Link-layer fault management for Ethernet
+                interfaces";
+            reference "IEEE 802.3ah";
+        }
+        container sonet-sdh {
+          description "SONET/SDH interfaces";
+            reference
+                "SDH: ITU standards G.707, G.783, G.784, and G.803
+                 SONET: ANSI standard T1.105";
+        }
+        container tunnels {
+            description
+                "logical tunnel interfaces incl. GRE, VxLAN,
+                  L2TP etc.";
+        }
+
+        container ipv4 {
+          description "IPv4 interface";
+          reference "RFC 7277 - A Yang Model for IP Management";
+          leaf bind-networking-instance-name {
+              type string; 
+              description "Networking Instance to which
+                           IPv4 interface is bound";
+          }
+          container arp {
+            description "Address resolution protocol";
+            reference "STD 37 - An Ethernet Address Resolution
+                       Protocol";
+          }
+         container icmp {
+           description "Internet Control Message Protocol";
+           reference "RFC 792 - Internet Control Message Protocol";
+         }
+         container vrrp {
+           description "virtual router redundancy protocol";
+           reference
+             "RFC 5798 - Virtual Router Redundancy Protocol
+              (VRRP) Version 3 for IPv4 and IPv6";
+          }
+         container dhcp-client {
+           description "Dynamic Host Configuration Protocol";
+            reference
+              "RFC 2131 - Dynamic Host Configuration Protocol";
+         }
+        }
+        container ipv6 {
+          description "IPv6 interface";
+            reference "RFC 7277 - A Yang Model for IP Management";
+            leaf bind-networking-instance-name {
+                type string; 
+                description "Networking Instance to which
+                             IPv4 interface is bound";
+            }
+          container vrrp {
+              description "virtual router redundancy protocol";
+              reference
+                  "RFC 5798 - Virtual Router Redundancy Protocol
+                   (VRRP) Version 3 for IPv4 and IPv6";
+          }
+          container icmpv6 {
+            description "Internet Control Message Protocol";
+            reference
+              "RFC 2463 - Internet Control Message Protocol
+               (ICMPv6) for Internet Protocol Version 6 (IPv6)";
+          }
+          container nd {
+            description "IPv6 Neighbor Discovery";
+              reference "RFC 4861 - Neighbor Discovery for IP
+                         version 6 (IPv6)";
+          }
+         container dhcpv6-client {
+           description
+               "Dynamic Host Configuration Protocol Version 6";
+            reference
+                "RFC 3315 - Dynamic Host Configuration Protocol
+                 for IPv6 (DHCPv6)";
+         }
+        }
+      }
+    }
+  }
+  
   identity networking-instance {
       description
          "Base identity from which identities describing
@@ -125,185 +272,25 @@ module model-structure {
     }
   }
   
-  grouping l2-protocol-members {
-    description "containers for each layer 2 protocol model";
-
-    container vsi {
-      description "virtual switch instance (or virtual forwarding
-      instance) for use in PWE3 / VPLS services";
-
-    }
-
-    container ipv6-ndp {
-      description "IPv6 neighbor discovery";
-      reference "RFC 4861 - Neighbor Discovery for IP version 6
-      (IPv6)";
-    }
-
-    container arp {
-      description "Address resolution protocol";
-      reference "STD 37 - An Ethernet Address Resolution Protocol";
-    }
-
-    container rstp {
-      description "rapid spanning tree protocol";
-      reference "IEEE 802.1D-2004";
-    }
-
-    container lldp {
-      description "link layer discovery protocol";
-      reference "IEEE 802.1AB";
-    }
-
-    container ptp {
-      description
-        "precision time protocol for time synchronization services.
-        PTP also typically requires per-interface configuration";
-      reference "IEEE 1588-2008";
-    }
-  }
-
-  grouping l2-protocols {
-    description "Layer 2 protocol models";
-
-    container layer-2-protocols {
-      description "layer 2 protocols and features";
-
-      uses l2-protocol-members;
-
-    }
-
-  }
-
-  grouping igp-protocol-members {
-    description "containers for IGPs";
-
-    container is-is {
-      description "IS-IS IGP routing protocol";
-      reference "RFC 1195 - Use of OSI IS-IS for Routing in TCP/IP
-      and Dual Environments";
-    }
-
-    container ospf {
-      description "OSPF IGP routing protocols";
-
-      container ospf2 {
-        description "OSPF v2";
-        reference "RFC 2328 - OSPF Version 2";
-      }
-
-      container ospf3 {
-        description "OSPF v3";
-        reference "RFC 5340 - OSPF for IPv6";
-      }
-    }
-
-    container igp-common {
-      description "Common parameters for IGP protocols";
-    }
-  }
-
-  grouping l3-protocol-members-vrf {
-    description "containers for layer 3 protocol that are supported
-    in a VRF instance";
-
-    container bgp {
-      description "BGP 4";
-      reference "RFC 4271 - A Border Gateway Protocol 4 (BGP-4)";
-    }
-
-    container igp {
-      description "interior gateway protocols";
-
-      uses igp-protocol-members;
-    }
-
-    container bfd {
-      description "bidirectional forwarding detection";
-      reference "RFC 5880 - Bidirectional Forwarding Detection
-      (BFD)";
-    }
-
-    container pim {
-      description "protocol independent multicast";
-      reference "RFC 4601 - Protocol Independent Multicast -
-      Sparse Mode (PIM-SM): Protocol Specification (Revised)";
-    }
-
-    container igmp {
-      description "Internet group management protocol";
-      reference "RFC 3376 - Internet Group Management Protocol,
-      Version 3";
-    }
-
-    container static-routes {
-      description "static route that are manually created";
-    }
-
-  }
-
-  grouping l3-protocols-misc {
-    description "containers for other features operating at the
-    network layer";
-
-  }
-
-  grouping l3-protocols-mpls {
-    description "models related to MPLS and TE";
-
-    container mpls-te {
-      description "MPLS and traffic engineering";
-
-      container global {
+  grouping mpls {
+    description "MPLS and TE configuration";
+    container global {
         description "global MPLS configuration";
+    }
+
+    container label-switched-paths {
+      description "Models for different types of LSPs";
+      
+      container constrained-path {
+          description "traffic-engineered or constrained path LSPs";
       }
-
-      container signaling {
-        description "MPLS signaling protocols";
-
-        container rsvp {
-          description "RSVP signaling";
-          reference "RFC 3209 - RSVP-TE: Extensions to RSVP for LSP
-          Tunnels";
-        }
-
-        container segment-routing {
-          description "SR signaling";
-          reference "Segment Routing Architecture -
-          draft-filsfils-spring-segment-routing-04";
-        }
-
-        container ldp {
-          description "label distribution protocol";
-          reference "RFC 5036 - LDP Specification";
-        }
-      }
-
-      container label-switched-paths {
-        description "models for different types of LSPs";
-
-        container constrained-path {
-          description "traffic-engineered, or constrained path LSPs";
-        }
-
-        container igp-congruent {
+      container igp-congruent {
           description "LSPs that follow the IGP-computed path";
-        }
-
-        container static {
-          description "statically configured LSPs";
-        }
+      }
+      container static {
+          description "Statically configured LSPs";
       }
     }
-  }
-
-  grouping l3-protocol-members {
-    description "containers for all layer 3 protocols";
-
-    uses l3-protocol-members-vrf;
-    uses l3-protocols-misc;
-    uses l3-protocols-mpls;
-
   }
 
   grouping common-policy-objects {
@@ -391,7 +378,7 @@ module model-structure {
           description "Multicast Listener Discovery Protocol
                        configuration";
           reference "RFC 3810 - Multicast Listener Discovery
-                     Version 2 (MLDv2 for IPv6";
+                     Version 2 (MLDv2 for IPv6)";
       }
       container static-routes {
           description "Static route configuration";
@@ -428,85 +415,27 @@ module model-structure {
     }
   }
 
-  grouping interface-ip-common {
+  grouping networking-services {
     description
-      "interface-specific configuration for IP interfaces, IPv4 and
-      IPv6";
-
-    container vrrp {
-      description "virtual router redundancy protocol";
-      reference "RFC 5798 - Virtual Router Redundancy Protocol
-      (VRRP) Version 3 for IPv4 and IPv6";
-    }
+      "Networking services provided by the device in the scope of
+       the networking-instance";
+     container ntp-server {
+        description "Network Time Protocol (NTP) Server";
+          reference "RFC 5905 - Network Time Protocol Version 4:
+                     Protocol and Algorithms Specification";
+      }
+     container dns-server {
+        description "Domain Name System (DNS) Server";
+          reference "RFC 1035 - DOMAIN NAMES - IMPLEMENTATION
+                     AND SPECIFICATION";
+      }
+     container dhcp-server {
+        description "Dynamic Host Configuration Protocol (DHCP)
+                    Server";
+        reference "RFC 2131 - Dynamic Host Configuration Protocol";
+      }
   }
-
-  grouping interface-addr-families {
-    description
-      "containers for addr family-specific data attached
-      to interfaces";
-
-    container ipv4 {
-      description "IPv4 interfaces";
-
-      uses interface-ip-common;
-    }
-
-    container ipv6 {
-      description "IPv6 interfaces";
-
-      uses interface-ip-common;
-    }
-  }
-
-  grouping interfaces {
-    description "interface-related models";
-
-    container interfaces {
-      description "various interface models";
-
-      container ethernet {
-        description "Ethernet interface config, e.g., 10, 40,
-        100GBE";
-
-        container aggregates {
-          description "LAGs, LACP, etc. for Ethernet interfaces";
-          reference "IEEE 802.1ad, 802.1AX";
-        }
-
-        container vlans {
-          description "VLANs, 802.1q, q-in-q, etc.";
-          reference "IEEE 802.1Q";
-        }
-
-        container lfm {
-          description
-            "Link-layer fault management for Ethernet interfaces";
-          reference "IEEE 802.3ah";
-        }
-      }
-
-      container sonet-sdh {
-        description "SONET/SDH interfaces";
-        reference
-          "SDH: ITU standards G.707, G.783, G.784, and G.803
-          SONET: ANSI standard T1.105";
-
-      }
-
-      container addressing {
-        description "addressing and other interface-specific data,
-        e.g., data plane protocols";
-
-        uses interface-addr-families;
-      }
-
-      container tunnels {
-        description
-          "logical tunnel interfaces incl. GRE, VxLAN, L2TP etc.";
-      }
-
-    }
-  }
+  
 
   grouping oam {
     description "containers for features related to operations,
@@ -685,6 +614,8 @@ module model-structure {
                 uses vrf-policy;
                 uses control-plane-protocols;
                 uses ribs;
+                uses mpls;
+                uses networking-services;
             }
         }
       }
