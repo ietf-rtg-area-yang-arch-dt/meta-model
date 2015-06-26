@@ -9,14 +9,11 @@ module: model-structure
       |     +--rw bind-network-element-id?   uint8
       |     +--rw ethernet
       |     |  +--rw bind-networking-instance-name?   string
-      |     |  +--rw vsi
+      |     |  +--rw aggregates
       |     |  +--rw rstp
       |     |  +--rw lldp
       |     |  +--rw ptp
-      |     +--rw aggregates
       |     +--rw vlans
-      |     +--rw lfm
-      |     +--rw sonet-sdh
       |     +--rw tunnels
       |     +--rw ipv4
       |     |  +--rw bind-networking-instance-name?   string
@@ -45,6 +42,7 @@ module: model-structure
             +--rw ssh
             +--rw tacacs
             +--rw snmp
+            +--rw netconf
             +--rw ietf-acl
             +--rw ietf-key-chain
             +--rw networking-instances
@@ -54,18 +52,19 @@ module: model-structure
                   +--rw enabled?                    boolean
                   +--rw router-id?                  uint32
                   +--rw description?                string
-                  +--rw bfd
-                  +--rw cfm
-                  +--rw twamp
+                  +--rw oam-protocols
+                  |  +--rw bfd
+                  |  +--rw cfm
+                  |  +--rw twamp
                   +--rw common-policy-objects
                   +--rw vrf-policy
                   +--rw control-plane-protocols
                   |  +--rw bgp
-                  |  |  +--rw bgp-policy
+                  |  |  +--rw policy
                   |  +--rw is-is
-                  |  |  +--rw isis-policy
+                  |  |  +--rw policy
                   |  +--rw ospf
-                  |  |  +--rw ospf-policy
+                  |  |  +--rw policy
                   |  +--rw rsvp
                   |  +--rw segment-routing
                   |  +--rw ldp
@@ -76,11 +75,13 @@ module: model-structure
                   +--rw ribs
                   |  +--rw rib* [name]
                   |     +--rw name    string
-                  +--rw global
-                  +--rw label-switched-paths
+                  +--rw mpls
+                  |  +--rw global
+                  |  +--rw label-switched-paths
                   |  +--rw constrained-path
                   |  +--rw igp-congruent
                   |  +--rw static
-                  +--rw ntp-server
-                  +--rw dns-server
-                  +--rw dhcp-server
+                  +--rw networking-services
+                     +--rw ntp-server
+                     +--rw dns-server
+                     +--rw dhcp-server

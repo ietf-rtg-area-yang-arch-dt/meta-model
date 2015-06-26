@@ -113,15 +113,14 @@ module model-structure {
               type string; 
               description "Networking Instance to which
                            the Ethernet instance is bound";
-            }
-          container vsi {
-            description "Virtual switch instance (or virtual
-                         forwarding instance) for use in PWE3/VPLS
-                         services";
-
+          }
+          container aggregates {
+              description
+                  "LAGs, LACP, etc. for Ethernet interfaces";
+              reference "IEEE 802.1ad, 802.1AX";
           }
           container rstp {
-              description "rapid spanning tree protocol";
+              description "Rapid Spanning Tree Protocol";
               reference "IEEE 802.1D-2004";
           }
           container lldp {
@@ -130,36 +129,19 @@ module model-structure {
           }
           container ptp {
               description
-                  "precision time protocol for time
+                  "Precision Time Protocol (PTP) for time
                    synchronization services. PTP typically requires
                    per-interface configuration";
               reference "IEEE 1588-2008";
           }
         }
-        container aggregates {
-            description
-              "LAGs, LACP, etc. for Ethernet interfaces";
-            reference "IEEE 802.1ad, 802.1AX";
-        }
         container vlans {
             description "VLANs, 802.1q, q-in-q, etc.";
             reference "IEEE 802.1Q";
         }
-        container lfm {
-            description
-               "Link-layer fault management for Ethernet
-                interfaces";
-            reference "IEEE 802.3ah";
-        }
-        container sonet-sdh {
-          description "SONET/SDH interfaces";
-            reference
-                "SDH: ITU standards G.707, G.783, G.784, and G.803
-                 SONET: ANSI standard T1.105";
-        }
         container tunnels {
             description
-                "logical tunnel interfaces incl. GRE, VxLAN,
+                "Logical tunnel interfaces incl. GRE, VxLAN,
                   L2TP etc.";
         }
 
@@ -251,45 +233,50 @@ module model-structure {
   grouping oam-protocols {
    description
       "Definitions for OAM protocols within a networking-instance";
-    container bfd {
-      description "Bi-directional Forwardind Detection (BFD)
+   container oam-protocols {
+       description
+           "OAM protocols";
+     container bfd {
+         description "Bi-directional Forwardind Detection (BFD)
                    configuration";
-
-    }
-    container cfm {
-        description
+        
+     }
+     container cfm {
+         description
             "Ethernet connectivity fault management.  Also includes
              options that are associated with specific interfaces,
              such as maintenance endpoint domains.";
         reference "IEEE 802.1ag";
-      }
-    container twamp {
-        description
-            "Two-way active measurement protocol for measuring
+     }
+     container twamp {
+         description
+             "Two-way active measurement protocol for measuring
              round-trip IP layer performance.";
-        reference "RFC 5357 A Two-Way Active Measurement Protocol
+         reference "RFC 5357 A Two-Way Active Measurement Protocol
                    (TWAMP)";
-    }
-  }
+     }
+   }
+  } 
   
   grouping mpls {
     description "MPLS and TE configuration";
-    container global {
-        description "global MPLS configuration";
-    }
-
-    container label-switched-paths {
-      description "Models for different types of LSPs";
-      
-      container constrained-path {
-          description "traffic-engineered or constrained path LSPs";
+    container mpls {
+      description "MPLS and TE configuration";
+      container global {
+          description "global MPLS configuration";
       }
-      container igp-congruent {
-          description "LSPs that follow the IGP-computed path";
-      }
-      container static {
-          description "Statically configured LSPs";
-      }
+     container label-switched-paths {
+       description "Models for different types of LSPs";
+     }
+     container constrained-path {
+       description "traffic-engineered or constrained path LSPs";
+     }
+     container igp-congruent {
+       description "LSPs that follow the IGP-computed path";
+     }
+     container static {
+        description "Statically configured LSPs";
+     }
     }
   }
 
@@ -324,7 +311,7 @@ module model-structure {
       container bgp {
           description "BGP-4 orotocol configuration";
           reference "RFC 4271 - A Border Gateway Protocol 4 (BGP-4)";
-          container bgp-policy {
+          container policy {
               description "Policy specific to BGP";
           }
       }
@@ -332,7 +319,7 @@ module model-structure {
           description "ISO IS-IS protocol configuration";
           reference "RFC 1195 - Use of OSI IS-IS for Routing in
                      TCP/IP and Dual Environments";
-          container isis-policy {
+          container policy {
               description "Policy specific to IS-IS";
           }
       }
@@ -341,7 +328,7 @@ module model-structure {
                        configuration";
           reference "RFC 2328 - OSPFv2 Protocol
                      RFC 5340 - OSPF for IPv6";
-          container ospf-policy {
+          container policy {
               description "Policy specific to OSPF";
           }
       }
@@ -419,21 +406,24 @@ module model-structure {
     description
       "Networking services provided by the device in the scope of
        the networking-instance";
-     container ntp-server {
-        description "Network Time Protocol (NTP) Server";
-          reference "RFC 5905 - Network Time Protocol Version 4:
-                     Protocol and Algorithms Specification";
-      }
-     container dns-server {
-        description "Domain Name System (DNS) Server";
-          reference "RFC 1035 - DOMAIN NAMES - IMPLEMENTATION
-                     AND SPECIFICATION";
-      }
-     container dhcp-server {
-        description "Dynamic Host Configuration Protocol (DHCP)
-                    Server";
-        reference "RFC 2131 - Dynamic Host Configuration Protocol";
-      }
+     container networking-services {
+       description "Networking services";
+       container ntp-server {
+         description "Network Time Protocol (NTP) Server";
+         reference "RFC 5905 - Network Time Protocol Version 4:
+                    Protocol and Algorithms Specification";
+       }
+       container dns-server {
+         description "Domain Name System (DNS) Server";
+         reference "RFC 1035 - DOMAIN NAMES - IMPLEMENTATION
+                   AND SPECIFICATION";
+       }
+       container dhcp-server {
+         description "Dynamic Host Configuration Protocol (DHCP)
+                      Server";
+         reference "RFC 2131 - Dynamic Host Configuration Protocol";
+       }
+     }
   }
   
 
@@ -502,6 +492,11 @@ module model-structure {
     container snmp {
         description "System Network Management Protocol (SNMP)
                      configuration";
+    }
+    container netconf {
+        description "Network Configuration Protocol (NETCONF)";
+        reference "RFC 6020 - YANG - A Data Modeling Language for
+                   the Network Configuration Protocol (NETCONF)";
     }
   }
 
