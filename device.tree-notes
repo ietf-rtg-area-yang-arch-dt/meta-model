@@ -1,0 +1,114 @@
+module: model-structure
+   +--rw device
+      +--rw info  
+      +--rw hardware 
+      +--rw qos 
+      +--rw if:interfaces /* RFC 7223 */
+         +--rw if:interface* [name]
+            ...
+            +--rw  network-element-id  
+            +--rw ipv4    /* RFC 7277 */
+            |  ...
+            |  +--rw network-instance-name /* Scoped to interface network-element-id */
+            |  +--rw vrrp  /* For example, many of these are independent models */
+            |  +--rw icmp
+            |  +--rw dhcp
+            +--rw ipv6    /* RFC 7277 */
+            |  ...
+            |  +--rw network-instance-name /* Scoped to interface network-element-id */
+            |  +--rw vrrp   
+            |  +--rw dhcp
+            +--rw ethernet  /* RFC 7224 - Details for future */ 
+            |  +--rw network-instance-name
+            |  +--rw lldp
+            |  +--rw ptp 
+            +--rw vlan    /* RFC 7224 - Details for future */
+            +--rw tunnel  /* RFC 7224 - Details for future */
+        +--rw logical-network-elements
+         +--rw logical-network-element* [network-element-id]
+            +--rw network-element-id            uint8
+            +--rw network-element-name?         string /* Optional descriptive name */
+            +--rw device-view                boolean  /* Has visibility of entire node */
+	    +--rw default-network-instance-name     string  /* Routing for system management */
+	    +--system-management       /* RFC 7317 - Covers logical device management */
+            |  ... 
+	    |  +--rw syslog
+            |  +--rw statistics-collection
+            |  +--rw tacacs
+            |  +--rw snmp
+            |  +--rw ssh
+            |  +--rw netconf
+            +--rw ietf-acl         /* draft-ietf-netmod-acl-model */
+            +--rw ietf-key-chain   /* draft-acee-rtgwg-keychain */
+            +--rw networking-instance* [network-instance-name]
+               +--rw network-instance-name         string
+	       +--rw oam-protocols
+               |  +--rw bfd
+               |  /* From ietf-routing */
+               +--rw type? 
+               +--rw enabled?
+               +--rw router-id?
+               +--rw description?
+               | /* Note - interfaces not copied */ 
+               +--rw common policy objects
+               +--rw vrf-policy
+	       +--rw control-plane-protocols
+               |  +--rw bgp
+               |    +--rw policy
+               |  +--rw is-is
+               |    +--rw policy
+               |  +--rw ospf
+               |    +--rw policy
+               |  +--rw rsvp
+               |  +--rw segment-routing
+               |  +--rw ldp
+               |  +--rw pim
+               |  +--rw igmp
+               |  +--rw static-routes
+               +--rw ribs
+               |  +--rw rib* [name]
+               |  +--rw name
+               |  +--rw address-family?
+               |  +--rw policy
+               |  +--rw description?
+               +--rw mpls
+               |  +--rw global
+               |  +--rw label-switched-paths
+               |     +--rw constrained-path
+               |     +--rw igp-congruent
+               |     +--rw static
+	       +--network-services
+               |  +--rw ntp-server
+               |  +--rw dns-server
+               |  +--rw dhcp-server
+
+
+Open Issues: 
+
+   1. Protocol specific policies have been moved under the protocols (e.g., BGP). Thoughts?
+   2. Do we need specific RIB policy or is there only RIB client policy? One requirement could
+      be FIB installation policy. We are assuming RIB client policy is in the client.
+   3. The argument as to whether various models should be rooted at the
+      logical-network-instance or networking-instance is an interesting one. For example,
+      key-chain and network-services. Thoughts?  
+   4. Need to revisit VRF policy definition and relationship to L3VPN Config/Policy.
+   5. This model may not support the zone-based policy firewall - TBD to figure this out. 
+      Any opinion? 
+   6. Need to describe how logical-network-instance administrators can access all 
+      interfaces assigned to logical-network-instance. An administrator with the 
+      global-view must assign the respective interfaces to the logical-network-instance. 
+      Systems that only support allocation of interfaces to VRFs (and not 
+      logical-network-elements) will require assignment to specific VRFs rather than 
+      instance as a whole.
+   7. YANG model needed corresponding to the tree. 
+
+Design Team Plans: 
+
+   1. Finalize and document meta model
+   2. Finalize Operational State recommendation 
+   3. Revisit YANG recommendations
+   4. Revisit YANG model conventions
+
+
+   meta model background presentatipon: http://tools.ietf.org/agenda/92/slides/slides-92-netmod-11.pdf
+   opstate background presentation http://tools.ietf.org/agenda/92/slides/slides-92-netmod-10.pdf
