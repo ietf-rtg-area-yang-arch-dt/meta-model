@@ -74,7 +74,9 @@ module: model-structure
                   |  +--rw static-routes
                   +--rw ribs
                   |  +--rw rib* [name]
-                  |     +--rw name    string
+                  |     +--rw name           string
+                  |     +--rw description?   string
+                  |     +--rw policy
                   +--rw mpls
                   |  +--rw global
                   |  +--rw label-switched-paths

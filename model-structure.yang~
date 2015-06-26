@@ -398,15 +398,6 @@ module model-structure {
                     "The name of the RIB.";
             }
             reference "draft-ietf-netmod-routing-cfg";
-            leaf description {
-                type string;
-                description
-                    "Description of the RIB"; 
-            }
-            // Note that there is no list of interfaces within
-            container policy {
-                description "Policy specific to RIB";
-            }
         }
     }
   }
