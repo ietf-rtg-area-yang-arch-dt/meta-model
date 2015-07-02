@@ -291,14 +291,14 @@ module model-structure {
     }
   }
 
-  grouping vrf-policy {
+  grouping networking-instance-policy {
     description
-        "Virtual Frowarding and Route (VRF) policies
-         such as route destinguisher and route targets";
+        "Networking instance policies such as route
+         destinguisher and route targets";
     reference
         "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)";
-    container vrf-policy {
-        description "VRF Policy";
+    container networking-instance-policy {
+        description "Networking Instance Policy";
     }
   }
 
@@ -471,42 +471,54 @@ module model-structure {
   }
 
   grouping system-management {
-    description "System management for device or logical network
+      description "System management for device or logical network
                  element";
-    container system-management {
-      description "System management - logical device management with
-                  reuse of RFC 7317";
-    }
-    container syslog {
-        description "Syslog configuration";
-    }
-    container dns {
-        description "Domain Name Service (DNA) and resolver
+      container system-managment {
+          description "System management for device or logical
+                       network element";
+          leaf device-view {
+              type boolean;
+              default "true";
+              description "Flag indicating whether or not the logical
+                           network element is able to view and manage
+                           the entire device";
+          }
+          container system-management {
+              description "System management - logical device
+                  management with reuse of RFC 7317";
+          }
+          container syslog {
+              description "Syslog configuration";
+          }
+          container dns {
+              description "Domain Name Service (DNA) and resolver
                      configuration";
-    }
-    container ntp {
-          description "network time protocol configuration";
-    }
-    container statistics-collection {
-        description
-            "Mechanisms for data collection from devices, including
-             packet and flow-level sampling";
-    }
-    container ssh {
-        description "SSH server configuration";
-    }
-    container tacacs {
-        description "TACACS+ configuration";
-    }
-    container snmp {
-        description "System Network Management Protocol (SNMP)
-                     configuration";
-    }
-    container netconf {
-        description "Network Configuration Protocol (NETCONF)";
-        reference "RFC 6020 - YANG - A Data Modeling Language for
-                   the Network Configuration Protocol (NETCONF)";
-    }
+          }
+          container ntp {
+              description "network time protocol configuration";
+          }
+          container statistics-collection {
+              description
+                  "Mechanisms for data collection from devices,
+                   including packet and flow-level sampling";
+          }
+          container ssh {
+              description "SSH server configuration";
+          }
+          container tacacs {
+              description "TACACS+ configuration";
+          }
+          container snmp {
+              description "System Network Management Protocol
+                           (SNMP) configuration";
+          }
+          container netconf {
+              description "Network Configuration Protocol (NETCONF)";
+              reference "RFC 6020 - YANG - A Data Modeling Language
+                         for the Network Configuration Protocol
+                         (NETCONF)";
+          }
+      }
   }
 
   grouping ietf-acl {
@@ -558,13 +570,6 @@ module model-structure {
           description "Descriptive name for the logical network
                        element";
         }
-        leaf device-view {
-            type boolean;
-            default "true";
-            description "Flag indicating whether or not the logical
-                         network element is able to view and manage
-                         the entire device";
-        }
         leaf default-networking-instance-name {
           type string;
           description "Specification of the networking instance to
@@ -615,7 +620,7 @@ module model-structure {
                 // the neworking-instance
                 uses oam-protocols;
                 uses common-policy-objects;
-                uses vrf-policy;
+                uses networking-instance-policy;
                 uses control-plane-protocols;
                 uses ribs;
                 uses mpls;

@@ -32,32 +32,33 @@ module: model-structure
          +--rw logical-network-element* [network-element-id]
             +--rw network-element-id                  uint8
             +--rw network-element-name?               string
-            +--rw device-view?                        boolean
             +--rw default-networking-instance-name?   string
-            +--rw system-management
-            +--rw syslog
-            +--rw dns
-            +--rw ntp
-            +--rw statistics-collection
-            +--rw ssh
-            +--rw tacacs
-            +--rw snmp
-            +--rw netconf
+            +--rw system-managment
+            |  +--rw device-view?             boolean
+            |  +--rw system-management
+            |  +--rw syslog
+            |  +--rw dns
+            |  +--rw ntp
+            |  +--rw statistics-collection
+            |  +--rw ssh
+            |  +--rw tacacs
+            |  +--rw snmp
+            |  +--rw netconf
             +--rw ietf-acl
             +--rw ietf-key-chain
             +--rw networking-instances
                +--rw networking-instance* [networking-instance-name]
-                  +--rw networking-instance-name    string
-                  +--rw type?                       identityref
-                  +--rw enabled?                    boolean
-                  +--rw router-id?                  uint32
-                  +--rw description?                string
+                  +--rw networking-instance-name      string
+                  +--rw type?                         identityref
+                  +--rw enabled?                      boolean
+                  +--rw router-id?                    uint32
+                  +--rw description?                  string
                   +--rw oam-protocols
                   |  +--rw bfd
                   |  +--rw cfm
                   |  +--rw twamp
                   +--rw common-policy-objects
-                  +--rw vrf-policy
+                  +--rw networking-instance-policy
                   +--rw control-plane-protocols
                   |  +--rw bgp
                   |  |  +--rw policy
