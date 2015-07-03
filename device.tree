@@ -35,7 +35,6 @@ module: model-structure
             +--rw default-networking-instance-name?   string
             +--rw system-managment
             |  +--rw device-view?             boolean
-            |  +--rw system-management
             |  +--rw syslog
             |  +--rw dns
             |  +--rw ntp
@@ -57,7 +56,6 @@ module: model-structure
                   |  +--rw bfd
                   |  +--rw cfm
                   |  +--rw twamp
-                  +--rw common-policy-objects
                   +--rw networking-instance-policy
                   +--rw control-plane-protocols
                   |  +--rw bgp
