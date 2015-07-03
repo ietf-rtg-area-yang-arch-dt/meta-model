@@ -14,8 +14,8 @@ module model-structure {
   organization "OpenConfig working group/IETF RTG YANG Design Team";
 
   contact
-    "OpenConfig working group
-    netopenconfig@googlegroups.com";
+    "OpenConfig working group netopenconfig@googlegroups.com
+     Routing Area YANG Architecture DT rtg-dt-yang-arch@ietf.org";
 
   description
     "This module describes a model structure for YANG
@@ -46,7 +46,7 @@ module model-structure {
     container info {
       description
         "This container is for base system information, including
-        device type (e.g., physcal or virtual), model, serial no.,
+        device type (e.g., physical or virtual), model, serial no.,
         location, etc.";
 
       leaf device-type {
@@ -237,7 +237,7 @@ module model-structure {
        description
            "OAM protocols";
      container bfd {
-         description "Bi-directional Forwardind Detection (BFD)
+         description "Bi-directional Forwarding Detection (BFD)
                    configuration";
         
      }
@@ -283,7 +283,7 @@ module model-structure {
   grouping networking-instance-policy {
     description
         "Networking instance policies such as route
-         destinguisher, route targets, VPLS ID and neighbor, 
+         distinguisher, route targets, VPLS ID and neighbor, 
 	 Ethernet ID, etc. ";
     reference
         "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
@@ -302,7 +302,7 @@ module model-structure {
       description "Control plane protocols and features";
       
       container bgp {
-          description "BGP-4 orotocol configuration";
+          description "BGP-4 protocol configuration";
           reference "RFC 4271 - A Border Gateway Protocol 4 (BGP-4)";
           container policy {
               description "Policy specific to BGP";
@@ -466,7 +466,7 @@ module model-structure {
   grouping system-management {
       description "System management for device or logical network
                    element";
-      container system-managment {
+      container system-management {
           description "System management - logical device
                        management with reuse of RFC 7317";
           leaf device-view {
@@ -608,7 +608,7 @@ module model-structure {
                       and its intended purpose";
                 }
                 // Note that there is no list of interfaces within
-                // the neworking-instance
+                // the networking-instance
                 uses oam-protocols;
                 uses networking-instance-policy;
                 uses control-plane-protocols;
