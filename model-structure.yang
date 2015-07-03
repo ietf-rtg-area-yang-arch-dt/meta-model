@@ -20,10 +20,10 @@ module model-structure {
   description
     "This module describes a model structure for YANG
     configuration and operational state data models. It's intent is
-    to describe how individual device protocol and feature models fit
-    together and interact.";
+    to describe how individual device protocol and feature models
+    fit together and interact.";
 
-  revision "2015-06-26" {
+  revision "2015-07-03" {
     description
       "First Pass of IETF Routing YANG Design Team";
     reference "TBD";
@@ -102,7 +102,7 @@ module model-structure {
             description "Interface name";
         }
         leaf bind-network-element-id {
-          type uint8; 
+          type uint8;
           description "Logical network element ID to which
                        interface is bound";
         }
@@ -110,7 +110,7 @@ module model-structure {
           description "Ethernet interface config, e.g., 10, 40,
                        100GB Ethernet";
           leaf bind-networking-instance-name {
-              type string; 
+              type string;
               description "Networking Instance to which
                            the Ethernet instance is bound";
           }
@@ -149,7 +149,7 @@ module model-structure {
           description "IPv4 interface";
           reference "RFC 7277 - A Yang Model for IP Management";
           leaf bind-networking-instance-name {
-              type string; 
+              type string;
               description "Networking Instance to which
                            IPv4 interface is bound";
           }
@@ -178,7 +178,7 @@ module model-structure {
           description "IPv6 interface";
             reference "RFC 7277 - A Yang Model for IP Management";
             leaf bind-networking-instance-name {
-                type string; 
+                type string;
                 description "Networking Instance to which
                              IPv4 interface is bound";
             }
@@ -210,7 +210,7 @@ module model-structure {
       }
     }
   }
-  
+
   identity networking-instance {
       description
          "Base identity from which identities describing
@@ -229,7 +229,7 @@ module model-structure {
               "RFC 2328: OSPF Version 2.";
       }
   }
-      
+
   grouping oam-protocols {
    description
       "Definitions for OAM protocols within a networking-instance";
@@ -239,7 +239,7 @@ module model-structure {
      container bfd {
          description "Bi-directional Forwarding Detection (BFD)
                    configuration";
-        
+
      }
      container cfm {
          description
@@ -256,8 +256,8 @@ module model-structure {
                    (TWAMP)";
      }
    }
-  } 
-  
+  }
+
   grouping mpls {
     description "MPLS and TE configuration";
     container mpls {
@@ -283,13 +283,13 @@ module model-structure {
   grouping networking-instance-policy {
     description
         "Networking instance policies such as route
-         distinguisher, route targets, VPLS ID and neighbor, 
-	 Ethernet ID, etc. ";
+         distinguisher, route targets, VPLS ID and neighbor,
+         Ethernet ID, etc. ";
     reference
         "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
-	 RFC 6074 - Provisioning, Auto-Discovery, and Signaling
+         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
               in Layer 2 Virtual Private Networks (L2VPNs)
-	 RFC 7432 - BGP MPLS-Based Ethernet VPN";
+         RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container networking-instance-policy {
         description "Networking Instance Policy -- details TBD";
     }
@@ -300,7 +300,7 @@ module model-structure {
 
     container control-plane-protocols {
       description "Control plane protocols and features";
-      
+
       container bgp {
           description "BGP-4 protocol configuration";
           reference "RFC 4271 - A Border Gateway Protocol 4 (BGP-4)";
@@ -338,7 +338,7 @@ module model-structure {
           reference "draft-likowski-spring-sr-yang";
       }
       container ldp {
-          description "Label Distribution Protocol (LDP) 
+          description "Label Distribution Protocol (LDP)
                        configuration";
           reference "RFC 5036 - LDP Specification";
       }
@@ -366,7 +366,7 @@ module model-structure {
       }
     }
   }
-  
+
   grouping ribs {
     description
       "Routing Information Bases (RIBs) supported by a
@@ -378,9 +378,9 @@ module model-structure {
             key "name";
             min-elements "1";
             description
-                "Each entry represents a RIB identified by the 'name'
-                key. All routes in a RIB MUST belong to the same
-                address family.
+                "Each entry represents a RIB identified by the
+               'name' key. All routes in a RIB MUST belong to the
+                same address family.
 
                 For each routing instance, an implementation SHOULD
                 provide one system-controlled default RIB for each
@@ -394,7 +394,7 @@ module model-structure {
             leaf description {
                 type string;
                 description
-                    "Description of the RIB"; 
+                    "Description of the RIB";
             }
             // Note that there is no list of interfaces within
             container policy {
@@ -427,7 +427,7 @@ module model-structure {
        }
      }
   }
-  
+
 
   grouping oam {
     description "containers for features related to operations,
@@ -472,9 +472,9 @@ module model-structure {
           leaf device-view {
               type boolean;
               default "true";
-              description "Flag indicating whether or not the logical
-                           network element is able to view and manage
-                           the entire device";
+              description "Flag indicating whether or not the
+                           logical network element is able to view
+                           and manage the entire device";
           }
           container syslog {
               description "Syslog configuration";
@@ -511,8 +511,8 @@ module model-structure {
   }
 
   grouping ietf-acl {
-      description "Packet Access Control Lists (ACLs) as specified in
-                   draft-ietf-netmod-acl-model";
+      description "Packet Access Control Lists (ACLs) as specified
+                   in draft-ietf-netmod-acl-model";
       container ietf-acl {
           description "ACLs and packet forwarding rules";
       }
@@ -587,8 +587,8 @@ module model-structure {
                     }
                     description
                         "The networking instance type -- details TBD
-			 Likely types include core, L3-VRF, VPLS, L2-cross-connect, 
-			 L2-VSI, etc.";
+                         Likely types include core, L3-VRF, VPLS,
+                         L2-cross-connect, L2-VSI, etc.";
                 }
                 leaf enabled {
                     type boolean;
