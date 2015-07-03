@@ -3,7 +3,7 @@ module model-structure {
   yang-version "1";
 
   // namespace
-  namespace "http://openconfig.net/yang/structure";
+  namespace "urn:ietf:params:xml:ns:yang:model-structure";
 
   prefix "struct";
 
@@ -280,25 +280,18 @@ module model-structure {
     }
   }
 
-  grouping common-policy-objects {
-      description
-        "Generic policy objects that can be reused at
-         arbitrary attachment points. For example,
-         prefixes";
-    container common-policy-objects {
-      description
-          "Generic policy objects";
-    }
-  }
-
   grouping networking-instance-policy {
     description
         "Networking instance policies such as route
-         destinguisher and route targets";
+         destinguisher, route targets, VPLS ID and neighbor, 
+	 Ethernet ID, etc. ";
     reference
-        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)";
+        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
+	 RFC 6074 - Provisioning, Auto-Discovery, and Signaling
+              in Layer 2 Virtual Private Networks (L2VPNs)
+	 RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container networking-instance-policy {
-        description "Networking Instance Policy";
+        description "Networking Instance Policy -- details TBD";
     }
   }
 
@@ -472,10 +465,10 @@ module model-structure {
 
   grouping system-management {
       description "System management for device or logical network
-                 element";
+                   element";
       container system-managment {
-          description "System management for device or logical
-                       network element";
+          description "System management - logical device
+                       management with reuse of RFC 7317";
           leaf device-view {
               type boolean;
               default "true";
@@ -483,16 +476,12 @@ module model-structure {
                            network element is able to view and manage
                            the entire device";
           }
-          container system-management {
-              description "System management - logical device
-                  management with reuse of RFC 7317";
-          }
           container syslog {
               description "Syslog configuration";
           }
           container dns {
-              description "Domain Name Service (DNA) and resolver
-                     configuration";
+              description "Domain Name Service (DNS) and resolver
+                           configuration";
           }
           container ntp {
               description "network time protocol configuration";
@@ -597,7 +586,9 @@ module model-structure {
                         base networking-instance;
                     }
                     description
-                        "The routing instance type.";
+                        "The networking instance type -- details TBD
+			 Likely types include core, L3-VRF, VPLS, L2-cross-connect, 
+			 L2-VSI, etc.";
                 }
                 leaf enabled {
                     type boolean;
@@ -619,7 +610,6 @@ module model-structure {
                 // Note that there is no list of interfaces within
                 // the neworking-instance
                 uses oam-protocols;
-                uses common-policy-objects;
                 uses networking-instance-policy;
                 uses control-plane-protocols;
                 uses ribs;
