@@ -17,8 +17,7 @@ module model-structure {
     "OpenConfig working group netopenconfig@googlegroups.com
      Routing Area YANG Architecture DT rtg-dt-yang-arch@ietf.org";
 
-  description
-    "This module describes a model structure for YANG
+  description "This module describes a model structure for YANG
     configuration and operational state data models. It's intent is
     to describe how individual device protocol and feature models
     fit together and interact.";
@@ -545,7 +544,7 @@ module model-structure {
                 leaf networking-instance-name {
                     type string;
                     description "Device-wide unique identifier
-		                 for networking instance";
+                                 for networking instance";
                 }
                 leaf type {
                     type identityref {
