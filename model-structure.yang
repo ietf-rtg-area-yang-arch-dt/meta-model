@@ -75,7 +75,7 @@ module model-structure {
       description
         "This container is an anchor point for platform-specific
         configuration and operational state data.  It may be further
-        organized into chassis, linecards, ports, etc.  It is
+        organized into chassis, line cards, ports, etc.  It is
         expected that vendor or platform-specific augmentations
         would be used to populate this part of the device model";
     }
@@ -516,8 +516,8 @@ module model-structure {
         description "List of logical network elements";
         leaf network-element-id {
           type uint8; // expect a small number of logical routers
-          description "Device-wide unique identifier for the 
-                       logical network element"; 
+          description "Device-wide unique identifier for the
+                       logical network element";
         }
         leaf network-element-name {
           type string;
@@ -544,9 +544,9 @@ module model-structure {
                 description "List of networking-instances";
                 leaf networking-instance-name {
                     type string;
-                    description "logical network element scoped 
+                    description "logical network element scoped
                                  identifier for the networking
-				 instance";
+                                 instance";
                 }
                 leaf type {
                     type identityref {

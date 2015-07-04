@@ -26,6 +26,13 @@ Open Issues:
    o  This model may not support the zone-based policy firewall - TBD to figure this out. 
       Any opinion? 
 
+   o Is this too small
+        leaf network-element-id {
+          type uint8; // expect a small number of logical routers
+          description "Device-wide unique identifier for the
+                       logical network element";
+        }
+
 Design Team Plans: 
 
    1. Finalize and document meta model
