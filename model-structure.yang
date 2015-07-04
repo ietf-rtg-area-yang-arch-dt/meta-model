@@ -516,7 +516,8 @@ module model-structure {
         description "List of logical network elements";
         leaf network-element-id {
           type uint8; // expect a small number of logical routers
-          description "Identifier of the logical network element";
+          description "Device-wide unique identifier for the 
+                       logical network element"; 
         }
         leaf network-element-name {
           type string;
@@ -543,8 +544,9 @@ module model-structure {
                 description "List of networking-instances";
                 leaf networking-instance-name {
                     type string;
-                    description "Device-wide unique identifier
-                                 for networking instance";
+                    description "logical network element scoped 
+                                 identifier for the networking
+				 instance";
                 }
                 leaf type {
                     type identityref {
