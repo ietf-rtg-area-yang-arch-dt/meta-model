@@ -23,10 +23,10 @@ module model-structure {
     to describe how individual device protocol and feature models
     fit together and interact.";
 
-  revision "2015-07-03" {
+  revision "2015-07-09" {
     description
       "First Pass of IETF Routing YANG Design Team";
-    reference "TBD";
+    reference "draft-rtgyangdt-rtgwg-device-model-00.txt";
   }
 
   // extension statements
@@ -303,7 +303,7 @@ module model-structure {
 
       container bgp {
           description "BGP-4 protocol configuration";
-          reference "RFC 4271 - A Border Gateway Protocol 4 (BGP-4)";
+          reference "RFC 4271 - Border Gateway Protocol 4 (BGP-4)";
           container policy {
               description "Policy specific to BGP";
           }
@@ -379,10 +379,10 @@ module model-structure {
             min-elements "1";
             description
                 "Each entry represents a RIB identified by the
-               'name' key. All routes in a RIB MUST belong to the
+               'name' key. All routes in a RIB must belong to the
                 same address family.
 
-                For each routing instance, an implementation SHOULD
+                For each routing instance, an implementation should
                 provide one system-controlled default RIB for each
                 supported address family.";
             leaf name {
@@ -428,41 +428,6 @@ module model-structure {
      }
   }
 
-
-  grouping oam {
-    description "containers for features related to operations,
-    administration, and management";
-
-    container oam {
-      description "commonly use OAM functions on devices";
-
-      container snmp {
-        description "SNMP server information, e.g., allowed clients";
-      }
-
-    }
-  }
-
-  grouping system-services {
-    description "containers for system service models";
-
-    uses oam;
-  }
-
-  grouping system-aaa {
-    description "AAA-related services";
-
-    container aaa {
-      description "authentication, authorization, and accounting";
-
-      container radius {
-        description "RADIUS";
-        reference "RFC 2865 - Remote Authentication Dial In User
-        Service (RADIUS)";
-      }
-    }
-  }
-
   grouping system-management {
       description "System management for device or logical network
                    element";
@@ -502,7 +467,7 @@ module model-structure {
                            (SNMP) configuration";
           }
           container netconf {
-              description "Network Configuration Protocol (NETCONF)";
+              description "Network Configuration Protocol(NETCONF)";
               reference "RFC 6020 - YANG - A Data Modeling Language
                          for the Network Configuration Protocol
                          (NETCONF)";
@@ -579,7 +544,8 @@ module model-structure {
                 description "List of networking-instances";
                 leaf networking-instance-name {
                     type string;
-                    description "Identifier for networking instance";
+                    description "Device-wide unique identifier
+		                 for networking instance";
                 }
                 leaf type {
                     type identityref {
