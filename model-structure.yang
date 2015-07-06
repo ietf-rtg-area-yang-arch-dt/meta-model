@@ -18,7 +18,7 @@ module model-structure {
      Routing Area YANG Architecture DT rtg-dt-yang-arch@ietf.org";
 
   description "This module describes a model structure for YANG
-    configuration and operational state data models. It's intent is
+    configuration and operational state data models. Its intent is
     to describe how individual device protocol and feature models
     fit together and interact.";
 
