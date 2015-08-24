@@ -3,29 +3,29 @@ module model-structure {
   yang-version "1";
 
   // namespace
-  namespace "http://openconfig.net/yang/structure";
+  namespace "urn:ietf:params:xml:ns:yang:model-structure";
 
   prefix "struct";
 
   // import some basic types
 
-
   // meta
-  organization "OpenConfig working group/IETF RTG YANG Design Team";
+  organization "IETF RTG YANG Design Team Collaboration
+                with OpenConfig";
 
   contact
-    "OpenConfig working group
-    netopenconfig@googlegroups.com";
+      "Routing Area YANG Architecture Design Team -
+       <rtg-dt-yang-arch@ietf.org>"; 
 
   description
     "This module describes a model structure for YANG
-    configuration and operational state data models. It's intent is
-    to describe how individual device protocol and feature models fit
-    together and interact.";
+     configuration and operational state data models. Its intent is
+     to describe how individual device protocol and feature models
+     fit together and interact.";
 
-  revision "2015-06-26" {
+  revision "2015-08-24" {
     description
-      "First Pass of IETF Routing YANG Design Team";
+      "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
   }
 
@@ -34,6 +34,68 @@ module model-structure {
   // feature statements
 
   // identity statements
+  
+  identity networking-instance {
+      description
+         "Base identity from which identities describing
+          networking instance types are derived.";
+  }
+
+  identity oam-protocol-type {
+      description
+          "Base identity for derivation of OAM protocols";
+  }
+
+  identity networking-service-type {
+      description
+          "Base identity for derivation of networking services";
+  }
+
+   identity ethernet-protocol-type {
+      description
+          "Base identity for derivation of ethernet
+           protocols";
+   }
+
+   identity ipv4-interface-protocol-type {
+      description
+          "Base identity for derivation of IPv4 interface
+           protocols";
+   }
+
+   identity ipv6-interface-protocol-type {
+      description
+          "Base identity for derivation of IPv6 interface
+           protocols";
+   }
+
+   identity mpls-protocol-type {
+      description
+          "Base identity for derivation of MPLS protocols";
+   }
+
+   identity control-plane-protocol-type {
+      description
+          "Base identity for derivation of control-plane protocols";
+   }
+
+   identity system-management-protocol-type {
+      description
+          "Base identity for derivation of system management
+           protocols";
+   }
+
+   identity oam-service-type {
+      description
+          "Base identity for derivation of Operations,
+           Administration, and Maintenance (OAM) services.";
+   }
+
+   identity aaa-service-type {
+      description
+          "Base identity for derivation of Authentication,
+           Authorization, and Accounting (AAA) services.";
+   }
 
   // typedef statements
 
@@ -46,7 +108,7 @@ module model-structure {
     container info {
       description
         "This container is for base system information, including
-        device type (e.g., physcal or virtual), model, serial no.,
+        device type (e.g., physical or virtual), model, serial no.,
         location, etc.";
 
       leaf device-type {
@@ -76,7 +138,7 @@ module model-structure {
       description
         "This container is an anchor point for platform-specific
         configuration and operational state data.  It may be further
-        organized into chassis, linecards, ports, etc.  It is
+        organized into chassis, line cards, ports, etc.  It is
         expected that vendor or platform-specific augmentations
         would be used to populate this part of the device model";
     }
@@ -89,6 +151,80 @@ module model-structure {
 
   }
 
+  grouping ethernet-protocols {
+      description
+          "Grouping for ethernet protocols configured
+            on an interface";
+      container ethernet-protocols {
+          description
+              "Container for list of ethernet protocols configured
+                on an interface";
+          list ethernet-protocol {
+              key "type";
+              description
+                  "List of ethernet protocols configured
+                   on an interface";
+              leaf type {
+                  type identityref {
+                      base ethernet-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "Aggregates, RSTP, LLDP, PTP, etc.";
+              }
+          }
+      }
+  }
+  
+  grouping ipv4-interface-protocols {
+      container ipv4-interface-protocols {
+          list ipv4-interface-protocol {
+              key "type";
+              leaf type {
+                  type identityref {
+                      base ipv4-interface-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "ARP, ICMP, VRRP, DHCP Client, etc.";
+              }
+              description
+                  "List of IPv4 protocols configured
+                   on an interface";
+          }
+          description
+              "Container for list of IPv4 protocols configured
+                on an interface";
+      }
+      description
+          "Grouping for IPv4 protocols configured on an interface";
+  }
+  
+  grouping ipv6-interface-protocols {
+      description
+          "Grouping for IPv6 protocols configured on
+           an interface.";
+      container ipv6-interface-protocols {
+          description
+              "Container for list of IPv6 protocols configured
+                on an interface.";
+          list ipv6-interface-protocol {
+              key "type";
+              description
+                  "List of IPv6 protocols configured
+                   on an interface";
+              leaf type {
+                  type identityref {
+                      base ipv6-interface-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "ND, ICMPv6, VRRP, DHCPv6 Client, etc.";
+              }
+          }
+      }
+  }
+  
   grouping interfaces {
     description "interface-related models";
     container interfaces {
@@ -102,7 +238,7 @@ module model-structure {
             description "Interface name";
         }
         leaf bind-network-element-id {
-          type uint8; 
+          type uint8;
           description "Logical network element ID to which
                        interface is bound";
         }
@@ -110,30 +246,11 @@ module model-structure {
           description "Ethernet interface config, e.g., 10, 40,
                        100GB Ethernet";
           leaf bind-networking-instance-name {
-              type string; 
+              type string;
               description "Networking Instance to which
                            the Ethernet instance is bound";
           }
-          container aggregates {
-              description
-                  "LAGs, LACP, etc. for Ethernet interfaces";
-              reference "IEEE 802.1ad, 802.1AX";
-          }
-          container rstp {
-              description "Rapid Spanning Tree Protocol";
-              reference "IEEE 802.1D-2004";
-          }
-          container lldp {
-              description "link layer discovery protocol";
-              reference "IEEE 802.1AB";
-          }
-          container ptp {
-              description
-                  "Precision Time Protocol (PTP) for time
-                   synchronization services. PTP typically requires
-                   per-interface configuration";
-              reference "IEEE 1588-2008";
-          }
+          uses ethernet-protocols;
         }
         container vlans {
             description "VLANs, 802.1q, q-in-q, etc.";
@@ -149,74 +266,26 @@ module model-structure {
           description "IPv4 interface";
           reference "RFC 7277 - A Yang Model for IP Management";
           leaf bind-networking-instance-name {
-              type string; 
+              type string;
               description "Networking Instance to which
                            IPv4 interface is bound";
           }
-          container arp {
-            description "Address resolution protocol";
-            reference "STD 37 - An Ethernet Address Resolution
-                       Protocol";
-          }
-         container icmp {
-           description "Internet Control Message Protocol";
-           reference "RFC 792 - Internet Control Message Protocol";
-         }
-         container vrrp {
-           description "virtual router redundancy protocol";
-           reference
-             "RFC 5798 - Virtual Router Redundancy Protocol
-              (VRRP) Version 3 for IPv4 and IPv6";
-          }
-         container dhcp-client {
-           description "Dynamic Host Configuration Protocol";
-            reference
-              "RFC 2131 - Dynamic Host Configuration Protocol";
-         }
+          uses ipv4-interface-protocols;
         }
         container ipv6 {
           description "IPv6 interface";
             reference "RFC 7277 - A Yang Model for IP Management";
             leaf bind-networking-instance-name {
-                type string; 
+                type string;
                 description "Networking Instance to which
                              IPv4 interface is bound";
             }
-          container vrrp {
-              description "virtual router redundancy protocol";
-              reference
-                  "RFC 5798 - Virtual Router Redundancy Protocol
-                   (VRRP) Version 3 for IPv4 and IPv6";
-          }
-          container icmpv6 {
-            description "Internet Control Message Protocol";
-            reference
-              "RFC 2463 - Internet Control Message Protocol
-               (ICMPv6) for Internet Protocol Version 6 (IPv6)";
-          }
-          container nd {
-            description "IPv6 Neighbor Discovery";
-              reference "RFC 4861 - Neighbor Discovery for IP
-                         version 6 (IPv6)";
-          }
-         container dhcpv6-client {
-           description
-               "Dynamic Host Configuration Protocol Version 6";
-            reference
-                "RFC 3315 - Dynamic Host Configuration Protocol
-                 for IPv6 (DHCPv6)";
-         }
+            uses ipv6-interface-protocols;
         }
       }
     }
   }
   
-  identity networking-instance {
-      description
-         "Base identity from which identities describing
-          networking instance types are derived.";
-  }
-
   grouping router-id {
       description
           "This grouping provides router ID.";
@@ -229,151 +298,104 @@ module model-structure {
               "RFC 2328: OSPF Version 2.";
       }
   }
-      
-  grouping oam-protocols {
-   description
-      "Definitions for OAM protocols within a networking-instance";
-   container oam-protocols {
-       description
-           "OAM protocols";
-     container bfd {
-         description "Bi-directional Forwardind Detection (BFD)
-                   configuration";
-        
-     }
-     container cfm {
-         description
-            "Ethernet connectivity fault management.  Also includes
-             options that are associated with specific interfaces,
-             such as maintenance endpoint domains.";
-        reference "IEEE 802.1ag";
-     }
-     container twamp {
-         description
-             "Two-way active measurement protocol for measuring
-             round-trip IP layer performance.";
-         reference "RFC 5357 A Two-Way Active Measurement Protocol
-                   (TWAMP)";
-     }
-   }
-  } 
-  
-  grouping mpls {
-    description "MPLS and TE configuration";
-    container mpls {
-      description "MPLS and TE configuration";
-      container global {
-          description "global MPLS configuration";
-      }
-     container label-switched-paths {
-       description "Models for different types of LSPs";
-     }
-     container constrained-path {
-       description "traffic-engineered or constrained path LSPs";
-     }
-     container igp-congruent {
-       description "LSPs that follow the IGP-computed path";
-     }
-     container static {
-        description "Statically configured LSPs";
-     }
-    }
-  }
 
-  grouping common-policy-objects {
+  grouping oam-protocols {
+      container oam-protocols {
+          list oam-protocol {
+              key "type";
+              leaf type {
+                  type identityref {
+                      base oam-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "The Operations, Administration, and
+                       Maintenance (OAM) protocol type, e.g., BFD,
+                       TWAMP, CFM, etc.";
+              }
+              description
+                  "List of OAM protocols configured for a
+                   networking instance.";
+          }
+          description
+              "Container for list of OAM protocols configured for a
+                networking instance.";
+      }
       description
-        "Generic policy objects that can be reused at
-         arbitrary attachment points. For example,
-         prefixes";
-    container common-policy-objects {
+          "Grouping for OAM protocols configured for a
+           networking instance.";
+  }
+      
+  grouping mpls {
+    description
+        "Grouping for MPLS and TE configuration configured for
+         a networking-instance.";
+    container mpls {
       description
-          "Generic policy objects";
+          "Container for MPLS and TE configuration for a 
+           networking-instance.";
+      container global {
+          description "Global MPLS configuration";
+      }
+      list mpls-protocol {
+          key "type";
+          description
+              "List of MPLS protocols configured for a
+               networking instance.";
+          leaf type {
+              type identityref {
+                  base mpls-protocol-type;
+              }
+              mandatory true;
+              description
+                  "MPLS and Traffic Engineering protocol type,
+                   MPLS static, LDP, RSVP TE, etc.";
+          }
+      }
     }
   }
 
   grouping networking-instance-policy {
     description
         "Networking instance policies such as route
-         destinguisher and route targets";
+         distinguisher, route targets, VPLS ID and neighbor,
+         Ethernet ID, etc. ";
     reference
-        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)";
+        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
+         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
+              in Layer 2 Virtual Private Networks (L2VPNs)
+         RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container networking-instance-policy {
-        description "Networking Instance Policy";
+        description "Networking Instance Policy -- details TBD";
     }
   }
 
   grouping control-plane-protocols {
-    description "control protocol models";
-
-    container control-plane-protocols {
-      description "Control plane protocols and features";
-      
-      container bgp {
-          description "BGP-4 orotocol configuration";
-          reference "RFC 4271 - A Border Gateway Protocol 4 (BGP-4)";
-          container policy {
-              description "Policy specific to BGP";
+      description
+          "Grouping for control plane protocols configured for
+           a networking-instance";
+      container control-plane-protocols {
+          description
+              "Container for control plane protocols configured for
+               a networking instance.";
+          list control-plane-protocol {
+              key "type";
+              description
+                  "List of control plane protocols configured for
+                   a networking instance.";
+              leaf type {
+                  type identityref {
+                      base control-plane-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "The control plane protocol type, e.g., BGP,
+                       OSPF IS-IS, etc";
+              }
           }
       }
-      container is-is {
-          description "ISO IS-IS protocol configuration";
-          reference "RFC 1195 - Use of OSI IS-IS for Routing in
-                     TCP/IP and Dual Environments";
-          container policy {
-              description "Policy specific to IS-IS";
-          }
-      }
-      container ospf {
-          description "Open Shortest Path First (OSPF) protocol
-                       configuration";
-          reference "RFC 2328 - OSPFv2 Protocol
-                     RFC 5340 - OSPF for IPv6";
-          container policy {
-              description "Policy specific to OSPF";
-          }
-      }
-      container rsvp {
-          description "Resource Reservation Protocol (RSVP)
-                       protocol configuration";
-          reference "RFC 2205 - Resource ReSerVation Protocol (RSVP)
-                     RFC 3209 - RSVP-TE: Extensions to RSVP for LSP
-                     Tunnels";
-      }
-      container segment-routing {
-          description "Segment Routing configuration for networking
-                       instance";
-          reference "draft-likowski-spring-sr-yang";
-      }
-      container ldp {
-          description "Label Distribution Protocol (LDP) 
-                       configuration";
-          reference "RFC 5036 - LDP Specification";
-      }
-      container pim {
-          description "Protocol Independent Multicast (PIM)
-                       configuration";
-          reference "RFC 4601 - Protocol Independent Multicast -
-                     Sparse Mode (PIM-SM) Protocol Specification";
-      }
-      container igmp {
-          description "Internet Group Management Protocol
-                       configuration";
-          reference "RFC 3376 - Internet Group Management Protocol,
-                     Version 3";
-      }
-      container mld {
-          description "Multicast Listener Discovery Protocol
-                       configuration";
-          reference "RFC 3810 - Multicast Listener Discovery
-                     Version 2 (MLDv2 for IPv6)";
-      }
-      container static-routes {
-          description "Static route configuration";
-          reference "draft-ietf-netmod-routing-cfg";
-      }
-    }
   }
-  
+
   grouping ribs {
     description
       "Routing Information Bases (RIBs) supported by a
@@ -385,11 +407,11 @@ module model-structure {
             key "name";
             min-elements "1";
             description
-                "Each entry represents a RIB identified by the 'name'
-                key. All routes in a RIB MUST belong to the same
-                address family.
+                "Each entry represents a RIB identified by the
+               'name' key. All routes in a RIB must belong to the
+                same address family.
 
-                For each routing instance, an implementation SHOULD
+                For each routing instance, an implementation should
                 provide one system-controlled default RIB for each
                 supported address family.";
             leaf name {
@@ -401,7 +423,7 @@ module model-structure {
             leaf description {
                 type string;
                 description
-                    "Description of the RIB"; 
+                    "Description of the RIB";
             }
             // Note that there is no list of interfaces within
             container policy {
@@ -412,68 +434,87 @@ module model-structure {
   }
 
   grouping networking-services {
-    description
-      "Networking services provided by the device in the scope of
-       the networking-instance";
-     container networking-services {
-       description "Networking services";
-       container ntp-server {
-         description "Network Time Protocol (NTP) Server";
-         reference "RFC 5905 - Network Time Protocol Version 4:
-                    Protocol and Algorithms Specification";
-       }
-       container dns-server {
-         description "Domain Name System (DNS) Server";
-         reference "RFC 1035 - DOMAIN NAMES - IMPLEMENTATION
-                   AND SPECIFICATION";
-       }
-       container dhcp-server {
-         description "Dynamic Host Configuration Protocol (DHCP)
-                      Server";
-         reference "RFC 2131 - Dynamic Host Configuration Protocol";
-       }
-     }
-  }
-  
-
-  grouping oam {
-    description "containers for features related to operations,
-    administration, and management";
-
-    container oam {
-      description "commonly use OAM functions on devices";
-
-      container snmp {
-        description "SNMP server information, e.g., allowed clients";
+      description
+          "Grouping for networking-services configured for
+           a networking-instance.";
+      container networking-services {
+          description
+              "Container for lst of networking services configured
+               for a networking instance.";
+          list networking-service {
+              key "type";
+              description
+                  "List of networking services configured for a
+                   networking instance.";
+              leaf type {
+                  type identityref {
+                      base networking-service-type;
+                  }
+                  mandatory true;
+                  description
+                      "The networking services type supported within
+                       a networking instance, e.g., NTP server, DNS
+                       server, DHCP server, etc.";
+              }
+          }
       }
+  }
 
+  grouping oam-services {
+    description "containers for features related to operations,
+                 administration, and maintenance (OAM).";
+    container oam-services {
+      description "Commonly use OAM functions on devices";
+      list oam-service {
+          key "type";
+          description
+              "List of OAM services configured for a
+               logical network element.";
+          leaf type {
+              type identityref {
+                  base oam-service-type;
+              }
+              mandatory true;
+                  description
+                      "The OAM services type supported within
+                       a logical networking element, e.g., SNMP.";
+          }
+      }
     }
   }
 
   grouping system-services {
-    description "containers for system service models";
-
-    uses oam;
+    description "Containers for system service models.";
+    uses oam-services;
   }
 
   grouping system-aaa {
     description "AAA-related services";
-
     container aaa {
-      description "authentication, authorization, and accounting";
-
-      container radius {
-        description "RADIUS";
-        reference "RFC 2865 - Remote Authentication Dial In User
-        Service (RADIUS)";
+      description
+          "Authentication, Authorization, and Accounting (AAA).";
+      list aaa-service {
+          key "type";
+          description
+              "List of AAA services configured for a
+               logical network element.";
+          leaf type {
+              type identityref {
+                  base aaa-service-type;
+              }
+              mandatory true;
+                  description
+                      "The AAA services type supported within
+                       a logical networking element, e.g., RADIUS.";
+          }
       }
     }
   }
 
-  grouping system-management {
+  grouping system {
       description "System management for device or logical network
                  element";
-      container system-managment {
+      container system {
           description "System management for device or logical
                        network element";
           leaf device-view {
@@ -483,47 +524,30 @@ module model-structure {
                            network element is able to view and manage
                            the entire device";
           }
-          container system-management {
+          container system-management-global {
               description "System management - logical device
-                  management with reuse of RFC 7317";
+                           management with reuse of RFC 7317";
           }
-          container syslog {
-              description "Syslog configuration";
-          }
-          container dns {
-              description "Domain Name Service (DNA) and resolver
-                     configuration";
-          }
-          container ntp {
-              description "network time protocol configuration";
-          }
-          container statistics-collection {
-              description
-                  "Mechanisms for data collection from devices,
-                   including packet and flow-level sampling";
-          }
-          container ssh {
-              description "SSH server configuration";
-          }
-          container tacacs {
-              description "TACACS+ configuration";
-          }
-          container snmp {
-              description "System Network Management Protocol
-                           (SNMP) configuration";
-          }
-          container netconf {
-              description "Network Configuration Protocol (NETCONF)";
-              reference "RFC 6020 - YANG - A Data Modeling Language
-                         for the Network Configuration Protocol
-                         (NETCONF)";
+          list system-management-protocol {
+              key "type";
+              leaf type {
+                  type identityref {
+                      base system-management-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "NTP, DNS, Syslog, ssh, TACAC+, NETCONF, etc.";
+              }
+              description "List of system management protocol
+                           configured for a logical networking
+                           element.";
           }
       }
   }
 
   grouping ietf-acl {
-      description "Packet Access Control Lists (ACLs) as specified in
-                   draft-ietf-netmod-acl-model";
+      description "Packet Access Control Lists (ACLs) as specified
+                   in draft-ietf-netmod-acl-model";
       container ietf-acl {
           description "ACLs and packet forwarding rules";
       }
@@ -546,7 +570,6 @@ module model-structure {
   }
 
   // data definition statements
-
   container device {
     description "Top-level anchor point for models. Device is a
                  generic L2/L3 network element";
@@ -556,14 +579,15 @@ module model-structure {
     uses qos;
     container logical-network-elements {
       description "Network devices may support multiple logical
-      network instances";
+                   network instances";
 
       list logical-network-element {
         key network-element-id;
         description "List of logical network elements";
         leaf network-element-id {
           type uint8; // expect a small number of logical routers
-          description "Identifier of the logical network element";
+          description "Device-wide unique identifier for the
+                       logical network element";
         }
         leaf network-element-name {
           type string;
@@ -575,7 +599,7 @@ module model-structure {
           description "Specification of the networking instance to
                        use for management connectivity";
         }
-        uses system-management;
+        uses system;
         uses ietf-acl;
         uses ietf-key-chain;
         container networking-instances {
@@ -590,14 +614,18 @@ module model-structure {
                 description "List of networking-instances";
                 leaf networking-instance-name {
                     type string;
-                    description "Identifier for networking instance";
+                    description "logical network element scoped
+                                 identifier for the networking
+                                 instance";
                 }
                 leaf type {
                     type identityref {
                         base networking-instance;
                     }
                     description
-                        "The routing instance type.";
+                        "The networking instance type -- details TBD
+                         Likely types include core, L3-VRF, VPLS,
+                         L2-cross-connect, L2-VSI, etc.";
                 }
                 leaf enabled {
                     type boolean;
@@ -617,9 +645,8 @@ module model-structure {
                       and its intended purpose";
                 }
                 // Note that there is no list of interfaces within
-                // the neworking-instance
+                // the networking-instance
                 uses oam-protocols;
-                uses common-policy-objects;
                 uses networking-instance-policy;
                 uses control-plane-protocols;
                 uses ribs;
@@ -629,7 +656,6 @@ module model-structure {
         }
       }
     }
-
   }
 
   // augment statements

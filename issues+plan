@@ -1,0 +1,86 @@
+
+Open Issues: 
+
+   o  The structure related to L2VPNs, Ethernet services, and virtual
+      switching instances has not yet received sufficient discussion
+      and is likely to change.
+
+   o  Additional discussion and text is need to ensure that the
+      interpretation of different policy containers is clear.
+
+   o  Configuration information related to network-instanced
+      interconnection (over a "core" network) is currently commingled
+      with configuration of related to operation within the instance.
+
+   o  The representation of operational state is currently missing.  The
+      model will be updated once the "opstate" discussion is resolved.
+
+   o  the description of network-instance policy needs to be broadened to
+      include VSI
+
+   o  Need to revisit values of networking-instance type to ensure all
+      VRF+VSI+Core types are represented 
+
+   o  Need to revisit VRF policy definition and relationship to L3VPN Config/Policy.
+
+   o  This model may not support the zone-based policy firewall - TBD to figure this out. 
+      Any opinion? 
+
+   o Is this too small
+        leaf network-element-id {
+          type uint8; // expect a small number of logical routers
+          description "Device-wide unique identifier for the
+                       logical network element";
+        }
+
+Design Team Plans: 
+
+   1. Finalize and document meta model
+   2. Finalize Operational State recommendation 
+   3. Revisit YANG recommendations
+   4. Revisit YANG model conventions
+
+
+   meta model background presentation: http://tools.ietf.org/agenda/92/slides/slides-92-netmod-11.pdf
+   opstate background presentation http://tools.ietf.org/agenda/92/slides/slides-92-netmod-10.pdf
+
+
+Old issues with resolutions:
+
+    o Do we need specific RIB policy or is there only RIB client policy? One requirement could
+      be FIB installation policy. We are assuming RIB client policy is in the client.
+      
+      <Yes>
+
+   o  Protocol specific policies have been moved under the protocols (e.g., BGP). Thoughts?
+      <discussed, and reflected in current model>
+
+   o  The argument as to whether various models should be rooted at the
+      logical-network-instance or networking-instance is an interesting one. For example,
+      key-chain and network-services. Thoughts?  
+
+      <discussed, and reflected in current model>
+
+   o  YANG model needed corresponding to the tree. 
+   
+      <done>
+
+   o  Need to describe how logical-network-instance administrators can access all 
+      interfaces assigned to logical-network-instance. An administrator with the 
+      global-view must assign the respective interfaces to the logical-network-instance. 
+      Systems that only support allocation of interfaces to VRFs (and not 
+      logical-network-elements) will require assignment to specific VRFs rather than 
+      instance as a whole.
+
+      <in -00 of DT meta model draft>
+
+   o  Can we drop common-policy-objects?
+      <Yes>
+
+
+   o - We need to agree on where RTs are configured
+
+       <network-instance-policy for now>
+
+   o - We need to agree on core/provider instance are configured
+       <type - details are still open>
