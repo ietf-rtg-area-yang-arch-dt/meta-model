@@ -285,6 +285,17 @@ module model-structure {
       }
     }
   }
+<<<<<<< HEAD
+  
+=======
+
+  identity networking-instance {
+      description
+         "Base identity from which identities describing
+          networking instance types are derived.";
+  }
+
+>>>>>>> origin/master
   grouping router-id {
       description
           "This grouping provides router ID.";
@@ -299,6 +310,7 @@ module model-structure {
   }
 
   grouping oam-protocols {
+<<<<<<< HEAD
       container oam-protocols {
           list oam-protocol {
               key "type";
@@ -325,6 +337,35 @@ module model-structure {
            networking instance.";
   }
       
+=======
+   description
+      "Definitions for OAM protocols within a networking-instance";
+   container oam-protocols {
+       description
+           "OAM protocols";
+     container bfd {
+         description "Bi-directional Forwarding Detection (BFD)
+                   configuration";
+
+     }
+     container cfm {
+         description
+            "Ethernet connectivity fault management.  Also includes
+             options that are associated with specific interfaces,
+             such as maintenance endpoint domains.";
+        reference "IEEE 802.1ag";
+     }
+     container twamp {
+         description
+             "Two-way active measurement protocol for measuring
+             round-trip IP layer performance.";
+         reference "RFC 5357 A Two-Way Active Measurement Protocol
+                   (TWAMP)";
+     }
+   }
+  }
+
+>>>>>>> origin/master
   grouping mpls {
     description
         "Grouping for MPLS and TE configuration configured for
@@ -351,6 +392,21 @@ module model-structure {
                    MPLS static, LDP, RSVP TE, etc.";
           }
       }
+<<<<<<< HEAD
+=======
+     container label-switched-paths {
+       description "Models for different types of LSPs";
+     }
+     container constrained-path {
+       description "traffic-engineered or constrained path LSPs";
+     }
+     container igp-congruent {
+       description "LSPs that follow the IGP-computed path";
+     }
+     container static {
+        description "Statically configured LSPs";
+     }
+>>>>>>> origin/master
     }
   }
 
@@ -370,6 +426,7 @@ module model-structure {
   }
 
   grouping control-plane-protocols {
+<<<<<<< HEAD
       description
           "Grouping for control plane protocols configured for
            a networking-instance";
@@ -393,6 +450,77 @@ module model-structure {
               }
           }
       }
+=======
+    description "control protocol models";
+
+    container control-plane-protocols {
+      description "Control plane protocols and features";
+
+      container bgp {
+          description "BGP-4 protocol configuration";
+          reference "RFC 4271 - Border Gateway Protocol 4 (BGP-4)";
+          container policy {
+              description "Policy specific to BGP";
+          }
+      }
+      container is-is {
+          description "ISO IS-IS protocol configuration";
+          reference "RFC 1195 - Use of OSI IS-IS for Routing in
+                     TCP/IP and Dual Environments";
+          container policy {
+              description "Policy specific to IS-IS";
+          }
+      }
+      container ospf {
+          description "Open Shortest Path First (OSPF) protocol
+                       configuration";
+          reference "RFC 2328 - OSPFv2 Protocol
+                     RFC 5340 - OSPF for IPv6";
+          container policy {
+              description "Policy specific to OSPF";
+          }
+      }
+      container rsvp {
+          description "Resource Reservation Protocol (RSVP)
+                       protocol configuration";
+          reference "RFC 2205 - Resource ReSerVation Protocol (RSVP)
+                     RFC 3209 - RSVP-TE: Extensions to RSVP for LSP
+                     Tunnels";
+      }
+      container segment-routing {
+          description "Segment Routing configuration for networking
+                       instance";
+          reference "draft-likowski-spring-sr-yang";
+      }
+      container ldp {
+          description "Label Distribution Protocol (LDP)
+                       configuration";
+          reference "RFC 5036 - LDP Specification";
+      }
+      container pim {
+          description "Protocol Independent Multicast (PIM)
+                       configuration";
+          reference "RFC 4601 - Protocol Independent Multicast -
+                     Sparse Mode (PIM-SM) Protocol Specification";
+      }
+      container igmp {
+          description "Internet Group Management Protocol
+                       configuration";
+          reference "RFC 3376 - Internet Group Management Protocol,
+                     Version 3";
+      }
+      container mld {
+          description "Multicast Listener Discovery Protocol
+                       configuration";
+          reference "RFC 3810 - Multicast Listener Discovery
+                     Version 2 (MLDv2 for IPv6)";
+      }
+      container static-routes {
+          description "Static route configuration";
+          reference "draft-ietf-netmod-routing-cfg";
+      }
+    }
+>>>>>>> origin/master
   }
 
   grouping ribs {
@@ -458,6 +586,7 @@ module model-structure {
           }
       }
   }
+<<<<<<< HEAD
 
   grouping oam-services {
     description "containers for features related to operations,
@@ -509,9 +638,12 @@ module model-structure {
       }
     }
   }
+=======
+>>>>>>> origin/master
 
   grouping system {
       description "System management for device or logical network
+<<<<<<< HEAD
                  element";
       container system {
           description "System management for device or logical
@@ -540,6 +672,49 @@ module model-structure {
               description "List of system management protocol
                            configured for a logical networking
                            element.";
+=======
+                   element";
+      container system-management {
+          description "System management - logical device
+                       management with reuse of RFC 7317";
+          leaf device-view {
+              type boolean;
+              default "true";
+              description "Flag indicating whether or not the
+                           logical network element is able to view
+                           and manage the entire device";
+          }
+          container syslog {
+              description "Syslog configuration";
+          }
+          container dns {
+              description "Domain Name Service (DNS) and resolver
+                           configuration";
+          }
+          container ntp {
+              description "network time protocol configuration";
+          }
+          container statistics-collection {
+              description
+                  "Mechanisms for data collection from devices,
+                   including packet and flow-level sampling";
+          }
+          container ssh {
+              description "SSH server configuration";
+          }
+          container tacacs {
+              description "TACACS+ configuration";
+          }
+          container snmp {
+              description "System Network Management Protocol
+                           (SNMP) configuration";
+          }
+          container netconf {
+              description "Network Configuration Protocol(NETCONF)";
+              reference "RFC 6020 - YANG - A Data Modeling Language
+                         for the Network Configuration Protocol
+                         (NETCONF)";
+>>>>>>> origin/master
           }
       }
   }
