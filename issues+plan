@@ -84,3 +84,10 @@ Old issues with resolutions:
 
    o - We need to agree on core/provider instance are configured
        <type - details are still open>
+
+-----
+
+  o Do interface logical network element-id and logical networking
+    instance name each need their own models or keep within
+    model-structure?
+

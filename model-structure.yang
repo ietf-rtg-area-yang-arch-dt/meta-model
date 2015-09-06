@@ -8,6 +8,17 @@ module model-structure {
   prefix "struct";
 
   // import some basic types
+  import ietf-interfaces {
+    prefix if;
+  }
+
+  import iana-if-type {
+    prefix ianaift;
+  }
+
+  import ietf-ip {
+    prefix ip;
+  }
 
   // meta
   organization "IETF RTG YANG Design Team Collaboration
@@ -23,7 +34,7 @@ module model-structure {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2015-08-24" {
+  revision "2015-09-06" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
@@ -32,6 +43,15 @@ module model-structure {
   // extension statements
 
   // feature statements
+  feature bind-network-element-id {
+    description 
+      "Logical network element ID to which an interface is bound";
+  }
+
+  feature bind-networking-instance-name {
+    description 
+      "Networking Instance to which an interface instance is bound";
+  }
 
   // identity statements
   
@@ -100,49 +120,6 @@ module model-structure {
   // typedef statements
 
   // grouping statements
-
-  grouping info {
-    description
-      "Base system information";
-
-    container info {
-      description
-        "This container is for base system information, including
-        device type (e.g., physical or virtual), model, serial no.,
-        location, etc.";
-
-      leaf device-type {
-        //TODO: consider changing to an identity if finer grained
-        // device type classification is envisioned
-        type enumeration {
-          enum PHYSICAL {
-            description "physical or hardware device";
-          }
-          enum VIRTUAL {
-            description "virtual or software device";
-          }
-        }
-        description
-          "Type of the device, e.g., physical or virtual.  This node
-          may be used to activate other containers in the model";
-      }
-
-    }
-  }
-
-  grouping hardware {
-    description
-      "hardware / vendor -specific data relevant to the platform";
-
-    container hardware {
-      description
-        "This container is an anchor point for platform-specific
-        configuration and operational state data.  It may be further
-        organized into chassis, line cards, ports, etc.  It is
-        expected that vendor or platform-specific augmentations
-        would be used to populate this part of the device model";
-    }
-  }
 
   grouping interface-ip-common {
     description
@@ -225,66 +202,6 @@ module model-structure {
       }
   }
   
-  grouping interfaces {
-    description "interface-related models";
-    container interfaces {
-      description "Various interface models";
-      reference "RFC 7223 - A Yang Model for Interface Management";
-      list interface {
-        key "name";
-        description "List of interfaces keyed by name";
-        leaf name {
-            type string;
-            description "Interface name";
-        }
-        leaf bind-network-element-id {
-          type uint8;
-          description "Logical network element ID to which
-                       interface is bound";
-        }
-        container ethernet {
-          description "Ethernet interface config, e.g., 10, 40,
-                       100GB Ethernet";
-          leaf bind-networking-instance-name {
-              type string;
-              description "Networking Instance to which
-                           the Ethernet instance is bound";
-          }
-          uses ethernet-protocols;
-        }
-        container vlans {
-            description "VLANs, 802.1q, q-in-q, etc.";
-            reference "IEEE 802.1Q";
-        }
-        container tunnels {
-            description
-                "Logical tunnel interfaces incl. GRE, VxLAN,
-                  L2TP etc.";
-        }
-
-        container ipv4 {
-          description "IPv4 interface";
-          reference "RFC 7277 - A Yang Model for IP Management";
-          leaf bind-networking-instance-name {
-              type string;
-              description "Networking Instance to which
-                           IPv4 interface is bound";
-          }
-          uses ipv4-interface-protocols;
-        }
-        container ipv6 {
-          description "IPv6 interface";
-            reference "RFC 7277 - A Yang Model for IP Management";
-            leaf bind-networking-instance-name {
-                type string;
-                description "Networking Instance to which
-                             IPv4 interface is bound";
-            }
-            uses ipv6-interface-protocols;
-        }
-      }
-    }
-  }
   grouping router-id {
       description
           "This grouping provides router ID.";
@@ -560,104 +477,209 @@ module model-structure {
       }
   }
 
-  grouping qos {
-    description "QoS features";
+  // top level device definition statements
+  container info {
+    description
+      "Base system information.
+      This container is for base system information, including
+      device type (e.g., physical or virtual), model, serial no.,
+      location, etc.";
 
-    container qos {
-      description "QoS, including policing, shaping, etc.";
+    leaf device-type {
+      //TODO: consider changing to an identity if finer grained
+      // device type classification is envisioned
+      type enumeration {
+        enum PHYSICAL {
+          description "physical or hardware device";
+        }
+        enum VIRTUAL {
+          description "virtual or software device";
+        }
+      }
+      description
+        "Type of the device, e.g., physical or virtual.  This node
+        may be used to activate other containers in the model";
     }
   }
 
-  // data definition statements
-  container device {
-    description "Top-level anchor point for models. Device is a
-                 generic L2/L3 network element";
-    uses info;
-    uses hardware;
-    uses interfaces;
-    uses qos;
-    container logical-network-elements {
-      description "Network devices may support multiple logical
-                   network instances";
+  container hardware {
+    description
+      "Hardware / vendor -specific data relevant to the platform.
+      This container is an anchor point for platform-specific
+      configuration and operational state data.  It may be further
+      organized into chassis, line cards, ports, etc.  It is
+      expected that vendor or platform-specific augmentations
+      would be used to populate this part of the device model";
+  }
 
-      list logical-network-element {
-        key network-element-id;
-        description "List of logical network elements";
-        leaf network-element-id {
-          type uint8; // expect a small number of logical routers
-          description "Device-wide unique identifier for the
-                       logical network element";
-        }
-        leaf network-element-name {
-          type string;
-          description "Descriptive name for the logical network
-                       element";
-        }
-        leaf default-networking-instance-name {
-          type string;
-          description "Specification of the networking instance to
-                       use for management connectivity";
-        }
-        uses system;
-        uses ietf-acl;
-        uses ietf-key-chain;
-        container networking-instances {
-            description "Networking instances each of which have
-                         an independent IP/IPv6 addressing space
-                         and protocol instantiations. For layer 3,
-                         this consistent with the routing-instance
-                         definition in ietf-routing";
-            reference "draft-ietf-netmod-routing-cfg";
-            list networking-instance {
-                key networking-instance-name;
-                description "List of networking-instances";
-                leaf networking-instance-name {
-                    type string;
-                    description "logical network element scoped
-                                 identifier for the networking
-                                 instance";
-                }
-                leaf type {
-                    type identityref {
-                        base networking-instance;
-                    }
-                    description
-                        "The networking instance type -- details TBD
-                         Likely types include core, L3-VRF, VPLS,
-                         L2-cross-connect, L2-VSI, etc.";
-                }
-                leaf enabled {
-                    type boolean;
-                    default "true";
-                    description
-                      "Flag indicating whether or not the networking
-                       instance is enabled.";
-                }
-                uses router-id {
-                    description
-                        "Router ID for networking instances";
-                }
-                leaf description {
-                    type string;
-                    description
-                      "Description of the networking instance
-                      and its intended purpose";
-                }
-                // Note that there is no list of interfaces within
-                // the networking-instance
-                uses oam-protocols;
-                uses networking-instance-policy;
-                uses control-plane-protocols;
-                uses ribs;
-                uses mpls;
-                uses networking-services;
-            }
-        }
+  container qos {
+    description "QoS features, for example policing, shaping, etc.";
+  }
+
+  container logical-network-elements {
+    description "Network devices may support multiple logical
+                 network instances";
+
+    list logical-network-element {
+      key network-element-id;
+      description "List of logical network elements";
+      leaf network-element-id {
+        type uint8; // expect a small number of logical routers
+        description "Device-wide unique identifier for the
+                     logical network element";
+      }
+      leaf network-element-name {
+        type string;
+        description "Descriptive name for the logical network
+                     element";
+      }
+      leaf default-networking-instance-name {
+        type string;
+        description "Specification of the networking instance to
+                     use for management connectivity";
+      }
+      uses system;
+      uses ietf-acl;
+      uses ietf-key-chain;
+      container networking-instances {
+          description "Networking instances each of which have
+                       an independent IP/IPv6 addressing space
+                       and protocol instantiations. For layer 3,
+                       this consistent with the routing-instance
+                       definition in ietf-routing";
+          reference "draft-ietf-netmod-routing-cfg";
+          list networking-instance {
+              key networking-instance-name;
+              description "List of networking-instances";
+              leaf networking-instance-name {
+                  type string;
+                  description "logical network element scoped
+                               identifier for the networking
+                               instance";
+              }
+              leaf type {
+                  type identityref {
+                      base networking-instance;
+                  }
+                  description
+                      "The networking instance type -- details TBD
+                       Likely types include core, L3-VRF, VPLS,
+                       L2-cross-connect, L2-VSI, etc.";
+              }
+              leaf enabled {
+                  type boolean;
+                  default "true";
+                  description
+                    "Flag indicating whether or not the networking
+                     instance is enabled.";
+              }
+              uses router-id {
+                  description
+                      "Router ID for networking instances";
+              }
+              leaf description {
+                  type string;
+                  description
+                    "Description of the networking instance
+                    and its intended purpose";
+              }
+              // Note that there is no list of interfaces within
+              // the networking-instance
+              uses oam-protocols;
+              uses networking-instance-policy;
+              uses control-plane-protocols;
+              uses ribs;
+              uses mpls;
+              uses networking-services;
+          }
       }
     }
   }
 
   // augment statements
+  augment "/if:interfaces/if:interface" {
+    when "if:type == 'ianaift:regular1822' or
+	  if:type == 'ianaift:hdh1822' or
+	  if:type == 'ianaift:ddnX25' or
+	  if:type == 'ianaift:rfc877x25' or
+	  if:type == 'ianaift:ethernetCsmacd' or
+	  if:type == 'ianaift:iso88023Csmacd' or
+	  if:type == 'ianaift:iso88024TokenBus' or
+	  if:type == 'ianaift:iso88025TokenRing' or
+	  if:type == 'ianaift:iso88026Man' or
+	  if:type == 'ianaift:starLan' or
+	  if:type == 'ianaift:proteon10Mbit' or
+	  if:type == 'ianaift:proteon80Mbit' or
+	  if:type == 'ianaift:hyperchannel' or
+	  if:type == 'ianaift:fddi' or
+	  if:type == 'ianaift:lapb' or
+	  if:type == 'ianaift:sdlc' or
+	  if:type == 'ianaift:ds1' or
+	  if:type == 'ianaift:e1' or
+	  if:type == 'ianaift:basicISDN' or
+	  if:type == 'ianaift:primaryISDN' or
+	  if:type == 'ianaift:propPointToPointSerial' or
+	  if:type == 'ianaift:ppp' or
+	  if:type == 'ianaift:ethernet3Mbit'"  {
+      description 
+        "Applies to interfaces that can be assigned on a per logical
+        network element basis.  
+	TBD: list all physical interface types"; 
+       }
+    description
+	"Add a node for the identification of the logical network 
+	element associated with an interface";
+
+    leaf bind-network-element-id {
+      type uint8;
+      description 
+        "Logical network element ID to which interface is bound";
+    }
+  } 
+
+  augment "/if:interfaces/if:interface" {
+    description
+	"Add a node for the identification of the logical networking
+        instance (which is within the interface's identified logical 
+	network	element) associated with the IP information configured 
+        on an interface";
+
+    leaf bind-networking-instance-name {
+      type string;
+      description 
+        "Networking Instance to which an interface is bound";
+    }
+  } 
+
+  augment "/if:interfaces/if:interface/ip:ipv4" {
+    description
+	"Add a node for the identification of the logical networking
+        instance (which is within the interface's identified logical 
+	network	element) associated with the IP information configured 
+        on an interface";
+
+    leaf bind-networking-instance-name {
+      type string;
+      description 
+        "Networking Instance to which IPv4 interface is bound";
+
+    }
+  } 
+
+  augment "/if:interfaces/if:interface/ip:ipv6" {
+    description
+	"Add a node for the identification of the logical networking
+        instance (which is within the interface's identified logical 
+	network	element) associated with the IP information configured 
+        on an interface";
+
+    leaf bind-networking-instance-name {
+      type string;
+      description 
+        "Networking Instance to which IPv6 interface is bound";
+
+    }
+  } 
 
   // rpc statements
 
