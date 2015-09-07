@@ -599,36 +599,36 @@ module model-structure {
   // augment statements
   augment "/if:interfaces/if:interface" {
     when "if:type == 'ianaift:regular1822' or
-	  if:type == 'ianaift:hdh1822' or
-	  if:type == 'ianaift:ddnX25' or
-	  if:type == 'ianaift:rfc877x25' or
-	  if:type == 'ianaift:ethernetCsmacd' or
-	  if:type == 'ianaift:iso88023Csmacd' or
-	  if:type == 'ianaift:iso88024TokenBus' or
-	  if:type == 'ianaift:iso88025TokenRing' or
-	  if:type == 'ianaift:iso88026Man' or
-	  if:type == 'ianaift:starLan' or
-	  if:type == 'ianaift:proteon10Mbit' or
-	  if:type == 'ianaift:proteon80Mbit' or
-	  if:type == 'ianaift:hyperchannel' or
-	  if:type == 'ianaift:fddi' or
-	  if:type == 'ianaift:lapb' or
-	  if:type == 'ianaift:sdlc' or
-	  if:type == 'ianaift:ds1' or
-	  if:type == 'ianaift:e1' or
-	  if:type == 'ianaift:basicISDN' or
-	  if:type == 'ianaift:primaryISDN' or
-	  if:type == 'ianaift:propPointToPointSerial' or
-	  if:type == 'ianaift:ppp' or
-	  if:type == 'ianaift:ethernet3Mbit'"  {
+          if:type == 'ianaift:hdh1822' or
+          if:type == 'ianaift:ddnX25' or
+          if:type == 'ianaift:rfc877x25' or
+          if:type == 'ianaift:ethernetCsmacd' or
+          if:type == 'ianaift:iso88023Csmacd' or
+          if:type == 'ianaift:iso88024TokenBus' or
+          if:type == 'ianaift:iso88025TokenRing' or
+          if:type == 'ianaift:iso88026Man' or
+          if:type == 'ianaift:starLan' or
+          if:type == 'ianaift:proteon10Mbit' or
+          if:type == 'ianaift:proteon80Mbit' or
+          if:type == 'ianaift:hyperchannel' or
+          if:type == 'ianaift:fddi' or
+          if:type == 'ianaift:lapb' or
+          if:type == 'ianaift:sdlc' or
+          if:type == 'ianaift:ds1' or
+          if:type == 'ianaift:e1' or
+          if:type == 'ianaift:basicISDN' or
+          if:type == 'ianaift:primaryISDN' or
+          if:type == 'ianaift:propPointToPointSerial' or
+          if:type == 'ianaift:ppp' or
+          if:type == 'ianaift:ethernet3Mbit'"  {
       description 
         "Applies to interfaces that can be assigned on a per logical
         network element basis.  
-	TBD: list all physical interface types"; 
+        TBD: list all physical interface types"; 
        }
     description
-	"Add a node for the identification of the logical network 
-	element associated with an interface";
+        "Add a node for the identification of the logical network 
+        element associated with an interface";
 
     leaf bind-network-element-id {
       type uint8;
@@ -639,10 +639,10 @@ module model-structure {
 
   augment "/if:interfaces/if:interface" {
     description
-	"Add a node for the identification of the logical networking
+        "Add a node for the identification of the logical networking
         instance (which is within the interface's identified logical 
-	network	element) associated with the IP information configured 
-        on an interface";
+        network element) associated with the IP information  
+        configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
@@ -653,10 +653,10 @@ module model-structure {
 
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
-	"Add a node for the identification of the logical networking
+        "Add a node for the identification of the logical networking
         instance (which is within the interface's identified logical 
-	network	element) associated with the IP information configured 
-        on an interface";
+        network element) associated with the IP information  
+        configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
@@ -668,10 +668,10 @@ module model-structure {
 
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
-	"Add a node for the identification of the logical networking
+        "Add a node for the identification of the logical networking
         instance (which is within the interface's identified logical 
-	network	element) associated with the IP information configured 
-        on an interface";
+        network element) associated with the IP information  
+        configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
