@@ -28,7 +28,8 @@ module: model-structure
                +--rw networking-instance-policy
                +--rw control-plane-protocols
                |  +--rw control-plane-protocol* [type]
-               |     +--rw type    identityref
+               |     +--rw type      identityref
+               |     +--rw policy
                +--rw ribs
                |  +--rw rib* [name]
                |     +--rw name           string

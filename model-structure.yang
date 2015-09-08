@@ -308,6 +308,11 @@ module model-structure {
                       "The control plane protocol type, e.g., BGP,
                        OSPF IS-IS, etc";
               }
+              container policy {
+                  description 
+                      "Protocol specific policy, 
+                      reusing [RTG-POLICY]";
+              }
           }
       }
   }
