@@ -1,7 +1,7 @@
 #assumes standard yang modules installed in ../yang, customize as needed
 #  e.g., based on a 'cd .. ; git clone https://github.com/YangModels/yang.git'
 YANGIMPORT_BASE = ../yang
-MODELS		= model-structure.tree
+MODELS		= network-device.tree
 
 PLUGPATH   := $(shell echo `find $(YANGIMPORT_BASE) -name \*.yang | sed 's,/[a-z0-9A-Z@_\-]*.yang$$,,' | uniq` | tr \  :)
 PYTHONPATH := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages ` | tr \  :)
@@ -13,7 +13,7 @@ PYTHONPATH := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages 
 
 all:	device.tree $(MODELS)
 
-device.tree:  model-structure.tree
+device.tree:  network-device.tree
 	@echo Copying $@
 	@cp -p $< $@ 
 

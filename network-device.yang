@@ -1,9 +1,9 @@
-module model-structure {
+module network-device {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:model-structure";
+  namespace "urn:ietf:params:xml:ns:yang:network-device";
 
   prefix "struct";
 
