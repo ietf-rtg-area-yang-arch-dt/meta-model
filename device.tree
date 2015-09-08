@@ -8,7 +8,7 @@ module: network-device
          +--rw network-element-id                  uint8
          +--rw network-element-name?               string
          +--rw default-networking-instance-name?   string
-         +--rw system
+         +--rw system-management
          |  +--rw device-view?                  boolean
          |  +--rw system-management-global
          |  +--rw system-management-protocol* [type]
