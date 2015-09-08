@@ -427,10 +427,10 @@ module model-structure {
     }
   }
 
-  grouping system {
+  grouping system-management {
       description "System management for device or logical network
                  element";
-      container system {
+      container system-management {
           description "System management for device or logical
                        network element";
           leaf device-view {
@@ -538,7 +538,7 @@ module model-structure {
         description "Specification of the networking instance to
                      use for management connectivity";
       }
-      uses system;
+      uses system-management;
       uses ietf-acl;
       uses ietf-key-chain;
       container networking-instances {
