@@ -1,4 +1,4 @@
-module: model-structure
+module: network-device
    +--rw info
    |  +--rw device-type?   enumeration
    +--rw hardware
