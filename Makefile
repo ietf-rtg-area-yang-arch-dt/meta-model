@@ -11,7 +11,7 @@ PYTHONPATH := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages 
 	@PYTHONPATH=$(PYTHONPATH) pyang --ietf -f tree -p $(PLUGPATH) $< > $@
 
 
-all:	device.tree $(MODELS)
+all:	$(MODELS) device.tree draft-rtgyangdt-rtgwg-device-model.raw
 
 device.tree:  network-device.tree
 	@echo Copying $@
@@ -20,3 +20,12 @@ device.tree:  network-device.tree
 vars:
 	echo PYTHONPATH=$(PYTHONPATH)
 	echo PLUGPATH=$(PLUGPATH)
+
+draft-rtgyangdt-rtgwg-device-model.raw: network-device.yang
+	@echo Updating $@ based on $<
+	@rm -f $@.prev; cp -p $@ $@.prev
+	@i=(`awk '$$1=="<CODE"{print NR}' $@.prev`);  \
+		head -$${i[0]} $@.prev    > $@ ;\
+		sed 's/^/   /' $<         >> $@;\
+		tail -n +$${i[1]} $@.prev >> $@
+	diff -bw $@.prev $@ || exit 0
