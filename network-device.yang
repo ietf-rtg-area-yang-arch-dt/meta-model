@@ -12,10 +12,6 @@ module network-device {
     prefix if;
   }
 
-  import iana-if-type {
-    prefix ianaift;
-  }
-
   import ietf-ip {
     prefix ip;
   }
@@ -26,7 +22,7 @@ module network-device {
 
   contact
       "Routing Area YANG Architecture Design Team -
-       <rtg-dt-yang-arch@ietf.org>"; 
+       <rtg-dt-yang-arch@ietf.org>";
 
   description
     "This module describes a model structure for YANG
@@ -44,17 +40,17 @@ module network-device {
 
   // feature statements
   feature bind-network-element-id {
-    description 
+    description
       "Logical network element ID to which an interface is bound";
   }
 
   feature bind-networking-instance-name {
-    description 
+    description
       "Networking Instance to which an interface instance is bound";
   }
 
   // identity statements
-  
+
   identity networking-instance {
       description
          "Base identity from which identities describing
@@ -152,7 +148,7 @@ module network-device {
           }
       }
   }
-  
+
   grouping ipv4-interface-protocols {
       container ipv4-interface-protocols {
           list ipv4-interface-protocol {
@@ -176,7 +172,7 @@ module network-device {
       description
           "Grouping for IPv4 protocols configured on an interface";
   }
-  
+
   grouping ipv6-interface-protocols {
       description
           "Grouping for IPv6 protocols configured on
@@ -201,7 +197,7 @@ module network-device {
           }
       }
   }
-  
+
   grouping router-id {
       description
           "This grouping provides router ID.";
@@ -241,14 +237,14 @@ module network-device {
           "Grouping for OAM protocols configured for a
            networking instance.";
   }
-      
+
   grouping mpls {
     description
         "Grouping for MPLS and TE configuration configured for
          a networking-instance.";
     container mpls {
       description
-          "Container for MPLS and TE configuration for a 
+          "Container for MPLS and TE configuration for a
            networking-instance.";
       container global {
           description "Global MPLS configuration";
@@ -309,8 +305,8 @@ module network-device {
                        OSPF IS-IS, etc";
               }
               container policy {
-                  description 
-                      "Protocol specific policy, 
+                  description
+                      "Protocol specific policy,
                       reusing [RTG-POLICY]";
               }
           }
@@ -603,88 +599,63 @@ module network-device {
 
   // augment statements
   augment "/if:interfaces/if:interface" {
-    when "if:type == 'ianaift:regular1822' or
-          if:type == 'ianaift:hdh1822' or
-          if:type == 'ianaift:ddnX25' or
-          if:type == 'ianaift:rfc877x25' or
-          if:type == 'ianaift:ethernetCsmacd' or
-          if:type == 'ianaift:iso88023Csmacd' or
-          if:type == 'ianaift:iso88024TokenBus' or
-          if:type == 'ianaift:iso88025TokenRing' or
-          if:type == 'ianaift:iso88026Man' or
-          if:type == 'ianaift:starLan' or
-          if:type == 'ianaift:proteon10Mbit' or
-          if:type == 'ianaift:proteon80Mbit' or
-          if:type == 'ianaift:hyperchannel' or
-          if:type == 'ianaift:fddi' or
-          if:type == 'ianaift:lapb' or
-          if:type == 'ianaift:sdlc' or
-          if:type == 'ianaift:ds1' or
-          if:type == 'ianaift:e1' or
-          if:type == 'ianaift:basicISDN' or
-          if:type == 'ianaift:primaryISDN' or
-          if:type == 'ianaift:propPointToPointSerial' or
-          if:type == 'ianaift:ppp' or
-          if:type == 'ianaift:ethernet3Mbit'"  {
-      description 
-        "Applies to interfaces that can be assigned on a per logical
-        network element basis.  
-        TBD: list all physical interface types"; 
-       }
     description
-        "Add a node for the identification of the logical network 
-        element associated with an interface";
+        "Add a node for the identification of the logical network
+        element associated with an interface. Applies to interfaces
+        that can be assigned on a per logical network element basis.
+        A <TBD> error is returned when the interface type cannot be
+        assigned.";
 
     leaf bind-network-element-id {
       type uint8;
-      description 
+      description
         "Logical network element ID to which interface is bound";
     }
-  } 
+  }
 
   augment "/if:interfaces/if:interface" {
     description
         "Add a node for the identification of the logical networking
-        instance (which is within the interface's identified logical 
-        network element) associated with the IP information  
+        instance (which is within the interface's identified logical
+        network element) associated with the IP information
         configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
-      description 
+      description
         "Networking Instance to which an interface is bound";
     }
-  } 
+  }
 
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
         "Add a node for the identification of the logical networking
-        instance (which is within the interface's identified logical 
-        network element) associated with the IP information  
+        instance (which is within the interface's identified logical
+        network element) associated with the IP information
         configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
-      description 
+      description
         "Networking Instance to which IPv4 interface is bound";
 
     }
-  } 
+  }
 
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
         "Add a node for the identification of the logical networking
-        instance (which is within the interface's identified logical 
-        network element) associated with the IP information  
+        instance (which is within the interface's identified logical
+        network element) associated with the IP information
         configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
-      description 
+      description
         "Networking Instance to which IPv6 interface is bound";
 
     }
-  } 
+  }
 
   // rpc statements
 
