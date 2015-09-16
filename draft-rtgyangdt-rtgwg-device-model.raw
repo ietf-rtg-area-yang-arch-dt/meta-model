@@ -1,12 +1,12 @@
 Network Working Group                                          A. Lindem
 Internet-Draft                                                     Cisco
 Intended status: Informational                            L. Berger, Ed.
-Expires: March 9, 2016                                              LabN
+Expires: March 17, 2016                                             LabN
                                                            D. Bogdanovic
 
                                                                 C. Hopps
                                                         Deutsche Telekom
-                                                       September 8, 2015
+                                                      September 16, 2015
 
 
 
@@ -46,7 +46,6 @@ Copyright Notice
 
    Copyright (c) 2015 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
-
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
    (http://trustee.ietf.org/license-info) in effect on the date of
@@ -59,37 +58,35 @@ Copyright Notice
 
 Contents
 
-   1.       Introduction
-   1.1.     Status of Work and Open Issues
-   2.       Model Overview
-   2.1.     Interface Model Components
-   2.2.     Logical Network Elements
-   2.2.1.   System Management
-   2.2.2.   Network Instances
-   2.2.2.1. OAM Protocols
-   2.2.2.2. Network Instance Policy
-   2.2.2.3. Control Plane Protocols
-   2.2.2.4. RIBs
-   2.2.2.5. MPLS
-   2.2.2.6. Networking Services
-   2.3.     Device View vs Logical Network Element (LNE) View Management
-   3.       Populating the structural model
-   3.1.     Constructing the device model
-   3.2.     "Pull" approach for model composition
-   3.3.     "Push" approach for model composition
-   4.       Security Considerations
-   5.       IANA Considerations
-   6.       YANG module
-   6.1.     Model structure
-   7.       References
-   7.1.     Normative references
-   7.2.     Informative references
-            Acknowledgments
-            Contributors
-            Authors' Addresses
-
-
-
+   1.       Introduction  ........................................... 3
+   1.1.     Status of Work and Open Issues  ......................... 3
+   2.       Model Overview  ......................................... 5
+   2.1.     Interface Model Components  ............................. 6
+   2.2.     Logical Network Elements  ............................... 7
+   2.2.1.   System Management  ...................................... 8
+   2.2.2.   Network Instances  ...................................... 9
+   2.2.2.1. OAM Protocols  ......................................... 10
+   2.2.2.2. Network Instance Policy  ............................... 11
+   2.2.2.3. Control Plane Protocols  ............................... 11
+   2.2.2.4. RIBs  .................................................. 12
+   2.2.2.5. MPLS  .................................................. 12
+   2.2.2.6. Networking Services  ................................... 12
+   2.3.     Device View vs Logical Network Element (LNE)   
+                View Management  ................................... 13
+   3.       Populating the structural model  ....................... 14
+   3.1.     Constructing the device model  ......................... 14
+   3.2.     "Pull" approach for model composition  ................. 15
+   3.3.     "Push" approach for model composition  ................. 15
+   4.       Security Considerations  ............................... 16
+   5.       IANA Considerations  ................................... 16
+   6.       YANG module  ........................................... 16
+   6.1.     Model structure  ....................................... 16
+   7.       References  ............................................ 30
+   7.1.     Normative references  .................................. 30
+   7.2.     Informative references  ................................ 31
+            Acknowledgments  ....................................... 31
+            Contributors  .......................................... 32
+            Authors' Addresses   ................................... 33
 
 
 
@@ -164,6 +161,8 @@ Contents
       and design team are open to this proposal and are interested in
       discussing this option as specific details are available.
 
+
+
 2.  Module Overview
 
    In this document, we consider network devices that support protocols
@@ -177,7 +176,9 @@ Contents
    system or router, and virtual switch, chassis, or fabric. Each LNE
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
-   networking instances (NIs). This breakdown is represented in Figure 1.
+   networking instances (NIs). This breakdown is represented in 
+   Figure 1.
+
    A model for LNEs is described in Section 2.2 and the sub-model for
    networking instances is covered in Section 2.2.2.
 
@@ -1388,9 +1389,6 @@ Contents
    
    }
    <CODE ENDS>
-
-
-
 
 
 7.  References
