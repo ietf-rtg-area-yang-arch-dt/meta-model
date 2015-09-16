@@ -106,7 +106,7 @@ Contents
    document builds on that work and presents a derivative structure for
    use in representing the networking infrastructure aspects of physical
    and virtual devices.  While [OC-STRUCT] and earlier versions of this
-   document presented a single device-centeric model root, this document
+   document presented a single device-centric model root, this document
    no longer contains this element.
 
    This document aims to provide an extensible structure that can be
@@ -135,7 +135,7 @@ Contents
    progress rather than a final proposal.  Recent discussions have been
    quite focused on the single device root, /device, that was in the -00
    version of this document and [OC-STRUCT].  Secondary discussions have
-   focsued on representation of logical network elements. Disagreement
+   focused on representation of logical network elements. Disagreement
    and open issues remain, even within the design team.  Major open
    issues are as follows:
 
@@ -162,11 +162,11 @@ Contents
    6. There is a proposal on the table to support logical network
       elements using an enhanced version of [NETMOD-MOUNT].  The authors
       and design team are open to this proposal and are interested in
-      discussiong this options as speific details are available.
+      discussing this option as specific details are available.
 
 2.  Module Overview
 
-   In this document we consider network devices that support protocols
+   In this document, we consider network devices that support protocols
    and functions defined within the IETF Routing Area, e.g, routers,
    firewalls and hosts. Such devices may be physical or virtual, e.g., a
    classic router with custom hardware or one residing within a
@@ -177,7 +177,7 @@ Contents
    system or router, and virtual switch, chassis, or fabric. Each LNE
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
-   networking instances (NI). This breakdown is represented in Figure 1.
+   networking instances (NIs). This breakdown is represented in Figure 1.
    A model for LNEs is described in Section 2.2 and the sub-model for
    networking instances is covered in Section 2.2.2.
 
@@ -201,7 +201,7 @@ Contents
 
    The presented module can itself be thought of as a "meta-model" as it
    describes the relationships between individual models.  We choose to
-   represent it also as simple YANG module consisting of models, lists
+   represent it also as a simple YANG module consisting of models, lists
    and containers to serve as anchor points for the corresponding
    individual models.
 
@@ -597,8 +597,8 @@ Contents
    are two perspectives: one from functions that are operating within a
    context of a logical network element that has a device wide view (or
    more simply have a "device view"); and the other from functions that
-   are operating within a context of a logical network element that has
-   only a logical network element view (or more simply have an "LNE
+   are operating within the context of a logical network element that
+   has only a logical network element view (or more simply have an "LNE
    view").
 
    From a management function operating with a device view, the
@@ -664,7 +664,7 @@ Contents
    model for their data nodes to become active.  Some judgment as to
    which models are more suited for inclusion in higher level models is
    also necessary to decide when the corresponding YANG module should
-   contain only groupings.  Another potential drawback is that this
+   only contain groupings.  Another potential drawback is that this
    approach does not define a common structure for models to fit
    together, limiting interoperability due to implementations using
    different structures.  To address this, a top-level standard model
@@ -1534,4 +1534,3 @@ Authors' Addresses
    Christian Hopps
    Deutsche Telekom
    Email: chopps@chopps.org
-
