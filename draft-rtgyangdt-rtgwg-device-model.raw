@@ -246,12 +246,11 @@ Contents
    for simplicity).  
 
    This document augments the existing Interface Management model
-   [RFC7223] in two ways.  The first is add an identifier which is used
-   on physical interface types, as defined by [RFC7224], to identify an
-   associated LNE. The second is to add a name which is used on
-   sub-interface types to identify an associated networking instance.
-   Similarly, this name is also added for IPv4 and IPv6 types, as
-   defined in [RFC7277].
+   [RFC7223] in two ways.  The first is add an identifier which is
+   used on physical interface types to identify an associated LNE. The
+   second is to add a name which is used on sub-interface types to
+   identify an associated networking instance.  Similarly, this name
+   is also added for IPv4 and IPv6 types, as defined in [RFC7277].
 
    The interface related definitions are as follows:
    
@@ -1419,7 +1418,7 @@ Contents
 
    [OC-MPLS]  George, J., Fang, L., Osborne, E., Shakir, R., "MPLS TE
               Model for Service Provider Networks",
-              draft-openconfig-mpls-consolidated-model-00 (work in
+              draft-openconfig-mpls-consolidated-model-01 (work in
               progress).
 
    [OC-STRUCT] Shaikh, A., Shakir, R., D'Souza, K., Fang, L.,
@@ -1449,7 +1448,7 @@ Contents
 
    [RTG-ISIS] Litkowski, S., Yeung, D., Lindem, A., Zhang, J., and L.
               Lhotka, "YANG Data Model for ISIS protocol", draft-ietf-
-              isis-yang-isis-cfg-04 (work in progress), October 2014.
+              isis-yang-isis-cfg-05 (work in progress), October 2014.
 
 
 Appendix A.  Acknowledgments
