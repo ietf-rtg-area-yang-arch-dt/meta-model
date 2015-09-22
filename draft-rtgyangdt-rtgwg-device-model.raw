@@ -1,12 +1,12 @@
 Network Working Group                                          A. Lindem
 Internet-Draft                                                     Cisco
 Intended status: Informational                            L. Berger, Ed.
-Expires: March 17, 2016                                             LabN
+Expires: March 22, 2016                                             LabN
                                                            D. Bogdanovic
 
                                                                 C. Hopps
                                                         Deutsche Telekom
-                                                      September 16, 2015
+                                                      September 21, 2015
 
 
 
@@ -72,7 +72,7 @@ Contents
    2.2.2.5. MPLS  .................................................. 12
    2.2.2.6. Networking Services  ................................... 12
    2.3.     Device View vs Logical Network Element (LNE)   
-                View Management  ................................... 13
+                View Management  ................................. 13
    3.       Populating the structural model  ....................... 14
    3.1.     Constructing the device model  ......................... 14
    3.2.     "Pull" approach for model composition  ................. 15
@@ -84,7 +84,7 @@ Contents
    7.       References  ............................................ 30
    7.1.     Normative references  .................................. 30
    7.2.     Informative references  ................................ 31
-            Acknowledgments  ....................................... 31
+            Acknowledgments  ....................................... 32
             Contributors  .......................................... 32
             Authors' Addresses   ................................... 33
 
@@ -110,8 +110,15 @@ Contents
    used to tie together other models. It allows for existing, emerging,
    and future models. The overall structure can be constructed using
    YANG augmentation and imports.
-
-   Additional motivation for this work can be found in [OC-STRUCT].
+   
+   This document was motivated by, and derived from, [OC-STRUCT]. The
+   requirements from that document have been combined with the
+   requirements from "Consistent Modeling of Operational State Data in
+   YANG", [OC-OPSTATE], into "NETMOD Operational State Requirements",
+   [NETMOD-OPSTATE].  This document is aimed at the requirement
+   related to a common model-structure, currently Requirement 7, and
+   also aims to provide a modeling base for Operational State
+   representation.
 
    The approach taken in this (and the original) document is to organize
    the models describing various aspects of network infrastructure,
@@ -162,6 +169,9 @@ Contents
       discussing this option as specific details are available.
 
 
+
+
+
 
 2.  Module Overview
 
@@ -176,7 +186,7 @@ Contents
    system or router, and virtual switch, chassis, or fabric. Each LNE
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
-   networking instances (NIs). This breakdown is represented in 
+   networking instances (NIs). This breakdown is represented in
    Figure 1.
 
    A model for LNEs is described in Section 2.2 and the sub-model for
@@ -218,7 +228,7 @@ Contents
         +--rw qos
         +--rw logical-network-elements
         |     ...
-     augment /if:interfaces/if:interface: 
+     augment /if:interfaces/if:interface:
               ...
  
    The top level models generally represent resources that are
@@ -366,7 +376,7 @@ Contents
    System-management-global is used for configuration information and
    state that is independent of a particular management protocol.
    System-management-protocol is a list of management protocol specific
-   elements.  The type-specific sub-modules are expected to be defined. 
+   elements.  The type-specific sub-modules are expected to be defined.
 
    The following is an example of envisioned usage:
 
@@ -575,9 +585,9 @@ Contents
 2.3.  Device View vs Logical Network Element (LNE) View Management
 
    [Editor's note: an alternate approach based on a future enhanced
-    version of [NETMOD-MOUNT] has been proposed and is being considered.
-    This section would be replaced if such an alternate approach is
-    followed. ]
+    version of [NETMOD-MOUNT] has been proposed and is being 
+    considered. This section would be replaced if such an alternate 
+    approach is followed. ]
 
    On some devices it is possible to limit control and management to a
    scoped set of system resources.  As stated above in Section 2.2., the
@@ -1412,19 +1422,29 @@ Contents
 
 7.2.  Informative references
 
-   [NETMOD-MOUNT] Clemm, A., Medved, J., Voit, E., "Mounting 
+   [NETMOD-MOUNT] Clemm, A., Medved, J., Voit, E., "Mounting
                   YANG-Defined Information from Remote Datastores",
-                  work in progress, draft-clemm-netmod-mount.
+                  work in progress, draft-clemm-netmod-mount (work in
+                  progress).
+
+   [NETMOD-OPSTATE] Watsen, K., Nadeau, T., "NETMOD Operational State
+                    Requirements", work in progress,
+                    draft-chairs-netmod-opstate-reqs (work in
+                    progress).
 
    [OC-MPLS]  George, J., Fang, L., Osborne, E., Shakir, R., "MPLS TE
               Model for Service Provider Networks",
-              draft-openconfig-mpls-consolidated-model-01 (work in
+              draft-openconfig-mpls-consolidated-model (work in
               progress).
 
+   [OC-OPSTATE] Shakir, R., Shaikh, A., and M. Hines, "Consistent
+                Modeling of Operational State Data in YANG",
+                draft-openconfig-netmod-opstate (work in progress).
+
    [OC-STRUCT] Shaikh, A., Shakir, R., D'Souza, K., Fang, L.,
-              "Operational Structure and Organization of YANG Models",
-              draft-openconfig-netmod-model-structure-00 (work in
-              progress).
+               "Operational Structure and Organization of YANG Models",
+               draft-openconfig-netmod-model-structure (work in
+               progress).
 
    [RFC4026]  Andersson, L., Madsen, T., "Provider Provisioned Virtual
               Private Network (VPN) Terminology", RFC 4026, March 2005.
@@ -1433,22 +1453,21 @@ Contents
               RFC 7277, June 2014.
 
    [RTG-CFG]  Lhotka, L., "A YANG Data Model for Routing Management",
-              draft-ietf-netmod-routing-cfg-19 (work in progress),
-              October 2014.
+              draft-ietf-netmod-routing-cfg (work in progress).
 
    [RTG-POLICY]
               Shaikh, A., Shakir, R., D'Souza, K., and C. Chase,
               "Routing Policy Configuration Model for Service Provider
-              Networks", draft-shaikh-rtgwg-policy-model-01 (work in
-              progress), July 2015.
+              Networks", draft-shaikh-rtgwg-policy-model (work in
+              progress).
 
    [RTG-OSPF] Yeung, D., Qu, Y., Zhang, J., and D. Bogdanovic, "Yang
-              Data Model for OSPF Protocol", draft-yeung-netmod-ospf-02
-              (work in progress), October 2014.
+              Data Model for OSPF Protocol", draft-yeung-netmod-ospf
+              (work in progress).
 
    [RTG-ISIS] Litkowski, S., Yeung, D., Lindem, A., Zhang, J., and L.
               Lhotka, "YANG Data Model for ISIS protocol", draft-ietf-
-              isis-yang-isis-cfg-05 (work in progress), October 2014.
+              isis-yang-isis-cfg (work in progress).
 
 
 Appendix A.  Acknowledgments
@@ -1531,3 +1550,5 @@ Authors' Addresses
    Christian Hopps
    Deutsche Telekom
    Email: chopps@chopps.org
+
+
