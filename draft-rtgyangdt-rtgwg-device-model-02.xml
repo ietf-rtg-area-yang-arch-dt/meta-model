@@ -107,27 +107,22 @@
    focused on representation of logical network elements. Disagreement
    and open issues remain, even within the design team.  Major open
    issues are as follows:
-</t><t>
-      switching instances has not yet received sufficient discussion
-      and is likely to change.
-</t><t>
-      interpretation of different policy containers is clear.
-</t><t>
-      interconnection (over a &quot;core&quot; network) is currently commingled
-      with configuration related to operation within the instance.
-</t><t>
-      model will be updated once the &quot;opstate&quot; requirements are
-      addressed.
-</t><t>
-      instance name augmentations are currently defined within the
+  <list style="numbers"> 
+   <t>Switching instances has not yet received sufficient discussion
+      and is likely to change.</t>
+   <t>Interpretation of different policy containers requires clarification.</t>
+   <t>Interconnection (over a &quot;core&quot; network) is currently commingled
+      with configuration related to operation within the instance.</t>
+   <t>The model will be updated once the &quot;opstate&quot; requirements are
+      addressed.</t>
+   <t>Instance name augmentations are currently defined within the
       context of network-device.  It may clearer to define these each
-      in their own modules.
-</t><t>
-      elements using an enhanced version of <xref target="NETMOD-MOUNT"/>.  
+      in their own modules.</t>
+    <t> Elements using an enhanced version of <xref target="NETMOD-MOUNT"/>.  
       The authors and design team are open to this proposal and are interested in
-      discussing this option as specific details are available.
-</t><t>
-</t>
+      discussing this option as specific details are available.</t>
+   </list>
+ </t>
 </section>
 </section>
 <section anchor="sec-2" title="Module Overview">
@@ -1734,6 +1729,75 @@ module network-device {
 
   <t>The identityref approach was proposed by Mahesh Jethanandani.</t>
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.</t>
+</section>
+<section title="Contributors">
+<figure>
+<artwork>  
+Contributors' Addresses
+
+   Anees Shaikh
+   Google
+   1600 Amphitheatre Pkwy
+   Mountain View, CA  94043
+   United States
+   Email: aashaikh@google.com
+
+
+   Rob Shakir
+   Jive Communications, Inc.
+   1275 W 1600 N, Suite 100
+   Orem, UT  84057
+   United States
+   Email: rjs@rob.sh
+
+
+   Kevin D'Souza
+   AT&amp;T
+   200 S. Laurel Ave
+   Middletown, NJ
+   United States
+   Email: kd6913@att.com
+
+   Luyuan Fang
+   Microsoft
+   205 108th Ave. NE, Suite 400
+   Bellevue, WA
+   United States
+   Email: lufang@microsoft.com
+
+   Qin Wu
+   Huawei Technologies
+   101 Software Avenue, Yuhua District
+   Nanjing, Jiangsu  210012
+   China
+
+   Email: bill.wu@huawei.com
+
+
+
+
+
+
+ 
+   Stephane Litkowski
+   Orange
+   9 rue du chene germain
+   Cesson Sevigne  35512
+   France
+
+   Email: stephane.litkowski@orange.com
+
+
+   Gang Yan
+   Huawei Technologies
+   Huawei Bld., No.156 Beiqing Rd.
+   Beijing  100095
+   China
+
+   Email: yangang@huawei.com
+
+</artwork> 
+</figure>
 </section>
 </back>
 
