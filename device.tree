@@ -9,7 +9,6 @@ module: network-device
          +--rw network-element-name?               string
          +--rw default-networking-instance-name?   string
          +--rw system-management
-         |  +--rw device-view?                  boolean
          |  +--rw system-management-global
          |  +--rw system-management-protocol* [type]
          |     +--rw type    identityref

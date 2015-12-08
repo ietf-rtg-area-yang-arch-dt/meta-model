@@ -434,13 +434,6 @@ module network-device {
       container system-management {
           description "System management for device or logical
                        network element";
-          leaf device-view {
-              type boolean;
-              default "true";
-              description "Flag indicating whether or not the logical
-                           network element is able to view and manage
-                           the entire device";
-          }
           container system-management-global {
               description "System management - logical device
                            management with reuse of RFC 7317";
@@ -527,7 +520,10 @@ module network-device {
       leaf network-element-id {
         type uint8; // expect a small number of logical routers
         description "Device-wide unique identifier for the
-                     logical network element";
+                     Logical Network Element (LNE). The LNE with
+                     the network-element-id of 0 is the default
+                     and has system management responsibility
+                     and visibility for the entire device.";
       }
       leaf network-element-name {
         type string;
