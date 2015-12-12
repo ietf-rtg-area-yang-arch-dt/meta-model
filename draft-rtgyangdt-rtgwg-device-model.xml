@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="info" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-device-model-02.txt" >
+<rfc category="info" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-device-model-03.txt" >
 
 <front>
 <title abbrev="RTG YANG Device Model">Network Device YANG Organizational Model</title>
@@ -142,7 +142,7 @@
    Figure 1.
 </t><t>
    A model for LNEs is described in <xref target="sec-2.2"/> and the sub-model for
-   networking instances is covered in <xref target="sec-2.2.2"/>.
+   networking instances is covered in <xref target="NET-INSTANCE"/>.
 </t><t>
 <figure>
 <artwork>  
@@ -324,10 +324,11 @@
 </t>
 <section anchor="sec-2.2.1" title="  System Management">
 <t>
-   The model supports the potentially independent system management
-   functions and configuration per logical network element. This
-   permits, for example, different users to manage either the whole
-   device or just the associated logical network element.  System
+   The model defines a Default Logical Network Element (LNE) from which
+   users can manage the physical device.  The Default LNE has network-element-id 0 and
+   is implicitly created when a network device is instantiated. The other LNEs are
+   relegated to managing protocols and services within the LNE and physical
+   resources specifically allocated to the LNE from the Default LNE.  System
    management is supported by the system-management container which is
    expected to reuse definitions contained in <xref target="RFC7317"/> 
    and is shown below:
@@ -338,18 +339,14 @@
         +--rw logical-network-elements
            +--rw logical-network-element* [network-element-id]
               +--rw system-management
-                 +--rw device-view?                  boolean
                  +--rw system-management-global
                  +--rw system-management-protocol* [type]
                     +--rw type    identityref
 </artwork> 
 </figure>
 </t><t>
-   The device-view leaf is used to indicate if the system management
-   functions associated with the logical network element are restricted
-   to the logical network element or can manage the whole device.  The
-   leaf may have a fixed value.  For example, some implementations may
-   only support management on a device-wide basis.  Additional
+   Some implementations may only support management on a 
+   device-wide basis from the Default LNE.  Additional
    information on the implications of this leaf can be found in Section
    2.3.
 </t><t>
@@ -365,7 +362,6 @@
      module: network-device
           +--rw logical-network-elements
                 +--rw system-management
-                   +--rw device-view?                      boolean
                    +--rw system-management-global
                    |  +--rw statistics-collection
                    |  ...
@@ -382,7 +378,7 @@
 </t><t>
 </t>
 </section>
-<section anchor="sec-2.2.2" title="  Network Instances">
+<section anchor="NET-INSTANCE" title="  Network Instances">
 <t>
    The network instance container is used to represent virtual routing
    and forwarding instances (VRFs) and virtual switching instances
@@ -560,9 +556,9 @@
 <section anchor="sec-2.2.2.5" title="  MPLS">
 <t>
     MPLS data plane related information is grouped together. MPLS
-    control plane protocols are included above.  MPLS may reuse and
-    build on <xref target="OC-MPLS"/> or other emerging models and is 
-    shown below:
+    control plane protocols are included in <xref target="NET-INSTANCE"/>.  
+    MPLS may reuse and  build on <xref target="OC-MPLS"/> or other emerging 
+    models and is shown below:
 </t><t>
 <figure>
 <artwork>  
@@ -630,34 +626,24 @@
     considered. This section would be replaced if such an alternate 
     approach is followed. ]
 </t><t>
-   On some devices it is possible to limit control and management to a
-   scoped set of system resources.  As stated above in <xref target="sec-2.2"/>, the
-   documented approach supports this capability using logical network
-   elements and the system management device-view leaf.
-</t><t>
-   When the device-view leaf is set to true, information accessible via
-   a logical network element's system management functions represents
-   the complete device.  This applies to all system management
-   functions, not just those represented in the YANG model.  When
+   The Default Logical Network Element (network-element-id 0) view affords 
+   visibility and system management of the entire device. This applies to all system
+   management functions, not just those represented in the YANG model.  When
    viewing information represented in a YANG model, the device model
    will cover the full device and allow management across all logical
    network elements.
 </t><t>
-   The case when a logical network element's system management functions
+   The of a non-default Logical Network Element system management functions
    do not have a device wide view is more complex.  In this case, there
    are two perspectives: one from functions that are operating within a
-   context of a logical network element that has a device wide view (or
-   more simply have a &quot;device view&quot;); and the other from functions that
-   are operating within the context of a logical network element that
+   context of the Default Logical Network Element that has a device wide view 
+   (or more simply have an &quot;device view&quot;) and the other from 
+   functions that  are operating within the context of a logical network element that
    has only a logical network element view (or more simply have an &quot;LNE
    view&quot;).
 </t><t>
-   From a management function operating with a device view, the
-   limited logical network element's system management device-view
-   leaf is simply set to false.
-</t><t>
-   Management functions operating with an LNE view can only see
-   information (e.g., resources, interfaces, configuration, operational
+   Management functions operating with an non-default LNE view can only
+   see information (e.g., resources, interfaces, configuration, operational
    state, etc.) associated with in the logical network element.  When
    viewing information represented in a YANG model, a full device model
    (as defined in this document) is available from within the view, but
@@ -668,8 +654,8 @@
    made available within an LNE view as is appropriated based on device
    wide configuration.  For example, interfaces assigned to the logical
    network element can be managed from within the LNE view.  Note: some
-   information that can be modified from a device view may be read-only
-   from within the LNE view.
+   information that can be modified from a &quot;device view&quot; may be
+   read-only from within the &quot;LNE view&quot;.
 </t><t>
    Multiple implementation approaches are possible to provide LNE views,
    and these are outside the scope of this document.
@@ -1229,13 +1215,6 @@ module network-device {
       container system-management {
           description "System management for device or logical
                        network element";
-          leaf device-view {
-              type boolean;
-              default "true";
-              description "Flag indicating whether or not the logical
-                           network element is able to view and manage
-                           the entire device";
-          }
           container system-management-global {
               description "System management - logical device
                            management with reuse of 
@@ -1728,7 +1707,8 @@ module network-device {
    Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang.</t>
 
   <t>The identityref approach was proposed by Mahesh Jethanandani.</t>
-  <t>The RFC text was produced using Marshall Rose's xml2rfc tool.</t>
+  <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
+   <vspace blankLines="100"/></t>
 </section>
 <section title="Contributors">
 <figure>
