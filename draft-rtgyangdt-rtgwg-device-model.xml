@@ -778,7 +778,7 @@
 <t> 
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "network-device@2015-11-21.yang" 
+<CODE BEGINS> file "network-device@2015-12-12.yang"
 module network-device {
 
   yang-version "1";
@@ -803,7 +803,7 @@ module network-device {
 
   contact
       "Routing Area YANG Architecture Design Team -
-       &lt;rtg-dt-yang-arch@ietf.org&gt;";
+       <rtg-dt-yang-arch@ietf.org>";
 
   description
     "This module describes a model structure for YANG
@@ -988,7 +988,7 @@ module network-device {
             "A 32-bit number in the form of a dotted quad that is
              used by some routing protocols identifying a router.";
           reference
-              RFC 2328: OSPF Version 2.";
+              "RFC 2328: OSPF Version 2.";
       }
   }
 
@@ -1054,10 +1054,10 @@ module network-device {
          distinguisher, route targets, VPLS ID and neighbor,
          Ethernet ID, etc. ";
     reference
-        RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
-        RFC 6074 - Provisioning, Auto-Discovery, and Signaling 
-                   in Layer 2 Virtual Private Networks(L2VPNs)
-        RFC 7342 - BGP MPLS-Based Ethernet VPN";
+        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
+         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
+              in Layer 2 Virtual Private Networks (L2VPNs)
+         RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container networking-instance-policy {
         description "Networking Instance Policy -- details TBD";
     }
@@ -1217,8 +1217,7 @@ module network-device {
                        network element";
           container system-management-global {
               description "System management - logical device
-                           management with reuse of 
-                           <xref target="RFC7317"/>";
+                           management with reuse of RFC 7317";
           }
           list system-management-protocol {
               key "type";
@@ -1302,7 +1301,10 @@ module network-device {
       leaf network-element-id {
         type uint8; // expect a small number of logical routers
         description "Device-wide unique identifier for the
-                     logical network element";
+                     Logical Network Element (LNE). The LNE with
+                     the network-element-id of 0 is the default
+                     and has system management responsibility
+                     and visibility for the entire device.";
       }
       leaf network-element-name {
         type string;
@@ -1378,8 +1380,8 @@ module network-device {
         "Add a node for the identification of the logical network
         element associated with an interface. Applies to interfaces
         that can be assigned on a per logical network element basis.
-        A &lt;TBD&gt; error is returned when the interface type 
-        cannot be assigned.";
+        A <TBD> error is returned when the interface type cannot be
+        assigned.";
 
     leaf bind-network-element-id {
       type uint8;
@@ -1428,7 +1430,8 @@ module network-device {
       type string;
       description
         "Networking Instance to which IPv6 interface is bound";
-       }
+
+    }
   }
 
   // rpc statements
