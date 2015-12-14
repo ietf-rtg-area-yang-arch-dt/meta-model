@@ -1,0 +1,20 @@
+module: network-device
+   +--rw yang-library
+   +--rw info
+   |  +--rw device-type?   enumeration
+   +--rw interfaces
+   +--rw hardware
+   +--rw qos
+   +--rw system-management
+   |  +--rw system-management-global
+   |  +--rw system-management-protocol* [type]
+   |     +--rw type    identityref
+   +--rw ietf-acl
+   +--rw ietf-key-chain
+   +--rw networking-services
+   +--rw oam-protocols
+   +--rw control-plane-protocols
+   +--rw ribs
+   +--rw mpls
+   +--rw networking-instance-policy
+      +--rw router-id?   uint32

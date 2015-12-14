@@ -1,0 +1,16 @@
+module: networking-instance
+   +--rw networking-instances
+      +--rw networking-instance* [networking-instance-name]
+         +--rw networking-instance-name      string
+         +--rw type?                         identityref
+         +--rw enabled?                      boolean
+         +--rw router-id?                    uint32
+         +--rw description?                  string
+         +--rw networking-instance-policy
+         +--rw networking-instance-root?     structural-mount
+augment /if:interfaces/if:interface:
+   +--rw bind-networking-instance-name?   string
+augment /if:interfaces/if:interface/ip:ipv4:
+   +--rw bind-networking-instance-name?   string
+augment /if:interfaces/if:interface/ip:ipv6:
+   +--rw bind-networking-instance-name?   string

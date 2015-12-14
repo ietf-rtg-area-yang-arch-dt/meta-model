@@ -1,0 +1,405 @@
+module network-device {
+
+  yang-version "1";
+
+  // namespace
+  namespace "urn:ietf:params:xml:ns:yang:network-device";
+
+  prefix "struct";
+
+  // import some basic types
+
+  // meta
+  organization "IETF RTG YANG Design Team Collaboration
+                with OpenConfig";
+
+  contact
+      "Routing Area YANG Architecture Design Team -
+       <rtg-dt-yang-arch@ietf.org>";
+
+  description
+    "This module describes a model structure for YANG
+     configuration and operational state data models. Its intent is
+     to describe how individual device protocol and feature models
+     fit together and interact.";
+
+  revision "2015-12-14" {
+    description
+      "IETF Routing YANG Design Team Meta-Model";
+    reference "TBD"; 
+  }
+
+  // extension statements
+
+  // identity statements
+
+  identity oam-protocol-type {
+      description
+          "Base identity for derivation of OAM protocols";
+  }
+
+  identity networking-service-type {
+      description
+          "Base identity for derivation of networking services";
+  }
+
+   identity mpls-protocol-type {
+      description
+          "Base identity for derivation of MPLS protocols";
+   }
+
+   identity control-plane-protocol-type {
+      description
+          "Base identity for derivation of control-plane protocols";
+   }
+
+   identity system-management-protocol-type {
+      description
+          "Base identity for derivation of system management
+           protocols";
+   }
+
+   identity oam-service-type {
+      description
+          "Base identity for derivation of Operations,
+           Administration, and Maintenance (OAM) services.";
+   }
+
+   identity aaa-service-type {
+      description
+          "Base identity for derivation of Authentication,
+           Authorization, and Accounting (AAA) services.";
+   }
+
+  // typedef statements
+
+  // grouping statements
+
+  grouping router-id {
+      description
+          "This grouping provides router ID.";
+      leaf router-id {
+          type uint32;  // yang:dotted-quad
+          description
+            "A 32-bit number in the form of a dotted quad that is
+             used by some routing protocols identifying a router.";
+          reference
+              "RFC 2328: OSPF Version 2.";
+      }
+  }
+
+  grouping oam-protocols {
+      container oam-protocols {
+          list oam-protocol {
+              key "type";
+              leaf type {
+                  type identityref {
+                      base oam-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "The Operations, Administration, and
+                       Maintenance (OAM) protocol type, e.g., BFD,
+                       TWAMP, CFM, etc.";
+              }
+              description
+                  "List ofconfigured OAM protocols.";
+          }
+          description
+              "Container for list of configured OAM protocols.";
+      }
+      description
+          "Grouping for configured OAM protocols.";
+  }
+
+  grouping mpls {
+    description
+        "Grouping for MPLS and TE configuration.";
+    container mpls {
+      description
+          "Container for MPLS and TE configuration.";
+      container global {
+          description "Global MPLS configuration";
+      }
+      list mpls-protocol {
+          key "type";
+          description
+              "List of configured MPLS protocols.";
+          leaf type {
+              type identityref {
+                  base mpls-protocol-type;
+              }
+              mandatory true;
+              description
+                  "MPLS and Traffic Engineering protocol type,
+                   MPLS static, LDP, RSVP TE, etc.";
+          }
+      }
+    }
+  }
+
+  grouping networking-instance-policy {
+    description
+        "Networking instance policies such as route
+         distinguisher, route targets, VPLS ID and neighbor,
+         Ethernet ID, etc. ";
+    reference
+        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
+         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
+              in Layer 2 Virtual Private Networks (L2VPNs)
+         RFC 7432 - BGP MPLS-Based Ethernet VPN";
+    container networking-instance-policy {
+        description "Networking Instance Policy -- details TBD";
+    }
+  }
+
+  grouping control-plane-protocols {
+      description
+          "Grouping for configured control plane protocols.";
+      container control-plane-protocols {
+          description
+              "Container for configured control plane protocols.";
+          list control-plane-protocol {
+              key "type";
+              description
+                  "List of configured control plane protocols.";
+              leaf type {
+                  type identityref {
+                      base control-plane-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "The control plane protocol type, e.g., BGP,
+                       OSPF IS-IS, etc";
+              }
+              container policy {
+                  description
+                      "Protocol specific policy,
+                      reusing [RTG-POLICY]";
+              }
+          }
+      }
+  }
+
+  grouping ribs {
+    description
+      "Routing Information Bases (RIBs) supported.";
+    container ribs {
+        description
+            "Supported RIBs";
+        list rib {
+            key "name";
+            min-elements "1";
+            description
+                "Each entry represents a RIB identified by the
+               'name' key. All routes in a RIB must belong to the
+                same address family.
+
+                An implementation should provide one 
+                system-controlled default RIB for each
+                supported address family.";
+            leaf name {
+                type string;
+                description
+                    "The name of the RIB.";
+            }
+            reference "draft-ietf-netmod-routing-cfg";
+            leaf description {
+                type string;
+                description
+                    "Description of the RIB";
+            }
+            // Note that there is no list of interfaces within
+            container policy {
+                description "Policy specific to RIB";
+            }
+        }
+    }
+  }
+
+  grouping networking-services {
+      description
+          "Grouping for configured networking-services.";
+      container networking-services {
+          description
+              "Container for list of configured networking 
+               services.";
+          list networking-service {
+              key "type";
+              description
+                  "List of configured networking services.";
+              leaf type {
+                  type identityref {
+                      base networking-service-type;
+                  }
+                  mandatory true;
+                  description
+                      "The networking services type supported, 
+                       e.g., NTP server, DNS server, 
+                       DHCP server, etc.";
+              }
+          }
+      }
+  }
+
+  grouping oam-services {
+    description "containers for features related to operations,
+                 administration, and maintenance (OAM).";
+    container oam-services {
+      description "Commonly use OAM functions on devices";
+      list oam-service {
+          key "type";
+          description
+              "List of OAM services configured for a device.";
+          leaf type {
+              type identityref {
+                  base oam-service-type;
+              }
+              mandatory true;
+                  description
+                      "The OAM services type supported within
+                       device, e.g., SNMP.";
+          }
+      }
+    }
+  }
+
+  grouping system-services {
+    description "Containers for system service models.";
+    uses oam-services;
+  }
+
+  grouping system-aaa {
+    description "AAA-related services";
+    container aaa {
+      description
+          "Authentication, Authorization, and Accounting (AAA).";
+      list aaa-service {
+          key "type";
+          description
+              "List of AAA services configured for a device.";
+          leaf type {
+              type identityref {
+                  base aaa-service-type;
+              }
+              mandatory true;
+                  description
+                      "The AAA services type supported within
+                       a device, e.g., RADIUS.";
+          }
+      }
+    }
+  }
+
+  // top level device definition statements
+  container yang-library {
+    description 
+      "YANG Module Library as defined in
+       draft-ietf-netconf-yang-library";
+  }
+
+  container info {
+    description
+      "Base system information.
+      This container is for base system information, including
+      device type (e.g., physical or virtual), model, serial no.,
+      location, etc.";
+
+    leaf device-type {
+      //TODO: consider changing to an identity if finer grained
+      // device type classification is envisioned
+      type enumeration {
+        enum PHYSICAL {
+          description "physical or hardware device";
+        }
+        enum VIRTUAL {
+          description "virtual or software device";
+        }
+      }
+      description
+        "Type of the device, e.g., physical or virtual.  This node
+        may be used to activate other containers in the model";
+    }
+  }
+
+  container interfaces {
+    description
+     "Interface list as defined by RFC7223/RFC7224";
+  }
+
+  container hardware {
+    description
+      "Hardware / vendor -specific data relevant to the platform.
+      This container is an anchor point for platform-specific
+      configuration and operational state data.  It may be further
+      organized into chassis, line cards, ports, etc.  It is
+      expected that vendor or platform-specific augmentations
+      would be used to populate this part of the device model";
+  }
+
+  container qos {
+    description "QoS features, for example policing, shaping, etc.";
+  }
+
+  container system-management {
+      description 
+        "System management for physical or virtual device.";
+      container system-management-global {
+          description "System management - with reuse of RFC 7317";
+      }
+      list system-management-protocol {
+          key "type";
+          leaf type {
+              type identityref {
+                  base system-management-protocol-type;
+              }
+              mandatory true;
+              description
+                  "NTP, DNS, Syslog, ssh, TACAC+, NETCONF, etc.";
+          }
+          description "List of system management protocol 
+                       configured for a device.";
+      }
+  }
+
+  container ietf-acl {
+    description "Packet Access Control Lists (ACLs) as specified
+                   in draft-ietf-netmod-acl-model";
+  }
+
+  container ietf-key-chain {
+    description "Key chains as specified in
+                 draft-acee-rtgwg-yang-key-chain;";
+  }
+
+  container networking-services {
+    description "";
+  }
+
+  container oam-protocols {
+    description "Configured OAM protocols.";
+  }
+  container control-plane-protocols {
+    description "Configured control-plane protocols.";
+  }
+  container ribs {
+    description "Supported Routing Information Bases (RIBs).";
+  }
+  container mpls {
+    description "MPLS and TE configuration.";
+  }
+  container networking-instance-policy {
+    description 
+      "Networking instance policies such as route
+       distinguisher, route targets, VPLS ID and neighbor,
+       Ethernet ID, etc. ";
+    uses router-id {
+      description
+        "Router ID for networking instances.";
+    }
+  }
+  // rpc statements
+
+  // notification statements
+
+}
