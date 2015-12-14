@@ -1,9 +1,9 @@
-module network-device-option2 {
+module network-device {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:network-device-option2";
+  namespace "urn:ietf:params:xml:ns:yang:network-device";
 
   prefix "struct";
 
@@ -30,19 +30,13 @@ module network-device-option2 {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2015-11-30" {
+  revision "2015-12-14" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
   }
 
   // extension statements
-
-  // feature statements
-  feature bind-network-element-id {
-    description
-      "Logical network element ID to which an interface is bound";
-  }
 
   feature bind-networking-instance-name {
     description
@@ -385,8 +379,7 @@ module network-device-option2 {
       list oam-service {
           key "type";
           description
-              "List of OAM services configured for a
-               logical network element.";
+              "List of OAM services configured for a device.";
           leaf type {
               type identityref {
                   base oam-service-type;
@@ -394,7 +387,7 @@ module network-device-option2 {
               mandatory true;
                   description
                       "The OAM services type supported within
-                       a logical networking element, e.g., SNMP.";
+                       device, e.g., SNMP.";
           }
       }
     }
@@ -413,8 +406,7 @@ module network-device-option2 {
       list aaa-service {
           key "type";
           description
-              "List of AAA services configured for a
-               logical network element.";
+              "List of AAA services configured for a device.";
           leaf type {
               type identityref {
                   base aaa-service-type;
@@ -422,7 +414,7 @@ module network-device-option2 {
               mandatory true;
                   description
                       "The AAA services type supported within
-                       a logical networking element, e.g., RADIUS.";
+                       a device, e.g., RADIUS.";
           }
       }
     }
@@ -479,18 +471,10 @@ module network-device-option2 {
   }
 
   container system-management {
-      description "System management for device or logical
-                   network element";
-      leaf device-view {
-          type boolean;
-          default "true";
-          description "Flag indicating whether or not the logical
-                       network element is able to view and manage
-                       the entire device";
-      }
+      description 
+        "System management for physical or virtual device.";
       container system-management-global {
-          description "System management - logical device
-                       management with reuse of RFC 7317";
+          description "System management - with reuse of RFC 7317";
       }
       list system-management-protocol {
           key "type";
@@ -502,9 +486,8 @@ module network-device-option2 {
               description
                   "NTP, DNS, Syslog, ssh, TACAC+, NETCONF, etc.";
           }
-          description "List of system management protocol
-                       configured for a logical networking
-                       element.";
+          description "List of system management protocol 
+                       configured for a device.";
       }
   }
 
@@ -530,7 +513,7 @@ module network-device-option2 {
           description "List of networking-instances";
           leaf networking-instance-name {
               type string;
-              description "logical network element scoped
+              description "device scoped
                            identifier for the networking
                            instance";
           }
@@ -571,45 +554,7 @@ module network-device-option2 {
       }
   }
 
-  container logical-network-inventory {
-    description "Allows a network device to support multiple logical
-                 network instances";
-    list logical-network-element {
-      key network-element-id;
-      description "List of logical network elements";
-      leaf network-element-id {
-        type uint8; // expect a small number of logical routers
-        description "Device-wide unique identifier for the
-                     logical network element";
-      }
-      leaf network-element-name {
-        type string;
-        description "Descriptive name for the logical network
-                     element";
-      }
-      leaf network-element-root {
-        type structural-mount;
-        description "Root for models supported per logical 
-                     network element";
-      }
-    }
-  }
-
   // augment statements
-  augment "/if:interfaces/if:interface" {
-    description
-        "Add a node for the identification of the logical network
-        element associated with an interface. Applies to interfaces
-        that can be assigned on a per logical network element basis.
-        A <TBD> error is returned when the interface type cannot be
-        assigned.";
-
-    leaf bind-network-element-id {
-      type uint8;
-      description
-        "Logical network element ID to which interface is bound";
-    }
-  }
 
   augment "/if:interfaces/if:interface" {
     description
@@ -627,10 +572,10 @@ module network-device-option2 {
 
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
-        "Add a node for the identification of the logical networking
-        instance (which is within the interface's identified logical
-        network element) associated with the IP information
-        configured on an interface";
+        "Add a node for the identification of the logical 
+        networking instance (which is within the interface's   
+        identified physical or virtual device) associated with 
+        the IP information configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
@@ -642,10 +587,10 @@ module network-device-option2 {
 
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
-        "Add a node for the identification of the logical networking
-        instance (which is within the interface's identified logical
-        network element) associated with the IP information
-        configured on an interface";
+        "Add a node for the identification of the logical 
+        networking instance (which is within the interface's 
+        identified physical  or virtual device) associated with 
+        the IP information configured on an interface";
 
     leaf bind-networking-instance-name {
       type string;
@@ -660,4 +605,3 @@ module network-device-option2 {
   // notification statements
 
 }
-

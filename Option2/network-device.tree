@@ -1,4 +1,4 @@
-module: network-device-option2
+module: network-device
    +--rw yang-library
    +--rw info
    |  +--rw device-type?   enumeration
@@ -6,46 +6,38 @@ module: network-device-option2
    +--rw hardware
    +--rw qos
    +--rw system-management
-   |  +--rw device-view?                  boolean
    |  +--rw system-management-global
    |  +--rw system-management-protocol* [type]
    |     +--rw type    identityref
    +--rw ietf-acl
    +--rw ietf-key-chain
    +--rw networking-instances
-   |  +--rw networking-instance* [networking-instance-name]
-   |     +--rw networking-instance-name      string
-   |     +--rw type?                         identityref
-   |     +--rw enabled?                      boolean
-   |     +--rw router-id?                    uint32
-   |     +--rw description?                  string
-   |     +--rw oam-protocols
-   |     |  +--rw oam-protocol* [type]
-   |     |     +--rw type    identityref
-   |     +--rw networking-instance-policy
-   |     +--rw control-plane-protocols
-   |     |  +--rw control-plane-protocol* [type]
-   |     |     +--rw type      identityref
-   |     |     +--rw policy
-   |     +--rw ribs
-   |     |  +--rw rib* [name]
-   |     |     +--rw name           string
-   |     |     +--rw description?   string
-   |     |     +--rw policy
-   |     +--rw mpls
-   |     |  +--rw global
-   |     |  +--rw mpls-protocol* [type]
-   |     |     +--rw type    identityref
-   |     +--rw networking-services
-   |        +--rw networking-service* [type]
-   |           +--rw type    identityref
-   +--rw logical-network-inventory
-      +--rw logical-network-element* [network-element-id]
-         +--rw network-element-id      uint8
-         +--rw network-element-name?   string
-         +--rw network-element-root?   structural-mount
-augment /if:interfaces/if:interface:
-   +--rw bind-network-element-id?   uint8
+      +--rw networking-instance* [networking-instance-name]
+         +--rw networking-instance-name      string
+         +--rw type?                         identityref
+         +--rw enabled?                      boolean
+         +--rw router-id?                    uint32
+         +--rw description?                  string
+         +--rw oam-protocols
+         |  +--rw oam-protocol* [type]
+         |     +--rw type    identityref
+         +--rw networking-instance-policy
+         +--rw control-plane-protocols
+         |  +--rw control-plane-protocol* [type]
+         |     +--rw type      identityref
+         |     +--rw policy
+         +--rw ribs
+         |  +--rw rib* [name]
+         |     +--rw name           string
+         |     +--rw description?   string
+         |     +--rw policy
+         +--rw mpls
+         |  +--rw global
+         |  +--rw mpls-protocol* [type]
+         |     +--rw type    identityref
+         +--rw networking-services
+            +--rw networking-service* [type]
+               +--rw type    identityref
 augment /if:interfaces/if:interface:
    +--rw bind-networking-instance-name?   string
 augment /if:interfaces/if:interface/ip:ipv4:
