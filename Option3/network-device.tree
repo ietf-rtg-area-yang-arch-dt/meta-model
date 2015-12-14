@@ -13,8 +13,5 @@ module: network-device
    +--rw ietf-key-chain
    +--rw networking-services
    +--rw oam-protocols
-   +--rw control-plane-protocols
-   +--rw ribs
+   +--rw routing
    +--rw mpls
-   +--rw networking-instance-policy
-      +--rw router-id?   uint32

@@ -48,11 +48,6 @@ module network-device {
           "Base identity for derivation of MPLS protocols";
    }
 
-   identity control-plane-protocol-type {
-      description
-          "Base identity for derivation of control-plane protocols";
-   }
-
    identity system-management-protocol-type {
       description
           "Base identity for derivation of system management
@@ -74,19 +69,6 @@ module network-device {
   // typedef statements
 
   // grouping statements
-
-  grouping router-id {
-      description
-          "This grouping provides router ID.";
-      leaf router-id {
-          type uint32;  // yang:dotted-quad
-          description
-            "A 32-bit number in the form of a dotted quad that is
-             used by some routing protocols identifying a router.";
-          reference
-              "RFC 2328: OSPF Version 2.";
-      }
-  }
 
   grouping oam-protocols {
       container oam-protocols {
@@ -135,85 +117,6 @@ module network-device {
                    MPLS static, LDP, RSVP TE, etc.";
           }
       }
-    }
-  }
-
-  grouping networking-instance-policy {
-    description
-        "Networking instance policies such as route
-         distinguisher, route targets, VPLS ID and neighbor,
-         Ethernet ID, etc. ";
-    reference
-        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
-         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
-              in Layer 2 Virtual Private Networks (L2VPNs)
-         RFC 7432 - BGP MPLS-Based Ethernet VPN";
-    container networking-instance-policy {
-        description "Networking Instance Policy -- details TBD";
-    }
-  }
-
-  grouping control-plane-protocols {
-      description
-          "Grouping for configured control plane protocols.";
-      container control-plane-protocols {
-          description
-              "Container for configured control plane protocols.";
-          list control-plane-protocol {
-              key "type";
-              description
-                  "List of configured control plane protocols.";
-              leaf type {
-                  type identityref {
-                      base control-plane-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "The control plane protocol type, e.g., BGP,
-                       OSPF IS-IS, etc";
-              }
-              container policy {
-                  description
-                      "Protocol specific policy,
-                      reusing [RTG-POLICY]";
-              }
-          }
-      }
-  }
-
-  grouping ribs {
-    description
-      "Routing Information Bases (RIBs) supported.";
-    container ribs {
-        description
-            "Supported RIBs";
-        list rib {
-            key "name";
-            min-elements "1";
-            description
-                "Each entry represents a RIB identified by the
-               'name' key. All routes in a RIB must belong to the
-                same address family.
-
-                An implementation should provide one 
-                system-controlled default RIB for each
-                supported address family.";
-            leaf name {
-                type string;
-                description
-                    "The name of the RIB.";
-            }
-            reference "draft-ietf-netmod-routing-cfg";
-            leaf description {
-                type string;
-                description
-                    "Description of the RIB";
-            }
-            // Note that there is no list of interfaces within
-            container policy {
-                description "Policy specific to RIB";
-            }
-        }
     }
   }
 
@@ -379,24 +282,22 @@ module network-device {
   container oam-protocols {
     description "Configured OAM protocols.";
   }
-  container control-plane-protocols {
-    description "Configured control-plane protocols.";
+
+  container routing {
+    description 
+      "The YANG Data Model for Routing Management defined in
+       draft-ietf-netmod-routing-cfg.
+       Assumes that the following are dropped from -20:
+	  +--rw routing-instance* [name]
+	     +--rw name
+	     +--rw type?
+	     +--rw enabled?
+	     +--rw description?
+       ";
   }
-  container ribs {
-    description "Supported Routing Information Bases (RIBs).";
-  }
+
   container mpls {
     description "MPLS and TE configuration.";
-  }
-  container networking-instance-policy {
-    description 
-      "Networking instance policies such as route
-       distinguisher, route targets, VPLS ID and neighbor,
-       Ethernet ID, etc. ";
-    uses router-id {
-      description
-        "Router ID for networking instances.";
-    }
   }
   // rpc statements
 

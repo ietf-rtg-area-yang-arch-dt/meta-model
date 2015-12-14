@@ -153,20 +153,6 @@ module networking-instance {
       }
   }
 
-  grouping router-id {
-      description
-          "This grouping provides router ID.";
-      leaf router-id {
-          type uint32;  // yang:dotted-quad
-          description
-            "A 32-bit number in the form of a dotted quad that is
-             used by some routing protocols identifying a router.";
-          reference
-              "RFC 2328: OSPF Version 2.";
-      }
-  }
-
-
   grouping networking-instance-policy {
     description
         "Networking instance policies such as route
@@ -214,10 +200,6 @@ module networking-instance {
               description
                 "Flag indicating whether or not the networking
                  instance is enabled.";
-          }
-          uses router-id {
-              description
-                  "Router ID for networking instances";
           }
           leaf description {
               type string;

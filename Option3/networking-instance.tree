@@ -4,7 +4,6 @@ module: networking-instance
          +--rw networking-instance-name      string
          +--rw type?                         identityref
          +--rw enabled?                      boolean
-         +--rw router-id?                    uint32
          +--rw description?                  string
          +--rw networking-instance-policy
          +--rw networking-instance-root?     structural-mount
