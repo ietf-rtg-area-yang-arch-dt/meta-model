@@ -9,8 +9,12 @@ PYTHONPATH := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages 
 
 TREES := $(MODELS:.yang=.tree)
 %.tree: %.yang
-	@echo Generating $@
-	@PYTHONPATH=$(PYTHONPATH) pyang --ietf -f tree -p $(PLUGPATH) $< > $@
+	@echo Updating $< revision date
+	@rm -f $<.prev; cp -p $< $<.prev 
+	@sed 's/revision.\"[0-9]*\-[0-9]*\-[0-9]*\"/revision "'`date +%F`'"/' < $<.prev > $<
+	@diff $<.prev $<
+	@echo Generating $@	
+	@PYTHONPATH=$(PYTHONPATH) pyang --ietf -f tree -p $(PLUGPATH) $< > $@  || exit 0
 
 all:	$(TREES) $(DRAFT)
 
