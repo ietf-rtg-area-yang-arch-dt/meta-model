@@ -30,7 +30,7 @@ module networking-instance {
      instances are commonly know as VRFs (virtual routing 
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2015-12-14" {
+  revision "2016-01-10" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -50,12 +50,6 @@ module networking-instance {
          "Base identity from which identities describing
           networking instance types are derived.";
   }
-
-   identity ethernet-protocol-type {
-      description
-          "Base identity for derivation of ethernet
-           protocols";
-   }
 
    identity ipv4-interface-protocol-type {
       description
@@ -78,30 +72,6 @@ module networking-instance {
       "interface-specific configuration for IP interfaces, IPv4 and
       IPv6";
 
-  }
-  grouping ethernet-protocols {
-      description
-          "Grouping for ethernet protocols configured
-            on an interface";
-      container ethernet-protocols {
-          description
-              "Container for list of ethernet protocols configured
-                on an interface";
-          list ethernet-protocol {
-              key "type";
-              description
-                  "List of ethernet protocols configured
-                   on an interface";
-              leaf type {
-                  type identityref {
-                      base ethernet-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "Aggregates, RSTP, LLDP, PTP, etc.";
-              }
-          }
-      }
   }
 
   grouping ipv4-interface-protocols {

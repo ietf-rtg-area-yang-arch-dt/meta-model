@@ -24,7 +24,7 @@ module logical-network-element {
     "This module is used to support multiple logical network 
      elements on a single physical or virtual system.";
 
-  revision "2015-12-14" {
+  revision "2016-01-10" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -48,14 +48,14 @@ module logical-network-element {
   identity lne-managed {
     base logical-network-element-type;
     description 
-      "A Logical Network Element than can 
+      "A Logical Network Element that can 
        be managed by the host system";
   } 
 
   identity lne-unmanaged {
     base logical-network-element-type;
     description 
-      "A Logical Network Element than cannot 
+      "A Logical Network Element that cannot 
        be managed by the host system";
   } 
 

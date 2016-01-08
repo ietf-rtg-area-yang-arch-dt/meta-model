@@ -1,17 +1,39 @@
 module: network-device
-   +--rw yang-library
-   +--rw info
-   |  +--rw device-type?   enumeration
+   +--rw ietf-yang-library
    +--rw interfaces
    +--rw hardware
    +--rw qos
    +--rw system-management
    |  +--rw system-management-global
-   |  +--rw system-management-protocol* [type]
-   |     +--rw type    identityref
+   |  +--rw system-management
+   |     +--rw system-management-global
+   |     +--rw system-management-protocol* [type]
+   |        +--rw type    identityref
+   +--rw networking-services
+   |  +--rw networking-services
+   |     +--rw networking-service* [type]
+   |        +--rw type    identityref
+   +--rw oam-protocols
+   |  +--rw oam-protocols
+   |     +--rw oam-protocol* [type]
+   |        +--rw type    identityref
+   +--rw routing
+   |  +--rw control-plane-protocols
+   |  |  +--rw control-plane-protocol* [type]
+   |  |     +--rw type      identityref
+   |  |     +--rw policy
+   |  +--rw ribs
+   |     +--rw rib* [name]
+   |        +--rw name           string
+   |        +--rw description?   string
+   |        +--rw policy
+   +--rw mpls
+   |  +--rw mpls
+   |     +--rw global
+   |     +--rw lsps* [type]
+   |        +--rw type    identityref
+   +--rw ieee-dot1Q
    +--rw ietf-acl
    +--rw ietf-key-chain
-   +--rw networking-services
-   +--rw oam-protocols
-   +--rw routing
-   +--rw mpls
+   +--rw logical-network-element
+   +--rw networking-instance
