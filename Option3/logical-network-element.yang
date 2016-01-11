@@ -24,7 +24,7 @@ module logical-network-element {
     "This module is used to support multiple logical network 
      elements on a single physical or virtual system.";
 
-  revision "2016-01-10" {
+  revision "2016-01-11" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -63,6 +63,7 @@ module logical-network-element {
 
   // grouping statements
 
+  // top level device definition statements
   container logical-network-inventory {
     description "Allows a network device to support multiple logical
                  network element (device) instances";

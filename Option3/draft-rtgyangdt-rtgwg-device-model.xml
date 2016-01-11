@@ -191,14 +191,12 @@
 <t>
 The top open issues are:
   <list style="numbers"> 
+   <t>The use of YSDL vs Structural Mount needs to be resolved as does
+      ensuring that the selected approach has the needed capabilities.</t>
    <t>This document will need to match the evolution and
    standardization of  <xref target="OC-OPSTATE"/> or
    <xref target="NETMOD-OPSTATE"/> by the Netmod WG.
    </t>
-   <t>The use of YSDL as an alternative to Structural Mount has
-      yet to be done.</t>
-   <t>Switching instances has not yet received sufficient discussion
-      and is likely to change.</t>
    <t>Interpretation of different policy containers requires clarification.</t>
    <t>It may make sense to use the identityref structuring with
      hardware and QoS model.</t>
@@ -803,9 +801,10 @@ routing congruent.  The following is an example of such usage:
 </section>
 
 <section anchor="sec-LNE.MOUNT" 
-  title="  LNE Instantiating">
+  title="  LNE Instantiation">
 <t>
-  TBD
+  TBD -- need to resolve if instantiation is based on (a) new list entry
+  creation, (2) YSDL, or (3) Structural Mount.
 </t>
 </section>
 
@@ -928,9 +927,10 @@ routing congruent.  The following is an example of such usage:
 </t>
 </section>
 
-<section anchor="sec-NI.3" title="  Network Instance Instanciation">
+<section anchor="sec-NI.3" title="  Network Instance Instantiation">
 <t>
-   TBD
+  TBD -- need to resolve if instantiation is based on (a) new list entry
+  creation, (2) YSDL, or (3) Structural Mount.
 </t>
 </section>
 </section>
@@ -1327,7 +1327,7 @@ module network-device {
 <t> 
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "logical-network-element@2015-12-14.yang"
+<CODE BEGINS> file "logical-network-element@2016-01-11.yang"
 module logical-network-element {
 
   yang-version "1";
@@ -1354,7 +1354,7 @@ module logical-network-element {
     "This module is used to support multiple logical network 
      elements on a single physical or virtual system.";
 
-  revision "2015-12-14" {
+  revision "2016-01-11" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -1378,14 +1378,14 @@ module logical-network-element {
   identity lne-managed {
     base logical-network-element-type;
     description 
-      "A Logical Network Element than can 
+      "A Logical Network Element that can 
        be managed by the host system";
   } 
 
   identity lne-unmanaged {
     base logical-network-element-type;
     description 
-      "A Logical Network Element than cannot 
+      "A Logical Network Element that cannot 
        be managed by the host system";
   } 
 
@@ -1393,6 +1393,7 @@ module logical-network-element {
 
   // grouping statements
 
+  // top level device definition statements
   container logical-network-inventory {
     description "Allows a network device to support multiple logical
                  network element (device) instances";
@@ -1411,8 +1412,8 @@ module logical-network-element {
       }
       leaf lne-type {
         type identityref {
-	  base logical-network-element-type;
-	}
+          base logical-network-element-type;
+        }
         description "Type of logical-network-element";
       }
       leaf lne-root {
@@ -1874,12 +1875,12 @@ module networking-instance {
 <reference anchor="IEEE-8021Q">
 <front>
 <title>IEEE 802.1Q YANG Module Specifications</title>
-<author initials="M." surname="Shaikh" fullname="Marc Holness">
+<author initials="M." surname="Holness" fullname="Marc Holness">
 <organization>IEEE</organization>
 </author>
 <date month="May" year="2015" />
 </front>
-<seriesInfo name="Draft" value="http://www.ieee802.org/1/files/public/docs2015/new-mholness-yang-8021Q-0515-v04.pdf"/>
+<seriesInfo name="IEEE-Draft" value="http://www.ieee802.org/1/files/public/docs2015/new-mholness-yang-8021Q-0515-v04.pdf"/>
 </reference>
 
 <reference anchor="RTG-POLICY">

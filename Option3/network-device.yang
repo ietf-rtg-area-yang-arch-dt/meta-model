@@ -23,7 +23,7 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-01-10" {
+  revision "2016-01-11" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -68,84 +68,6 @@ module network-device {
   // typedef statements
 
   // grouping statements
-
-  grouping system-management {
-      description "System management for device or logical network
-                 element";
-      container system-management {
-          description "System management for device or logical
-                       network element";
-          container system-management-global {
-              description "System management - logical device
-                           management with reuse of RFC 7317";
-          }
-          list system-management-protocol {
-              key "type";
-              leaf type {
-                  type identityref {
-                      base system-management-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
-              }
-              description "List of system management protocol
-                           configured for a logical networking
-                           element.";
-          }
-      }
-  }
-
-  grouping networking-services {
-      description
-          "Grouping for networking-services configured for
-           a networking-instance.";
-      container networking-services {
-          description
-              "Container for list of networking services configured
-               for a networking instance.";
-          list networking-service {
-              key "type";
-              description
-                  "List of networking services configured for a
-                   networking instance.";
-              leaf type {
-                  type identityref {
-                      base networking-service-type;
-                  }
-                  mandatory true;
-                  description
-                      "The networking services type supported within
-                       a networking instance, e.g., NTP server, DNS
-                       server, DHCP server, etc.";
-              }
-          }
-      }
-  }
-
-  grouping oam-protocols {
-      container oam-protocols {
-          list oam-protocol {
-              key "type";
-              leaf type {
-                  type identityref {
-                      base oam-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "The Operations, Administration, and
-                       Maintenance (OAM) protocol type, e.g., BFD,
-                       TWAMP, CFM, etc.";
-              }
-              description
-                  "List of configured OAM protocols.";
-          }
-          description
-              "Container for list of configured OAM protocols.";
-      }
-      description
-          "Grouping for configured OAM protocols.";
-  }
 
   grouping control-plane-protocols {
       description
@@ -215,35 +137,6 @@ module network-device {
     }
   }
 
-  grouping mpls {
-    description
-        "Grouping for MPLS and TE configuration configured for
-         a networking-instance.";
-    container mpls {
-      description
-          "Container for MPLS and TE configuration for a
-           networking-instance.";
-      container global {
-          description "Global MPLS configuration";
-      }
-      list lsps {
-          key "type";
-          description
-              "List of LSP types.";
-          leaf type {
-              type identityref {
-                  base mpls-lsp-type;
-              }
-              mandatory true;
-              description
-                  "MPLS and Traffic Engineering protocol LSP types,
-                   static, LDP/SR (igp-congruent), 
-		   RSVP TE (constrained-paths) , etc.";
-          }
-      }
-    }
-  }
-
   // top level device definition statements
   container ietf-yang-library {
     description 
@@ -276,19 +169,62 @@ module network-device {
       container system-management-global {
           description "System management - with reuse of RFC 7317";
       }
-      uses system-management;
+      list system-management-protocol {
+          key "type";
+          leaf type {
+              type identityref {
+                  base system-management-protocol-type;
+              }
+              mandatory true;
+              description
+                  "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
+          }
+          description "List of system management protocol
+                       configured for a logical networking
+                       element.";
+      }
   }
 
   container networking-services {
       description
           "Container for list of configured networking 
            services.";
-      uses networking-services;
+      list networking-service {
+          key "type";
+          description
+              "List of networking services configured for a
+               networking instance.";
+          leaf type {
+              type identityref {
+                  base networking-service-type;
+              }
+              mandatory true;
+              description
+                  "The networking services type supported within
+                   a networking instance, e.g., NTP server, DNS
+                   server, DHCP server, etc.";
+          }
+      }
   }
 
   container oam-protocols {
-    description "Configured OAM protocols.";
-    uses oam-protocols;
+      description
+          "Container for configured OAM protocols.";
+      list oam-protocol {
+          key "type";
+          leaf type {
+              type identityref {
+                  base oam-protocol-type;
+              }
+              mandatory true;
+              description
+                  "The Operations, Administration, and
+                   Maintenance (OAM) protocol type, e.g., BFD,
+                   TWAMP, CFM, etc.";
+          }
+          description
+              "List of configured OAM protocols.";
+      }
   }
 
   container routing {
@@ -301,8 +237,25 @@ module network-device {
   }
 
   container mpls {
-    description "MPLS and TE configuration.";
-    uses mpls;
+      description "MPLS and TE configuration";
+      container global {
+          description "Global MPLS configuration";
+      }
+      list lsps {
+          key "type";
+          description
+              "List of LSP types.";
+          leaf type {
+              type identityref {
+                  base mpls-lsp-type;
+              }
+              mandatory true;
+              description
+                  "MPLS and Traffic Engineering protocol LSP types,
+                   static, LDP/SR (igp-congruent), 
+                   RSVP TE (constrained-paths) , etc.";
+          }
+      }
   }
 
   container ieee-dot1Q {
