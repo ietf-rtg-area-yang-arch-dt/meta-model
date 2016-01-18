@@ -61,7 +61,8 @@
    terms for logical resource representations are Logical Systems
    or Routers.  Examples of of common industry
    terms for virtual resource representations are Virtual
-   Routers (VRFs) and Switches (VSIs).
+   Routing and Forwarding (VRF) instances and Virtual Switch
+   Instances (VSIs).
 </t>
 <t>
    This document is derived from work submitted to the IETF by
@@ -87,7 +88,7 @@
    Such an element would have translated to a single device
    management model that would be the root of all other models and
    was judged to be overly restrictive in terms of definition,
-   implementation and operation.
+   implementation, and operation.
 </t>
 <t>
    The document first presents a notional network device YANG
@@ -134,8 +135,8 @@
 </t>
 <t>
    The second form provides support what is commonly referred to
-   as Virtual Routing and Forwarding (VRF) functions as well as
-   Virtual Switch Instance (VSI), see <xref target="RFC4026"/>.
+   as Virtual Routing and Forwarding (VRF) instances as well as
+   Virtual Switch Instances (VSI), see <xref target="RFC4026"/>.
    In this form of resource partitioning multiple control plane
    and forwarding/bridging instances are provided by and managed
    via a single (physical or logical) network device.  This form
@@ -258,7 +259,7 @@ The top open issues are:
                  Figure 1: Module Element Relationships
 </t>
 <t>
-   A model for LNEs is described in <xref target="sec-2.2"/> and
+   A model for LNEs is described in <xref target="sec-LNE"/> and
    the model for networking instances is covered in
    <xref target="sec-NI"/>. 
 </t>
@@ -327,14 +328,14 @@ The top open issues are:
    for a future device-specific configuration and operational
    state data model.  For example, a common structure for the
    hardware model might include chassis, line cards, and ports,
-   but we leave this unspecified.  The quality of service (qos)
+   but we leave this unspecified.  The quality of service (QoS)
    section is also a placeholder module for device configuration
    and operational state data which relates to the treatment of
    traffic across the device. This document defines augmentations
    to the interface module to support LNEs and NIs.  Similar
    elements, although perhaps only for LNEs, may also need to be
    included as part of the definition of the future hardware and
-   qos modules.
+   QoS modules.
 </t>
 <t>
    System management, networking services, and oam protocols
@@ -343,7 +344,7 @@ The top open issues are:
    is provided below.
 </t>
 <t>
-   The routing and mpls modules provide core support for the 
+   The routing and MPLS modules provide core support for the 
    configuration and operation of a devices control plane and data plane
    functions. IEEE dot1Q <xref target="IEEE-8021Q"/> is an example of
    another module that provides similar functions for VLAN bridging,
@@ -356,7 +357,7 @@ The top open issues are:
 </t>
 <t>
    The access control list (ACL) and key chain modules are
-   included as exemplars of other top level modules that may 
+   included as examples of other top level modules that may 
    be supported by a network device.
 </t>
 <t>
@@ -456,7 +457,7 @@ The top open issues are:
 <t>
    System management is expected to reuse definitions contained in
    <xref target="RFC7317"/>.  It is expected to be instantiated per
-   device and LNE.  It's structure is shown below:
+   device and LNE.  Its structure is shown below:
 </t>
 <t>
 <figure>
@@ -504,7 +505,7 @@ The top open issues are:
 <section anchor="sec-2.3" title="  Networking Services">
 <t>
   A device may provide different network services to other devices, for
-  example a device my act a dhcp server.  The model may be
+  example a device my act as a DHCP server.  The model may be
   instantiated per device, LNE, and NI. An identityref is used 
   to identify the type of specific service being provided and its
   associated configuration and state information. The defined structure
@@ -589,7 +590,7 @@ The top open issues are:
     document presumes that the routing module is unaware of LNEs
     and NIs, which are currently represented and refereed to as
     Routing Instances in <xref target="RTG-CFG"/>.  The routing
-    module is expect to include all IETF defined control plane
+    module is expected to include all IETF defined control plane
     protocols, such as BGP, OSPF, LDP and RSVP-TE.  It is also
     expected to support configuration and operation of or more
     routing information bases (RIB).  A RIB is a list of routes
@@ -663,7 +664,7 @@ routing congruent.  The following is an example of such usage:
 
 <section anchor="sec-LNE" title="  Logical Network Elements">
 <t>
-   Logical network elements represent the capability on some
+   Logical network elements represent the capability of some
    devices to partition resources into independent logical routers
    and/or switches.  Device support for multiple logical network
    elements is implementation specific.  Systems without such
@@ -703,7 +704,7 @@ routing congruent.  The following is an example of such usage:
 <section anchor="sec-LNE.HOST" 
   title="  LNE Management - Host Network Device View">
 <t>
-   Their are multiple implementation approaches possible to enable
+   There are multiple implementation approaches possible to enable
    a network device to support the logical-network-element
    module and multiple LNEs.  Some approaches will allow the
    management functions operating at network device level to
@@ -759,8 +760,8 @@ routing congruent.  The following is an example of such usage:
 </t>
 <t>
     All modules that may be present at the top level of a network
-    device could be present for the LNE, and be made available
-    under lne-root, and accessible via paths modified per
+    device could be present for the LNE, be made available
+    under lne-root, and be accessible via paths modified per
     <xref target="STRUCTURAL-MOUNT"/>.  The list of available
     modules is expected to be implementation dependent.  As is the
     method used by an implementation to support LNEs.
@@ -773,7 +774,7 @@ routing congruent.  The following is an example of such usage:
     configuration.  For example, an interface that is configured
     at the network device level to be associated with lne-id of 1,
     may have the associated interface information automatically
-    populated within lne-root interface module.
+    populated within the lne-root interface module.
 </t>
 </section>
 
@@ -782,10 +783,10 @@ routing congruent.  The following is an example of such usage:
 <t>
    Management functions operating with the context of an LNE are
    accessed through standard LNE's management interfaces, e.g.,
-   NETCONF and SNMP.  When accessing an LNE via a LNE's management
+   NETCONF and SNMP.  When accessing an LNE via an LNE's management
    interface, a network-device representation will be presented,
    but its scope will be limited to the specific LNE.
-   Normal YANG/NetConf mechanisms, together with
+   Normal YANG/NETCONF mechanisms, together with
    ietf-yang-library, can be used to identify the available
    modules.  Each supported module will be presented as a top level
    module. Only LNE associated resources will be reflected in
@@ -818,7 +819,7 @@ routing congruent.  The following is an example of such usage:
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
    policies.  The model represents both core/provider and virtual
-   instances.  Network instances reuse and build on <xref target="RTG-CFG"/> 
+   instances.  Networking instances reuse and build on <xref target="RTG-CFG"/> 
    and are shown below:
 </t>
 <t>
@@ -848,18 +849,18 @@ routing congruent.  The following is an example of such usage:
    A networking instance is identified by a
    networking-instance-name string.  This string is used both as
    an index within the networking-instance module and to associate
-   resources with a network instance is shown above in the
+   resources with a networking instance is shown above in the
    interface augmentation. Type is used to indicate the type NI,
    such as L3-VRF, VPLS, L2-VSI, etc. Networking instance policy
    and root are discussed in greater detail below.
 </t>
 <section anchor="sec-NI.1" title="  Network Instance Policy">
 <t>
-   Network instance policies are used to control how NI
+   Networking instance policies are used to control how NI
    information is represented at the device level, VRF routing
    policies, and VRF/VSI identifiers. Examples include BGP route
    targets (RTs) and route distinguishers (RDs), virtual network
-   identifiers(VN-IDs), VPLS neighbors, etc. The structure is
+   identifiers (VN-IDs), VPLS neighbors, etc. The structure is
    expected to be:
 </t>
 <t>
@@ -883,12 +884,12 @@ routing congruent.  The following is an example of such usage:
    availability is expected to be implementation dependent. The
    ietf-yang-library module is expected to be the primary method
    used to identify supported modules.  Resource related control
-   and assignment is expected to be managed at the network-device,
-   not networking instance, level based on the
+   and assignment is expected to be managed at the network-device 
+   level, not the networking instance level, based on the
    networking-instance-name augmentation mentioned above.
 </t>
 <t>
-   As an example, consider the case where networking-instance-name
+   As an example, consider the case where a networking-instance-name
    of green is defined on a network device.  In this case the
    following structure might be made available:
 </t>
@@ -920,7 +921,7 @@ routing congruent.  The following is an example of such usage:
 <t>
     All modules that represent control-plane and data-plane
     information may be present at the networking-instance-root,
-    and accessible via paths modified per 
+    and be accessible via paths modified per 
     <xref target="STRUCTURAL-MOUNT"/>.  The list of available
     modules is expected to be implementation dependent.  As is the
     method used by an implementation to support NIs.

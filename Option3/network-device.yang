@@ -151,7 +151,7 @@ module network-device {
 
   container hardware {
     description
-      "Hardware / vendor -specific data relevant to the platform.
+      "Hardware / vendor-specific data relevant to the platform.
       This container is an anchor point for platform-specific
       configuration and operational state data.  It may be further
       organized into chassis, line cards, ports, etc.  It is
