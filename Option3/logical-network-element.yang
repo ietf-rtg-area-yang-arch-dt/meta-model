@@ -24,7 +24,7 @@ module logical-network-element {
     "This module is used to support multiple logical network 
      elements on a single physical or virtual system.";
 
-  revision "2016-01-11" {
+  revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -71,7 +71,7 @@ module logical-network-element {
       key lne-id;
       description "List of logical network elements";
       leaf lne-id {
-        type uint8; // expect a small number of logical routers
+        type uint16; // expect a small number of logical routers
         description "Device-wide unique identifier for the
                      logical network element";
       }
@@ -104,7 +104,7 @@ module logical-network-element {
         assigned.";
 
     leaf bind-lne-id {
-      type uint8;
+      type uint16;
       description
         "Logical network element ID to which interface is bound";
     }

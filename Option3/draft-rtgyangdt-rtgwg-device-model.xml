@@ -392,7 +392,7 @@ The top open issues are:
 <figure>
 <artwork>  
     augment /if:interfaces/if:interface:
-       +--rw bind-lne-id?   uint8
+       +--rw bind-lne-id?   uint16
 
     augment /if:interfaces/if:interface:
        +--rw bind-networking-instance-name?   string
@@ -414,7 +414,7 @@ The top open issues are:
           +--rw interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
-          |     +--rw bind-lne-id?   uint8
+          |     +--rw bind-lne-id?   uint16
           |     +--rw ethernet
           |     |  +--rw bind-networking-instance-name?   string
           |     |  +--rw aggregates
@@ -686,12 +686,12 @@ routing congruent.  The following is an example of such usage:
     module: logical-network-element
        +--rw logical-network-inventory
 	  +--rw logical-network-element* [lne-id]
-	     +--rw lne-id      uint8
+	     +--rw lne-id      uint16
 	     +--rw lne-name?   string
 	     +--rw lne-type?   identityref
 	     +--rw lne-root?   structural-mount
     augment /if:interfaces/if:interface:
-       +--rw bind-lne-id?   uint8 
+       +--rw bind-lne-id?   uint16 
 </artwork> 
 </figure>
 </t>
@@ -740,7 +740,7 @@ routing congruent.  The following is an example of such usage:
     module: logical-network-element
        +--rw logical-network-inventory
 	  +--rw logical-network-element* [lne-id]
-	     +--rw lne-id=1                uint8
+	     +--rw lne-id=1                uint16
 	     +--rw lne-name="one"          string
 	     +--rw lne-type=lne-managed   identityref
 	     +--rw lne-root               structural-mount
@@ -1402,7 +1402,7 @@ module logical-network-element {
       key lne-id;
       description "List of logical network elements";
       leaf lne-id {
-        type uint8; // expect a small number of logical routers
+        type uint16; // expect a small number of logical routers
         description "Device-wide unique identifier for the
                      logical network element";
       }
@@ -1435,7 +1435,7 @@ module logical-network-element {
         assigned.";
 
     leaf bind-lne-id {
-      type uint8;
+      type uint16;
       description
         "Logical network element ID to which interface is bound";
     }

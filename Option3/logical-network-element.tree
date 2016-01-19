@@ -1,9 +1,9 @@
 module: logical-network-element
    +--rw logical-network-inventory
       +--rw logical-network-element* [lne-id]
-         +--rw lne-id      uint8
+         +--rw lne-id      uint16
          +--rw lne-name?   string
          +--rw lne-type?   identityref
          +--rw lne-root?   structural-mount
 augment /if:interfaces/if:interface:
-   +--rw bind-lne-id?   uint8
+   +--rw bind-lne-id?   uint16

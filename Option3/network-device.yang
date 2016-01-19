@@ -23,7 +23,7 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-01-11" {
+  revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
