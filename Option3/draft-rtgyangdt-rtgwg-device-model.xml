@@ -392,7 +392,7 @@ The top open issues are:
 <figure>
 <artwork>  
     augment /if:interfaces/if:interface:
-       +--rw bind-lne-id?   uint16
+       +--rw bind-lne-name?   string
 
     augment /if:interfaces/if:interface:
        +--rw bind-networking-instance-name?   string
@@ -414,7 +414,7 @@ The top open issues are:
           +--rw interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
-          |     +--rw bind-lne-id?   uint16
+          |     +--rw bind-lne-name?             string
           |     +--rw ethernet
           |     |  +--rw bind-networking-instance-name?   string
           |     |  +--rw aggregates
@@ -442,7 +442,7 @@ The top open issues are:
    The <xref target="RFC7223"/> defined interface model is
    structured to include all interfaces in a flat list, without
    regard to logical or virtual instances (e.g., VRFs) supported
-   on the device.  The bind-lne-id and
+   on the device.  The bind-lne-name and
    bind-networking-instance-name leaves provide the association
    between an interface and its associated LNE and NI (e.g., VRF
    or VSI).
@@ -487,14 +487,14 @@ The top open issues are:
           +--rw system-management-global
           |  +--rw statistics-collection
           |  ...
-	  +--rw system-management-protocol* [type]
-	  |  +--rw type=syslog
-	  |  +--rw type=dns
-	  |  +--rw type=ntp
-	  |  +--rw type=ssh
-	  |  +--rw type=tacacs
-	  |  +--rw type=snmp
-	  |  +--rw type=netconf
+          +--rw system-management-protocol* [type]
+          |  +--rw type=syslog
+          |  +--rw type=dns
+          |  +--rw type=ntp
+          |  +--rw type=ssh
+          |  +--rw type=tacacs
+          |  +--rw type=snmp
+          |  +--rw type=netconf
 
 </artwork> 
 </figure>
@@ -532,6 +532,7 @@ The top open issues are:
 <artwork>  
     module: network-device
        +--rw networking-services
+          +--rw networking-service* [type]
              +--rw type=ntp-server
              +--rw type=dns-server
              +--rw type=dhcp-server
@@ -631,13 +632,12 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
   module: network-device
        +--rw mpls
-          +--rw mpls
-             +--rw global
-             +--rw lsps* [type]
-                +--rw type    identityref
+          +--rw global
+          +--rw lsps* [type]
+             +--rw type    identityref
 </artwork> 
 </figure>
 </t>
@@ -647,15 +647,14 @@ routing congruent.  The following is an example of such usage:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
   module: network-device
        +--rw mpls
-          +--rw mpls
-             +--rw global
-             +--rw lsps* [type]
-		+--rw type=static
-		+--rw type=constrained-paths
-		+--rw type=igp-congruent
+          +--rw global
+          +--rw lsps* [type]
+              +--rw type=static
+              +--rw type=constrained-paths
+              +--rw type=igp-congruent
 </artwork> 
 </figure>
 </t>
@@ -663,6 +662,14 @@ routing congruent.  The following is an example of such usage:
 </section>
 
 <section anchor="sec-LNE" title="  Logical Network Elements">
+<t>
+   A logical network element is a network-device which is contained
+   within another network-device. Using host-virtualization
+   terminology one could refer to an LNE as a "Guest", and the
+   containing network-device as the "Host". While LNEs may be
+   implemented via host-virtualization technologies this is not a
+   requirement.
+</t>
 <t>
    Logical network elements represent the capability of some
    devices to partition resources into independent logical routers
@@ -682,23 +689,23 @@ routing congruent.  The following is an example of such usage:
 </t>
 <t>
 <figure>
-<artwork> 
+<artwork>
     module: logical-network-element
        +--rw logical-network-inventory
-	  +--rw logical-network-element* [lne-id]
-	     +--rw lne-id      uint16
-	     +--rw lne-name?   string
-	     +--rw lne-type?   identityref
-	     +--rw lne-root?   structural-mount
+          +--rw logical-network-element* [name]
+             +--rw name?   string
+             +--rw description? string
+             +--rw managed?     boolean
+             +--rw root?        structural-mount
     augment /if:interfaces/if:interface:
-       +--rw bind-lne-id?   uint16 
+       +--rw bind-lne-name?     string
 </artwork> 
 </figure>
 </t>
 <t>
-  Lne-id and lne-name identify the logical network element.
-  Lne-type identifies if the host network device is able to manage
-  the LNE via the lne-root structure.
+  `name` identifies the logical network element.
+  `managed` indicates if the host network device is able
+  to manage the LNE via the `root` structure.
 </t>
 
 <section anchor="sec-LNE.HOST" 
@@ -714,67 +721,67 @@ routing congruent.  The following is an example of such usage:
    prohibited by user policy. 
 </t>
 <t>
-   The lne-type mentioned above is used to indicate when LNE
-   management from the network device context is possible.  When
-   the lne-type is lne-unmanaged, the LNE cannot be managed by the
-   host system and can only be managed from within the context of
-   the LNE as described in the next section,
-   <xref target="sec-LNE.LNE"/>.
+   The `managed` boolean mentioned above is used to
+   indicate when LNE management from the network device context is
+   possible. When the `managed` is
+   `false`, the LNE cannot be managed by the host
+   system and can only be managed from within the context of the LNE
+   as described in the next section, <xref target="sec-LNE.LNE"/>.
 </t>
 <t>
-   When the lne-type is lne-managed, the LNE can be managed from
-   both the context of the LNE and the host network device.  In
-   this case, the same information that is available from within
-   the LNE context is made available via the lne-root path, with
-   paths modified as described in
-   <xref target="STRUCTURAL-MOUNT"/>.
+   When `managed` is `true`, the LNE can be managed from both the
+   context of the LNE and the host network device. In this case,
+   the same information that is available from within the LNE
+   context is made available via the `root` element, with paths
+   modified as described in <xref target="STRUCTURAL-MOUNT"/>.
 </t>
 <t>
-   As an example, consider the case where  lne-id of 1 is defined
-   on a network device.  In this case  the following structure
-   might be made available:
+   As an example, consider the case where an LNE with a
+   `name` of "one" is defined on a network device.
+   In this case  the following structure might be made available:
 </t>
 <t>
 <figure>
-<artwork> 
+<artwork>
+ .......................................................................
+                                                [ network-device state ]
     module: logical-network-element
        +--rw logical-network-inventory
-	  +--rw logical-network-element* [lne-id]
-	     +--rw lne-id=1                uint16
-	     +--rw lne-name="one"          string
-	     +--rw lne-type=lne-managed   identityref
-	     +--rw lne-root               structural-mount
-		+--rw ietf-yang-library
-		+--rw interfaces
-		+--rw hardware
-		+--rw qos
-		+--rw system-management
-		+--rw networking-services
-		+--rw oam-protocols
-		+--rw routing
-		+--rw mpls
-		+--rw ieee-dot1Q
+          +--rw logical-network-element* [name]
+             +--rw name="one"          string
+             +--rw manged=true         boolean
+             +--rw root                structural-mount
+
+ .......................................................................
+                                  [ LNE state exposed to network-device]
+
+                +--rw ietf-yang-library
+                +--rw interfaces
+                +--rw hardware
+                +--rw qos
+                +--rw system-management
+                +--rw networking-services
+                +--rw oam-protocols
+                +--rw routing
+                +--rw mpls
+                +--rw ieee-dot1Q
                 +--rw networking-instance
-</artwork> 
+ .......................................................................
+</artwork>
 </figure>
 </t>
 <t>
-    All modules that may be present at the top level of a network
-    device could be present for the LNE, be made available
-    under lne-root, and be accessible via paths modified per
-    <xref target="STRUCTURAL-MOUNT"/>.  The list of available
-    modules is expected to be implementation dependent.  As is the
-    method used by an implementation to support LNEs.
+    As an LNE is a network device itself, all modules that may be present at
+    the top level network device may also be present for the LNE, be made
+    available under `root`, and be accessible via paths
+    modified per <xref target="STRUCTURAL-MOUNT"/>. The list of available
+    modules is expected to be implementation dependent. As is the method used
+    by an implementation to support LNEs.
 </t>
 <t>
-    Modules that contain information related to resources that are
-    managed on a per-device basis, e.g., interfaces and hardware,
-    will need to be provided to the LNE, and perhaps automatically
-    populated at the LNE level, based on the network device level
-    configuration.  For example, an interface that is configured
-    at the network device level to be associated with lne-id of 1,
-    may have the associated interface information automatically
-    populated within the lne-root interface module.
+    Resources assigned to the LNE will be represented in that LNE's resource
+    modules. e.g., an LNE's interfaces module will contain the interfaces
+    assigned to that LNE from the containing network-device.
 </t>
 </section>
 
@@ -827,14 +834,14 @@ routing congruent.  The following is an example of such usage:
 <artwork>  
     module: networking-instance
        +--rw networking-instances
-	  +--rw networking-instance* [networking-instance-name]
-	     +--rw networking-instance-name      string
-	     +--rw type?                         identityref
-	     +--rw enabled?                      boolean
-	     +--rw description?                  string
-	     +--rw networking-instance-policy
+          +--rw networking-instance* [name]
+             +--rw name                         string
+             +--rw type?                        identityref
+             +--rw enabled?                     boolean
+             +--rw description?                 string
+             +--rw networking-instance-policy
              |  ...
-	     +--rw networking-instance-root?     structural-mount
+             +--rw root?     structural-mount
              |  ...
     augment /if:interfaces/if:interface:
        +--rw bind-networking-instance-name?   string
@@ -847,7 +854,7 @@ routing congruent.  The following is an example of such usage:
 </t>
 <t>
    A networking instance is identified by a
-   networking-instance-name string.  This string is used both as
+   `name` string.  This string is used both as
    an index within the networking-instance module and to associate
    resources with a networking instance is shown above in the
    interface augmentation. Type is used to indicate the type NI,
@@ -868,8 +875,8 @@ routing congruent.  The following is an example of such usage:
 <artwork>  
     module: networking-instance
        +--rw networking-instances
-	  +--rw networking-instance* [networking-instance-name]
-	     +--rw networking-instance-policy
+          +--rw networking-instance* [name]
+             +--rw networking-instance-policy
                 (TBD)
 </artwork> 
 </figure>
@@ -880,18 +887,20 @@ routing congruent.  The following is an example of such usage:
 <t>
    Modules that may be used to represent networking instance
    specific information will be available under
-   networking-instance-root.  As with LNEs, actual module
+   `root`.  As with LNEs, actual module
    availability is expected to be implementation dependent. The
    ietf-yang-library module is expected to be the primary method
    used to identify supported modules.  Resource related control
    and assignment is expected to be managed at the network-device 
    level, not the networking instance level, based on the
-   networking-instance-name augmentation mentioned above.
+   `bind-networking-instance-name` augmentation
+   mentioned above.
 </t>
 <t>
-   As an example, consider the case where a networking-instance-name
-   of green is defined on a network device.  In this case the
-   following structure might be made available:
+   As an example, consider the case where a networking instance with
+   a `name` of "green" is defined on a network
+   device.  In this case the following structure might be made
+   available:
 </t>
 <t>
 <figure>
@@ -899,28 +908,28 @@ routing congruent.  The following is an example of such usage:
     module: networking-instance
        +--rw ietf-yang-library
        +--rw interfaces
-       |  +--rw networking-instance-name="green"      string
+       |  +--rw bind-networking-instance-name="green"  string
        +--rw system-management
        +--rw networking-instances
-	  +--rw networking-instance* [networking-instance-name]
-	     +--rw networking-instance-name="green"  string
-	     +--rw type?                             identityref
-	     +--rw enabled=true                      boolean
-	     +--rw description="The Green VRF"       string
-	     +--rw networking-instance-policy
+          +--rw networking-instance* [name]
+             +--rw name="green"    string
+             +--rw type?                               identityref
+             +--rw enabled=true                        boolean
+             +--rw description="The Green VRF"         string
+             +--rw networking-instance-policy
              |  ... (RT=1000:1, RD=1.2.3.4)
-	     +--rw networking-instance-root?     structural-mount
-		+--rw ietf-yang-library
-		+--rw networking-services
-		+--rw oam-protocols
-		+--rw routing
-		+--rw mpls
+             +--rw root?                               structural-mount
+                +--rw ietf-yang-library
+                +--rw networking-services
+                +--rw oam-protocols
+                +--rw routing
+                +--rw mpls
 </artwork> 
 </figure>
 </t>
 <t>
     All modules that represent control-plane and data-plane
-    information may be present at the networking-instance-root,
+    information may be present at the `root`,
     and be accessible via paths modified per 
     <xref target="STRUCTURAL-MOUNT"/>.  The list of available
     modules is expected to be implementation dependent.  As is the
@@ -978,7 +987,7 @@ routing congruent.  The following is an example of such usage:
 <t> 
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "network-device@2016-01-10.yang"
+<CODE BEGINS> file "network-device@2016-01-19.yang"
 module network-device {
 
   yang-version "1";
@@ -1004,7 +1013,7 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-01-10" {
+  revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -1049,84 +1058,6 @@ module network-device {
   // typedef statements
 
   // grouping statements
-
-  grouping system-management {
-      description "System management for device or logical network
-                 element";
-      container system-management {
-          description "System management for device or logical
-                       network element";
-          container system-management-global {
-              description "System management - logical device
-                           management with reuse of RFC 7317";
-          }
-          list system-management-protocol {
-              key "type";
-              leaf type {
-                  type identityref {
-                      base system-management-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
-              }
-              description "List of system management protocol
-                           configured for a logical networking
-                           element.";
-          }
-      }
-  }
-
-  grouping networking-services {
-      description
-          "Grouping for networking-services configured for
-           a networking-instance.";
-      container networking-services {
-          description
-              "Container for list of networking services configured
-               for a networking instance.";
-          list networking-service {
-              key "type";
-              description
-                  "List of networking services configured for a
-                   networking instance.";
-              leaf type {
-                  type identityref {
-                      base networking-service-type;
-                  }
-                  mandatory true;
-                  description
-                      "The networking services type supported within
-                       a networking instance, e.g., NTP server, DNS
-                       server, DHCP server, etc.";
-              }
-          }
-      }
-  }
-
-  grouping oam-protocols {
-      container oam-protocols {
-          list oam-protocol {
-              key "type";
-              leaf type {
-                  type identityref {
-                      base oam-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "The Operations, Administration, and
-                       Maintenance (OAM) protocol type, e.g., BFD,
-                       TWAMP, CFM, etc.";
-              }
-              description
-                  "List of configured OAM protocols.";
-          }
-          description
-              "Container for list of configured OAM protocols.";
-      }
-      description
-          "Grouping for configured OAM protocols.";
-  }
 
   grouping control-plane-protocols {
       description
@@ -1196,35 +1127,6 @@ module network-device {
     }
   }
 
-  grouping mpls {
-    description
-        "Grouping for MPLS and TE configuration configured for
-         a networking-instance.";
-    container mpls {
-      description
-          "Container for MPLS and TE configuration for a
-           networking-instance.";
-      container global {
-          description "Global MPLS configuration";
-      }
-      list lsps {
-          key "type";
-          description
-              "List of LSP types.";
-          leaf type {
-              type identityref {
-                  base mpls-lsp-type;
-              }
-              mandatory true;
-              description
-                  "MPLS and Traffic Engineering protocol LSP types,
-                   static, LDP/SR (igp-congruent), 
-		   RSVP TE (constrained-paths) , etc.";
-          }
-      }
-    }
-  }
-
   // top level device definition statements
   container ietf-yang-library {
     description 
@@ -1239,7 +1141,7 @@ module network-device {
 
   container hardware {
     description
-      "Hardware / vendor -specific data relevant to the platform.
+      "Hardware / vendor-specific data relevant to the platform.
       This container is an anchor point for platform-specific
       configuration and operational state data.  It may be further
       organized into chassis, line cards, ports, etc.  It is
@@ -1257,19 +1159,62 @@ module network-device {
       container system-management-global {
           description "System management - with reuse of RFC 7317";
       }
-      uses system-management;
+      list system-management-protocol {
+          key "type";
+          leaf type {
+              type identityref {
+                  base system-management-protocol-type;
+              }
+              mandatory true;
+              description
+                  "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
+          }
+          description "List of system management protocol
+                       configured for a logical networking
+                       element.";
+      }
   }
 
   container networking-services {
       description
           "Container for list of configured networking 
            services.";
-      uses networking-services;
+      list networking-service {
+          key "type";
+          description
+              "List of networking services configured for a
+               networking instance.";
+          leaf type {
+              type identityref {
+                  base networking-service-type;
+              }
+              mandatory true;
+              description
+                  "The networking services type supported within
+                   a networking instance, e.g., NTP server, DNS
+                   server, DHCP server, etc.";
+          }
+      }
   }
 
   container oam-protocols {
-    description "Configured OAM protocols.";
-    uses oam-protocols;
+      description
+          "Container for configured OAM protocols.";
+      list oam-protocol {
+          key "type";
+          leaf type {
+              type identityref {
+                  base oam-protocol-type;
+              }
+              mandatory true;
+              description
+                  "The Operations, Administration, and
+                   Maintenance (OAM) protocol type, e.g., BFD,
+                   TWAMP, CFM, etc.";
+          }
+          description
+              "List of configured OAM protocols.";
+      }
   }
 
   container routing {
@@ -1282,8 +1227,25 @@ module network-device {
   }
 
   container mpls {
-    description "MPLS and TE configuration.";
-    uses mpls;
+      description "MPLS and TE configuration";
+      container global {
+          description "Global MPLS configuration";
+      }
+      list lsps {
+          key "type";
+          description
+              "List of LSP types.";
+          leaf type {
+              type identityref {
+                  base mpls-lsp-type;
+              }
+              mandatory true;
+              description
+                  "MPLS and Traffic Engineering protocol LSP types,
+                   static, LDP/SR (igp-congruent), 
+                   RSVP TE (constrained-paths) , etc.";
+          }
+      }
   }
 
   container ieee-dot1Q {
@@ -1328,7 +1290,7 @@ module network-device {
 <t> 
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "logical-network-element@2016-01-11.yang"
+<CODE BEGINS> file "logical-network-element@2016-01-19.yang"
 module logical-network-element {
 
   yang-version "1";
@@ -1355,7 +1317,7 @@ module logical-network-element {
     "This module is used to support multiple logical network 
      elements on a single physical or virtual system.";
 
-  revision "2016-01-11" {
+  revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -1455,7 +1417,7 @@ module logical-network-element {
 <t> 
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "networking-instance@2015-12-14.yang"
+<CODE BEGINS> file "networking-instance@2016-01-19.yang"
 module networking-instance {
 
   yang-version "1";
@@ -1488,7 +1450,7 @@ module networking-instance {
      instances are commonly know as VRFs (virtual routing 
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2015-12-14" {
+  revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -1503,17 +1465,11 @@ module networking-instance {
 
   // identity statements
 
-  identity networking-instance {
+  identity networking-instance-type {
       description
          "Base identity from which identities describing
           networking instance types are derived.";
   }
-
-   identity ethernet-protocol-type {
-      description
-          "Base identity for derivation of ethernet
-           protocols";
-   }
 
    identity ipv4-interface-protocol-type {
       description
@@ -1536,30 +1492,6 @@ module networking-instance {
       "interface-specific configuration for IP interfaces, IPv4 and
       IPv6";
 
-  }
-  grouping ethernet-protocols {
-      description
-          "Grouping for ethernet protocols configured
-            on an interface";
-      container ethernet-protocols {
-          description
-              "Container for list of ethernet protocols configured
-                on an interface";
-          list ethernet-protocol {
-              key "type";
-              description
-                  "List of ethernet protocols configured
-                   on an interface";
-              leaf type {
-                  type identityref {
-                      base ethernet-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "Aggregates, RSTP, LLDP, PTP, etc.";
-              }
-          }
-      }
   }
 
   grouping ipv4-interface-protocols {
@@ -1635,9 +1567,9 @@ module networking-instance {
                    definition in ietf-routing";
       reference "draft-ietf-netmod-routing-cfg";
       list networking-instance {
-          key networking-instance-name;
+          key name;
           description "List of networking-instances";
-          leaf networking-instance-name {
+          leaf name {
               type string;
               description "device scoped
                            identifier for the networking
@@ -1645,7 +1577,7 @@ module networking-instance {
           }
           leaf type {
               type identityref {
-                  base networking-instance;
+                  base networking-instance-type;
               }
               description
                   "The networking instance type -- details TBD
@@ -1666,7 +1598,7 @@ module networking-instance {
                 and its intended purpose";
           }
           uses networking-instance-policy;
-          leaf networking-instance-root {
+          leaf root {
             type structural-mount;
             description "Root for models supported per  
                          networking instance";

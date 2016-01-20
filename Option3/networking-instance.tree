@@ -1,12 +1,12 @@
 module: networking-instance
    +--rw networking-instances
-      +--rw networking-instance* [networking-instance-name]
-         +--rw networking-instance-name      string
+      +--rw networking-instance* [name]
+         +--rw name                          string
          +--rw type?                         identityref
          +--rw enabled?                      boolean
          +--rw description?                  string
          +--rw networking-instance-policy
-         +--rw networking-instance-root?     structural-mount
+         +--rw root?                         structural-mount
 augment /if:interfaces/if:interface:
    +--rw bind-networking-instance-name?   string
 augment /if:interfaces/if:interface/ip:ipv4:

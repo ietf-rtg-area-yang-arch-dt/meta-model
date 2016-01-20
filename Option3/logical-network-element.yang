@@ -30,63 +30,36 @@ module logical-network-element {
     reference "TBD"; 
   }
 
-  // extension statements
-
   // feature statements
-  feature bind-network-element-id {
+  feature bind-lne-name {
     description
-      "Logical network element ID to which an interface is bound";
+      "Logical network element to which an interface is bound";
   }
-
-  // identity statements
-
-  identity logical-network-element-type {
-    description
-     "Identify type of logical-network-element";
-  }
-
-  identity lne-managed {
-    base logical-network-element-type;
-    description 
-      "A Logical Network Element that can 
-       be managed by the host system";
-  } 
-
-  identity lne-unmanaged {
-    base logical-network-element-type;
-    description 
-      "A Logical Network Element that cannot 
-       be managed by the host system";
-  } 
-
-  // typedef statements
-
-  // grouping statements
 
   // top level device definition statements
   container logical-network-inventory {
     description "Allows a network device to support multiple logical
                  network element (device) instances";
     list logical-network-element {
-      key lne-id;
+      key name;
       description "List of logical network elements";
-      leaf lne-id {
-        type uint16; // expect a small number of logical routers
+      leaf name {
+        type string;
         description "Device-wide unique identifier for the
                      logical network element";
       }
-      leaf lne-name {
+      leaf managed {
+        type boolean;
+        description
+          "True if the host can manage the LNE using the root mount
+           point";
+      }
+      leaf description {
         type string;
-        description "Descriptive name for the logical network
-                     element";
+        description
+          "Description of the logical network element";
       }
-      leaf lne-type {
-        type identityref {
-          base logical-network-element-type;
-        }
-        description "Type of logical-network-element";
-      }
-      leaf lne-root {
+      leaf root {
         type structural-mount;
         description "Root for models supported per logical 
                      network element";
@@ -103,8 +76,8 @@ module logical-network-element {
         A <TBD> error is returned when the interface type cannot be
         assigned.";
 
-    leaf bind-lne-id {
-      type uint16;
+    leaf bind-lne-name {
+      type string;
       description
         "Logical network element ID to which interface is bound";
     }

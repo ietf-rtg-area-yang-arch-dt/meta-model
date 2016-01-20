@@ -30,7 +30,7 @@ module networking-instance {
      instances are commonly know as VRFs (virtual routing 
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-01-11" {
+  revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -45,7 +45,7 @@ module networking-instance {
 
   // identity statements
 
-  identity networking-instance {
+  identity networking-instance-type {
       description
          "Base identity from which identities describing
           networking instance types are derived.";
@@ -147,9 +147,9 @@ module networking-instance {
                    definition in ietf-routing";
       reference "draft-ietf-netmod-routing-cfg";
       list networking-instance {
-          key networking-instance-name;
+          key name;
           description "List of networking-instances";
-          leaf networking-instance-name {
+          leaf name {
               type string;
               description "device scoped
                            identifier for the networking
@@ -157,7 +157,7 @@ module networking-instance {
           }
           leaf type {
               type identityref {
-                  base networking-instance;
+                  base networking-instance-type;
               }
               description
                   "The networking instance type -- details TBD
@@ -178,7 +178,7 @@ module networking-instance {
                 and its intended purpose";
           }
           uses networking-instance-policy;
-          leaf networking-instance-root {
+          leaf root {
             type structural-mount;
             description "Root for models supported per  
                          networking instance";
