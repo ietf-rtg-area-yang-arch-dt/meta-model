@@ -16,34 +16,34 @@
     <address>
       <postal>
         <street>301 Midenhall Way</street>
-        <city>Cary</city> <region>NC</region> 
+        <city>Cary</city> <region>NC</region>
         <country>USA</country>
-        <code>27513</code> 
+        <code>27513</code>
        </postal>
        <email>acee@cisco.com</email>
     </address>
-    </author>  
+    </author>
     <author initials='L.' surname="Berger" fullname='Lou Berger' role='editor'>
      <organization>LabN Consulting, L.L.C.</organization>
      <address>
        <email>lberger@labn.net</email>
     </address>
-    </author>  
+    </author>
    <author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
     <organization></organization>
      <address>
        <email>ivandean@gmail.com</email>
     </address>
-    </author>  
+    </author>
    <author initials='C.' surname="Hopps" fullname='Christan Hopps'>
     <organization>Deutsche Telekom</organization>
      <address>
        <email>chopps@chopps.org</email>
     </address>
-    </author>  
+    </author>
 
   <date/>
-  <abstract> 
+  <abstract>
 <t>
    This document presents an approach for organizing YANG models
    in a comprehensive structure that may be used to configure and
@@ -191,7 +191,7 @@
 </t>
 <t>
 The top open issues are:
-  <list style="numbers"> 
+  <list style="numbers">
    <t>The use of YSDL vs Structural Mount needs to be resolved as does
       ensuring that the selected approach has the needed capabilities.</t>
    <t>This document will need to match the evolution and
@@ -235,7 +235,7 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
 
            ,''''''''''''''''''''''''''''''''''''''''''''''`.
            |      Network Device (Physical or Virtual)     |
@@ -252,7 +252,7 @@ The top open issues are:
             `'''|'|'''|'|'''|'|'''''''''|'|'''|'|'''|'|'''''
                 | |   | |   | |         | |   | |   | |
                    Interfaces              Interfaces
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -261,7 +261,7 @@ The top open issues are:
 <t>
    A model for LNEs is described in <xref target="sec-LNE"/> and
    the model for networking instances is covered in
-   <xref target="sec-NI"/>. 
+   <xref target="sec-NI"/>.
 </t>
 <t>
    The presented notional network device module can itself be
@@ -301,7 +301,7 @@ The top open issues are:
        |
        +--rw logical-network-element
        +--rw networking-instance
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -344,7 +344,7 @@ The top open issues are:
    is provided below.
 </t>
 <t>
-   The routing and MPLS modules provide core support for the 
+   The routing and MPLS modules provide core support for the
    configuration and operation of a devices control plane and data plane
    functions. IEEE dot1Q <xref target="IEEE-8021Q"/> is an example of
    another module that provides similar functions for VLAN bridging,
@@ -357,7 +357,7 @@ The top open issues are:
 </t>
 <t>
    The access control list (ACL) and key chain modules are
-   included as examples of other top level modules that may 
+   included as examples of other top level modules that may
    be supported by a network device.
 </t>
 <t>
@@ -390,7 +390,7 @@ The top open issues are:
 <t>
    The interface related augmentations are as follows:
 <figure>
-<artwork>  
+<artwork>
     augment /if:interfaces/if:interface:
        +--rw bind-lne-name?   string
 
@@ -400,7 +400,7 @@ The top open issues are:
        +--rw bind-networking-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv6:
        +--rw bind-networking-instance-name?   string
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -410,7 +410,7 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
           +--rw interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
@@ -435,7 +435,7 @@ The top open issues are:
           |        +--rw icmpv6
           |        +--rw nd
           |        +--rw dhcpv6-client
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -461,13 +461,13 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork> 
+<artwork>
     module: network-device
        +--rw system-management
        |  +--rw system-management-global
        |  +--rw system-management-protocol* [type]
-       |     +--rw type    identityref 
-</artwork> 
+       |     +--rw type    identityref
+</artwork>
 </figure>
 </t>
 <t>
@@ -481,7 +481,7 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: network-device
        +--rw system-management
           +--rw system-management-global
@@ -496,7 +496,7 @@ The top open issues are:
           |  +--rw type=snmp
           |  +--rw type=netconf
 
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -506,19 +506,19 @@ The top open issues are:
 <t>
   A device may provide different network services to other devices, for
   example a device my act as a DHCP server.  The model may be
-  instantiated per device, LNE, and NI. An identityref is used 
+  instantiated per device, LNE, and NI. An identityref is used
   to identify the type of specific service being provided and its
   associated configuration and state information. The defined structure
   is as follows:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: network-device
        +--rw networking-services
        |  +--rw networking-service* [type]
        |     +--rw type    identityref
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -529,14 +529,14 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: network-device
        +--rw networking-services
           +--rw networking-service* [type]
              +--rw type=ntp-server
              +--rw type=dns-server
              +--rw type=dhcp-server
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -552,13 +552,13 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type    identityref
 
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -569,14 +569,14 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type=bfd
              +--rw type=cfm
              +--rw type=twamp
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -603,7 +603,7 @@ The top open issues are:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
    module: network-device
        +--rw routing
           +--rw control-plane-protocols
@@ -615,7 +615,7 @@ The top open issues are:
                 +--rw name           string
                 +--rw description?   string
                 +--rw policy
-</artwork> 
+</artwork>
 </figure>
 </t>
 </section>
@@ -637,7 +637,7 @@ The top open issues are:
           +--rw global
           +--rw lsps* [type]
              +--rw type    identityref
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -654,7 +654,7 @@ routing congruent.  The following is an example of such usage:
               +--rw type=static
               +--rw type=constrained-paths
               +--rw type=igp-congruent
-</artwork> 
+</artwork>
 </figure>
 </t>
 </section>
@@ -698,7 +698,7 @@ routing congruent.  The following is an example of such usage:
              +--rw root?        structural-mount
     augment /if:interfaces/if:interface:
        +--rw bind-lne-name?     string
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -707,7 +707,7 @@ routing congruent.  The following is an example of such usage:
   to manage the LNE via the `root` structure.
 </t>
 
-<section anchor="sec-LNE.HOST" 
+<section anchor="sec-LNE.HOST"
   title="  LNE Management - Host Network Device View">
 <t>
    There are multiple implementation approaches possible to enable
@@ -717,7 +717,7 @@ routing congruent.  The following is an example of such usage:
    access LNE configuration and operation information, while
    others will not.  Similarly, even when LNE management from the
    network device is supported by the implementation, it may be
-   prohibited by user policy. 
+   prohibited by user policy.
 </t>
 <t>
    The `managed` boolean mentioned above is used to
@@ -784,7 +784,7 @@ routing congruent.  The following is an example of such usage:
 </t>
 </section>
 
-<section anchor="sec-LNE.LNE" 
+<section anchor="sec-LNE.LNE"
  title="  LNE Management - LNE View">
 <t>
    Management functions operating with the context of an LNE are
@@ -807,7 +807,7 @@ routing congruent.  The following is an example of such usage:
 </t>
 </section>
 
-<section anchor="sec-LNE.MOUNT" 
+<section anchor="sec-LNE.MOUNT"
   title="  LNE Instantiation">
 <t>
   TBD -- need to resolve if instantiation is based on (a) new list entry
@@ -825,12 +825,12 @@ routing congruent.  The following is an example of such usage:
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
    policies.  The model represents both core/provider and virtual
-   instances.  Networking instances reuse and build on <xref target="RTG-CFG"/> 
+   instances.  Networking instances reuse and build on <xref target="RTG-CFG"/>
    and are shown below:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: networking-instance
        +--rw networking-instances
           +--rw networking-instance* [name]
@@ -848,7 +848,7 @@ routing congruent.  The following is an example of such usage:
        +--rw bind-networking-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv6:
        +--rw bind-networking-instance-name?   string
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
@@ -871,13 +871,13 @@ routing congruent.  The following is an example of such usage:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: networking-instance
        +--rw networking-instances
           +--rw networking-instance* [name]
              +--rw networking-instance-policy
                 (TBD)
-</artwork> 
+</artwork>
 </figure>
 </t>
 </section>
@@ -890,7 +890,7 @@ routing congruent.  The following is an example of such usage:
    availability is expected to be implementation dependent. The
    ietf-yang-library module is expected to be the primary method
    used to identify supported modules.  Resource related control
-   and assignment is expected to be managed at the network-device 
+   and assignment is expected to be managed at the network-device
    level, not the networking instance level, based on the
    `bind-networking-instance-name` augmentation
    mentioned above.
@@ -903,7 +903,7 @@ routing congruent.  The following is an example of such usage:
 </t>
 <t>
 <figure>
-<artwork>  
+<artwork>
     module: networking-instance
        +--rw ietf-yang-library
        +--rw interfaces
@@ -923,13 +923,13 @@ routing congruent.  The following is an example of such usage:
                 +--rw oam-protocols
                 +--rw routing
                 +--rw mpls
-</artwork> 
+</artwork>
 </figure>
 </t>
 <t>
     All modules that represent control-plane and data-plane
     information may be present at the `root`,
-    and be accessible via paths modified per 
+    and be accessible via paths modified per
     <xref target="STRUCTURAL-MOUNT"/>.  The list of available
     modules is expected to be implementation dependent.  As is the
     method used by an implementation to support NIs.
@@ -983,7 +983,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 </t>
 <section anchor="sec-6.1" title="  Network Device Model Structure">
-<t> 
+<t>
 <figure>
 <artwork><![CDATA[
 <CODE BEGINS> file "network-device@2016-01-19.yang"
@@ -1015,7 +1015,7 @@ module network-device {
   revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD"; 
+    reference "TBD";
   }
 
   // extension statements
@@ -1128,7 +1128,7 @@ module network-device {
 
   // top level device definition statements
   container ietf-yang-library {
-    description 
+    description
       "YANG Module Library as defined in
        draft-ietf-netconf-yang-library";
   }
@@ -1153,7 +1153,7 @@ module network-device {
   }
 
   container system-management {
-      description 
+      description
         "System management for physical or virtual device.";
       container system-management-global {
           description "System management - with reuse of RFC 7317";
@@ -1176,7 +1176,7 @@ module network-device {
 
   container networking-services {
       description
-          "Container for list of configured networking 
+          "Container for list of configured networking
            services.";
       list networking-service {
           key "type";
@@ -1217,7 +1217,7 @@ module network-device {
   }
 
   container routing {
-    description 
+    description
       "The YANG Data Model for Routing Management revised to be
        Network Instance / VRF independent. ";
     // Note that there is no routing or network instance
@@ -1241,14 +1241,14 @@ module network-device {
               mandatory true;
               description
                   "MPLS and Traffic Engineering protocol LSP types,
-                   static, LDP/SR (igp-congruent), 
+                   static, LDP/SR (igp-congruent),
                    RSVP TE (constrained-paths) , etc.";
           }
       }
   }
 
   container ieee-dot1Q {
-    description 
+    description
       "The YANG Data Model for VLAN bridges as defined by the IEEE";
   }
 
@@ -1263,16 +1263,16 @@ module network-device {
   }
 
   container logical-network-element {
-    description 
-      "This module is used to support multiple logical network 
+    description
+      "This module is used to support multiple logical network
        elements on a single physical or virtual system.";
   }
 
   container networking-instance {
-    description 
-      "This module is used to support multiple network instances 
-       within a single physical or virtual device.  Network 
-       instances are commonly know as VRFs (virtual routing 
+    description
+      "This module is used to support multiple network instances
+       within a single physical or virtual device.  Network
+       instances are commonly know as VRFs (virtual routing
        and forwarding) and VSIs (virtual switching instances).";
   }
   // rpc statements
@@ -1286,7 +1286,7 @@ module network-device {
 </t>
 </section>
 <section anchor="sec-6.2" title="  Logical Network Element Model">
-<t> 
+<t>
 <figure>
 <artwork><![CDATA[
 <CODE BEGINS> file "logical-network-element@2016-01-19.yang"
@@ -1313,13 +1313,13 @@ module logical-network-element {
        <rtg-dt-yang-arch@ietf.org>";
 
   description
-    "This module is used to support multiple logical network 
+    "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
   revision "2016-01-19" {
     description
       "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD"; 
+    reference "TBD";
   }
 
   // extension statements
@@ -1339,17 +1339,17 @@ module logical-network-element {
 
   identity lne-managed {
     base logical-network-element-type;
-    description 
-      "A Logical Network Element that can 
+    description
+      "A Logical Network Element that can
        be managed by the host system";
-  } 
+  }
 
   identity lne-unmanaged {
     base logical-network-element-type;
-    description 
-      "A Logical Network Element that cannot 
+    description
+      "A Logical Network Element that cannot
        be managed by the host system";
-  } 
+  }
 
   // typedef statements
 
@@ -1380,7 +1380,7 @@ module logical-network-element {
       }
       leaf lne-root {
         type structural-mount;
-        description "Root for models supported per logical 
+        description "Root for models supported per logical
                      network element";
       }
     }
@@ -1413,10 +1413,10 @@ module logical-network-element {
 </t>
 </section>
 <section anchor="sec-6.3" title="  Networking Instance Model">
-<t> 
+<t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "networking-instance@2016-01-19.yang"
+<CODE BEGINS> file "networking-instance@2016-01-20.yang"
 module networking-instance {
 
   yang-version "1";
@@ -1444,15 +1444,15 @@ module networking-instance {
        <rtg-dt-yang-arch@ietf.org>";
 
   description
-    "This module is used to support multiple network instances 
-     within a single physical or virtual device.  Network 
-     instances are commonly know as VRFs (virtual routing 
+    "This module is used to support multiple network instances
+     within a single physical or virtual device.  Network
+     instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-01-19" {
+  revision "2016-01-20" {
     description
       "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD"; 
+    reference "TBD";
   }
 
   // extension statements
@@ -1599,7 +1599,7 @@ module networking-instance {
           uses networking-instance-policy;
           leaf root {
             type structural-mount;
-            description "Root for models supported per  
+            description "Root for models supported per
                          networking instance";
           }
       }
@@ -1623,9 +1623,9 @@ module networking-instance {
 
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
-        "Add a node for the identification of the logical 
-        networking instance (which is within the interface's   
-        identified physical or virtual device) associated with 
+        "Add a node for the identification of the logical
+        networking instance (which is within the interface's
+        identified physical or virtual device) associated with
         the IP information configured on an interface";
 
     leaf bind-networking-instance-name {
@@ -1638,9 +1638,9 @@ module networking-instance {
 
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
-        "Add a node for the identification of the logical 
-        networking instance (which is within the interface's 
-        identified physical  or virtual device) associated with 
+        "Add a node for the identification of the logical
+        networking instance (which is within the interface's
+        identified physical or virtual device) associated with
         the IP information configured on an interface";
 
     leaf bind-networking-instance-name {
@@ -1904,7 +1904,7 @@ module networking-instance {
 </section>
 <section title="Contributors">
 <figure>
-<artwork>  
+<artwork>
 Contributors' Addresses
 
    Anees Shaikh
@@ -1950,7 +1950,7 @@ Contributors' Addresses
 
 
 
- 
+
    Stephane Litkowski
    Orange
    9 rue du chene germain
@@ -1968,7 +1968,7 @@ Contributors' Addresses
 
    Email: yangang@huawei.com
 
-</artwork> 
+</artwork>
 </figure>
 </section>
 </back>
