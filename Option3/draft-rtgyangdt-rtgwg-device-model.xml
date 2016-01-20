@@ -586,18 +586,17 @@ The top open issues are:
 <t>
     Routing protocol and IP forwarding configuration and operation
     information is modeled via a routing model, such as the one
-    defined in <xref target="RTG-CFG"/>.  One important difference
-    from that draft module is that the approach presented in this
+    defined in <xref target="RTG-CFG"/>.  Although, the defined
+    routing module includes support for NIs, which it refers to as
+    Routing Instances, while the approach presented in this
     document presumes that the routing module is unaware of LNEs
-    and NIs, which are currently represented and refereed to as
-    Routing Instances in <xref target="RTG-CFG"/>.  The routing
-    module is expected to include all IETF defined control plane
-    protocols, such as BGP, OSPF, LDP and RSVP-TE.  It is also
-    expected to support configuration and operation of or more
-    routing information bases (RIB).  A RIB is a list of routes
-    complemented with administrative data. Finally, policy is
-    expected to be represented within each control plane protocol
-    and RIB.
+    and NIs. The routing module is expected to include all IETF
+    defined control plane protocols, such as BGP, OSPF, LDP and
+    RSVP-TE.  It is also expected to support configuration and
+    operation of or more routing information bases (RIB).  A RIB
+    is a list of routes complemented with administrative
+    data. Finally, policy is expected to be represented within
+    each control plane protocol and RIB.
 </t>
 <t>
     The anticipated structure is as follows:
@@ -1816,26 +1815,6 @@ module networking-instance {
 <seriesInfo name="IEEE-Draft" value="http://www.ieee802.org/1/files/public/docs2015/new-mholness-yang-8021Q-0515-v04.pdf"/>
 </reference>
 
-<reference anchor="RTG-POLICY">
-<front>
-<title>Routing Policy Configuration Model for Service Provider Networks</title>
-<author initials="A." surname="Shaikh" fullname="Anees Shaikh">
-<organization>Google</organization>
-</author>
-<author initials="R." surname="Shakir" fullname="Rob Shakir">
-<organization>Jive Communications, Inc</organization>
-</author>
-<author initials="K." surname="D'Souza" fullname="Kevin D'Souza">
-<organization>AT&amp;T</organization>
-</author>
-<author initials="C." surname="Chase" fullname="Chris Chase">
-<organization>AT&amp;T</organization>
-</author>
-<date month="September" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-rtgwg-policy-model-00.txt"/>
-</reference>
-
 <reference anchor="RTG-CFG">
 <front>
 <title>A YANG Data Model for Routing Management</title>
@@ -1850,48 +1829,6 @@ module networking-instance {
 <seriesInfo name="Internet-Draft" value="draft-ietf-netmod-routing-cfg-20.txt"/>
 </reference>
 
-<reference anchor="RTG-OSPF">
-<front>
-<title>YANG Data Model for OSPF Protocol</title>
-<author initials="D." surname="Yeung" fullname="Derek Yeung">
-<organization>Cisco Systems</organization>
-</author>
-<author initials="Y." surname="Yingzhen" fullname="Yingzhen Qu">
-<organization>Cisco Systems</organization>
-</author>
-<author initials="J." surname="Zhang" fullname="Jeffrey Zhang">
-<organization>Juniper Networks</organization>
-</author>
-<author initials="D." surname="Bogdanvic" fullname="Dean Bogdanvic">
-</author>
-<author initials="K." surname="Sreenivasa" fullname="Kiran Sreenivasa">
-<organization>Cisco Systems</organization>
-</author>
-<date month="October" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-ospf-yang-03.txt"/>
-</reference>
-
-<reference anchor="RTG-ISIS">
-<front>
-<title>YANG Data Model for ISIS Protocol</title>
-<author initials="S." surname="Litkowski" fullname="Stephane Litkowski">
-<organization>Orange</organization>
-</author>
-<author initials="D." surname="Yeung" fullname="Derek Yeung">
-<organization>Cisco Systems</organization>
-</author>
-<author initials="A." surname="Lindem" fullname="Acee Lindem">
-<organization>Cisco Systems</organization>
-</author>
-<author initials="J." surname="Zhang" fullname="Jeffrey Zhang">
-<organization>Juniper Networks</organization>
-</author>
-<date month="November" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-isis-yang-isis-cfg-07.txt"/>
-</reference>
-
 <reference anchor="NETMOD-OPSTATE">
 <front>
 <title>NETMOD Operational State Requirements</title>
@@ -1901,9 +1838,9 @@ module networking-instance {
 <author initials="T." surname="Nadeau" fullname="Thomas Nadeau">
 <organization>Brocade</organization>
 </author>
-<date month="October" year="2015" />
+<date month="January" year="2016" />
 </front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-netmod-opstate-reqs-00.txt"/>
+<seriesInfo name="Internet-Draft" value="draft-ietf-netmod-opstate-reqs-03.txt"/>
 </reference>
 
 <reference anchor="OC-MPLS">
