@@ -7,11 +7,20 @@ MODELS = \
 #assumes standard yang modules installed in ../yang, customize as needed
 #  e.g., based on a 'cd .. ; git clone https://github.com/YangModels/yang.git'
 YANGIMPORT_BASE = ../../yang
-PLUGPATH   := $(shell echo `find $(YANGIMPORT_BASE) -name \*.yang | sed 's,/[a-z0-9A-Z@_\-]*.yang$$,,' | uniq` | tr \  :)
-PYTHONPATH := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages ` | tr \  :)
+PLUGPATH    := $(shell echo `find $(YANGIMPORT_BASE) -name \*.yang | sed 's,/[a-z0-9A-Z@_\-]*.yang$$,,' | uniq` | tr \  :)
+PYTHONPATH  := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages ` | tr \  :)
 WITHXML2RFC := $(shell which xml2rfc > /dev/null 2>&1 ; echo $$? )
 
+ID_DIR	     = IDs
+REVS	    := $(shell grep docName $(DRAFT).xml | tr '"\->' '   ' | \
+		 awk '{printf "%02d %02d",$$NF-1,$$NF}')
+PREV_REV    := $(word 1, $(REVS))
+REV	    := $(word 2, $(REVS))
+OLD          = $(ID_DIR)/$(DRAFT)-$(PREV_REV)
+NEW          = $(ID_DIR)/$(DRAFT)-$(REV)
+
 TREES := $(MODELS:.yang=.tree)
+
 %.tree: %.yang
 	@echo Updating $< revision date
 	@rm -f $<.prev; cp -pf $< $<.prev 
@@ -33,11 +42,14 @@ TREES := $(MODELS:.yang=.tree)
 		xml2rfc --html $< 		; \
 	fi
 
-all:	$(TREES) $(DRAFT).txt  $(DRAFT).html
+all:	$(TREES) $(DRAFT).txt $(DRAFT).html
 
 vars:
 	echo PYTHONPATH=$(PYTHONPATH)
 	echo PLUGPATH=$(PLUGPATH)
+	echo PREV_REV=$(PREV_REV)
+	echo REV=$(REV)
+	echo OLD=$(OLD)
 
 $(DRAFT).xml: $(MODELS)
 	@rm -f $@.prev; cp -p $@ $@.prev 
@@ -56,12 +68,50 @@ $(DRAFT).xml: $(MODELS)
 	done
 	diff -bw $@.prev $@ || exit 0
 
-#OLD
-draft-rtgyangdt-rtgwg-device-model.raw: network-device.yang
-	@echo Updating $@ based on $<
-	@rm -f $@.prev; cp -p $@ $@.prev
-	@i=(`awk '$$1=="<CODE"{print NR}' $@.prev`);  \
-		head -$${i[0]} $@.prev    > $@ ;\
-		sed 's/^/   /' $<         >> $@;\
-		tail -n +$${i[1]} $@.prev >> $@
-	diff -bw $@.prev $@ || exit 0
+
+$(DRAFT)-diff.txt: $(DRAFT).txt 
+	@echo "Generating diff of $(OLD).txt and $(DRAFT).txt > $@..."
+	if [ -f  $(OLD).txt ] ; then \
+		sdiff --ignore-space-change --expand-tabs -w 168 $(OLD).txt $(DRAFT).txt | \
+		cut -c84-170 | sed 's/. *//'  \
+		| grep -v '^ <$$' | grep -v '^<$$' > $@ ;\
+	 fi
+
+idnits: $(DRAFT).txt
+	@if [ ! -f idnits ] ; then \
+		-rm -f $@ 					;\
+		wget http://tools.ietf.org/tools/idnits/idnits	;\
+		chmod 755 idnits				;\
+	fi
+	idnits $(DRAFT).txt
+
+id: $(DRAFT).txt $(DRAFT).html
+	@if [ ! -e $(ID_DIR) ] ; then \
+		echo "Creating $(ID_DIR) directory" 	;\
+		mkdir $(ID_DIR) 			;\
+		git add $(ID_DIR)			;\
+	fi
+	@if [ -f "$(NEW).xml" ] ; then \
+		echo "" 				;\
+		echo "$(NEW).xml already exists, not overwriting!" ;\
+		diff -sq $(DRAFT).xml  $(NEW).xml 	;\
+		echo "" 				;\
+	else \
+		echo "Copying to $(NEW).{xml,txt,html}" ;\
+		echo "" 				;\
+		cp -p $(DRAFT).xml $(NEW).xml  		;\
+		cp -p $(DRAFT).txt $(NEW).txt  		;\
+		cp -p $(DRAFT).html $(NEW).html  	;\
+		git add $(NEW).xml $(NEW).txt  $(NEW).html ;\
+		ls -lt $(DRAFT).* $(NEW).* 		;\
+	fi
+
+rmid:
+	@echo "Removing:"
+	@ls -l $(NEW).xml $(NEW).txt  $(NEW).html
+	@echo -n "Hit <ctrl>-C to abort, or <CR> to continue: "
+	@read t
+	@rm -f $(NEW).xml $(NEW).txt $(NEW).html
+	@git rm  $(NEW).xml $(NEW).txt $(NEW).html
+
+
