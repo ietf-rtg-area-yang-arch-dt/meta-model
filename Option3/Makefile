@@ -1,4 +1,4 @@
-DRAFT  = draft-rtgyangdt-rtgwg-device-model.xml
+DRAFT  = draft-rtgyangdt-rtgwg-device-model
 MODELS = \
 	network-device.yang \
 	logical-network-element.yang \
@@ -9,23 +9,37 @@ MODELS = \
 YANGIMPORT_BASE = ../../yang
 PLUGPATH   := $(shell echo `find $(YANGIMPORT_BASE) -name \*.yang | sed 's,/[a-z0-9A-Z@_\-]*.yang$$,,' | uniq` | tr \  :)
 PYTHONPATH := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages ` | tr \  :)
+WITHXML2RFC := $(shell which xml2rfc > /dev/null 2>&1 ; echo $$? )
 
 TREES := $(MODELS:.yang=.tree)
 %.tree: %.yang
 	@echo Updating $< revision date
-	@rm -f $<.prev; cp -p $< $<.prev 
+	@rm -f $<.prev; cp -pf $< $<.prev 
 	@sed 's/revision.\"[0-9]*\-[0-9]*\-[0-9]*\"/revision "'`date +%F`'"/' < $<.prev > $<
 	@diff $<.prev $< || exit 0
 	@echo Generating $@	
 	@PYTHONPATH=$(PYTHONPATH) pyang --ietf -f tree -p $(PLUGPATH) $< > $@  || exit 0
 
-all:	$(TREES) $(DRAFT)
+%.txt: %.xml
+	@if [ $(WITHXML2RFC) == 0 ] ; then 	\
+		rm -f $@.prev; cp -pf $@ $@.prev ; \
+		xml2rfc $< 			; \
+		diff $@.prev $@ || exit 0 	; \
+	fi
+
+%.html: %.xml
+	@if [ $(WITHXML2RFC) == 0 ] ; then 	\
+		rm -f $@.prev; cp -pf $@ $@.prev ; \
+		xml2rfc --html $< 		; \
+	fi
+
+all:	$(TREES) $(DRAFT).txt  $(DRAFT).html
 
 vars:
 	echo PYTHONPATH=$(PYTHONPATH)
 	echo PLUGPATH=$(PLUGPATH)
 
-$(DRAFT): $(MODELS)
+$(DRAFT).xml: $(MODELS)
 	@rm -f $@.prev; cp -p $@ $@.prev 
 	@for model in $? ; do \
 		echo Updating $@ based on $$model		 	; \
