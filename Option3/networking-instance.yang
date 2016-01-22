@@ -25,15 +25,15 @@ module networking-instance {
        <rtg-dt-yang-arch@ietf.org>";
 
   description
-    "This module is used to support multiple network instances 
-     within a single physical or virtual device.  Network 
-     instances are commonly know as VRFs (virtual routing 
+    "This module is used to support multiple network instances
+     within a single physical or virtual device.  Network
+     instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-01-19" {
+  revision "2016-01-20" {
     description
       "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD"; 
+    reference "TBD";
   }
 
   // extension statements
@@ -180,7 +180,7 @@ module networking-instance {
           uses networking-instance-policy;
           leaf root {
             type structural-mount;
-            description "Root for models supported per  
+            description "Root for models supported per
                          networking instance";
           }
       }
@@ -204,9 +204,9 @@ module networking-instance {
 
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
-        "Add a node for the identification of the logical 
-        networking instance (which is within the interface's   
-        identified physical or virtual device) associated with 
+        "Add a node for the identification of the logical
+        networking instance (which is within the interface's
+        identified physical or virtual device) associated with
         the IP information configured on an interface";
 
     leaf bind-networking-instance-name {
@@ -219,9 +219,9 @@ module networking-instance {
 
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
-        "Add a node for the identification of the logical 
-        networking instance (which is within the interface's 
-        identified physical  or virtual device) associated with 
+        "Add a node for the identification of the logical
+        networking instance (which is within the interface's
+        identified physical or virtual device) associated with
         the IP information configured on an interface";
 
     leaf bind-networking-instance-name {

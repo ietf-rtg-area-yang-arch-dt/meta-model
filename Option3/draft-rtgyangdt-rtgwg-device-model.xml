@@ -590,7 +590,10 @@ The top open issues are:
     routing module includes support for NIs, which it refers to as
     Routing Instances, while the approach presented in this
     document presumes that the routing module is unaware of LNEs
-    and NIs. The routing module is expected to include all IETF
+    and NIs. 
+</t>
+<t>
+    The routing module is expected to include all IETF
     defined control plane protocols, such as BGP, OSPF, LDP and
     RSVP-TE.  It is also expected to support configuration and
     operation of or more routing information bases (RIB).  A RIB

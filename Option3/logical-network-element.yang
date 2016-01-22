@@ -21,13 +21,13 @@ module logical-network-element {
        <rtg-dt-yang-arch@ietf.org>";
 
   description
-    "This module is used to support multiple logical network 
+    "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-01-19" {
+  revision "2016-01-20" {
     description
       "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD"; 
+    reference "TBD";
   }
 
   // feature statements
@@ -61,7 +61,7 @@ module logical-network-element {
       }
       leaf root {
         type structural-mount;
-        description "Root for models supported per logical 
+        description "Root for models supported per logical
                      network element";
       }
     }
