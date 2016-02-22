@@ -14,7 +14,7 @@ Expires: August 25, 2016                         LabN Consulting, L.L.C.
 
 
                Network Device YANG Organizational Models
-                 draft-rtgyangdt-rtgwg-device-model-02
+                 draft-rtgyangdt-rtgwg-device-model-03
 
 Abstract
 

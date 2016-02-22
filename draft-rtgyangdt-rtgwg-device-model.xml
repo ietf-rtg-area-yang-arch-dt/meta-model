@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="info" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-device-model-02" >
+<rfc category="info" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-device-model-03" >
 
 <front>
 <title abbrev="RTG YANG Device Model">Network Device YANG Organizational Models</title>
