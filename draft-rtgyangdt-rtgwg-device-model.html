@@ -410,7 +410,7 @@
 
   <meta name="dct.creator" content="Lindem, A., Ed., Berger, L., Ed., Bogdanovic, D., and C. Hopps" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-rtgyangdt-rtgwg-device-model-02" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-1-22" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-2-22" />
   <meta name="dct.abstract" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
   <meta name="description" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
 
@@ -434,7 +434,7 @@
   <td class="right">L. Berger, Ed.</td>
 </tr>
 <tr>
-  <td class="left">Expires: July 25, 2016</td>
+  <td class="left">Expires: August 25, 2016</td>
   <td class="right">LabN Consulting, L.L.C.</td>
 </tr>
 <tr>
@@ -455,7 +455,7 @@
 </tr>
 <tr>
   <td class="left"></td>
-  <td class="right">January 22, 2016</td>
+  <td class="right">February 22, 2016</td>
 </tr>
 
     	
@@ -477,7 +477,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on July 25, 2016.</p>
+<p>This Internet-Draft will expire on August 25, 2016.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -525,7 +525,7 @@
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#sec-1" id="sec-1">Introduction</a></h1>
 <p id="rfc.section.1.p.1">"Operational Structure and Organization of YANG Models" <a href="#OC-STRUCT">[OC-STRUCT]</a>, highlights the value of organizing individual, self-standing YANG <a href="#RFC6020">[RFC6020]</a> models into a more comprehensive structure.  This document builds on that work and presents a derivative structure for use in representing the networking infrastructure aspects of physical and virtual devices. <a href="#OC-STRUCT">[OC-STRUCT]</a> and earlier versions of this document presented a single device-centric model root, this document no longer contains this element.  Such an element would have translated to a single device management model that would be the root of all other models and was judged to be overly restrictive in terms of definition, implementation, and operation.  </p>
 <p id="rfc.section.1.p.2">The document first presents a notional network device YANG organizational structure that provides a conceptual framework for the models that may be used to configure and operate network devices.  The structure is itself presented as a YANG module, with all of the related component modules logically organized in a way that is operationally intuitive.  This network device model is not expected to be implemented, but rather provide as context for the identified representative component modules with are expected to be defined, and supported on typical network devices.  </p>
-<p id="rfc.section.1.p.3">This document also defines two new modules that are expected to be implemented.  These models are defined to support the configuration and operation of network-devices that allow for the partitioning of resources from both, or either, management and networking perspectives.  Both make use of emerging YANG functionality supported by either structural mount <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>  or YANG Schema Dispatching Language (YSDL) <a href="#YANG-YSDL">[YANG-YSDL]</a>. The module definitions in this version of the document match <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a> but the solution adopted by the Netmod Working Group will be used.  </p>
+<p id="rfc.section.1.p.3">This document also defines two new modules that are expected to be implemented.  These models are defined to support the configuration and operation of network-devices that allow for the partitioning of resources from both, or either, management and networking perspectives.  Both make use of emerging YANG functionality supported by either structural mount <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>  or YANG Schema Dispatching Language (YSDL) <a href="#YANG-YSDL">[YANG-YSDL]</a>.  The function provided by these documents are collectively refered to as "Schema Mount".  This document is expected to use whatever Schema Mount solution is adopted by the Netmod Working Group.  </p>
 <p id="rfc.section.1.p.4">Two forms of resource partitioning are supported: </p>
 <p id="rfc.section.1.p.5">The first form provides a logical partitioning of a network device where each partition is separately managed as essentially an independent network element which is 'hosted' by the base network device.  These hosted network elements are referred to as logical network elements, or LNEs, and are supported by the logical-network-element module defined below.  The module is used to identify LNEs and associate resources from the network-device with each LNE.  LNEs themselves are represented in YANG as independent network devices; each accessed independently.  Optionally, and when supported by the implementation, they may also be accessed from the host system.  Examples of vendor terminology for an LNE include logical system or router, and virtual switch, chassis, or fabric.  </p>
 <p id="rfc.section.1.p.6">The second form provides support what is commonly referred to as Virtual Routing and Forwarding (VRF) instances as well as Virtual Switch Instances (VSI), see <a href="#RFC4026">[RFC4026]</a>.  In this form of resource partitioning multiple control plane and forwarding/bridging instances are provided by and managed via a single (physical or logical) network device.  This form of resource partitioning is referred to as Network Instances and are supported by the networking-instance module defined below.  Configuration and operation of each network-instance is always via the network device and the networking-instance module.  </p>
@@ -534,12 +534,12 @@
 <p id="rfc.section.1.p.9">A significant portion of the text and model contained in this document was taken from the -00 of <a href="#OC-STRUCT">[OC-STRUCT]</a>.  </p>
 <p/>
 <h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#sec-1.1" id="sec-1.1">Status of Work and Open Issues</a></h1>
-<p id="rfc.section.1.1.p.1">This version of the document and structure are a product of the Routing Area YANG Architecture design team and is very much a work in progress rather than a final proposal.  This version is a major change from the prior version and this change was enabled by the work on the previously mentioned Structural Mount/YSDL.  </p>
-<p id="rfc.section.1.1.p.2">Structural Mount/YSDL enables a dramatic simplification of the presented device model, particularly for "lower-end" devices which are unlikely to support multiple network instances or logical network elements.  Should structural-mount/YSDL not be available, the more explicit tree structure presented in earlier versions of this document will need to be utilized.  </p>
+<p id="rfc.section.1.1.p.1">This version of the document and structure are a product of the Routing Area YANG Architecture design team and is very much a work in progress rather than a final proposal.  This version is a major change from the prior version and this change was enabled by the work on the previously mentioned Schema Mount.  </p>
+<p id="rfc.section.1.1.p.2">Schema Mount enables a dramatic simplification of the presented device model, particularly for "lower-end" devices which are unlikely to support multiple network instances or logical network elements.  Should structural-mount/YSDL not be available, the more explicit tree structure presented in earlier versions of this document will need to be utilized.  </p>
 <p id="rfc.section.1.1.p.3">The top open issues are: </p>
 
 <ol>
-  <li>The use of YSDL vs Structural Mount needs to be resolved as does ensuring that the selected approach has the needed capabilities.</li>
+  <li>The use of YSDL vs Structural Mount, i.e., a Netmod defined Schema Mount solution, needs to be resolved as does ensuring that the selected approach has the needed capabilities.</li>
   <li>This document will need to match the evolution and standardization of  <a href="#OC-OPSTATE">[OC-OPSTATE]</a> or <a href="#NETMOD-OPSTATE">[NETMOD-OPSTATE]</a> by the Netmod WG.  </li>
   <li>Interpretation of different policy containers requires clarification.</li>
   <li>It may make sense to use the identityref structuring with hardware and QoS model.</li>
@@ -769,7 +769,7 @@
              +--rw name?   string
              +--rw description? string
              +--rw managed?     boolean
-             +--rw root?        structural-mount
+             +--rw root?        schema-mount
     augment /if:interfaces/if:interface:
        +--rw bind-lne-name?     string
 </pre>
@@ -788,7 +788,7 @@
           +--rw logical-network-element* [name]
              +--rw name="one"          string
              +--rw manged=true         boolean
-             +--rw root                structural-mount
+             +--rw root                schema-mount
 
  .......................................................................
                                   [ LNE state exposed to network-device]
@@ -813,7 +813,7 @@
 <p id="rfc.section.3.2.p.1">Management functions operating with the context of an LNE are accessed through standard LNE's management interfaces, e.g., NETCONF and SNMP.  When accessing an LNE via an LNE's management interface, a network-device representation will be presented, but its scope will be limited to the specific LNE.  Normal YANG/NETCONF mechanisms, together with ietf-yang-library, can be used to identify the available modules.  Each supported module will be presented as a top level module. Only LNE associated resources will be reflected in resource related modules, e.g., interfaces, hardware and perhaps QoS. From the management perspective, there will be no difference between the available LNE view (information) and an a physical network device.  </p>
 <p id="rfc.section.3.2.p.2">Multiple implementation approaches are possible to provide LNE views, and these are outside the scope of this document.  </p>
 <h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#sec-LNE.MOUNT" id="sec-LNE.MOUNT">LNE Instantiation</a></h1>
-<p id="rfc.section.3.3.p.1">TBD -- need to resolve if instantiation is based on (a) new list entry creation, (2) YSDL, or (3) Structural Mount.  </p>
+<p id="rfc.section.3.3.p.1">TBD -- need to resolve if instantiation is based on new list entry creation per the pending Schema Mount solution definition.  </p>
 <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sec-NI" id="sec-NI">Network Instances</a></h1>
 <p id="rfc.section.4.p.1">The network instance container is used to represent virtual routing and forwarding instances (VRFs) and virtual switching instances (VSIs), <a href="#RFC4026">[RFC4026]</a>.  VRFs and VSIs are commonly used to isolate routing and switching domains, for example to create virtual private networks, each with their own active protocols and routing/switching policies.  The model represents both core/provider and virtual instances.  Networking instances reuse and build on <a href="#RTG-CFG">[RTG-CFG]</a> and are shown below: </p>
 <pre>
@@ -826,7 +826,7 @@
              +--rw description?                 string
              +--rw networking-instance-policy
              |  ...
-             +--rw root?     structural-mount
+             +--rw root?                      schema-mount
              |  ...
     augment /if:interfaces/if:interface:
        +--rw bind-networking-instance-name?   string
@@ -864,7 +864,7 @@
              +--rw description="The Green VRF"         string
              +--rw networking-instance-policy
              |  ... (RT=1000:1, RD=1.2.3.4)
-             +--rw root?                               structural-mount
+             +--rw root?                               schema-mount
                 +--rw ietf-yang-library
                 +--rw networking-services
                 +--rw oam-protocols
@@ -874,7 +874,7 @@
 <p/>
 <p id="rfc.section.4.2.p.4">All modules that represent control-plane and data-plane information may be present at the `root`, and be accessible via paths modified per <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>.  The list of available modules is expected to be implementation dependent.  As is the method used by an implementation to support NIs.  </p>
 <h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#sec-NI.3" id="sec-NI.3">Network Instance Instantiation</a></h1>
-<p id="rfc.section.4.3.p.1">TBD -- need to resolve if instantiation is based on (a) new list entry creation, (2) YSDL, or (3) Structural Mount.  </p>
+<p id="rfc.section.4.3.p.1">TBD -- need to resolve if instantiation is based on new list entry creation per the pending Schema Mount solution definition.  </p>
 <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#sec-4" id="sec-4">Security Considerations</a></h1>
 <p id="rfc.section.5.p.1">The network-device model structure described in this document does not define actual configuration and state data, hence it is not directly responsible for security risks.  </p>
 <p id="rfc.section.5.p.2">Each of the component models that provide the corresponding configuration and state data should be considered sensitive from a security standpoint since they generally manipulate aspects of network configurations.  Each component model should be carefully evaluated to determine its security risks, along with mitigations to reduce such risks.  </p>
@@ -1277,7 +1277,7 @@ module logical-network-element {
         description "Type of logical-network-element";
       }
       leaf lne-root {
-        type structural-mount;
+        type schema-mount;
         description "Root for models supported per logical
                      network element";
       }
@@ -1310,7 +1310,7 @@ module logical-network-element {
 <p/>
 <h1 id="rfc.section.7.3"><a href="#rfc.section.7.3">7.3.</a> <a href="#sec-6.3" id="sec-6.3">Networking Instance Model</a></h1>
 <pre>
-&lt;CODE BEGINS&gt; file "networking-instance@2016-01-20.yang"
+&lt;CODE BEGINS&gt; file "networking-instance@2016-02-22.yang"
 module networking-instance {
 
   yang-version "1";
@@ -1343,7 +1343,7 @@ module networking-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-01-20" {
+  revision "2016-02-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
@@ -1492,7 +1492,7 @@ module networking-instance {
           }
           uses networking-instance-policy;
           leaf root {
-            type structural-mount;
+            type schema-mount;
             description "Root for models supported per
                          networking instance";
           }

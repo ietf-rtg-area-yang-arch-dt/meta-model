@@ -110,10 +110,10 @@
    and networking perspectives.  Both make use of emerging YANG
    functionality supported by either structural mount
    <xref target="STRUCTURAL-MOUNT"/>  or YANG Schema Dispatching
-   Language (YSDL) <xref target="YANG-YSDL"/>. The module
-   definitions in this version of the document match
-   <xref target="STRUCTURAL-MOUNT"/> but the solution adopted by
-   the Netmod Working Group will be used.
+   Language (YSDL) <xref target="YANG-YSDL"/>.  The function
+   provided by these documents are collectively refered to as
+   "Schema Mount".  This document is expected to use whatever
+   Schema Mount solution is adopted by the Netmod Working Group.
 </t>
 <t>
    Two forms of resource partitioning are supported:
@@ -179,10 +179,10 @@
    Routing Area YANG Architecture design team and is very much a work in
    progress rather than a final proposal.  This version is a major
    change from the prior version and this change was enabled by
-   the work on the previously mentioned Structural Mount/YSDL.
+   the work on the previously mentioned Schema Mount.
 </t>
 <t>
-   Structural Mount/YSDL enables a dramatic simplification of the
+   Schema Mount enables a dramatic simplification of the
    presented device model, particularly for "lower-end" devices
    which are unlikely to support multiple network instances or
    logical network elements.  Should structural-mount/YSDL not be
@@ -192,7 +192,8 @@
 <t>
 The top open issues are:
   <list style="numbers">
-   <t>The use of YSDL vs Structural Mount needs to be resolved as does
+   <t>The use of YSDL vs Structural Mount, i.e., a Netmod
+      defined Schema Mount solution, needs to be resolved as does
       ensuring that the selected approach has the needed capabilities.</t>
    <t>This document will need to match the evolution and
    standardization of  <xref target="OC-OPSTATE"/> or
@@ -698,7 +699,7 @@ routing congruent.  The following is an example of such usage:
              +--rw name?   string
              +--rw description? string
              +--rw managed?     boolean
-             +--rw root?        structural-mount
+             +--rw root?        schema-mount
     augment /if:interfaces/if:interface:
        +--rw bind-lne-name?     string
 </artwork>
@@ -752,7 +753,7 @@ routing congruent.  The following is an example of such usage:
           +--rw logical-network-element* [name]
              +--rw name="one"          string
              +--rw manged=true         boolean
-             +--rw root                structural-mount
+             +--rw root                schema-mount
 
  .......................................................................
                                   [ LNE state exposed to network-device]
@@ -813,8 +814,8 @@ routing congruent.  The following is an example of such usage:
 <section anchor="sec-LNE.MOUNT"
   title="  LNE Instantiation">
 <t>
-  TBD -- need to resolve if instantiation is based on (a) new list entry
-  creation, (2) YSDL, or (3) Structural Mount.
+  TBD -- need to resolve if instantiation is based on new list entry
+  creation per the pending Schema Mount solution definition.
 </t>
 </section>
 
@@ -843,7 +844,7 @@ routing congruent.  The following is an example of such usage:
              +--rw description?                 string
              +--rw networking-instance-policy
              |  ...
-             +--rw root?     structural-mount
+             +--rw root?                      schema-mount
              |  ...
     augment /if:interfaces/if:interface:
        +--rw bind-networking-instance-name?   string
@@ -920,7 +921,7 @@ routing congruent.  The following is an example of such usage:
              +--rw description="The Green VRF"         string
              +--rw networking-instance-policy
              |  ... (RT=1000:1, RD=1.2.3.4)
-             +--rw root?                               structural-mount
+             +--rw root?                               schema-mount
                 +--rw ietf-yang-library
                 +--rw networking-services
                 +--rw oam-protocols
@@ -941,8 +942,8 @@ routing congruent.  The following is an example of such usage:
 
 <section anchor="sec-NI.3" title="  Network Instance Instantiation">
 <t>
-  TBD -- need to resolve if instantiation is based on (a) new list entry
-  creation, (2) YSDL, or (3) Structural Mount.
+  TBD -- need to resolve if instantiation is based on new list entry
+  creation per the pending Schema Mount solution definition.
 </t>
 </section>
 </section>
@@ -1382,7 +1383,7 @@ module logical-network-element {
         description "Type of logical-network-element";
       }
       leaf lne-root {
-        type structural-mount;
+        type schema-mount;
         description "Root for models supported per logical
                      network element";
       }
@@ -1419,7 +1420,7 @@ module logical-network-element {
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "networking-instance@2016-01-20.yang"
+<CODE BEGINS> file "networking-instance@2016-02-22.yang"
 module networking-instance {
 
   yang-version "1";
@@ -1452,7 +1453,7 @@ module networking-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-01-20" {
+  revision "2016-02-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
@@ -1601,7 +1602,7 @@ module networking-instance {
           }
           uses networking-instance-policy;
           leaf root {
-            type structural-mount;
+            type schema-mount;
             description "Root for models supported per
                          networking instance";
           }

@@ -24,7 +24,7 @@ module logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-01-20" {
+  revision "2016-02-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
@@ -60,7 +60,7 @@ module logical-network-element {
           "Description of the logical network element";
       }
       leaf root {
-        type structural-mount;
+        type schema-mount;
         description "Root for models supported per logical
                      network element";
       }

@@ -6,7 +6,7 @@ module: networking-instance
          +--rw enabled?                      boolean
          +--rw description?                  string
          +--rw networking-instance-policy
-         +--rw root?                         structural-mount
+         +--rw root?                         schema-mount
 augment /if:interfaces/if:interface:
    +--rw bind-networking-instance-name?   string
 augment /if:interfaces/if:interface/ip:ipv4:

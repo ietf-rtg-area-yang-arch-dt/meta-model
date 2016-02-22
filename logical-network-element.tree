@@ -4,6 +4,6 @@ module: logical-network-element
          +--rw name           string
          +--rw managed?       boolean
          +--rw description?   string
-         +--rw root?          structural-mount
+         +--rw root?          schema-mount
 augment /if:interfaces/if:interface:
    +--rw bind-lne-name?   string
