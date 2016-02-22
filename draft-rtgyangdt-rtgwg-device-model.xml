@@ -203,7 +203,7 @@ The top open issues are:
    <t>It may make sense to use the identityref structuring with
      hardware and QoS model.</t>
    <t>Which document(s) define the base System management,
-   networking services, and oam protocols modules is TBD.  This
+   network services, and oam protocols modules is TBD.  This
    includes the possibility of simply using RFC7317 in place of
    the presented System management module.</t>
    <t>The model will be updated once the "opstate" requirements are
@@ -290,7 +290,7 @@ The top open issues are:
        +--rw qos
        |
        +--rw system-management
-       +--rw networking-services
+       +--rw network-services
        +--rw oam-protocols
        |
        +--rw routing
@@ -339,7 +339,7 @@ The top open issues are:
    QoS modules.
 </t>
 <t>
-   System management, networking services, and oam protocols
+   System management, network services, and oam protocols
    represent new top level modules that are used to organize data
    models of similar functions.  Additional information on each
    is provided below.
@@ -503,7 +503,7 @@ The top open issues are:
 <t>
 </t>
 </section>
-<section anchor="sec-2.3" title="  Networking Services">
+<section anchor="sec-2.3" title="  Network Services">
 <t>
   A device may provide different network services to other devices, for
   example a device my act as a DHCP server.  The model may be
@@ -516,8 +516,8 @@ The top open issues are:
 <figure>
 <artwork>
     module: network-device
-       +--rw networking-services
-       |  +--rw networking-service* [type]
+       +--rw network-services
+       |  +--rw network-service* [type]
        |     +--rw type    identityref
 </artwork>
 </figure>
@@ -532,8 +532,8 @@ The top open issues are:
 <figure>
 <artwork>
     module: network-device
-       +--rw networking-services
-          +--rw networking-service* [type]
+       +--rw network-services
+          +--rw network-service* [type]
              +--rw type=ntp-server
              +--rw type=dns-server
              +--rw type=dhcp-server
@@ -763,7 +763,7 @@ routing congruent.  The following is an example of such usage:
                 +--rw hardware
                 +--rw qos
                 +--rw system-management
-                +--rw networking-services
+                +--rw network-services
                 +--rw oam-protocols
                 +--rw routing
                 +--rw mpls
@@ -923,7 +923,7 @@ routing congruent.  The following is an example of such usage:
              |  ... (RT=1000:1, RD=1.2.3.4)
              +--rw root?                               schema-mount
                 +--rw ietf-yang-library
-                +--rw networking-services
+                +--rw network-services
                 +--rw oam-protocols
                 +--rw routing
                 +--rw mpls
@@ -990,7 +990,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "network-device@2016-01-19.yang"
+<CODE BEGINS> file "network-device@2016-02-22.yang"
 module network-device {
 
   yang-version "1";
@@ -1016,10 +1016,10 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-01-19" {
+  revision "2016-02-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD";
+    reference "TBD"; 
   }
 
   // extension statements
@@ -1031,9 +1031,9 @@ module network-device {
           "Base identity for derivation of OAM protocols";
   }
 
-  identity networking-service-type {
+  identity network-service-type {
       description
-          "Base identity for derivation of networking services";
+          "Base identity for derivation of network services";
   }
 
    identity system-management-protocol-type {
@@ -1132,7 +1132,7 @@ module network-device {
 
   // top level device definition statements
   container ietf-yang-library {
-    description
+    description 
       "YANG Module Library as defined in
        draft-ietf-netconf-yang-library";
   }
@@ -1157,7 +1157,7 @@ module network-device {
   }
 
   container system-management {
-      description
+      description 
         "System management for physical or virtual device.";
       container system-management-global {
           description "System management - with reuse of RFC 7317";
@@ -1173,27 +1173,27 @@ module network-device {
                   "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
           }
           description "List of system management protocol
-                       configured for a logical networking
+                       configured for a logical network
                        element.";
       }
   }
 
-  container networking-services {
+  container network-services {
       description
-          "Container for list of configured networking
+          "Container for list of configured network 
            services.";
-      list networking-service {
+      list network-service {
           key "type";
           description
-              "List of networking services configured for a
+              "List of network services configured for a
                network instance.";
           leaf type {
               type identityref {
-                  base networking-service-type;
+                  base network-service-type;
               }
               mandatory true;
               description
-                  "The networking services type supported within
+                  "The network service type supported within
                    a network instance, e.g., NTP server, DNS
                    server, DHCP server, etc.";
           }
@@ -1221,7 +1221,7 @@ module network-device {
   }
 
   container routing {
-    description
+    description 
       "The YANG Data Model for Routing Management revised to be
        Network Instance / VRF independent. ";
     // Note that there is no routing or network instance
@@ -1245,14 +1245,14 @@ module network-device {
               mandatory true;
               description
                   "MPLS and Traffic Engineering protocol LSP types,
-                   static, LDP/SR (igp-congruent),
+                   static, LDP/SR (igp-congruent), 
                    RSVP TE (constrained-paths) , etc.";
           }
       }
   }
 
   container ieee-dot1Q {
-    description
+    description 
       "The YANG Data Model for VLAN bridges as defined by the IEEE";
   }
 
@@ -1267,16 +1267,16 @@ module network-device {
   }
 
   container logical-network-element {
-    description
-      "This module is used to support multiple logical network
+    description 
+      "This module is used to support multiple logical network 
        elements on a single physical or virtual system.";
   }
 
   container network-instance {
-    description
-      "This module is used to support multiple network instances
-       within a single physical or virtual device.  Network
-       instances are commonly know as VRFs (virtual routing
+    description 
+      "This module is used to support multiple network instances 
+       within a single physical or virtual device.  Network 
+       instances are commonly know as VRFs (virtual routing 
        and forwarding) and VSIs (virtual switching instances).";
   }
   // rpc statements

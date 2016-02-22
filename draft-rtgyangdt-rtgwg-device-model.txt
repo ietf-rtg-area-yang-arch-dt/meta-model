@@ -85,7 +85,7 @@ Table of Contents
    2.  Module Overview . . . . . . . . . . . . . . . . . . . . . . .   5
      2.1.  Interface Model Components  . . . . . . . . . . . . . . .   8
      2.2.  System Management . . . . . . . . . . . . . . . . . . . .  10
-     2.3.  Networking Services . . . . . . . . . . . . . . . . . . .  10
+     2.3.  Network Services  . . . . . . . . . . . . . . . . . . . .  10
      2.4.  OAM Protocols . . . . . . . . . . . . . . . . . . . . . .  11
      2.5.  Routing . . . . . . . . . . . . . . . . . . . . . . . . .  11
      2.6.  MPLS  . . . . . . . . . . . . . . . . . . . . . . . . . .  12
@@ -245,7 +245,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
    4.  It may make sense to use the identityref structuring with
        hardware and QoS model.
 
-   5.  Which document(s) define the base System management, networking
+   5.  Which document(s) define the base System management, network
        services, and oam protocols modules is TBD.  This includes the
        possibility of simply using RFC7317 in place of the presented
        System management module.
@@ -346,7 +346,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
           +--rw qos
           |
           +--rw system-management
-          +--rw networking-services
+          +--rw network-services
           +--rw oam-protocols
           |
           +--rw routing
@@ -397,9 +397,9 @@ Internet-Draft            RTG YANG Device Model            February 2016
    included as part of the definition of the future hardware and QoS
    modules.
 
-   System management, networking services, and oam protocols represent
-   new top level modules that are used to organize data models of
-   similar functions.  Additional information on each is provided below.
+   System management, network services, and oam protocols represent new
+   top level modules that are used to organize data models of similar
+   functions.  Additional information on each is provided below.
 
    The routing and MPLS modules provide core support for the
    configuration and operation of a devices control plane and data plane
@@ -544,7 +544,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
              |  +--rw type=netconf
 
 
-2.3.  Networking Services
+2.3.  Network Services
 
    A device may provide different network services to other devices, for
    example a device my act as a DHCP server.  The model may be
@@ -563,8 +563,8 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
 
        module: network-device
-          +--rw networking-services
-          |  +--rw networking-service* [type]
+          +--rw network-services
+          |  +--rw network-service* [type]
           |     +--rw type    identityref
 
    The following is an example of envisioned usage: Examples shown below
@@ -573,8 +573,8 @@ Internet-Draft            RTG YANG Device Model            February 2016
    (DHCP) server:
 
        module: network-device
-          +--rw networking-services
-             +--rw networking-service* [type]
+          +--rw network-services
+             +--rw network-service* [type]
                 +--rw type=ntp-server
                 +--rw type=dns-server
                 +--rw type=dhcp-server
@@ -803,7 +803,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
                 +--rw hardware
                 +--rw qos
                 +--rw system-management
-                +--rw networking-services
+                +--rw network-services
                 +--rw oam-protocols
                 +--rw routing
                 +--rw mpls
@@ -942,7 +942,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
                 |  ... (RT=1000:1, RD=1.2.3.4)
                 +--rw root?                               schema-mount
                    +--rw ietf-yang-library
-                   +--rw networking-services
+                   +--rw network-services
                    +--rw oam-protocols
                    +--rw routing
                    +--rw mpls
@@ -997,7 +997,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
 7.1.  Network Device Model Structure
 
-   <CODE BEGINS> file "network-device@2016-01-19.yang"
+   <CODE BEGINS> file "network-device@2016-02-22.yang"
    module network-device {
 
      yang-version "1";
@@ -1031,7 +1031,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
         to describe how individual device protocol and feature models
         fit together and interact.";
 
-     revision "2016-01-19" {
+     revision "2016-02-22" {
        description
          "IETF Routing YANG Design Team Meta-Model";
        reference "TBD";
@@ -1046,9 +1046,9 @@ Internet-Draft            RTG YANG Device Model            February 2016
              "Base identity for derivation of OAM protocols";
      }
 
-     identity networking-service-type {
+     identity network-service-type {
          description
-             "Base identity for derivation of networking services";
+             "Base identity for derivation of network services";
      }
 
       identity system-management-protocol-type {
@@ -1212,19 +1212,19 @@ Internet-Draft            RTG YANG Device Model            February 2016
                      "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
              }
              description "List of system management protocol
-                          configured for a logical networking
+                          configured for a logical network
                           element.";
          }
      }
 
-     container networking-services {
+     container network-services {
          description
-             "Container for list of configured networking
+             "Container for list of configured network
               services.";
-         list networking-service {
+         list network-service {
              key "type";
              description
-                 "List of networking services configured for a
+                 "List of network services configured for a
                   network instance.";
 
 
@@ -1236,11 +1236,11 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
              leaf type {
                  type identityref {
-                     base networking-service-type;
+                     base network-service-type;
                  }
                  mandatory true;
                  description
-                     "The networking services type supported within
+                     "The network service type supported within
                       a network instance, e.g., NTP server, DNS
                       server, DHCP server, etc.";
              }

@@ -7,8 +7,8 @@ module: network-device
    |  +--rw system-management-global
    |  +--rw system-management-protocol* [type]
    |     +--rw type    identityref
-   +--rw networking-services
-   |  +--rw networking-service* [type]
+   +--rw network-services
+   |  +--rw network-service* [type]
    |     +--rw type    identityref
    +--rw oam-protocols
    |  +--rw oam-protocol* [type]

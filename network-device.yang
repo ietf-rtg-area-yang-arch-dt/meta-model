@@ -38,9 +38,9 @@ module network-device {
           "Base identity for derivation of OAM protocols";
   }
 
-  identity networking-service-type {
+  identity network-service-type {
       description
-          "Base identity for derivation of networking services";
+          "Base identity for derivation of network services";
   }
 
    identity system-management-protocol-type {
@@ -180,27 +180,27 @@ module network-device {
                   "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
           }
           description "List of system management protocol
-                       configured for a logical networking
+                       configured for a logical network
                        element.";
       }
   }
 
-  container networking-services {
+  container network-services {
       description
-          "Container for list of configured networking 
+          "Container for list of configured network 
            services.";
-      list networking-service {
+      list network-service {
           key "type";
           description
-              "List of networking services configured for a
+              "List of network services configured for a
                network instance.";
           leaf type {
               type identityref {
-                  base networking-service-type;
+                  base network-service-type;
               }
               mandatory true;
               description
-                  "The networking services type supported within
+                  "The network service type supported within
                    a network instance, e.g., NTP server, DNS
                    server, DHCP server, etc.";
           }
