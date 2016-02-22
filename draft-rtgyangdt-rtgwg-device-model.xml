@@ -746,8 +746,8 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
- .......................................................................
-                                                [ network-device state ]
+ .................................................................
+                                          [ network-device state ]
     module: logical-network-element
        +--rw logical-network-inventory
           +--rw logical-network-element* [name]
@@ -755,8 +755,8 @@ routing congruent.  The following is an example of such usage:
              +--rw manged=true         boolean
              +--rw root                schema-mount
 
- .......................................................................
-                                  [ LNE state exposed to network-device]
+ .................................................................
+                            [ LNE state exposed to network-device]
 
                 +--rw ietf-yang-library
                 +--rw interfaces
@@ -769,7 +769,7 @@ routing congruent.  The following is an example of such usage:
                 +--rw mpls
                 +--rw ieee-dot1Q
                 +--rw network-instance
- .......................................................................
+ .................................................................
 </artwork>
 </figure>
 </t>

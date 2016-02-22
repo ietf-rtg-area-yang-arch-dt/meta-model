@@ -781,8 +781,8 @@
 <p id="rfc.section.3.1.p.3">When `managed` is `true`, the LNE can be managed from both the context of the LNE and the host network device. In this case, the same information that is available from within the LNE context is made available via the `root` element, with paths modified as described in <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>.  </p>
 <p id="rfc.section.3.1.p.4">As an example, consider the case where an LNE with a `name` of "one" is defined on a network device.  In this case  the following structure might be made available: </p>
 <pre>
- .......................................................................
-                                                [ network-device state ]
+ .................................................................
+                                          [ network-device state ]
     module: logical-network-element
        +--rw logical-network-inventory
           +--rw logical-network-element* [name]
@@ -790,8 +790,8 @@
              +--rw manged=true         boolean
              +--rw root                schema-mount
 
- .......................................................................
-                                  [ LNE state exposed to network-device]
+ .................................................................
+                            [ LNE state exposed to network-device]
 
                 +--rw ietf-yang-library
                 +--rw interfaces
@@ -804,7 +804,7 @@
                 +--rw mpls
                 +--rw ieee-dot1Q
                 +--rw network-instance
- .......................................................................
+ .................................................................
 </pre>
 <p/>
 <p id="rfc.section.3.1.p.6">As an LNE is a network device itself, all modules that may be present at the top level network device may also be present for the LNE, be made available under `root`, and be accessible via paths modified per <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>. The list of available modules is expected to be implementation dependent. As is the method used by an implementation to support LNEs.  </p>

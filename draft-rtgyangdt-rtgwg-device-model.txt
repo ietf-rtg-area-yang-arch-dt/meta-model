@@ -786,30 +786,30 @@ Lindem, et al.           Expires August 25, 2016               [Page 14]
 Internet-Draft            RTG YANG Device Model            February 2016
 
 
- .......................................................................
-                                                [ network-device state ]
-    module: logical-network-element
-       +--rw logical-network-inventory
-          +--rw logical-network-element* [name]
-             +--rw name="one"          string
-             +--rw manged=true         boolean
-             +--rw root                schema-mount
+    .................................................................
+                                             [ network-device state ]
+       module: logical-network-element
+          +--rw logical-network-inventory
+             +--rw logical-network-element* [name]
+                +--rw name="one"          string
+                +--rw manged=true         boolean
+                +--rw root                schema-mount
 
- .......................................................................
-                                  [ LNE state exposed to network-device]
+    .................................................................
+                               [ LNE state exposed to network-device]
 
-                +--rw ietf-yang-library
-                +--rw interfaces
-                +--rw hardware
-                +--rw qos
-                +--rw system-management
-                +--rw network-services
-                +--rw oam-protocols
-                +--rw routing
-                +--rw mpls
-                +--rw ieee-dot1Q
-                +--rw network-instance
- .......................................................................
+                   +--rw ietf-yang-library
+                   +--rw interfaces
+                   +--rw hardware
+                   +--rw qos
+                   +--rw system-management
+                   +--rw network-services
+                   +--rw oam-protocols
+                   +--rw routing
+                   +--rw mpls
+                   +--rw ieee-dot1Q
+                   +--rw network-instance
+    .................................................................
 
    As an LNE is a network device itself, all modules that may be present
    at the top level network device may also be present for the LNE, be
