@@ -1,0 +1,15 @@
+module: network-instance
+   +--rw network-instances
+      +--rw network-instance* [name]
+         +--rw name                       string
+         +--rw type?                      identityref
+         +--rw enabled?                   boolean
+         +--rw description?               string
+         +--rw network-instance-policy
+         +--rw root?                      schema-mount
+augment /if:interfaces/if:interface:
+   +--rw bind-network-instance-name?   string
+augment /if:interfaces/if:interface/ip:ipv4:
+   +--rw bind-network-instance-name?   string
+augment /if:interfaces/if:interface/ip:ipv6:
+   +--rw bind-network-instance-name?   string

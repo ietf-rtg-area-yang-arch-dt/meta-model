@@ -31,4 +31,4 @@ module: network-device
    +--rw ietf-acl
    +--rw ietf-key-chain
    +--rw logical-network-element
-   +--rw networking-instance
+   +--rw network-instance

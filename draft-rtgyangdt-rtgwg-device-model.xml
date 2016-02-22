@@ -141,9 +141,9 @@
    and forwarding/bridging instances are provided by and managed
    via a single (physical or logical) network device.  This form
    of resource partitioning is referred to as Network Instances
-   and are supported by the networking-instance module defined
+   and are supported by the network-instance module defined
    below.  Configuration and operation of each network-instance is
-   always via the network device and the networking-instance
+   always via the network device and the network-instance
    module.
 </t>
 <t>
@@ -209,7 +209,7 @@ The top open issues are:
    <t>The model will be updated once the "opstate" requirements are
       addressed.</t>
 <t>
-      It may make sense to publish the networking-instance and
+      It may make sense to publish the network-instance and
       logical-network-element modules separately, as different
       devices may not implement both, and network providers may
       only require one or the other.
@@ -231,7 +231,7 @@ The top open issues are:
    system or router, and virtual switch, chassis, or fabric. Each LNE
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
-   networking instances (NIs). This breakdown is represented in
+   network instances (NIs). This breakdown is represented in
    Figure 1.
 </t>
 <t>
@@ -261,7 +261,7 @@ The top open issues are:
 </t>
 <t>
    A model for LNEs is described in <xref target="sec-LNE"/> and
-   the model for networking instances is covered in
+   the model for network instances is covered in
    <xref target="sec-NI"/>.
 </t>
 <t>
@@ -301,7 +301,7 @@ The top open issues are:
        +--rw ietf-key-chain
        |
        +--rw logical-network-element
-       +--rw networking-instance
+       +--rw network-instance
 </artwork>
 </figure>
 </t>
@@ -352,7 +352,7 @@ The top open issues are:
    and other similar modules are also possible.  Each of these modules is
    expected to be LNE and NI unaware, and to be instantiated as needed
    as part of the LNE and NI configuration and operation supported by
-   the logical-network-element and networking-instance modules.  (Note
+   the logical-network-element and network-instance modules.  (Note
    that this is a change from <xref target="RTG-CFG"/> which is
    currently defined with VRF/NI semantics.)
 </t>
@@ -362,7 +362,7 @@ The top open issues are:
    be supported by a network device.
 </t>
 <t>
-  The logical network element and networking instance modules
+  The logical network element and network instance modules
   enable LNEs and NIs respectively and are defined below.
 </t>
 <section anchor="sec-2.1" title="  Interface Model Components">
@@ -378,14 +378,14 @@ The top open issues are:
    <xref target="RFC7223"/>.
 </t>
 <t>
-   The logical-network-element and networking-instance modules
+   The logical-network-element and network-instance modules
    defined in this document augment the existing interface
    management model in two ways: The first, by the
    logical-network-element module, adds an identifier which is
    used on physical interface types to identify an associated LNE.
-   The second, by the networking-instance module, adds a name
+   The second, by the network-instance module, adds a name
    which is used on sub-interface types to identify an associated
-   networking instance.  Similarly, this name is also added for
+   network instance.  Similarly, this name is also added for
    IPv4 and IPv6 types, as defined in <xref target="RFC7277"/>.
 </t>
 <t>
@@ -396,11 +396,11 @@ The top open issues are:
        +--rw bind-lne-name?   string
 
     augment /if:interfaces/if:interface:
-       +--rw bind-networking-instance-name?   string
+       +--rw bind-network-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv4:
-       +--rw bind-networking-instance-name?   string
+       +--rw bind-network-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv6:
-       +--rw bind-networking-instance-name?   string
+       +--rw bind-network-instance-name?   string
 </artwork>
 </figure>
 </t>
@@ -417,7 +417,7 @@ The top open issues are:
           |     +--rw name                       string
           |     +--rw bind-lne-name?             string
           |     +--rw ethernet
-          |     |  +--rw bind-networking-instance-name?   string
+          |     |  +--rw bind-network-instance-name?   string
           |     |  +--rw aggregates
           |     |  +--rw rstp
           |     |  +--rw lldp
@@ -425,13 +425,13 @@ The top open issues are:
           |     +--rw vlans
           |     +--rw tunnels
           |     +--rw ipv4
-          |     |  +--rw bind-networking-instance-name?   string
+          |     |  +--rw bind-network-instance-name?   string
           |     |  +--rw arp
           |     |  +--rw icmp
           |     |  +--rw vrrp
           |     |  +--rw dhcp-client
           |     +--rw ipv6
-          |        +--rw bind-networking-instance-name?   string
+          |        +--rw bind-network-instance-name?   string
           |        +--rw vrrp
           |        +--rw icmpv6
           |        +--rw nd
@@ -444,7 +444,7 @@ The top open issues are:
    structured to include all interfaces in a flat list, without
    regard to logical or virtual instances (e.g., VRFs) supported
    on the device.  The bind-lne-name and
-   bind-networking-instance-name leaves provide the association
+   bind-network-instance-name leaves provide the association
    between an interface and its associated LNE and NI (e.g., VRF
    or VSI).
 </t>
@@ -768,7 +768,7 @@ routing congruent.  The following is an example of such usage:
                 +--rw routing
                 +--rw mpls
                 +--rw ieee-dot1Q
-                +--rw networking-instance
+                +--rw network-instance
  .......................................................................
 </artwork>
 </figure>
@@ -829,44 +829,44 @@ routing congruent.  The following is an example of such usage:
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
    policies.  The model represents both core/provider and virtual
-   instances.  Networking instances reuse and build on <xref target="RTG-CFG"/>
+   instances.  Network instances reuse and build on <xref target="RTG-CFG"/>
    and are shown below:
 </t>
 <t>
 <figure>
 <artwork>
-    module: networking-instance
-       +--rw networking-instances
-          +--rw networking-instance* [name]
+    module: network-instance
+       +--rw network-instances
+          +--rw network-instance* [name]
              +--rw name                         string
              +--rw type?                        identityref
              +--rw enabled?                     boolean
              +--rw description?                 string
-             +--rw networking-instance-policy
+             +--rw network-instance-policy
              |  ...
              +--rw root?                      schema-mount
              |  ...
     augment /if:interfaces/if:interface:
-       +--rw bind-networking-instance-name?   string
+       +--rw bind-network-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv4:
-       +--rw bind-networking-instance-name?   string
+       +--rw bind-network-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv6:
-       +--rw bind-networking-instance-name?   string
+       +--rw bind-network-instance-name?   string
 </artwork>
 </figure>
 </t>
 <t>
-   A networking instance is identified by a
+   A network instance is identified by a
    `name` string.  This string is used both as
-   an index within the networking-instance module and to associate
-   resources with a networking instance is shown above in the
+   an index within the network-instance module and to associate
+   resources with a network instance is shown above in the
    interface augmentation. Type is used to indicate the type NI,
-   such as L3-VRF, VPLS, L2-VSI, etc. Networking instance policy
+   such as L3-VRF, VPLS, L2-VSI, etc. Network instance policy
    and root are discussed in greater detail below.
 </t>
 <section anchor="sec-NI.1" title="  Network Instance Policy">
 <t>
-   Networking instance policies are used to control how NI
+   Network instance policies are used to control how NI
    information is represented at the device level, VRF routing
    policies, and VRF/VSI identifiers. Examples include BGP route
    targets (RTs) and route distinguishers (RDs), virtual network
@@ -876,10 +876,10 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-    module: networking-instance
-       +--rw networking-instances
-          +--rw networking-instance* [name]
-             +--rw networking-instance-policy
+    module: network-instance
+       +--rw network-instances
+          +--rw network-instance* [name]
+             +--rw network-instance-policy
                 (TBD)
 </artwork>
 </figure>
@@ -888,19 +888,19 @@ routing congruent.  The following is an example of such usage:
 
 <section anchor="sec-NI.2" title="  Network Instance Management">
 <t>
-   Modules that may be used to represent networking instance
+   Modules that may be used to represent network instance
    specific information will be available under
    `root`.  As with LNEs, actual module
    availability is expected to be implementation dependent. The
    ietf-yang-library module is expected to be the primary method
    used to identify supported modules.  Resource related control
    and assignment is expected to be managed at the network-device
-   level, not the networking instance level, based on the
-   `bind-networking-instance-name` augmentation
+   level, not the network instance level, based on the
+   `bind-network-instance-name` augmentation
    mentioned above.
 </t>
 <t>
-   As an example, consider the case where a networking instance with
+   As an example, consider the case where a network instance with
    a `name` of "green" is defined on a network
    device.  In this case the following structure might be made
    available:
@@ -908,18 +908,18 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-    module: networking-instance
+    module: network-instance
        +--rw ietf-yang-library
        +--rw interfaces
-       |  +--rw bind-networking-instance-name="green"  string
+       |  +--rw bind-network-instance-name="green"  string
        +--rw system-management
-       +--rw networking-instances
-          +--rw networking-instance* [name]
+       +--rw network-instances
+          +--rw network-instance* [name]
              +--rw name="green"    string
              +--rw type?                               identityref
              +--rw enabled=true                        boolean
              +--rw description="The Green VRF"         string
-             +--rw networking-instance-policy
+             +--rw network-instance-policy
              |  ... (RT=1000:1, RD=1.2.3.4)
              +--rw root?                               schema-mount
                 +--rw ietf-yang-library
@@ -1065,16 +1065,16 @@ module network-device {
   grouping control-plane-protocols {
       description
           "Grouping for control plane protocols configured for
-           a networking-instance";
+           a network-instance";
       container control-plane-protocols {
           description
               "Container for control plane protocols configured for
-               a networking instance.";
+               a network instance.";
           list control-plane-protocol {
               key "type";
               description
                   "List of control plane protocols configured for
-                   a networking instance.";
+                   a network instance.";
               leaf type {
                   type identityref {
                       base control-plane-protocol-type;
@@ -1096,10 +1096,10 @@ module network-device {
   grouping ribs {
     description
       "Routing Information Bases (RIBs) supported by a
-       networking-instance";
+       network-instance";
     container ribs {
         description
-            "RIBs supported by a networking-instance";
+            "RIBs supported by a network-instance";
         list rib {
             key "name";
             min-elements "1";
@@ -1186,7 +1186,7 @@ module network-device {
           key "type";
           description
               "List of networking services configured for a
-               networking instance.";
+               network instance.";
           leaf type {
               type identityref {
                   base networking-service-type;
@@ -1194,7 +1194,7 @@ module network-device {
               mandatory true;
               description
                   "The networking services type supported within
-                   a networking instance, e.g., NTP server, DNS
+                   a network instance, e.g., NTP server, DNS
                    server, DHCP server, etc.";
           }
       }
@@ -1272,7 +1272,7 @@ module network-device {
        elements on a single physical or virtual system.";
   }
 
-  container networking-instance {
+  container network-instance {
     description
       "This module is used to support multiple network instances
        within a single physical or virtual device.  Network
@@ -1416,17 +1416,17 @@ module logical-network-element {
 </figure>
 </t>
 </section>
-<section anchor="sec-6.3" title="  Networking Instance Model">
+<section anchor="sec-6.3" title="  Network Instance Model">
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "networking-instance@2016-02-22.yang"
-module networking-instance {
+<CODE BEGINS> file "network-instance@2016-02-22.yang"
+module network-instance {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:networking-instance";
+  namespace "urn:ietf:params:xml:ns:yang:network-instance";
 
   prefix "struct";
 
@@ -1461,17 +1461,17 @@ module networking-instance {
 
   // extension statements
 
-  feature bind-networking-instance-name {
+  feature bind-network-instance-name {
     description
-      "Networking Instance to which an interface instance is bound";
+      "Network Instance to which an interface instance is bound";
   }
 
   // identity statements
 
-  identity networking-instance-type {
+  identity network-instance-type {
       description
          "Base identity from which identities describing
-          networking instance types are derived.";
+          network instance types are derived.";
   }
 
    identity ipv4-interface-protocol-type {
@@ -1546,9 +1546,9 @@ module networking-instance {
       }
   }
 
-  grouping networking-instance-policy {
+  grouping network-instance-policy {
     description
-        "Networking instance policies such as route
+        "Network instance policies such as route
          distinguisher, route targets, VPLS ID and neighbor,
          Ethernet ID, etc. ";
     reference
@@ -1556,34 +1556,34 @@ module networking-instance {
          RFC 6074 - Provisioning, Auto-Discovery, and Signaling
               in Layer 2 Virtual Private Networks (L2VPNs)
          RFC 7432 - BGP MPLS-Based Ethernet VPN";
-    container networking-instance-policy {
-        description "Networking Instance Policy -- details TBD";
+    container network-instance-policy {
+        description "Network Instance Policy -- details TBD";
     }
   }
 
   // top level device definition statements
-  container networking-instances {
-      description "Networking instances each of which have
+  container network-instances {
+      description "Network instances each of which have
                    an independent IP/IPv6 addressing space
                    and protocol instantiations. For layer 3,
                    this consistent with the routing-instance
                    definition in ietf-routing";
       reference "draft-ietf-netmod-routing-cfg";
-      list networking-instance {
+      list network-instance {
           key name;
-          description "List of networking-instances";
+          description "List of network-instances";
           leaf name {
               type string;
               description "device scoped
-                           identifier for the networking
+                           identifier for the network
                            instance";
           }
           leaf type {
               type identityref {
-                  base networking-instance-type;
+                  base network-instance-type;
               }
               description
-                  "The networking instance type -- details TBD
+                  "The network instance type -- details TBD
                    Likely types include core, L3-VRF, VPLS,
                    L2-cross-connect, L2-VSI, etc.";
           }
@@ -1591,20 +1591,20 @@ module networking-instance {
               type boolean;
               default "true";
               description
-                "Flag indicating whether or not the networking
+                "Flag indicating whether or not the network
                  instance is enabled.";
           }
           leaf description {
               type string;
               description
-                "Description of the networking instance
+                "Description of the network instance
                 and its intended purpose";
           }
-          uses networking-instance-policy;
+          uses network-instance-policy;
           leaf root {
             type schema-mount;
             description "Root for models supported per
-                         networking instance";
+                         network instance";
           }
       }
   }
@@ -1613,29 +1613,29 @@ module networking-instance {
 
   augment "/if:interfaces/if:interface" {
     description
-        "Add a node for the identification of the logical networking
+        "Add a node for the identification of the logical network
         instance (which is within the interface's identified logical
         network element) associated with the IP information
         configured on an interface";
 
-    leaf bind-networking-instance-name {
+    leaf bind-network-instance-name {
       type string;
       description
-        "Networking Instance to which an interface is bound";
+        "Network Instance to which an interface is bound";
     }
   }
 
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
         "Add a node for the identification of the logical
-        networking instance (which is within the interface's
+        network instance (which is within the interface's
         identified physical or virtual device) associated with
         the IP information configured on an interface";
 
-    leaf bind-networking-instance-name {
+    leaf bind-network-instance-name {
       type string;
       description
-        "Networking Instance to which IPv4 interface is bound";
+        "Network Instance to which IPv4 interface is bound";
 
     }
   }
@@ -1643,14 +1643,14 @@ module networking-instance {
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
         "Add a node for the identification of the logical
-        networking instance (which is within the interface's
+        network instance (which is within the interface's
         identified physical or virtual device) associated with
         the IP information configured on an interface";
 
-    leaf bind-networking-instance-name {
+    leaf bind-network-instance-name {
       type string;
       description
-        "Networking Instance to which IPv6 interface is bound";
+        "Network Instance to which IPv6 interface is bound";
 
     }
   }

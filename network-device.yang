@@ -23,7 +23,7 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-01-19" {
+  revision "2016-02-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -72,16 +72,16 @@ module network-device {
   grouping control-plane-protocols {
       description
           "Grouping for control plane protocols configured for
-           a networking-instance";
+           a network-instance";
       container control-plane-protocols {
           description
               "Container for control plane protocols configured for
-               a networking instance.";
+               a network instance.";
           list control-plane-protocol {
               key "type";
               description
                   "List of control plane protocols configured for
-                   a networking instance.";
+                   a network instance.";
               leaf type {
                   type identityref {
                       base control-plane-protocol-type;
@@ -103,10 +103,10 @@ module network-device {
   grouping ribs {
     description
       "Routing Information Bases (RIBs) supported by a
-       networking-instance";
+       network-instance";
     container ribs {
         description
-            "RIBs supported by a networking-instance";
+            "RIBs supported by a network-instance";
         list rib {
             key "name";
             min-elements "1";
@@ -193,7 +193,7 @@ module network-device {
           key "type";
           description
               "List of networking services configured for a
-               networking instance.";
+               network instance.";
           leaf type {
               type identityref {
                   base networking-service-type;
@@ -201,7 +201,7 @@ module network-device {
               mandatory true;
               description
                   "The networking services type supported within
-                   a networking instance, e.g., NTP server, DNS
+                   a network instance, e.g., NTP server, DNS
                    server, DHCP server, etc.";
           }
       }
@@ -279,7 +279,7 @@ module network-device {
        elements on a single physical or virtual system.";
   }
 
-  container networking-instance {
+  container network-instance {
     description 
       "This module is used to support multiple network instances 
        within a single physical or virtual device.  Network 

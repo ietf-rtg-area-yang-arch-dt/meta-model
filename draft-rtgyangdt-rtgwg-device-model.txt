@@ -102,7 +102,7 @@ Table of Contents
    7.  YANG Modules  . . . . . . . . . . . . . . . . . . . . . . . .  18
      7.1.  Network Device Model Structure  . . . . . . . . . . . . .  18
      7.2.  Logical Network Element Model . . . . . . . . . . . . . .  25
-     7.3.  Networking Instance Model . . . . . . . . . . . . . . . .  27
+     7.3.  Network Instance Model  . . . . . . . . . . . . . . . . .  27
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  32
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .  32
      8.2.  Informative References  . . . . . . . . . . . . . . . . .  33
@@ -182,9 +182,9 @@ Internet-Draft            RTG YANG Device Model            February 2016
    partitioning multiple control plane and forwarding/bridging instances
    are provided by and managed via a single (physical or logical)
    network device.  This form of resource partitioning is referred to as
-   Network Instances and are supported by the networking-instance module
+   Network Instances and are supported by the network-instance module
    defined below.  Configuration and operation of each network-instance
-   is always via the network device and the networking-instance module.
+   is always via the network device and the network-instance module.
 
    This document was motivated by, and derived from, [OC-STRUCT].  The
    requirements from that document have been combined with the
@@ -253,7 +253,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
    6.  The model will be updated once the "opstate" requirements are
        addressed.
 
-   7.  It may make sense to publish the networking-instance and logical-
+   7.  It may make sense to publish the network-instance and logical-
        network-element modules separately, as different devices may not
        implement both, and network providers may only require one or the
        other.
@@ -271,8 +271,8 @@ Internet-Draft            RTG YANG Device Model            February 2016
    system or router, and virtual switch, chassis, or fabric.  Each LNE
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
-   networking instances (NIs).  This breakdown is represented in
-   Figure 1.
+   network instances (NIs).  This breakdown is represented in Figure 1.
+
 
 
 
@@ -300,8 +300,8 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
    Figure 1: Module Element Relationships
 
-   A model for LNEs is described in Section 3 and the model for
-   networking instances is covered in Section 4.
+   A model for LNEs is described in Section 3 and the model for network
+   instances is covered in Section 4.
 
    The presented notional network device module can itself be thought of
    as a "meta-model" as it describes the relationships between
@@ -357,7 +357,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
           +--rw ietf-key-chain
           |
           +--rw logical-network-element
-          +--rw networking-instance
+          +--rw network-instance
 
    The network device is composed of top level modules that can be used
    to configure and operate a network device.  (This is a significant
@@ -408,16 +408,16 @@ Internet-Draft            RTG YANG Device Model            February 2016
    modules are also possible.  Each of these modules is expected to be
    LNE and NI unaware, and to be instantiated as needed as part of the
    LNE and NI configuration and operation supported by the logical-
-   network-element and networking-instance modules.  (Note that this is
-   a change from [RTG-CFG] which is currently defined with VRF/NI
+   network-element and network-instance modules.  (Note that this is a
+   change from [RTG-CFG] which is currently defined with VRF/NI
    semantics.)
 
    The access control list (ACL) and key chain modules are included as
    examples of other top level modules that may be supported by a
    network device.
 
-   The logical network element and networking instance modules enable
-   LNEs and NIs respectively and are defined below.
+   The logical network element and network instance modules enable LNEs
+   and NIs respectively and are defined below.
 
 2.1.  Interface Model Components
 
@@ -431,13 +431,13 @@ Internet-Draft            RTG YANG Device Model            February 2016
    for simplicity).  The interface management model is defined by
    [RFC7223].
 
-   The logical-network-element and networking-instance modules defined
-   in this document augment the existing interface management model in
-   two ways: The first, by the logical-network-element module, adds an
+   The logical-network-element and network-instance modules defined in
+   this document augment the existing interface management model in two
+   ways: The first, by the logical-network-element module, adds an
    identifier which is used on physical interface types to identify an
-   associated LNE.  The second, by the networking-instance module, adds
-   a name which is used on sub-interface types to identify an associated
-   networking instance.  Similarly, this name is also added for IPv4 and
+   associated LNE.  The second, by the network-instance module, adds a
+   name which is used on sub-interface types to identify an associated
+   network instance.  Similarly, this name is also added for IPv4 and
    IPv6 types, as defined in [RFC7277].
 
    The interface related augmentations are as follows:
@@ -454,11 +454,11 @@ Internet-Draft            RTG YANG Device Model            February 2016
           +--rw bind-lne-name?   string
 
        augment /if:interfaces/if:interface:
-          +--rw bind-networking-instance-name?   string
+          +--rw bind-network-instance-name?   string
        augment /if:interfaces/if:interface/ip:ipv4:
-          +--rw bind-networking-instance-name?   string
+          +--rw bind-network-instance-name?   string
        augment /if:interfaces/if:interface/ip:ipv6:
-          +--rw bind-networking-instance-name?   string
+          +--rw bind-network-instance-name?   string
 
    The following is an example of envisioned combined usage.  The
    interfaces container includes a number of commonly used components as
@@ -469,7 +469,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
              |     +--rw name                       string
              |     +--rw bind-lne-name?             string
              |     +--rw ethernet
-             |     |  +--rw bind-networking-instance-name?   string
+             |     |  +--rw bind-network-instance-name?   string
              |     |  +--rw aggregates
              |     |  +--rw rstp
              |     |  +--rw lldp
@@ -477,13 +477,13 @@ Internet-Draft            RTG YANG Device Model            February 2016
              |     +--rw vlans
              |     +--rw tunnels
              |     +--rw ipv4
-             |     |  +--rw bind-networking-instance-name?   string
+             |     |  +--rw bind-network-instance-name?   string
              |     |  +--rw arp
              |     |  +--rw icmp
              |     |  +--rw vrrp
              |     |  +--rw dhcp-client
              |     +--rw ipv6
-             |        +--rw bind-networking-instance-name?   string
+             |        +--rw bind-network-instance-name?   string
              |        +--rw vrrp
              |        +--rw icmpv6
              |        +--rw nd
@@ -492,9 +492,9 @@ Internet-Draft            RTG YANG Device Model            February 2016
    The [RFC7223] defined interface model is structured to include all
    interfaces in a flat list, without regard to logical or virtual
    instances (e.g., VRFs) supported on the device.  The bind-lne-name
-   and bind-networking-instance-name leaves provide the association
-   between an interface and its associated LNE and NI (e.g., VRF or
-   VSI).
+   and bind-network-instance-name leaves provide the association between
+   an interface and its associated LNE and NI (e.g., VRF or VSI).
+
 
 
 
@@ -808,7 +808,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
                 +--rw routing
                 +--rw mpls
                 +--rw ieee-dot1Q
-                +--rw networking-instance
+                +--rw network-instance
  .......................................................................
 
    As an LNE is a network device itself, all modules that may be present
@@ -861,33 +861,33 @@ Internet-Draft            RTG YANG Device Model            February 2016
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
    policies.  The model represents both core/provider and virtual
-   instances.  Networking instances reuse and build on [RTG-CFG] and are
+   instances.  Network instances reuse and build on [RTG-CFG] and are
    shown below:
 
-       module: networking-instance
-          +--rw networking-instances
-             +--rw networking-instance* [name]
+       module: network-instance
+          +--rw network-instances
+             +--rw network-instance* [name]
                 +--rw name                         string
                 +--rw type?                        identityref
                 +--rw enabled?                     boolean
                 +--rw description?                 string
-                +--rw networking-instance-policy
+                +--rw network-instance-policy
                 |  ...
                 +--rw root?                      schema-mount
                 |  ...
        augment /if:interfaces/if:interface:
-          +--rw bind-networking-instance-name?   string
+          +--rw bind-network-instance-name?   string
        augment /if:interfaces/if:interface/ip:ipv4:
-          +--rw bind-networking-instance-name?   string
+          +--rw bind-network-instance-name?   string
        augment /if:interfaces/if:interface/ip:ipv6:
-          +--rw bind-networking-instance-name?   string
+          +--rw bind-network-instance-name?   string
 
-   A networking instance is identified by a `name` string.  This string
-   is used both as an index within the networking-instance module and to
-   associate resources with a networking instance is shown above in the
+   A network instance is identified by a `name` string.  This string is
+   used both as an index within the network-instance module and to
+   associate resources with a network instance is shown above in the
    interface augmentation.  Type is used to indicate the type NI, such
-   as L3-VRF, VPLS, L2-VSI, etc.  Networking instance policy and root
-   are discussed in greater detail below.
+   as L3-VRF, VPLS, L2-VSI, etc.  Network instance policy and root are
+   discussed in greater detail below.
 
 
 
@@ -900,45 +900,45 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
 4.1.  Network Instance Policy
 
-   Networking instance policies are used to control how NI information
-   is represented at the device level, VRF routing policies, and VRF/VSI
+   Network instance policies are used to control how NI information is
+   represented at the device level, VRF routing policies, and VRF/VSI
    identifiers.  Examples include BGP route targets (RTs) and route
    distinguishers (RDs), virtual network identifiers (VN-IDs), VPLS
    neighbors, etc.  The structure is expected to be:
 
-       module: networking-instance
-          +--rw networking-instances
-             +--rw networking-instance* [name]
-                +--rw networking-instance-policy
+       module: network-instance
+          +--rw network-instances
+             +--rw network-instance* [name]
+                +--rw network-instance-policy
                    (TBD)
 
 4.2.  Network Instance Management
 
-   Modules that may be used to represent networking instance specific
+   Modules that may be used to represent network instance specific
    information will be available under `root`.  As with LNEs, actual
    module availability is expected to be implementation dependent.  The
    ietf-yang-library module is expected to be the primary method used to
    identify supported modules.  Resource related control and assignment
    is expected to be managed at the network-device level, not the
-   networking instance level, based on the `bind-networking-instance-
-   name` augmentation mentioned above.
+   network instance level, based on the `bind-network-instance-name`
+   augmentation mentioned above.
 
-   As an example, consider the case where a networking instance with a
+   As an example, consider the case where a network instance with a
    `name` of "green" is defined on a network device.  In this case the
    following structure might be made available:
 
-       module: networking-instance
+       module: network-instance
           +--rw ietf-yang-library
           +--rw interfaces
-          |  +--rw bind-networking-instance-name="green"  string
+          |  +--rw bind-network-instance-name="green"  string
           +--rw system-management
-          +--rw networking-instances
-             +--rw networking-instance* [name]
+          +--rw network-instances
+             +--rw network-instance* [name]
                 +--rw name="green"    string
                 +--rw type?                               identityref
                 +--rw enabled=true                        boolean
                 +--rw description="The Green VRF"         string
-                +--rw networking-instance-policy
+                +--rw network-instance-policy
                 |  ... (RT=1000:1, RD=1.2.3.4)
                 +--rw root?                               schema-mount
                    +--rw ietf-yang-library
@@ -1088,16 +1088,16 @@ Internet-Draft            RTG YANG Device Model            February 2016
      grouping control-plane-protocols {
          description
              "Grouping for control plane protocols configured for
-              a networking-instance";
+              a network-instance";
          container control-plane-protocols {
              description
                  "Container for control plane protocols configured for
-                  a networking instance.";
+                  a network instance.";
              list control-plane-protocol {
                  key "type";
                  description
                      "List of control plane protocols configured for
-                      a networking instance.";
+                      a network instance.";
                  leaf type {
                      type identityref {
                          base control-plane-protocol-type;
@@ -1127,10 +1127,10 @@ Internet-Draft            RTG YANG Device Model            February 2016
      grouping ribs {
        description
          "Routing Information Bases (RIBs) supported by a
-          networking-instance";
+          network-instance";
        container ribs {
            description
-               "RIBs supported by a networking-instance";
+               "RIBs supported by a network-instance";
            list rib {
                key "name";
                min-elements "1";
@@ -1225,7 +1225,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
              key "type";
              description
                  "List of networking services configured for a
-                  networking instance.";
+                  network instance.";
 
 
 
@@ -1241,7 +1241,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
                  mandatory true;
                  description
                      "The networking services type supported within
-                      a networking instance, e.g., NTP server, DNS
+                      a network instance, e.g., NTP server, DNS
                       server, DHCP server, etc.";
              }
          }
@@ -1327,7 +1327,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
           elements on a single physical or virtual system.";
      }
 
-     container networking-instance {
+     container network-instance {
        description
          "This module is used to support multiple network instances
           within a single physical or virtual device.  Network
@@ -1487,15 +1487,15 @@ Internet-Draft            RTG YANG Device Model            February 2016
    }
    <CODE ENDS>
 
-7.3.  Networking Instance Model
+7.3.  Network Instance Model
 
-   <CODE BEGINS> file "networking-instance@2016-02-22.yang"
-   module networking-instance {
+   <CODE BEGINS> file "network-instance@2016-02-22.yang"
+   module network-instance {
 
      yang-version "1";
 
      // namespace
-     namespace "urn:ietf:params:xml:ns:yang:networking-instance";
+     namespace "urn:ietf:params:xml:ns:yang:network-instance";
 
      prefix "struct";
 
@@ -1538,17 +1538,17 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
      // extension statements
 
-     feature bind-networking-instance-name {
+     feature bind-network-instance-name {
        description
-         "Networking Instance to which an interface instance is bound";
+         "Network Instance to which an interface instance is bound";
      }
 
      // identity statements
 
-     identity networking-instance-type {
+     identity network-instance-type {
          description
             "Base identity from which identities describing
-             networking instance types are derived.";
+             network instance types are derived.";
      }
 
       identity ipv4-interface-protocol-type {
@@ -1638,9 +1638,9 @@ Internet-Draft            RTG YANG Device Model            February 2016
          }
      }
 
-     grouping networking-instance-policy {
+     grouping network-instance-policy {
        description
-           "Networking instance policies such as route
+           "Network instance policies such as route
             distinguisher, route targets, VPLS ID and neighbor,
             Ethernet ID, etc. ";
        reference
@@ -1648,31 +1648,31 @@ Internet-Draft            RTG YANG Device Model            February 2016
             RFC 6074 - Provisioning, Auto-Discovery, and Signaling
                  in Layer 2 Virtual Private Networks (L2VPNs)
             RFC 7432 - BGP MPLS-Based Ethernet VPN";
-       container networking-instance-policy {
-           description "Networking Instance Policy -- details TBD";
+       container network-instance-policy {
+           description "Network Instance Policy -- details TBD";
        }
      }
 
      // top level device definition statements
-     container networking-instances {
-         description "Networking instances each of which have
+     container network-instances {
+         description "Network instances each of which have
                       an independent IP/IPv6 addressing space
                       and protocol instantiations. For layer 3,
                       this consistent with the routing-instance
                       definition in ietf-routing";
          reference "draft-ietf-netmod-routing-cfg";
-         list networking-instance {
+         list network-instance {
              key name;
-             description "List of networking-instances";
+             description "List of network-instances";
              leaf name {
                  type string;
                  description "device scoped
-                              identifier for the networking
+                              identifier for the network
                               instance";
              }
              leaf type {
                  type identityref {
-                     base networking-instance-type;
+                     base network-instance-type;
                  }
 
 
@@ -1683,7 +1683,7 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
 
                  description
-                     "The networking instance type -- details TBD
+                     "The network instance type -- details TBD
                       Likely types include core, L3-VRF, VPLS,
                       L2-cross-connect, L2-VSI, etc.";
              }
@@ -1691,20 +1691,20 @@ Internet-Draft            RTG YANG Device Model            February 2016
                  type boolean;
                  default "true";
                  description
-                   "Flag indicating whether or not the networking
+                   "Flag indicating whether or not the network
                     instance is enabled.";
              }
              leaf description {
                  type string;
                  description
-                   "Description of the networking instance
+                   "Description of the network instance
                    and its intended purpose";
              }
-             uses networking-instance-policy;
+             uses network-instance-policy;
              leaf root {
                type schema-mount;
                description "Root for models supported per
-                            networking instance";
+                            network instance";
              }
          }
      }
@@ -1713,22 +1713,22 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
      augment "/if:interfaces/if:interface" {
        description
-           "Add a node for the identification of the logical networking
+           "Add a node for the identification of the logical network
            instance (which is within the interface's identified logical
            network element) associated with the IP information
            configured on an interface";
 
-       leaf bind-networking-instance-name {
+       leaf bind-network-instance-name {
          type string;
          description
-           "Networking Instance to which an interface is bound";
+           "Network Instance to which an interface is bound";
        }
      }
 
      augment "/if:interfaces/if:interface/ip:ipv4" {
        description
            "Add a node for the identification of the logical
-           networking instance (which is within the interface's
+           network instance (which is within the interface's
            identified physical or virtual device) associated with
 
 
@@ -1740,10 +1740,10 @@ Internet-Draft            RTG YANG Device Model            February 2016
 
            the IP information configured on an interface";
 
-       leaf bind-networking-instance-name {
+       leaf bind-network-instance-name {
          type string;
          description
-           "Networking Instance to which IPv4 interface is bound";
+           "Network Instance to which IPv4 interface is bound";
 
        }
      }
@@ -1751,14 +1751,14 @@ Internet-Draft            RTG YANG Device Model            February 2016
      augment "/if:interfaces/if:interface/ip:ipv6" {
        description
            "Add a node for the identification of the logical
-           networking instance (which is within the interface's
+           network instance (which is within the interface's
            identified physical or virtual device) associated with
            the IP information configured on an interface";
 
-       leaf bind-networking-instance-name {
+       leaf bind-network-instance-name {
          type string;
          description
-           "Networking Instance to which IPv6 interface is bound";
+           "Network Instance to which IPv6 interface is bound";
 
        }
      }

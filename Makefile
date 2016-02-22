@@ -2,7 +2,7 @@ DRAFT  = draft-rtgyangdt-rtgwg-device-model
 MODELS = \
 	network-device.yang \
 	logical-network-element.yang \
-	networking-instance.yang
+	network-instance.yang
 
 #assumes standard yang modules installed in ../yang, customize as needed
 #  e.g., based on a 'cd .. ; git clone https://github.com/YangModels/yang.git'
