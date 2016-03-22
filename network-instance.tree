@@ -1,4 +1,4 @@
-module: network-instance
+module: ietf-network-instance
    +--rw network-instances
       +--rw network-instance* [name]
          +--rw name                       string

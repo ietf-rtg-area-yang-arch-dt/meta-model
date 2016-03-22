@@ -282,7 +282,7 @@ The top open issues are:
    The overall structure is:
 <figure>
 <artwork>
-    module: network-device
+    module: ietf-network-device
        +--rw ietf-yang-library
        |
        +--rw interfaces
@@ -463,7 +463,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: network-device
+    module: ietf-network-device
        +--rw system-management
        |  +--rw system-management-global
        |  +--rw system-management-protocol* [type]
@@ -483,7 +483,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: network-device
+    module: ietf-network-device
        +--rw system-management
           +--rw system-management-global
           |  +--rw statistics-collection
@@ -515,7 +515,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: network-device
+    module: ietf-network-device
        +--rw network-services
        |  +--rw network-service* [type]
        |     +--rw type    identityref
@@ -531,7 +531,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: network-device
+    module: ietf-network-device
        +--rw network-services
           +--rw network-service* [type]
              +--rw type=ntp-server
@@ -554,7 +554,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: network-device
+    module: ietf-network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type    identityref
@@ -571,7 +571,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: network-device
+    module: ietf-network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type=bfd
@@ -608,17 +608,15 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-   module: network-device
+   module: ietf-network-device
        +--rw routing
-          +--rw control-plane-protocols
-          |  +--rw control-plane-protocol* [type]
-          |     +--rw type      identityref
-          |     +--rw policy
-          +--rw ribs
-             +--rw rib* [name]
-                +--rw name           string
-                +--rw description?   string
-                +--rw policy
+          +--rw control-plane-protocol* [type]
+          |  +--rw type      identityref
+          |  +--rw policy
+          +--rw rib* [name]
+             +--rw name           string
+             +--rw description?   string
+             +--rw policy
 </artwork>
 </figure>
 </t>
@@ -636,7 +634,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-  module: network-device
+  module: ietf-network-device
        +--rw mpls
           +--rw global
           +--rw lsps* [type]
@@ -651,7 +649,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-  module: network-device
+  module: ietf-network-device
        +--rw mpls
           +--rw global
           +--rw lsps* [type]
@@ -693,7 +691,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-    module: logical-network-element
+    module: ietf-logical-network-element
        +--rw logical-network-inventory
           +--rw logical-network-element* [name]
              +--rw name?   string
@@ -748,7 +746,7 @@ routing congruent.  The following is an example of such usage:
 <artwork>
  .................................................................
                                           [ network-device state ]
-    module: logical-network-element
+    module: ietf-logical-network-element
        +--rw logical-network-inventory
           +--rw logical-network-element* [name]
              +--rw name="one"          string
@@ -835,7 +833,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-    module: network-instance
+    module: ietf-network-instance
        +--rw network-instances
           +--rw network-instance* [name]
              +--rw name                         string
@@ -876,7 +874,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-    module: network-instance
+    module: ietf-network-instance
        +--rw network-instances
           +--rw network-instance* [name]
              +--rw network-instance-policy
@@ -908,7 +906,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-    module: network-instance
+    module: ietf-network-instance
        +--rw ietf-yang-library
        +--rw interfaces
        |  +--rw bind-network-instance-name="green"  string
@@ -990,13 +988,13 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "network-device@2016-02-22.yang"
-module network-device {
+<CODE BEGINS> file "ietf-network-device@2016-03-22.yang"
+module ietf-network-device {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:network-device";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
 
   prefix "struct";
 
@@ -1016,7 +1014,7 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-02-22" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -1061,37 +1059,6 @@ module network-device {
   // typedef statements
 
   // grouping statements
-
-  grouping control-plane-protocols {
-      description
-          "Grouping for control plane protocols configured for
-           a network-instance";
-      container control-plane-protocols {
-          description
-              "Container for control plane protocols configured for
-               a network instance.";
-          list control-plane-protocol {
-              key "type";
-              description
-                  "List of control plane protocols configured for
-                   a network instance.";
-              leaf type {
-                  type identityref {
-                      base control-plane-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "The control plane protocol type, e.g., BGP,
-                       OSPF IS-IS, etc";
-              }
-              container policy {
-                  description
-                      "Protocol specific policy,
-                      reusing [RTG-POLICY]";
-              }
-          }
-      }
-  }
 
   grouping ribs {
     description
@@ -1225,8 +1192,52 @@ module network-device {
       "The YANG Data Model for Routing Management revised to be
        Network Instance / VRF independent. ";
     // Note that there is no routing or network instance
-    uses control-plane-protocols;
-    uses ribs;
+    list control-plane-protocol {
+        key "type";
+        description
+            "List of control plane protocols configured for
+             a network instance.";
+        leaf type {
+            type identityref {
+                base control-plane-protocol-type;
+            }
+            description
+                "The control plane protocol type, e.g., BGP,
+                 OSPF IS-IS, etc";
+        }
+        container policy {
+            description
+                "Protocol specific policy,
+                reusing [RTG-POLICY]";
+        }
+    }
+    list rib {
+        key "name";
+        min-elements "1";
+        description
+            "Each entry represents a RIB identified by the
+           'name' key. All routes in a RIB must belong to the
+            same address family.
+
+            For each routing instance, an implementation should
+            provide one system-controlled default RIB for each
+            supported address family.";
+        leaf name {
+            type string;
+            description
+                "The name of the RIB.";
+        }
+        reference "draft-ietf-netmod-routing-cfg";
+        leaf description {
+            type string;
+            description
+                "Description of the RIB";
+        }
+        // Note that there is no list of interfaces within
+        container policy {
+            description "Policy specific to RIB";
+        }
+    }
   }
 
   container mpls {
@@ -1293,13 +1304,13 @@ module network-device {
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "logical-network-element@2016-01-19.yang"
-module logical-network-element {
+<CODE BEGINS> file "ietf-logical-network-element@2016-03-22.yang"
+module ietf-logical-network-element {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:logical-network-element";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
 
   prefix "struct";
 
@@ -1320,69 +1331,42 @@ module logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-01-19" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
   }
 
-  // extension statements
-
   // feature statements
-  feature bind-network-element-id {
+  feature bind-lne-name {
     description
-      "Logical network element ID to which an interface is bound";
+      "Logical network element to which an interface is bound";
   }
-
-  // identity statements
-
-  identity logical-network-element-type {
-    description
-     "Identify type of logical-network-element";
-  }
-
-  identity lne-managed {
-    base logical-network-element-type;
-    description
-      "A Logical Network Element that can
-       be managed by the host system";
-  }
-
-  identity lne-unmanaged {
-    base logical-network-element-type;
-    description
-      "A Logical Network Element that cannot
-       be managed by the host system";
-  }
-
-  // typedef statements
-
-  // grouping statements
 
   // top level device definition statements
   container logical-network-inventory {
     description "Allows a network device to support multiple logical
                  network element (device) instances";
     list logical-network-element {
-      key lne-id;
+      key name;
       description "List of logical network elements";
-      leaf lne-id {
-        type uint16; // expect a small number of logical routers
+      leaf name {
+        type string;
         description "Device-wide unique identifier for the
                      logical network element";
       }
-      leaf lne-name {
+      leaf managed {
+        type boolean;
+        description
+          "True if the host can manage the LNE using the root mount
+           point";
+      }
+      leaf description {
         type string;
-        description "Descriptive name for the logical network
-                     element";
+        description
+          "Description of the logical network element";
       }
-      leaf lne-type {
-        type identityref {
-          base logical-network-element-type;
-        }
-        description "Type of logical-network-element";
-      }
-      leaf lne-root {
+      leaf root {
         type schema-mount;
         description "Root for models supported per logical
                      network element";
@@ -1399,8 +1383,8 @@ module logical-network-element {
         A <TBD> error is returned when the interface type cannot be
         assigned.";
 
-    leaf bind-lne-id {
-      type uint16;
+    leaf bind-lne-name {
+      type string;
       description
         "Logical network element ID to which interface is bound";
     }
@@ -1420,13 +1404,13 @@ module logical-network-element {
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "network-instance@2016-02-22.yang"
-module network-instance {
+<CODE BEGINS> file "ietf-network-instance@2016-03-22.yang"
+module ietf-network-instance {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:network-instance";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
 
   prefix "struct";
 
@@ -1453,7 +1437,7 @@ module network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-02-22" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";

@@ -1,9 +1,9 @@
-module network-device {
+module ietf-network-device {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:network-device";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
 
   prefix "struct";
 
@@ -23,7 +23,7 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-02-22" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -68,37 +68,6 @@ module network-device {
   // typedef statements
 
   // grouping statements
-
-  grouping control-plane-protocols {
-      description
-          "Grouping for control plane protocols configured for
-           a network-instance";
-      container control-plane-protocols {
-          description
-              "Container for control plane protocols configured for
-               a network instance.";
-          list control-plane-protocol {
-              key "type";
-              description
-                  "List of control plane protocols configured for
-                   a network instance.";
-              leaf type {
-                  type identityref {
-                      base control-plane-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "The control plane protocol type, e.g., BGP,
-                       OSPF IS-IS, etc";
-              }
-              container policy {
-                  description
-                      "Protocol specific policy,
-                      reusing [RTG-POLICY]";
-              }
-          }
-      }
-  }
 
   grouping ribs {
     description
@@ -232,8 +201,52 @@ module network-device {
       "The YANG Data Model for Routing Management revised to be
        Network Instance / VRF independent. ";
     // Note that there is no routing or network instance
-    uses control-plane-protocols;
-    uses ribs;
+    list control-plane-protocol {
+        key "type";
+        description
+            "List of control plane protocols configured for
+             a network instance.";
+        leaf type {
+            type identityref {
+                base control-plane-protocol-type;
+            }
+            description
+                "The control plane protocol type, e.g., BGP,
+                 OSPF IS-IS, etc";
+        }
+        container policy {
+            description
+                "Protocol specific policy,
+                reusing [RTG-POLICY]";
+        }
+    }
+    list rib {
+        key "name";
+        min-elements "1";
+        description
+            "Each entry represents a RIB identified by the
+           'name' key. All routes in a RIB must belong to the
+            same address family.
+
+            For each routing instance, an implementation should
+            provide one system-controlled default RIB for each
+            supported address family.";
+        leaf name {
+            type string;
+            description
+                "The name of the RIB.";
+        }
+        reference "draft-ietf-netmod-routing-cfg";
+        leaf description {
+            type string;
+            description
+                "Description of the RIB";
+        }
+        // Note that there is no list of interfaces within
+        container policy {
+            description "Policy specific to RIB";
+        }
+    }
   }
 
   container mpls {

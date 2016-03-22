@@ -1,9 +1,9 @@
-module logical-network-element {
+module ietf-logical-network-element {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:logical-network-element";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
 
   prefix "struct";
 
@@ -24,7 +24,7 @@ module logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-02-22" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";

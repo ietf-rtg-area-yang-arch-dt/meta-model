@@ -1,8 +1,8 @@
 DRAFT  = draft-rtgyangdt-rtgwg-device-model
 MODELS = \
-	network-device.yang \
-	logical-network-element.yang \
-	network-instance.yang
+	ietf-network-device.yang \
+	ietf-logical-network-element.yang \
+	ietf-network-instance.yang
 
 #assumes standard yang modules installed in ../yang, customize as needed
 #  e.g., based on a 'cd .. ; git clone https://github.com/YangModels/yang.git'
@@ -52,19 +52,22 @@ vars:
 	echo OLD=$(OLD)
 
 $(DRAFT).xml: $(MODELS)
-	@rm -f $@.prev; cp -p $@ $@.prev 
+	@rm -f $@.prev; cp -p $@ $@.prev
 	@for model in $? ; do \
+		rm -f $@.tmp; cp -p $@ $@.tmp	 		 	; \
 		echo Updating $@ based on $$model		 	; \
 		base=`echo $$model | cut -d. -f 1` 		 	; \
+		echo $${base};\
 		start_stop=(`awk 'BEGIN{pout=1}				\
 			/^<CODE BEGINS> file .'$${base}'/ 		\
 				{pout=0; print NR-1;} 			\
-			pout == 0 &&/^<CODE ENDS>/ 			\
-				{pout=1; print NR;}' $@.prev`) 		; \
-		head -$${start_stop[0]}    $@.prev    		> $@	;\
+			pout == 0 && /^<CODE E/ 			\
+				{pout=1; print NR;}' $@.tmp`) 		; \
+		head -$${start_stop[0]}    $@.tmp    		> $@	; \
 		echo '<CODE BEGINS> file "'$${base}'@'`date +%F`'.yang"'>> $@;\
-		cat $$model					>> $@	;\
-		tail -n +$${start_stop[1]} $@.prev 		>> $@	;\
+		cat $$model					>> $@	; \
+		tail -n +$${start_stop[1]} $@.tmp 		>> $@	; \
+		rm -f $@.tmp 		 				; \
 	done
 	diff -bw $@.prev $@ || exit 0
 

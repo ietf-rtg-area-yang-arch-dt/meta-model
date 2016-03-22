@@ -1,4 +1,4 @@
-module: logical-network-element
+module: ietf-logical-network-element
    +--rw logical-network-inventory
       +--rw logical-network-element* [name]
          +--rw name           string

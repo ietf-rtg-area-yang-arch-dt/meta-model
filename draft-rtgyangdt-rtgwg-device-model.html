@@ -405,12 +405,12 @@
 <link href="#rfc.authors" rel="Chapter"/>
 
 
-  <meta name="generator" content="xml2rfc version 2.5.2.dev0 - http://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.5.1 - http://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Lindem, A., Ed., Berger, L., Ed., Bogdanovic, D., and C. Hopps" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-rtgyangdt-rtgwg-device-model-03" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-2-22" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-3-22" />
   <meta name="dct.abstract" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
   <meta name="description" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
 
@@ -434,7 +434,7 @@
   <td class="right">L. Berger, Ed.</td>
 </tr>
 <tr>
-  <td class="left">Expires: August 25, 2016</td>
+  <td class="left">Expires: September 23, 2016</td>
   <td class="right">LabN Consulting, L.L.C.</td>
 </tr>
 <tr>
@@ -455,7 +455,7 @@
 </tr>
 <tr>
   <td class="left"></td>
-  <td class="right">February 22, 2016</td>
+  <td class="right">March 22, 2016</td>
 </tr>
 
     	
@@ -477,7 +477,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on August 25, 2016.</p>
+<p>This Internet-Draft will expire on September 23, 2016.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -575,7 +575,7 @@
 <p id="rfc.section.2.p.5">The presented notional network device module can itself be thought of as a "meta-model" as it describes the relationships between individual models.  We choose to represent it also as a simple YANG module consisting of other models, which are in fact independent top level individual models. Although it is never expected to be implemented.  </p>
 <p id="rfc.section.2.p.6">The presented modules do not follow the hierarchy of any particular implementation, and hence is vendor-neutral.  Nevertheless, the structure should be familiar to network operators and also readily mapped to vendor implementations.  </p>
 <pre>
-    module: network-device
+    module: ietf-network-device
        +--rw ietf-yang-library
        |
        +--rw interfaces
@@ -652,7 +652,7 @@
 <p id="rfc.section.2.2.p.1">[Editor's note: need to discuss and resolve relationship between this structure and RFC7317 and determine if 7317 is close enough to simply use as is.] </p>
 <p id="rfc.section.2.2.p.2">System management is expected to reuse definitions contained in <a href="#RFC7317">[RFC7317]</a>.  It is expected to be instantiated per device and LNE.  Its structure is shown below: </p>
 <pre>
-    module: network-device
+    module: ietf-network-device
        +--rw system-management
        |  +--rw system-management-global
        |  +--rw system-management-protocol* [type]
@@ -662,7 +662,7 @@
 <p id="rfc.section.2.2.p.4">System-management-global is used for configuration information and state that is independent of a particular management protocol.  System-management-protocol is a list of management protocol specific elements.  The type-specific sub-modules are expected to be defined.  </p>
 <p id="rfc.section.2.2.p.5">The following is an example of envisioned usage: </p>
 <pre>
-    module: network-device
+    module: ietf-network-device
        +--rw system-management
           +--rw system-management-global
           |  +--rw statistics-collection
@@ -682,7 +682,7 @@
 <h1 id="rfc.section.2.3"><a href="#rfc.section.2.3">2.3.</a> <a href="#sec-2.3" id="sec-2.3">Network Services</a></h1>
 <p id="rfc.section.2.3.p.1">A device may provide different network services to other devices, for example a device my act as a DHCP server.  The model may be instantiated per device, LNE, and NI. An identityref is used to identify the type of specific service being provided and its associated configuration and state information. The defined structure is as follows: </p>
 <pre>
-    module: network-device
+    module: ietf-network-device
        +--rw network-services
        |  +--rw network-service* [type]
        |     +--rw type    identityref
@@ -690,7 +690,7 @@
 <p/>
 <p id="rfc.section.2.3.p.3">The following is an example of envisioned usage: Examples shown below include a device-based Network Time Protocol (NTP) server, a Domain Name System (DNS) server, and a Dynamic Host Configuration Protocol (DHCP) server: </p>
 <pre>
-    module: network-device
+    module: ietf-network-device
        +--rw network-services
           +--rw network-service* [type]
              +--rw type=ntp-server
@@ -702,7 +702,7 @@
 <h1 id="rfc.section.2.4"><a href="#rfc.section.2.4">2.4.</a> <a href="#sec-2.4" id="sec-2.4">OAM Protocols</a></h1>
 <p id="rfc.section.2.4.p.1">OAM protocols that may run within the context of a device are grouped within the oam-protocols model.  The model may be instantiated per device, LNE, and NI. An identifyref is used to identify the information and state that may relate to a specific OAM protocol. The defined structure is as follows: </p>
 <pre>
-    module: network-device
+    module: ietf-network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type    identityref
@@ -711,7 +711,7 @@
 <p/>
 <p id="rfc.section.2.4.p.3">The following is an example of envisioned usage.  Examples shown below include Bi-directional Forwarding Detection (BFD), Ethernet Connectivity Fault Management (CFM), and Two-Way Active Measurement Protocol (TWAMP): </p>
 <pre>
-    module: network-device
+    module: ietf-network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type=bfd
@@ -725,23 +725,21 @@
 <p id="rfc.section.2.5.p.2">The routing module is expected to include all IETF defined control plane protocols, such as BGP, OSPF, LDP and RSVP-TE.  It is also expected to support configuration and operation of or more routing information bases (RIB).  A RIB is a list of routes complemented with administrative data. Finally, policy is expected to be represented within each control plane protocol and RIB.  </p>
 <p id="rfc.section.2.5.p.3">The anticipated structure is as follows: </p>
 <pre>
-   module: network-device
+   module: ietf-network-device
        +--rw routing
-          +--rw control-plane-protocols
-          |  +--rw control-plane-protocol* [type]
-          |     +--rw type      identityref
-          |     +--rw policy
-          +--rw ribs
-             +--rw rib* [name]
-                +--rw name           string
-                +--rw description?   string
-                +--rw policy
+          +--rw control-plane-protocol* [type]
+          |  +--rw type      identityref
+          |  +--rw policy
+          +--rw rib* [name]
+             +--rw name           string
+             +--rw description?   string
+             +--rw policy
 </pre>
 <p/>
 <h1 id="rfc.section.2.6"><a href="#rfc.section.2.6">2.6.</a> <a href="#sec-2.MPLS" id="sec-2.MPLS">MPLS</a></h1>
 <p id="rfc.section.2.6.p.1">MPLS data plane related information is grouped together, as with the previously discussed modules, is unaware of VRFs/NIs. The model may be instantiated per device, LNE, and NI.  MPLS control plane protocols are expected to be included in <a href="#sec-2.RTG">Section 2.5</a>.  MPLS may reuse and build on <a href="#OC-MPLS">[OC-MPLS]</a> or other emerging models and has an anticipated structure as follows: </p>
 <pre>
-  module: network-device
+  module: ietf-network-device
        +--rw mpls
           +--rw global
           +--rw lsps* [type]
@@ -750,7 +748,7 @@
 <p/>
 <p id="rfc.section.2.6.p.3">Type refers to LSP type,  such as static, traffic engineered or routing congruent.  The following is an example of such usage: </p>
 <pre>
-  module: network-device
+  module: ietf-network-device
        +--rw mpls
           +--rw global
           +--rw lsps* [type]
@@ -763,7 +761,7 @@
 <p id="rfc.section.3.p.1">A logical network element is a network-device which is contained within another network-device. Using host-virtualization terminology one could refer to an LNE as a "Guest", and the containing network-device as the "Host". While LNEs may be implemented via host-virtualization technologies this is not a requirement.  </p>
 <p id="rfc.section.3.p.2">Logical network elements represent the capability of some devices to partition resources into independent logical routers and/or switches.  Device support for multiple logical network elements is implementation specific.  Systems without such capabilities need not include support for the logical-network-element module.  In physical devices, some hardware features are shared across partitions, but control plane (e.g., routing) protocol instances, tables, and configuration are managed separately.  For example, in virtual routers or VNFs, this may correspond to establishing multiple logical instances using a single software installation.  The model supports configuration of multiple instances on a single device by creating a list of logical network elements, each with their own configuration and operational state related to routing and switching protocols, as shown below: </p>
 <pre>
-    module: logical-network-element
+    module: ietf-logical-network-element
        +--rw logical-network-inventory
           +--rw logical-network-element* [name]
              +--rw name?   string
@@ -783,7 +781,7 @@
 <pre>
  .................................................................
                                           [ network-device state ]
-    module: logical-network-element
+    module: ietf-logical-network-element
        +--rw logical-network-inventory
           +--rw logical-network-element* [name]
              +--rw name="one"          string
@@ -817,7 +815,7 @@
 <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sec-NI" id="sec-NI">Network Instances</a></h1>
 <p id="rfc.section.4.p.1">The network instance container is used to represent virtual routing and forwarding instances (VRFs) and virtual switching instances (VSIs), <a href="#RFC4026">[RFC4026]</a>.  VRFs and VSIs are commonly used to isolate routing and switching domains, for example to create virtual private networks, each with their own active protocols and routing/switching policies.  The model represents both core/provider and virtual instances.  Network instances reuse and build on <a href="#RTG-CFG">[RTG-CFG]</a> and are shown below: </p>
 <pre>
-    module: network-instance
+    module: ietf-network-instance
        +--rw network-instances
           +--rw network-instance* [name]
              +--rw name                         string
@@ -840,7 +838,7 @@
 <h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#sec-NI.1" id="sec-NI.1">Network Instance Policy</a></h1>
 <p id="rfc.section.4.1.p.1">Network instance policies are used to control how NI information is represented at the device level, VRF routing policies, and VRF/VSI identifiers. Examples include BGP route targets (RTs) and route distinguishers (RDs), virtual network identifiers (VN-IDs), VPLS neighbors, etc. The structure is expected to be: </p>
 <pre>
-    module: network-instance
+    module: ietf-network-instance
        +--rw network-instances
           +--rw network-instance* [name]
              +--rw network-instance-policy
@@ -851,7 +849,7 @@
 <p id="rfc.section.4.2.p.1">Modules that may be used to represent network instance specific information will be available under `root`.  As with LNEs, actual module availability is expected to be implementation dependent. The ietf-yang-library module is expected to be the primary method used to identify supported modules.  Resource related control and assignment is expected to be managed at the network-device level, not the network instance level, based on the `bind-network-instance-name` augmentation mentioned above.  </p>
 <p id="rfc.section.4.2.p.2">As an example, consider the case where a network instance with a `name` of "green" is defined on a network device.  In this case the following structure might be made available: </p>
 <pre>
-    module: network-instance
+    module: ietf-network-instance
        +--rw ietf-yang-library
        +--rw interfaces
        |  +--rw bind-network-instance-name="green"  string
@@ -888,13 +886,13 @@
 <p/>
 <h1 id="rfc.section.7.1"><a href="#rfc.section.7.1">7.1.</a> <a href="#sec-6.1" id="sec-6.1">Network Device Model Structure</a></h1>
 <pre>
-&lt;CODE BEGINS&gt; file "network-device@2016-02-22.yang"
-module network-device {
+&lt;CODE BEGINS&gt; file "ietf-network-device@2016-03-22.yang"
+module ietf-network-device {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:network-device";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
 
   prefix "struct";
 
@@ -914,7 +912,7 @@ module network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-02-22" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -959,37 +957,6 @@ module network-device {
   // typedef statements
 
   // grouping statements
-
-  grouping control-plane-protocols {
-      description
-          "Grouping for control plane protocols configured for
-           a network-instance";
-      container control-plane-protocols {
-          description
-              "Container for control plane protocols configured for
-               a network instance.";
-          list control-plane-protocol {
-              key "type";
-              description
-                  "List of control plane protocols configured for
-                   a network instance.";
-              leaf type {
-                  type identityref {
-                      base control-plane-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "The control plane protocol type, e.g., BGP,
-                       OSPF IS-IS, etc";
-              }
-              container policy {
-                  description
-                      "Protocol specific policy,
-                      reusing [RTG-POLICY]";
-              }
-          }
-      }
-  }
 
   grouping ribs {
     description
@@ -1123,8 +1090,52 @@ module network-device {
       "The YANG Data Model for Routing Management revised to be
        Network Instance / VRF independent. ";
     // Note that there is no routing or network instance
-    uses control-plane-protocols;
-    uses ribs;
+    list control-plane-protocol {
+        key "type";
+        description
+            "List of control plane protocols configured for
+             a network instance.";
+        leaf type {
+            type identityref {
+                base control-plane-protocol-type;
+            }
+            description
+                "The control plane protocol type, e.g., BGP,
+                 OSPF IS-IS, etc";
+        }
+        container policy {
+            description
+                "Protocol specific policy,
+                reusing [RTG-POLICY]";
+        }
+    }
+    list rib {
+        key "name";
+        min-elements "1";
+        description
+            "Each entry represents a RIB identified by the
+           'name' key. All routes in a RIB must belong to the
+            same address family.
+
+            For each routing instance, an implementation should
+            provide one system-controlled default RIB for each
+            supported address family.";
+        leaf name {
+            type string;
+            description
+                "The name of the RIB.";
+        }
+        reference "draft-ietf-netmod-routing-cfg";
+        leaf description {
+            type string;
+            description
+                "Description of the RIB";
+        }
+        // Note that there is no list of interfaces within
+        container policy {
+            description "Policy specific to RIB";
+        }
+    }
   }
 
   container mpls {
@@ -1187,13 +1198,13 @@ module network-device {
 <p/>
 <h1 id="rfc.section.7.2"><a href="#rfc.section.7.2">7.2.</a> <a href="#sec-6.2" id="sec-6.2">Logical Network Element Model</a></h1>
 <pre>
-&lt;CODE BEGINS&gt; file "logical-network-element@2016-01-19.yang"
-module logical-network-element {
+&lt;CODE BEGINS&gt; file "ietf-logical-network-element@2016-03-22.yang"
+module ietf-logical-network-element {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:logical-network-element";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
 
   prefix "struct";
 
@@ -1214,69 +1225,42 @@ module logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-01-19" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
   }
 
-  // extension statements
-
   // feature statements
-  feature bind-network-element-id {
+  feature bind-lne-name {
     description
-      "Logical network element ID to which an interface is bound";
+      "Logical network element to which an interface is bound";
   }
-
-  // identity statements
-
-  identity logical-network-element-type {
-    description
-     "Identify type of logical-network-element";
-  }
-
-  identity lne-managed {
-    base logical-network-element-type;
-    description
-      "A Logical Network Element that can
-       be managed by the host system";
-  }
-
-  identity lne-unmanaged {
-    base logical-network-element-type;
-    description
-      "A Logical Network Element that cannot
-       be managed by the host system";
-  }
-
-  // typedef statements
-
-  // grouping statements
 
   // top level device definition statements
   container logical-network-inventory {
     description "Allows a network device to support multiple logical
                  network element (device) instances";
     list logical-network-element {
-      key lne-id;
+      key name;
       description "List of logical network elements";
-      leaf lne-id {
-        type uint16; // expect a small number of logical routers
+      leaf name {
+        type string;
         description "Device-wide unique identifier for the
                      logical network element";
       }
-      leaf lne-name {
+      leaf managed {
+        type boolean;
+        description
+          "True if the host can manage the LNE using the root mount
+           point";
+      }
+      leaf description {
         type string;
-        description "Descriptive name for the logical network
-                     element";
+        description
+          "Description of the logical network element";
       }
-      leaf lne-type {
-        type identityref {
-          base logical-network-element-type;
-        }
-        description "Type of logical-network-element";
-      }
-      leaf lne-root {
+      leaf root {
         type schema-mount;
         description "Root for models supported per logical
                      network element";
@@ -1293,8 +1277,8 @@ module logical-network-element {
         A &lt;TBD&gt; error is returned when the interface type cannot be
         assigned.";
 
-    leaf bind-lne-id {
-      type uint16;
+    leaf bind-lne-name {
+      type string;
       description
         "Logical network element ID to which interface is bound";
     }
@@ -1310,13 +1294,13 @@ module logical-network-element {
 <p/>
 <h1 id="rfc.section.7.3"><a href="#rfc.section.7.3">7.3.</a> <a href="#sec-6.3" id="sec-6.3">Network Instance Model</a></h1>
 <pre>
-&lt;CODE BEGINS&gt; file "network-instance@2016-02-22.yang"
-module network-instance {
+&lt;CODE BEGINS&gt; file "ietf-network-instance@2016-03-22.yang"
+module ietf-network-instance {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:network-instance";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
 
   prefix "struct";
 
@@ -1343,7 +1327,7 @@ module network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-02-22" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";

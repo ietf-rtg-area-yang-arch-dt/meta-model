@@ -1,9 +1,9 @@
-module network-instance {
+module ietf-network-instance {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:network-instance";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
 
   prefix "struct";
 
@@ -30,7 +30,7 @@ module network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-02-22" {
+  revision "2016-03-22" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";

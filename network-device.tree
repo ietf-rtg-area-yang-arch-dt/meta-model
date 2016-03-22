@@ -1,4 +1,4 @@
-module: network-device
+module: ietf-network-device
    +--rw ietf-yang-library
    +--rw interfaces
    +--rw hardware
