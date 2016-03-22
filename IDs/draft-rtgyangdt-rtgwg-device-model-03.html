@@ -1,0 +1,1820 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Network Device YANG Organizational Models</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Status of Work and Open Issues"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Module Overview"/>
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Interface Model Components"/>
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 System Management"/>
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Network Services"/>
+<link href="#rfc.section.2.4" rel="Chapter" title="2.4 OAM Protocols"/>
+<link href="#rfc.section.2.5" rel="Chapter" title="2.5 Routing"/>
+<link href="#rfc.section.2.6" rel="Chapter" title="2.6 MPLS"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Logical Network Elements"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 LNE Management - Host Network Device View"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 LNE Management - LNE View"/>
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 LNE Instantiation"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Network Instances"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Network Instance Policy"/>
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Network Instance Management"/>
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Network Instance Instantiation"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Security Considerations"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 IANA Considerations"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 YANG Modules"/>
+<link href="#rfc.section.7.1" rel="Chapter" title="7.1 Network Device Model Structure"/>
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Logical Network Element Model"/>
+<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Network Instance Model"/>
+<link href="#rfc.references" rel="Chapter" title="8 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="8.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="8.2 Informative References"/>
+<link href="#rfc.appendix.A" rel="Chapter" title="A Acknowledgments"/>
+<link href="#rfc.appendix.B" rel="Chapter" title="B Contributors"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.5.2.dev0 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Lindem, A., Ed., Berger, L., Ed., Bogdanovic, D., and C. Hopps" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-rtgyangdt-rtgwg-device-model-03" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-2-22" />
+  <meta name="dct.abstract" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
+  <meta name="description" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">Network Working Group</td>
+  <td class="right">A. Lindem, Ed.</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">Cisco Systems</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">L. Berger, Ed.</td>
+</tr>
+<tr>
+  <td class="left">Expires: August 25, 2016</td>
+  <td class="right">LabN Consulting, L.L.C.</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">D. Bogdanovic</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right"></td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">C. Hopps</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">Deutsche Telekom</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">February 22, 2016</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Network Device YANG Organizational Models<br />
+  <span class="filename">draft-rtgyangdt-rtgwg-device-model-03</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  </p>
+<p>This document also defines two modules that can be used to model the logical and virtual resource representations that may be present on a network device. Examples of common industry terms for logical resource representations are Logical Systems or Routers.  Examples of of common industry terms for virtual resource representations are Virtual Routing and Forwarding (VRF) instances and Virtual Switch Instances (VSIs).  </p>
+<p>This document is derived from work submitted to the IETF by members of the informal OpenConfig working group of network operators and is a product of the Routing Area YANG Architecture design team.  </p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on August 25, 2016.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2016 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Status of Work and Open Issues</a></li>
+</ul><li>2.   <a href="#rfc.section.2">Module Overview</a></li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Interface Model Components</a></li>
+<li>2.2.   <a href="#rfc.section.2.2">System Management</a></li>
+<li>2.3.   <a href="#rfc.section.2.3">Network Services</a></li>
+<li>2.4.   <a href="#rfc.section.2.4">OAM Protocols</a></li>
+<li>2.5.   <a href="#rfc.section.2.5">Routing</a></li>
+<li>2.6.   <a href="#rfc.section.2.6">MPLS</a></li>
+</ul><li>3.   <a href="#rfc.section.3">Logical Network Elements</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">LNE Management - Host Network Device View</a></li>
+<li>3.2.   <a href="#rfc.section.3.2">LNE Management - LNE View</a></li>
+<li>3.3.   <a href="#rfc.section.3.3">LNE Instantiation</a></li>
+</ul><li>4.   <a href="#rfc.section.4">Network Instances</a></li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Network Instance Policy</a></li>
+<li>4.2.   <a href="#rfc.section.4.2">Network Instance Management</a></li>
+<li>4.3.   <a href="#rfc.section.4.3">Network Instance Instantiation</a></li>
+</ul><li>5.   <a href="#rfc.section.5">Security Considerations</a></li>
+<li>6.   <a href="#rfc.section.6">IANA Considerations</a></li>
+<li>7.   <a href="#rfc.section.7">YANG Modules</a></li>
+<ul><li>7.1.   <a href="#rfc.section.7.1">Network Device Model Structure</a></li>
+<li>7.2.   <a href="#rfc.section.7.2">Logical Network Element Model</a></li>
+<li>7.3.   <a href="#rfc.section.7.3">Network Instance Model</a></li>
+</ul><li>8.   <a href="#rfc.references">References</a></li>
+<ul><li>8.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>8.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">Acknowledgments</a></li>
+<li>Appendix B.   <a href="#rfc.appendix.B">Contributors</a></li>
+<li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#sec-1" id="sec-1">Introduction</a></h1>
+<p id="rfc.section.1.p.1">"Operational Structure and Organization of YANG Models" <a href="#OC-STRUCT">[OC-STRUCT]</a>, highlights the value of organizing individual, self-standing YANG <a href="#RFC6020">[RFC6020]</a> models into a more comprehensive structure.  This document builds on that work and presents a derivative structure for use in representing the networking infrastructure aspects of physical and virtual devices. <a href="#OC-STRUCT">[OC-STRUCT]</a> and earlier versions of this document presented a single device-centric model root, this document no longer contains this element.  Such an element would have translated to a single device management model that would be the root of all other models and was judged to be overly restrictive in terms of definition, implementation, and operation.  </p>
+<p id="rfc.section.1.p.2">The document first presents a notional network device YANG organizational structure that provides a conceptual framework for the models that may be used to configure and operate network devices.  The structure is itself presented as a YANG module, with all of the related component modules logically organized in a way that is operationally intuitive.  This network device model is not expected to be implemented, but rather provide as context for the identified representative component modules with are expected to be defined, and supported on typical network devices.  </p>
+<p id="rfc.section.1.p.3">This document also defines two new modules that are expected to be implemented.  These models are defined to support the configuration and operation of network-devices that allow for the partitioning of resources from both, or either, management and networking perspectives.  Both make use of emerging YANG functionality supported by either structural mount <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>  or YANG Schema Dispatching Language (YSDL) <a href="#YANG-YSDL">[YANG-YSDL]</a>.  The function provided by these documents are collectively refered to as "Schema Mount".  This document is expected to use whatever Schema Mount solution is adopted by the Netmod Working Group.  </p>
+<p id="rfc.section.1.p.4">Two forms of resource partitioning are supported: </p>
+<p id="rfc.section.1.p.5">The first form provides a logical partitioning of a network device where each partition is separately managed as essentially an independent network element which is 'hosted' by the base network device.  These hosted network elements are referred to as logical network elements, or LNEs, and are supported by the logical-network-element module defined below.  The module is used to identify LNEs and associate resources from the network-device with each LNE.  LNEs themselves are represented in YANG as independent network devices; each accessed independently.  Optionally, and when supported by the implementation, they may also be accessed from the host system.  Examples of vendor terminology for an LNE include logical system or router, and virtual switch, chassis, or fabric.  </p>
+<p id="rfc.section.1.p.6">The second form provides support what is commonly referred to as Virtual Routing and Forwarding (VRF) instances as well as Virtual Switch Instances (VSI), see <a href="#RFC4026">[RFC4026]</a>.  In this form of resource partitioning multiple control plane and forwarding/bridging instances are provided by and managed via a single (physical or logical) network device.  This form of resource partitioning is referred to as Network Instances and are supported by the network-instance module defined below.  Configuration and operation of each network-instance is always via the network device and the network-instance module.  </p>
+<p id="rfc.section.1.p.7">This document was motivated by, and derived from, <a href="#OC-STRUCT">[OC-STRUCT]</a>.  The requirements from that document have been combined with the requirements from "Consistent Modeling of Operational State Data in YANG", <a href="#OC-OPSTATE">[OC-OPSTATE]</a>, into "NETMOD Operational State Requirements", <a href="#NETMOD-OPSTATE">[NETMOD-OPSTATE]</a>.  This document is aimed at the requirement related to a common model-structure, currently Requirement 7, and also aims to provide a modeling base for Operational State representation.  </p>
+<p id="rfc.section.1.p.8">The approach taken in this (and the original) document is to organize the models describing various aspects of network infrastructure, focusing on devices, their subsystems, and relevant protocols operating at the link and network layers.  The proposal does not consider a common model for higher level network services.  We focus on the set of models that are commonly used by network operators, and suggest a corresponding organization.  </p>
+<p id="rfc.section.1.p.9">A significant portion of the text and model contained in this document was taken from the -00 of <a href="#OC-STRUCT">[OC-STRUCT]</a>.  </p>
+<p/>
+<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#sec-1.1" id="sec-1.1">Status of Work and Open Issues</a></h1>
+<p id="rfc.section.1.1.p.1">This version of the document and structure are a product of the Routing Area YANG Architecture design team and is very much a work in progress rather than a final proposal.  This version is a major change from the prior version and this change was enabled by the work on the previously mentioned Schema Mount.  </p>
+<p id="rfc.section.1.1.p.2">Schema Mount enables a dramatic simplification of the presented device model, particularly for "lower-end" devices which are unlikely to support multiple network instances or logical network elements.  Should structural-mount/YSDL not be available, the more explicit tree structure presented in earlier versions of this document will need to be utilized.  </p>
+<p id="rfc.section.1.1.p.3">The top open issues are: </p>
+
+<ol>
+  <li>The use of YSDL vs Structural Mount, i.e., a Netmod defined Schema Mount solution, needs to be resolved as does ensuring that the selected approach has the needed capabilities.</li>
+  <li>This document will need to match the evolution and standardization of  <a href="#OC-OPSTATE">[OC-OPSTATE]</a> or <a href="#NETMOD-OPSTATE">[NETMOD-OPSTATE]</a> by the Netmod WG.  </li>
+  <li>Interpretation of different policy containers requires clarification.</li>
+  <li>It may make sense to use the identityref structuring with hardware and QoS model.</li>
+  <li>Which document(s) define the base System management, network services, and oam protocols modules is TBD.  This includes the possibility of simply using RFC7317 in place of the presented System management module.</li>
+  <li>The model will be updated once the "opstate" requirements are addressed.</li>
+  <li>It may make sense to publish the network-instance and logical-network-element modules separately, as different devices may not implement both, and network providers may only require one or the other.  </li>
+</ol>
+
+<p> </p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#sec-2" id="sec-2">Module Overview</a></h1>
+<p id="rfc.section.2.p.1">In this document, we consider network devices that support protocols and functions defined within the IETF Routing Area, e.g, routers, firewalls and hosts. Such devices may be physical or virtual, e.g., a classic router with custom hardware or one residing within a server-based virtual machine implementing a virtual network function (VNF). Each device may sub-divide their resources into logical network elements (LNEs) each of which provides a managed logical device.  Examples of vendor terminology for an LNE include logical system or router, and virtual switch, chassis, or fabric. Each LNE may also support virtual routing and forwarding (VRF) and virtual switching instance (VSI) functions, which are referred to below as a network instances (NIs). This breakdown is represented in Figure 1.  </p>
+<pre>
+
+           ,''''''''''''''''''''''''''''''''''''''''''''''`.
+           |      Network Device (Physical or Virtual)     |
+           | .....................   ..................... |
+           | :  Logical Network  :   :  Logical Network  : |
+           | :      Element      :   :      Element      : |
+           | :+-----+-----+-----+:   :+-----+-----+-----+: |
+           | :| Net | Net | Net |:   :| Net | Net | Net |: |
+           | :|Inst.|Inst.|Inst.|:   :|Inst.|Inst.|Inst.|: |
+           | :+-----+-----+-----+:   :+-----+-----+-----+: |
+           | :  | |   | |   | |  :   :  | |   | |   | |  : |
+           | :..|.|...|.|...|.|..:   :..|.|...|.|...|.|..: |
+           |    | |   | |   | |         | |   | |   | |    |
+            `'''|'|'''|'|'''|'|'''''''''|'|'''|'|'''|'|'''''
+                | |   | |   | |         | |   | |   | |
+                   Interfaces              Interfaces
+</pre>
+<p/>
+<p id="rfc.section.2.p.3">Figure 1: Module Element Relationships </p>
+<p id="rfc.section.2.p.4">A model for LNEs is described in <a href="#sec-LNE">Section 3</a> and the model for network instances is covered in <a href="#sec-NI">Section 4</a>.  </p>
+<p id="rfc.section.2.p.5">The presented notional network device module can itself be thought of as a "meta-model" as it describes the relationships between individual models.  We choose to represent it also as a simple YANG module consisting of other models, which are in fact independent top level individual models. Although it is never expected to be implemented.  </p>
+<p id="rfc.section.2.p.6">The presented modules do not follow the hierarchy of any particular implementation, and hence is vendor-neutral.  Nevertheless, the structure should be familiar to network operators and also readily mapped to vendor implementations.  </p>
+<pre>
+    module: network-device
+       +--rw ietf-yang-library
+       |
+       +--rw interfaces
+       +--rw hardware
+       +--rw qos
+       |
+       +--rw system-management
+       +--rw network-services
+       +--rw oam-protocols
+       |
+       +--rw routing
+       +--rw mpls
+       +--rw ieee-dot1Q
+       |
+       +--rw ietf-acl
+       +--rw ietf-key-chain
+       |
+       +--rw logical-network-element
+       +--rw network-instance
+</pre>
+<p id="rfc.section.2.p.7">The overall structure is: </p>
+<p id="rfc.section.2.p.8">The network device is composed of top level modules that can be used to configure and operate a network device. (This is a significant difference from earlier versions of this document where there was a strict model hierarchy.)  Importantly the network device structure is the same for a physical network device or a logical network device, such as those instantiated via the logical-network-element model.  Extra spacing is included to denote different types of modules included.  </p>
+<p id="rfc.section.2.p.9">YANG library <a href="#YANG-LIBRARY">[YANG-LIBRARY]</a> is included as it used to identify details of the top level modules supported by the (physical or logical) network device.  Th ability to identify supported modules is particularly important for LNEs which may have a set of supported modules which differs from the set supported by the host network device.  </p>
+<p id="rfc.section.2.p.10">The interface management model <a href="#RFC7223">[RFC7223]</a> is included at the top level. The hardware module is a placeholder for a future device-specific configuration and operational state data model.  For example, a common structure for the hardware model might include chassis, line cards, and ports, but we leave this unspecified.  The quality of service (QoS) section is also a placeholder module for device configuration and operational state data which relates to the treatment of traffic across the device. This document defines augmentations to the interface module to support LNEs and NIs.  Similar elements, although perhaps only for LNEs, may also need to be included as part of the definition of the future hardware and QoS modules.  </p>
+<p id="rfc.section.2.p.11">System management, network services, and oam protocols represent new top level modules that are used to organize data models of similar functions.  Additional information on each is provided below.  </p>
+<p id="rfc.section.2.p.12">The routing and MPLS modules provide core support for the configuration and operation of a devices control plane and data plane functions. IEEE dot1Q <a href="#IEEE-8021Q">[IEEE-8021Q]</a> is an example of another module that provides similar functions for VLAN bridging, and other similar modules are also possible.  Each of these modules is expected to be LNE and NI unaware, and to be instantiated as needed as part of the LNE and NI configuration and operation supported by the logical-network-element and network-instance modules.  (Note that this is a change from <a href="#RTG-CFG">[RTG-CFG]</a> which is currently defined with VRF/NI semantics.) </p>
+<p id="rfc.section.2.p.13">The access control list (ACL) and key chain modules are included as examples of other top level modules that may be supported by a network device.  </p>
+<p id="rfc.section.2.p.14">The logical network element and network instance modules enable LNEs and NIs respectively and are defined below.  </p>
+<h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#sec-2.1" id="sec-2.1">Interface Model Components</a></h1>
+<p id="rfc.section.2.1.p.1">Interfaces are a crucial part of any network device's configuration and operational state.  They generally include a combination of raw physical interfaces, link-layer interfaces, addressing configuration, and logical interfaces that may not be tied to any physical interface.  Several system services, and layer 2 and layer 3 protocols may also associate configuration or operational state data with different types of interfaces (these relationships are not shown for simplicity).  The interface management model is defined by <a href="#RFC7223">[RFC7223]</a>.  </p>
+<p id="rfc.section.2.1.p.2">The logical-network-element and network-instance modules defined in this document augment the existing interface management model in two ways: The first, by the logical-network-element module, adds an identifier which is used on physical interface types to identify an associated LNE.  The second, by the network-instance module, adds a name which is used on sub-interface types to identify an associated network instance.  Similarly, this name is also added for IPv4 and IPv6 types, as defined in <a href="#RFC7277">[RFC7277]</a>.  </p>
+<pre>
+    augment /if:interfaces/if:interface:
+       +--rw bind-lne-name?   string
+
+    augment /if:interfaces/if:interface:
+       +--rw bind-network-instance-name?   string
+    augment /if:interfaces/if:interface/ip:ipv4:
+       +--rw bind-network-instance-name?   string
+    augment /if:interfaces/if:interface/ip:ipv6:
+       +--rw bind-network-instance-name?   string
+</pre>
+<p id="rfc.section.2.1.p.3">The interface related augmentations are as follows: </p>
+<p id="rfc.section.2.1.p.4">The following is an example of envisioned combined usage.  The interfaces container includes a number of commonly used components as examples: </p>
+<pre>
+          +--rw interfaces
+          |  +--rw interface* [name]
+          |     +--rw name                       string
+          |     +--rw bind-lne-name?             string
+          |     +--rw ethernet
+          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw aggregates
+          |     |  +--rw rstp
+          |     |  +--rw lldp
+          |     |  +--rw ptp
+          |     +--rw vlans
+          |     +--rw tunnels
+          |     +--rw ipv4
+          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw arp
+          |     |  +--rw icmp
+          |     |  +--rw vrrp
+          |     |  +--rw dhcp-client
+          |     +--rw ipv6
+          |        +--rw bind-network-instance-name?   string
+          |        +--rw vrrp
+          |        +--rw icmpv6
+          |        +--rw nd
+          |        +--rw dhcpv6-client
+</pre>
+<p/>
+<p id="rfc.section.2.1.p.6">The <a href="#RFC7223">[RFC7223]</a> defined interface model is structured to include all interfaces in a flat list, without regard to logical or virtual instances (e.g., VRFs) supported on the device.  The bind-lne-name and bind-network-instance-name leaves provide the association between an interface and its associated LNE and NI (e.g., VRF or VSI).  </p>
+<h1 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2.</a> <a href="#sec-2.2" id="sec-2.2">System Management</a></h1>
+<p id="rfc.section.2.2.p.1">[Editor's note: need to discuss and resolve relationship between this structure and RFC7317 and determine if 7317 is close enough to simply use as is.] </p>
+<p id="rfc.section.2.2.p.2">System management is expected to reuse definitions contained in <a href="#RFC7317">[RFC7317]</a>.  It is expected to be instantiated per device and LNE.  Its structure is shown below: </p>
+<pre>
+    module: network-device
+       +--rw system-management
+       |  +--rw system-management-global
+       |  +--rw system-management-protocol* [type]
+       |     +--rw type    identityref
+</pre>
+<p/>
+<p id="rfc.section.2.2.p.4">System-management-global is used for configuration information and state that is independent of a particular management protocol.  System-management-protocol is a list of management protocol specific elements.  The type-specific sub-modules are expected to be defined.  </p>
+<p id="rfc.section.2.2.p.5">The following is an example of envisioned usage: </p>
+<pre>
+    module: network-device
+       +--rw system-management
+          +--rw system-management-global
+          |  +--rw statistics-collection
+          |  ...
+          +--rw system-management-protocol* [type]
+          |  +--rw type=syslog
+          |  +--rw type=dns
+          |  +--rw type=ntp
+          |  +--rw type=ssh
+          |  +--rw type=tacacs
+          |  +--rw type=snmp
+          |  +--rw type=netconf
+
+</pre>
+<p/>
+<p/>
+<h1 id="rfc.section.2.3"><a href="#rfc.section.2.3">2.3.</a> <a href="#sec-2.3" id="sec-2.3">Network Services</a></h1>
+<p id="rfc.section.2.3.p.1">A device may provide different network services to other devices, for example a device my act as a DHCP server.  The model may be instantiated per device, LNE, and NI. An identityref is used to identify the type of specific service being provided and its associated configuration and state information. The defined structure is as follows: </p>
+<pre>
+    module: network-device
+       +--rw network-services
+       |  +--rw network-service* [type]
+       |     +--rw type    identityref
+</pre>
+<p/>
+<p id="rfc.section.2.3.p.3">The following is an example of envisioned usage: Examples shown below include a device-based Network Time Protocol (NTP) server, a Domain Name System (DNS) server, and a Dynamic Host Configuration Protocol (DHCP) server: </p>
+<pre>
+    module: network-device
+       +--rw network-services
+          +--rw network-service* [type]
+             +--rw type=ntp-server
+             +--rw type=dns-server
+             +--rw type=dhcp-server
+</pre>
+<p/>
+<p/>
+<h1 id="rfc.section.2.4"><a href="#rfc.section.2.4">2.4.</a> <a href="#sec-2.4" id="sec-2.4">OAM Protocols</a></h1>
+<p id="rfc.section.2.4.p.1">OAM protocols that may run within the context of a device are grouped within the oam-protocols model.  The model may be instantiated per device, LNE, and NI. An identifyref is used to identify the information and state that may relate to a specific OAM protocol. The defined structure is as follows: </p>
+<pre>
+    module: network-device
+       +--rw oam-protocols
+          +--rw oam-protocol* [type]
+             +--rw type    identityref
+
+</pre>
+<p/>
+<p id="rfc.section.2.4.p.3">The following is an example of envisioned usage.  Examples shown below include Bi-directional Forwarding Detection (BFD), Ethernet Connectivity Fault Management (CFM), and Two-Way Active Measurement Protocol (TWAMP): </p>
+<pre>
+    module: network-device
+       +--rw oam-protocols
+          +--rw oam-protocol* [type]
+             +--rw type=bfd
+             +--rw type=cfm
+             +--rw type=twamp
+</pre>
+<p/>
+<p/>
+<h1 id="rfc.section.2.5"><a href="#rfc.section.2.5">2.5.</a> <a href="#sec-2.RTG" id="sec-2.RTG">Routing</a></h1>
+<p id="rfc.section.2.5.p.1">Routing protocol and IP forwarding configuration and operation information is modeled via a routing model, such as the one defined in <a href="#RTG-CFG">[RTG-CFG]</a>.  Although, the defined routing module includes support for NIs, which it refers to as Routing Instances, while the approach presented in this document presumes that the routing module is unaware of LNEs and NIs.  </p>
+<p id="rfc.section.2.5.p.2">The routing module is expected to include all IETF defined control plane protocols, such as BGP, OSPF, LDP and RSVP-TE.  It is also expected to support configuration and operation of or more routing information bases (RIB).  A RIB is a list of routes complemented with administrative data. Finally, policy is expected to be represented within each control plane protocol and RIB.  </p>
+<p id="rfc.section.2.5.p.3">The anticipated structure is as follows: </p>
+<pre>
+   module: network-device
+       +--rw routing
+          +--rw control-plane-protocols
+          |  +--rw control-plane-protocol* [type]
+          |     +--rw type      identityref
+          |     +--rw policy
+          +--rw ribs
+             +--rw rib* [name]
+                +--rw name           string
+                +--rw description?   string
+                +--rw policy
+</pre>
+<p/>
+<h1 id="rfc.section.2.6"><a href="#rfc.section.2.6">2.6.</a> <a href="#sec-2.MPLS" id="sec-2.MPLS">MPLS</a></h1>
+<p id="rfc.section.2.6.p.1">MPLS data plane related information is grouped together, as with the previously discussed modules, is unaware of VRFs/NIs. The model may be instantiated per device, LNE, and NI.  MPLS control plane protocols are expected to be included in <a href="#sec-2.RTG">Section 2.5</a>.  MPLS may reuse and build on <a href="#OC-MPLS">[OC-MPLS]</a> or other emerging models and has an anticipated structure as follows: </p>
+<pre>
+  module: network-device
+       +--rw mpls
+          +--rw global
+          +--rw lsps* [type]
+             +--rw type    identityref
+</pre>
+<p/>
+<p id="rfc.section.2.6.p.3">Type refers to LSP type,  such as static, traffic engineered or routing congruent.  The following is an example of such usage: </p>
+<pre>
+  module: network-device
+       +--rw mpls
+          +--rw global
+          +--rw lsps* [type]
+              +--rw type=static
+              +--rw type=constrained-paths
+              +--rw type=igp-congruent
+</pre>
+<p/>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#sec-LNE" id="sec-LNE">Logical Network Elements</a></h1>
+<p id="rfc.section.3.p.1">A logical network element is a network-device which is contained within another network-device. Using host-virtualization terminology one could refer to an LNE as a "Guest", and the containing network-device as the "Host". While LNEs may be implemented via host-virtualization technologies this is not a requirement.  </p>
+<p id="rfc.section.3.p.2">Logical network elements represent the capability of some devices to partition resources into independent logical routers and/or switches.  Device support for multiple logical network elements is implementation specific.  Systems without such capabilities need not include support for the logical-network-element module.  In physical devices, some hardware features are shared across partitions, but control plane (e.g., routing) protocol instances, tables, and configuration are managed separately.  For example, in virtual routers or VNFs, this may correspond to establishing multiple logical instances using a single software installation.  The model supports configuration of multiple instances on a single device by creating a list of logical network elements, each with their own configuration and operational state related to routing and switching protocols, as shown below: </p>
+<pre>
+    module: logical-network-element
+       +--rw logical-network-inventory
+          +--rw logical-network-element* [name]
+             +--rw name?   string
+             +--rw description? string
+             +--rw managed?     boolean
+             +--rw root?        schema-mount
+    augment /if:interfaces/if:interface:
+       +--rw bind-lne-name?     string
+</pre>
+<p/>
+<p id="rfc.section.3.p.4">`name` identifies the logical network element.  `managed` indicates if the host network device is able to manage the LNE via the `root` structure.  </p>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#sec-LNE.HOST" id="sec-LNE.HOST">LNE Management - Host Network Device View</a></h1>
+<p id="rfc.section.3.1.p.1">There are multiple implementation approaches possible to enable a network device to support the logical-network-element module and multiple LNEs.  Some approaches will allow the management functions operating at network device level to access LNE configuration and operation information, while others will not.  Similarly, even when LNE management from the network device is supported by the implementation, it may be prohibited by user policy.  </p>
+<p id="rfc.section.3.1.p.2">The `managed` boolean mentioned above is used to indicate when LNE management from the network device context is possible. When the `managed` is `false`, the LNE cannot be managed by the host system and can only be managed from within the context of the LNE as described in the next section, <a href="#sec-LNE.LNE">Section 3.2</a>.  </p>
+<p id="rfc.section.3.1.p.3">When `managed` is `true`, the LNE can be managed from both the context of the LNE and the host network device. In this case, the same information that is available from within the LNE context is made available via the `root` element, with paths modified as described in <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>.  </p>
+<p id="rfc.section.3.1.p.4">As an example, consider the case where an LNE with a `name` of "one" is defined on a network device.  In this case  the following structure might be made available: </p>
+<pre>
+ .................................................................
+                                          [ network-device state ]
+    module: logical-network-element
+       +--rw logical-network-inventory
+          +--rw logical-network-element* [name]
+             +--rw name="one"          string
+             +--rw manged=true         boolean
+             +--rw root                schema-mount
+
+ .................................................................
+                            [ LNE state exposed to network-device]
+
+                +--rw ietf-yang-library
+                +--rw interfaces
+                +--rw hardware
+                +--rw qos
+                +--rw system-management
+                +--rw network-services
+                +--rw oam-protocols
+                +--rw routing
+                +--rw mpls
+                +--rw ieee-dot1Q
+                +--rw network-instance
+ .................................................................
+</pre>
+<p/>
+<p id="rfc.section.3.1.p.6">As an LNE is a network device itself, all modules that may be present at the top level network device may also be present for the LNE, be made available under `root`, and be accessible via paths modified per <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>. The list of available modules is expected to be implementation dependent. As is the method used by an implementation to support LNEs.  </p>
+<p id="rfc.section.3.1.p.7">Resources assigned to the LNE will be represented in that LNE's resource modules. e.g., an LNE's interfaces module will contain the interfaces assigned to that LNE from the containing network-device.  </p>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#sec-LNE.LNE" id="sec-LNE.LNE">LNE Management - LNE View</a></h1>
+<p id="rfc.section.3.2.p.1">Management functions operating with the context of an LNE are accessed through standard LNE's management interfaces, e.g., NETCONF and SNMP.  When accessing an LNE via an LNE's management interface, a network-device representation will be presented, but its scope will be limited to the specific LNE.  Normal YANG/NETCONF mechanisms, together with ietf-yang-library, can be used to identify the available modules.  Each supported module will be presented as a top level module. Only LNE associated resources will be reflected in resource related modules, e.g., interfaces, hardware and perhaps QoS. From the management perspective, there will be no difference between the available LNE view (information) and an a physical network device.  </p>
+<p id="rfc.section.3.2.p.2">Multiple implementation approaches are possible to provide LNE views, and these are outside the scope of this document.  </p>
+<h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#sec-LNE.MOUNT" id="sec-LNE.MOUNT">LNE Instantiation</a></h1>
+<p id="rfc.section.3.3.p.1">TBD -- need to resolve if instantiation is based on new list entry creation per the pending Schema Mount solution definition.  </p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sec-NI" id="sec-NI">Network Instances</a></h1>
+<p id="rfc.section.4.p.1">The network instance container is used to represent virtual routing and forwarding instances (VRFs) and virtual switching instances (VSIs), <a href="#RFC4026">[RFC4026]</a>.  VRFs and VSIs are commonly used to isolate routing and switching domains, for example to create virtual private networks, each with their own active protocols and routing/switching policies.  The model represents both core/provider and virtual instances.  Network instances reuse and build on <a href="#RTG-CFG">[RTG-CFG]</a> and are shown below: </p>
+<pre>
+    module: network-instance
+       +--rw network-instances
+          +--rw network-instance* [name]
+             +--rw name                         string
+             +--rw type?                        identityref
+             +--rw enabled?                     boolean
+             +--rw description?                 string
+             +--rw network-instance-policy
+             |  ...
+             +--rw root?                      schema-mount
+             |  ...
+    augment /if:interfaces/if:interface:
+       +--rw bind-network-instance-name?   string
+    augment /if:interfaces/if:interface/ip:ipv4:
+       +--rw bind-network-instance-name?   string
+    augment /if:interfaces/if:interface/ip:ipv6:
+       +--rw bind-network-instance-name?   string
+</pre>
+<p/>
+<p id="rfc.section.4.p.3">A network instance is identified by a `name` string.  This string is used both as an index within the network-instance module and to associate resources with a network instance is shown above in the interface augmentation. Type is used to indicate the type NI, such as L3-VRF, VPLS, L2-VSI, etc. Network instance policy and root are discussed in greater detail below.  </p>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#sec-NI.1" id="sec-NI.1">Network Instance Policy</a></h1>
+<p id="rfc.section.4.1.p.1">Network instance policies are used to control how NI information is represented at the device level, VRF routing policies, and VRF/VSI identifiers. Examples include BGP route targets (RTs) and route distinguishers (RDs), virtual network identifiers (VN-IDs), VPLS neighbors, etc. The structure is expected to be: </p>
+<pre>
+    module: network-instance
+       +--rw network-instances
+          +--rw network-instance* [name]
+             +--rw network-instance-policy
+                (TBD)
+</pre>
+<p/>
+<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#sec-NI.2" id="sec-NI.2">Network Instance Management</a></h1>
+<p id="rfc.section.4.2.p.1">Modules that may be used to represent network instance specific information will be available under `root`.  As with LNEs, actual module availability is expected to be implementation dependent. The ietf-yang-library module is expected to be the primary method used to identify supported modules.  Resource related control and assignment is expected to be managed at the network-device level, not the network instance level, based on the `bind-network-instance-name` augmentation mentioned above.  </p>
+<p id="rfc.section.4.2.p.2">As an example, consider the case where a network instance with a `name` of "green" is defined on a network device.  In this case the following structure might be made available: </p>
+<pre>
+    module: network-instance
+       +--rw ietf-yang-library
+       +--rw interfaces
+       |  +--rw bind-network-instance-name="green"  string
+       +--rw system-management
+       +--rw network-instances
+          +--rw network-instance* [name]
+             +--rw name="green"    string
+             +--rw type?                               identityref
+             +--rw enabled=true                        boolean
+             +--rw description="The Green VRF"         string
+             +--rw network-instance-policy
+             |  ... (RT=1000:1, RD=1.2.3.4)
+             +--rw root?                               schema-mount
+                +--rw ietf-yang-library
+                +--rw network-services
+                +--rw oam-protocols
+                +--rw routing
+                +--rw mpls
+</pre>
+<p/>
+<p id="rfc.section.4.2.p.4">All modules that represent control-plane and data-plane information may be present at the `root`, and be accessible via paths modified per <a href="#STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</a>.  The list of available modules is expected to be implementation dependent.  As is the method used by an implementation to support NIs.  </p>
+<h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#sec-NI.3" id="sec-NI.3">Network Instance Instantiation</a></h1>
+<p id="rfc.section.4.3.p.1">TBD -- need to resolve if instantiation is based on new list entry creation per the pending Schema Mount solution definition.  </p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#sec-4" id="sec-4">Security Considerations</a></h1>
+<p id="rfc.section.5.p.1">The network-device model structure described in this document does not define actual configuration and state data, hence it is not directly responsible for security risks.  </p>
+<p id="rfc.section.5.p.2">Each of the component models that provide the corresponding configuration and state data should be considered sensitive from a security standpoint since they generally manipulate aspects of network configurations.  Each component model should be carefully evaluated to determine its security risks, along with mitigations to reduce such risks.  </p>
+<p id="rfc.section.5.p.3">LNE portion is TBD </p>
+<p id="rfc.section.5.p.4">NI portion is TBD </p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#sec-5" id="sec-5">IANA Considerations</a></h1>
+<p id="rfc.section.6.p.1">This YANG model currently uses a temporary ad-hoc namespace.  If it is placed or redirected for the standards track, an appropriate namespace URI will be registered in the "IETF XML Registry" <a href="#RFC3688">[RFC3688]</a>.  The YANG structure modules will be registered in the "YANG Module Names" registry <a href="#RFC6020">[RFC6020]</a>.  </p>
+<p/>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#sec-6" id="sec-6">YANG Modules</a></h1>
+<p id="rfc.section.7.p.1">The structure of the models defined in this document are  described by the YANG module below.  </p>
+<p/>
+<h1 id="rfc.section.7.1"><a href="#rfc.section.7.1">7.1.</a> <a href="#sec-6.1" id="sec-6.1">Network Device Model Structure</a></h1>
+<pre>
+&lt;CODE BEGINS&gt; file "network-device@2016-02-22.yang"
+module network-device {
+
+  yang-version "1";
+
+  // namespace
+  namespace "urn:ietf:params:xml:ns:yang:network-device";
+
+  prefix "struct";
+
+  // import some basic types
+
+  // meta
+  organization "IETF RTG YANG Design Team Collaboration
+                with OpenConfig";
+
+  contact
+      "Routing Area YANG Architecture Design Team -
+       &lt;rtg-dt-yang-arch@ietf.org&gt;";
+
+  description
+    "This module describes a model structure for YANG
+     configuration and operational state data models. Its intent is
+     to describe how individual device protocol and feature models
+     fit together and interact.";
+
+  revision "2016-02-22" {
+    description
+      "IETF Routing YANG Design Team Meta-Model";
+    reference "TBD"; 
+  }
+
+  // extension statements
+
+  // identity statements
+
+  identity oam-protocol-type {
+      description
+          "Base identity for derivation of OAM protocols";
+  }
+
+  identity network-service-type {
+      description
+          "Base identity for derivation of network services";
+  }
+
+   identity system-management-protocol-type {
+      description
+          "Base identity for derivation of system management
+           protocols";
+   }
+
+   identity oam-service-type {
+      description
+          "Base identity for derivation of Operations,
+           Administration, and Maintenance (OAM) services.";
+   }
+
+   identity control-plane-protocol-type {
+      description
+          "Base identity for derivation of control-plane protocols";
+   }
+
+   identity mpls-lsp-type {
+      description
+          "Base identity for derivation of MPLS LSP typs";
+   }
+
+  // typedef statements
+
+  // grouping statements
+
+  grouping control-plane-protocols {
+      description
+          "Grouping for control plane protocols configured for
+           a network-instance";
+      container control-plane-protocols {
+          description
+              "Container for control plane protocols configured for
+               a network instance.";
+          list control-plane-protocol {
+              key "type";
+              description
+                  "List of control plane protocols configured for
+                   a network instance.";
+              leaf type {
+                  type identityref {
+                      base control-plane-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "The control plane protocol type, e.g., BGP,
+                       OSPF IS-IS, etc";
+              }
+              container policy {
+                  description
+                      "Protocol specific policy,
+                      reusing [RTG-POLICY]";
+              }
+          }
+      }
+  }
+
+  grouping ribs {
+    description
+      "Routing Information Bases (RIBs) supported by a
+       network-instance";
+    container ribs {
+        description
+            "RIBs supported by a network-instance";
+        list rib {
+            key "name";
+            min-elements "1";
+            description
+                "Each entry represents a RIB identified by the
+               'name' key. All routes in a RIB must belong to the
+                same address family.
+
+                For each routing instance, an implementation should
+                provide one system-controlled default RIB for each
+                supported address family.";
+            leaf name {
+                type string;
+                description
+                    "The name of the RIB.";
+            }
+            reference "draft-ietf-netmod-routing-cfg";
+            leaf description {
+                type string;
+                description
+                    "Description of the RIB";
+            }
+            // Note that there is no list of interfaces within
+            container policy {
+                description "Policy specific to RIB";
+            }
+        }
+    }
+  }
+
+  // top level device definition statements
+  container ietf-yang-library {
+    description 
+      "YANG Module Library as defined in
+       draft-ietf-netconf-yang-library";
+  }
+
+  container interfaces {
+    description
+     "Interface list as defined by RFC7223/RFC7224";
+  }
+
+  container hardware {
+    description
+      "Hardware / vendor-specific data relevant to the platform.
+      This container is an anchor point for platform-specific
+      configuration and operational state data.  It may be further
+      organized into chassis, line cards, ports, etc.  It is
+      expected that vendor or platform-specific augmentations
+      would be used to populate this part of the device model";
+  }
+
+  container qos {
+    description "QoS features, for example policing, shaping, etc.";
+  }
+
+  container system-management {
+      description 
+        "System management for physical or virtual device.";
+      container system-management-global {
+          description "System management - with reuse of RFC 7317";
+      }
+      list system-management-protocol {
+          key "type";
+          leaf type {
+              type identityref {
+                  base system-management-protocol-type;
+              }
+              mandatory true;
+              description
+                  "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
+          }
+          description "List of system management protocol
+                       configured for a logical network
+                       element.";
+      }
+  }
+
+  container network-services {
+      description
+          "Container for list of configured network 
+           services.";
+      list network-service {
+          key "type";
+          description
+              "List of network services configured for a
+               network instance.";
+          leaf type {
+              type identityref {
+                  base network-service-type;
+              }
+              mandatory true;
+              description
+                  "The network service type supported within
+                   a network instance, e.g., NTP server, DNS
+                   server, DHCP server, etc.";
+          }
+      }
+  }
+
+  container oam-protocols {
+      description
+          "Container for configured OAM protocols.";
+      list oam-protocol {
+          key "type";
+          leaf type {
+              type identityref {
+                  base oam-protocol-type;
+              }
+              mandatory true;
+              description
+                  "The Operations, Administration, and
+                   Maintenance (OAM) protocol type, e.g., BFD,
+                   TWAMP, CFM, etc.";
+          }
+          description
+              "List of configured OAM protocols.";
+      }
+  }
+
+  container routing {
+    description 
+      "The YANG Data Model for Routing Management revised to be
+       Network Instance / VRF independent. ";
+    // Note that there is no routing or network instance
+    uses control-plane-protocols;
+    uses ribs;
+  }
+
+  container mpls {
+      description "MPLS and TE configuration";
+      container global {
+          description "Global MPLS configuration";
+      }
+      list lsps {
+          key "type";
+          description
+              "List of LSP types.";
+          leaf type {
+              type identityref {
+                  base mpls-lsp-type;
+              }
+              mandatory true;
+              description
+                  "MPLS and Traffic Engineering protocol LSP types,
+                   static, LDP/SR (igp-congruent), 
+                   RSVP TE (constrained-paths) , etc.";
+          }
+      }
+  }
+
+  container ieee-dot1Q {
+    description 
+      "The YANG Data Model for VLAN bridges as defined by the IEEE";
+  }
+
+  container ietf-acl {
+    description "Packet Access Control Lists (ACLs) as specified
+                   in draft-ietf-netmod-acl-model";
+  }
+
+  container ietf-key-chain {
+    description "Key chains as specified in
+                 draft-ietf-rtgwg-yang-key-chain;";
+  }
+
+  container logical-network-element {
+    description 
+      "This module is used to support multiple logical network 
+       elements on a single physical or virtual system.";
+  }
+
+  container network-instance {
+    description 
+      "This module is used to support multiple network instances 
+       within a single physical or virtual device.  Network 
+       instances are commonly know as VRFs (virtual routing 
+       and forwarding) and VSIs (virtual switching instances).";
+  }
+  // rpc statements
+
+  // notification statements
+
+}
+&lt;CODE ENDS&gt;
+</pre>
+<p/>
+<h1 id="rfc.section.7.2"><a href="#rfc.section.7.2">7.2.</a> <a href="#sec-6.2" id="sec-6.2">Logical Network Element Model</a></h1>
+<pre>
+&lt;CODE BEGINS&gt; file "logical-network-element@2016-01-19.yang"
+module logical-network-element {
+
+  yang-version "1";
+
+  // namespace
+  namespace "urn:ietf:params:xml:ns:yang:logical-network-element";
+
+  prefix "struct";
+
+  // import some basic types
+  import ietf-interfaces {
+    prefix if;
+  }
+
+  // meta
+  organization "IETF RTG YANG Design Team Collaboration
+                with OpenConfig";
+
+  contact
+      "Routing Area YANG Architecture Design Team -
+       &lt;rtg-dt-yang-arch@ietf.org&gt;";
+
+  description
+    "This module is used to support multiple logical network
+     elements on a single physical or virtual system.";
+
+  revision "2016-01-19" {
+    description
+      "IETF Routing YANG Design Team Meta-Model";
+    reference "TBD";
+  }
+
+  // extension statements
+
+  // feature statements
+  feature bind-network-element-id {
+    description
+      "Logical network element ID to which an interface is bound";
+  }
+
+  // identity statements
+
+  identity logical-network-element-type {
+    description
+     "Identify type of logical-network-element";
+  }
+
+  identity lne-managed {
+    base logical-network-element-type;
+    description
+      "A Logical Network Element that can
+       be managed by the host system";
+  }
+
+  identity lne-unmanaged {
+    base logical-network-element-type;
+    description
+      "A Logical Network Element that cannot
+       be managed by the host system";
+  }
+
+  // typedef statements
+
+  // grouping statements
+
+  // top level device definition statements
+  container logical-network-inventory {
+    description "Allows a network device to support multiple logical
+                 network element (device) instances";
+    list logical-network-element {
+      key lne-id;
+      description "List of logical network elements";
+      leaf lne-id {
+        type uint16; // expect a small number of logical routers
+        description "Device-wide unique identifier for the
+                     logical network element";
+      }
+      leaf lne-name {
+        type string;
+        description "Descriptive name for the logical network
+                     element";
+      }
+      leaf lne-type {
+        type identityref {
+          base logical-network-element-type;
+        }
+        description "Type of logical-network-element";
+      }
+      leaf lne-root {
+        type schema-mount;
+        description "Root for models supported per logical
+                     network element";
+      }
+    }
+  }
+
+  // augment statements
+  augment "/if:interfaces/if:interface" {
+    description
+        "Add a node for the identification of the logical network
+        element associated with an interface. Applies to interfaces
+        that can be assigned on a per logical network element basis.
+        A &lt;TBD&gt; error is returned when the interface type cannot be
+        assigned.";
+
+    leaf bind-lne-id {
+      type uint16;
+      description
+        "Logical network element ID to which interface is bound";
+    }
+  }
+
+  // rpc statements
+
+  // notification statements
+
+}
+&lt;CODE ENDS&gt;
+</pre>
+<p/>
+<h1 id="rfc.section.7.3"><a href="#rfc.section.7.3">7.3.</a> <a href="#sec-6.3" id="sec-6.3">Network Instance Model</a></h1>
+<pre>
+&lt;CODE BEGINS&gt; file "network-instance@2016-02-22.yang"
+module network-instance {
+
+  yang-version "1";
+
+  // namespace
+  namespace "urn:ietf:params:xml:ns:yang:network-instance";
+
+  prefix "struct";
+
+  // import some basic types
+  import ietf-interfaces {
+    prefix if;
+  }
+
+  import ietf-ip {
+    prefix ip;
+  }
+
+  // meta
+  organization "IETF RTG YANG Design Team Collaboration
+                with OpenConfig";
+
+  contact
+      "Routing Area YANG Architecture Design Team -
+       &lt;rtg-dt-yang-arch@ietf.org&gt;";
+
+  description
+    "This module is used to support multiple network instances
+     within a single physical or virtual device.  Network
+     instances are commonly know as VRFs (virtual routing
+     and forwarding) and VSIs (virtual switching instances).";
+
+  revision "2016-02-22" {
+    description
+      "IETF Routing YANG Design Team Meta-Model";
+    reference "TBD";
+  }
+
+  // extension statements
+
+  feature bind-network-instance-name {
+    description
+      "Network Instance to which an interface instance is bound";
+  }
+
+  // identity statements
+
+  identity network-instance-type {
+      description
+         "Base identity from which identities describing
+          network instance types are derived.";
+  }
+
+   identity ipv4-interface-protocol-type {
+      description
+          "Base identity for derivation of IPv4 interface
+           protocols";
+   }
+
+   identity ipv6-interface-protocol-type {
+      description
+          "Base identity for derivation of IPv6 interface
+           protocols";
+   }
+
+  // typedef statements
+
+  // grouping statements
+
+  grouping interface-ip-common {
+    description
+      "interface-specific configuration for IP interfaces, IPv4 and
+      IPv6";
+
+  }
+
+  grouping ipv4-interface-protocols {
+      container ipv4-interface-protocols {
+          list ipv4-interface-protocol {
+              key "type";
+              leaf type {
+                  type identityref {
+                      base ipv4-interface-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "ARP, ICMP, VRRP, DHCP Client, etc.";
+              }
+              description
+                  "List of IPv4 protocols configured
+                   on an interface";
+          }
+          description
+              "Container for list of IPv4 protocols configured
+                on an interface";
+      }
+      description
+          "Grouping for IPv4 protocols configured on an interface";
+  }
+
+  grouping ipv6-interface-protocols {
+      description
+          "Grouping for IPv6 protocols configured on
+           an interface.";
+      container ipv6-interface-protocols {
+          description
+              "Container for list of IPv6 protocols configured
+                on an interface.";
+          list ipv6-interface-protocol {
+              key "type";
+              description
+                  "List of IPv6 protocols configured
+                   on an interface";
+              leaf type {
+                  type identityref {
+                      base ipv6-interface-protocol-type;
+                  }
+                  mandatory true;
+                  description
+                      "ND, ICMPv6, VRRP, DHCPv6 Client, etc.";
+              }
+          }
+      }
+  }
+
+  grouping network-instance-policy {
+    description
+        "Network instance policies such as route
+         distinguisher, route targets, VPLS ID and neighbor,
+         Ethernet ID, etc. ";
+    reference
+        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
+         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
+              in Layer 2 Virtual Private Networks (L2VPNs)
+         RFC 7432 - BGP MPLS-Based Ethernet VPN";
+    container network-instance-policy {
+        description "Network Instance Policy -- details TBD";
+    }
+  }
+
+  // top level device definition statements
+  container network-instances {
+      description "Network instances each of which have
+                   an independent IP/IPv6 addressing space
+                   and protocol instantiations. For layer 3,
+                   this consistent with the routing-instance
+                   definition in ietf-routing";
+      reference "draft-ietf-netmod-routing-cfg";
+      list network-instance {
+          key name;
+          description "List of network-instances";
+          leaf name {
+              type string;
+              description "device scoped
+                           identifier for the network
+                           instance";
+          }
+          leaf type {
+              type identityref {
+                  base network-instance-type;
+              }
+              description
+                  "The network instance type -- details TBD
+                   Likely types include core, L3-VRF, VPLS,
+                   L2-cross-connect, L2-VSI, etc.";
+          }
+          leaf enabled {
+              type boolean;
+              default "true";
+              description
+                "Flag indicating whether or not the network
+                 instance is enabled.";
+          }
+          leaf description {
+              type string;
+              description
+                "Description of the network instance
+                and its intended purpose";
+          }
+          uses network-instance-policy;
+          leaf root {
+            type schema-mount;
+            description "Root for models supported per
+                         network instance";
+          }
+      }
+  }
+
+  // augment statements
+
+  augment "/if:interfaces/if:interface" {
+    description
+        "Add a node for the identification of the logical network
+        instance (which is within the interface's identified logical
+        network element) associated with the IP information
+        configured on an interface";
+
+    leaf bind-network-instance-name {
+      type string;
+      description
+        "Network Instance to which an interface is bound";
+    }
+  }
+
+  augment "/if:interfaces/if:interface/ip:ipv4" {
+    description
+        "Add a node for the identification of the logical
+        network instance (which is within the interface's
+        identified physical or virtual device) associated with
+        the IP information configured on an interface";
+
+    leaf bind-network-instance-name {
+      type string;
+      description
+        "Network Instance to which IPv4 interface is bound";
+
+    }
+  }
+
+  augment "/if:interfaces/if:interface/ip:ipv6" {
+    description
+        "Add a node for the identification of the logical
+        network instance (which is within the interface's
+        identified physical or virtual device) associated with
+        the IP information configured on an interface";
+
+    leaf bind-network-instance-name {
+      type string;
+      description
+        "Network Instance to which IPv6 interface is bound";
+
+    }
+  }
+
+  // rpc statements
+
+  // notification statements
+
+}
+&lt;CODE ENDS&gt;
+</pre>
+<p/>
+<h1 id="rfc.references"><a href="#rfc.references">8.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">8.1.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="RFC3688">[RFC3688]</b>
+      </td>
+      <td class="top"><a title="Verisign, Inc">Mealling, M.</a>, "<a href="http://tools.ietf.org/html/rfc3688">The IETF XML Registry</a>", BCP 81, RFC 3688, January 2004.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC4026">[RFC4026]</b>
+      </td>
+      <td class="top"><a title="Acreo AB">Andersson, L.</a> and <a title="Acreo AB">T. Madsen</a>, "<a href="http://tools.ietf.org/html/rfc4026">Provider Provisioned Virtual Private Network (VPN) Terminology</a>", RFC 4026, March 2005.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6020">[RFC6020]</b>
+      </td>
+      <td class="top"><a title="Tail-F Systems">Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc6020">YANG - A Data Modeling Language for  the Network Configuration Protocol (NETCONF)</a>", RFC 6020, October 2010.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7223">[RFC7223]</b>
+      </td>
+      <td class="top"><a title="Tail-F Systems">Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc7223">A YANG Data Model for Interface Management</a>", RFC 7223, May 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7277">[RFC7277]</b>
+      </td>
+      <td class="top"><a title="Tail-F Systems">Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc7277">A YANG Data Model for IP Management</a>", RFC 7277, June 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7317">[RFC7317]</b>
+      </td>
+      <td class="top"><a title="YumaWorks">Bierman, A.</a> and <a title="Tail-F Systems">M. Bjorklund</a>, "<a href="http://tools.ietf.org/html/rfc7317">A YANG Data Model for System Management</a>", RFC 7317, August 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="STRUCTURAL-MOUNT">[STRUCTURAL-MOUNT]</b>
+      </td>
+      <td class="top"><a title="Tail-F Systems">Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/draft-bjorklund-netmod-structural-mount-00.txt">YANG Structural Mount</a>", Internet-Draft draft-bjorklund-netmod-structural-mount-00.txt, December 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="YANG-YSDL">[YANG-YSDL]</b>
+      </td>
+      <td class="top"><a title="CZ.NIC">Lhotha, L.</a>, "<a href="http://tools.ietf.org/html/draft-lhotka-netmod-ysdl-00.txt">YANG Schema Dispatching Language</a>", Internet-Draft draft-lhotka-netmod-ysdl-00.txt, November 2015.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">8.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="IEEE-8021Q">[IEEE-8021Q]</b>
+      </td>
+      <td class="top"><a title="IEEE">Holness, M.</a>, "<a>IEEE 802.1Q YANG Module Specifications</a>", IEEE-Draft http://www.ieee802.org/1/files/public/docs2015/new-mholness-yang-8021Q-0515-v04.pdf, May 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="NETMOD-OPSTATE">[NETMOD-OPSTATE]</b>
+      </td>
+      <td class="top"><a title="Juniper Networks">Watsen, K.</a> and <a title="Brocade">T. Nadeau</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netmod-opstate-reqs-03.txt">NETMOD Operational State Requirements</a>", Internet-Draft draft-ietf-netmod-opstate-reqs-03.txt, January 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="OC-MPLS">[OC-MPLS]</b>
+      </td>
+      <td class="top"><a title="Google">George, J.</a>, <a title="Microsoft">Fang, L.</a>, <a title="Level 3">Osborne, E.</a> and <a title="Jive Communications, Inc">R. Shakir</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-mpls-consolidated-model-02.txt">MPLS / TE Model for Service Provider Networks</a>", Internet-Draft draft-openconfig-mpls-consolidated-model-02.txt, October 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="OC-OPSTATE">[OC-OPSTATE]</b>
+      </td>
+      <td class="top"><a title="Jive">Shakir, R.</a>, <a title="Google">Shaikh, A.</a> and <a title="Google">M. Hines</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-netmod-opstate-01.txt">Consistent Modeling of Operational State Data in YANG</a>", Internet-Draft draft-openconfig-netmod-opstate-01.txt, July 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="OC-STRUCT">[OC-STRUCT]</b>
+      </td>
+      <td class="top"><a title="Google">Shaikh, A.</a>, <a title="Jive Communications, Inc">Shakir, R.</a>, <a title="AT&amp;T">D'Souza, K.</a> and <a title="Microsoft">L. Fang</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-netmod-model-structure-00.txt">Consistent Modeling of Operational State Data in YANG</a>", Internet-Draft draft-openconfig-netmod-model-structure-00.txt, March 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RTG-CFG">[RTG-CFG]</b>
+      </td>
+      <td class="top"><a title="CZ.NIC">Lhotha, L.</a> and <a title="Cisco Systems">A. Lindem</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netmod-routing-cfg-20.txt">A YANG Data Model for Routing Management</a>", Internet-Draft draft-ietf-netmod-routing-cfg-20.txt, October 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="YANG-LIBRARY">[YANG-LIBRARY]</b>
+      </td>
+      <td class="top"><a title="YumaWorks">Bierman, A.</a>, <a title="Tail-F Systems">Bjorklund, M.</a> and <a title="Juniper Networks">K. Watsen</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netconf-yang-library-03.txt">YANG Module Library</a>", Internet-Draft draft-ietf-netconf-yang-library-03.txt, December 2015.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> Acknowledgments</h1>
+<p id="rfc.section.A.p.1">This document is derived from draft-openconfig-netmod-model-structure-00. The Authors of that document who are not also authors of this document are listed as Contributors to this work.</p>
+<p id="rfc.section.A.p.2">The original stated: The authors are grateful for valuable contributions to this document and the associated models from: Deepak Bansal, Paul Borman, Chris Chase, Josh George, Marcus Hines, and Jim Uttaro.</p>
+<p id="rfc.section.A.p.3">The Routing Area Yang Architecture design team members included Acee Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger, Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang.</p>
+<p id="rfc.section.A.p.4">The identityref approach was proposed by Mahesh Jethanandani.</p>
+<p id="rfc.section.A.p.5">The RFC text was produced using Marshall Rose's xml2rfc tool.  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
+<h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> Contributors</h1>
+<pre>
+Contributors' Addresses
+
+   Anees Shaikh
+   Google
+   1600 Amphitheatre Pkwy
+   Mountain View, CA  94043
+   United States
+   Email: aashaikh@google.com
+
+
+   Rob Shakir
+   Jive Communications, Inc.
+   1275 W 1600 N, Suite 100
+   Orem, UT  84057
+   United States
+   Email: rjs@rob.sh
+
+
+   Kevin D'Souza
+   AT&amp;T
+   200 S. Laurel Ave
+   Middletown, NJ
+   United States
+   Email: kd6913@att.com
+
+   Luyuan Fang
+   Microsoft
+   205 108th Ave. NE, Suite 400
+   Bellevue, WA
+   United States
+   Email: lufang@microsoft.com
+
+   Qin Wu
+   Huawei Technologies
+   101 Software Avenue, Yuhua District
+   Nanjing, Jiangsu  210012
+   China
+
+   Email: bill.wu@huawei.com
+
+
+
+
+
+
+
+   Stephane Litkowski
+   Orange
+   9 rue du chene germain
+   Cesson Sevigne  35512
+   France
+
+   Email: stephane.litkowski@orange.com
+
+
+   Gang Yan
+   Huawei Technologies
+   Huawei Bld., No.156 Beiqing Rd.
+   Beijing  100095
+   China
+
+   Email: yangang@huawei.com
+
+</pre>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Acee Lindem</span> (editor)
+	  <span class="n hidden">
+		<span class="family-name">Lindem</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems</span>
+	<span class="adr">
+	  <span class="vcardline">301 Midenhall Way</span>
+
+	  <span class="vcardline">
+		<span class="locality">Cary</span>,  
+		<span class="region">NC</span> 
+		<span class="code">27513</span>
+	  </span>
+	  <span class="country-name vcardline">USA</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:acee@cisco.com">acee@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Lou Berger</span> (editor)
+	  <span class="n hidden">
+		<span class="family-name">Berger</span>
+	  </span>
+	</span>
+	<span class="org vcardline">LabN Consulting, L.L.C.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:lberger@labn.net">lberger@labn.net</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Dean Bogdanovic</span> 
+	  <span class="n hidden">
+		<span class="family-name">Bogdanovic</span>
+	  </span>
+	</span>
+	<span class="org vcardline"></span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:ivandean@gmail.com">ivandean@gmail.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Christan Hopps</span> 
+	  <span class="n hidden">
+		<span class="family-name">Hopps</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Deutsche Telekom</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:chopps@chopps.org">chopps@chopps.org</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
