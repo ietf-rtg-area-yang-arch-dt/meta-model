@@ -1,5 +1,7 @@
 #Crazy makefile authored by Lou Berger <lberger@labn.net>
+#Modified by Christian Hopps <chopps@chopps.org>
 #The author makes no claim/restriction on use.  It is provided "AS IS".
+#This file is considered a hack and not production grade by the author
 
 DRAFT  = draft-rtgyangdt-rtgwg-device-model
 MODELS = \
@@ -15,8 +17,9 @@ PYTHONPATH  := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages
 WITHXML2RFC := $(shell which xml2rfc > /dev/null 2>&1 ; echo $$? )
 
 ID_DIR	     = IDs
-REVS	    := $(shell grep docName $(DRAFT).xml | tr '"\->' '   ' | \
-		 awk '{printf "%02d %02d",$$NF-1,$$NF}')
+REVS	    := $(shell \
+		 sed -e '/docName="/!d;s/.*docName="\([^"]*\)".*/\1/' $(DRAFT).xml | \
+		 awk -F- '{printf "%02d %02d",$$NF-1,$$NF}')
 PREV_REV    := $(word 1, $(REVS))
 REV	    := $(word 2, $(REVS))
 OLD          = $(ID_DIR)/$(DRAFT)-$(PREV_REV)
