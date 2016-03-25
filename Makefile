@@ -1,3 +1,6 @@
+#Crazy makefile authored by Lou Berger <lberger@labn.net>
+#The author makes no claim/restriction on use.  It is provided "AS IS".
+
 DRAFT  = draft-rtgyangdt-rtgwg-device-model
 MODELS = \
 	ietf-network-device.yang \
