@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="info" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-device-model-03" >
+<rfc category="info" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-device-model-04" >
 
 <front>
 <title abbrev="RTG YANG Device Model">Network Device YANG Organizational Models</title>
@@ -55,16 +55,6 @@
    implemented on common network devices.
 </t>
 <t>
-   This document also defines two modules that can be used to
-   model the logical and virtual resource representations that may
-   be present on a network device. Examples of common industry
-   terms for logical resource representations are Logical Systems
-   or Routers.  Examples of of common industry
-   terms for virtual resource representations are Virtual
-   Routing and Forwarding (VRF) instances and Virtual Switch
-   Instances (VSIs).
-</t>
-<t>
    This document is derived from work submitted to the IETF by
    members of the informal OpenConfig working group of network
    operators and is a product of the Routing Area YANG
@@ -91,7 +81,7 @@
    implementation, and operation.
 </t>
 <t>
-   The document first presents a notional network device YANG
+   The document presents a notional network device YANG
    organizational structure that provides a conceptual framework
    for the models that may be used to configure and operate
    network devices.  The structure is itself presented as a YANG
@@ -103,48 +93,40 @@
    supported on typical network devices.
 </t>
 <t>
-   This document also defines two new modules that are expected to
+   This document refers to two new modules that are expected to
    be implemented.  These models are defined to support the
    configuration and operation of network-devices that allow for
    the partitioning of resources from both, or either, management
-   and networking perspectives.  Both make use of emerging YANG
-   functionality supported by either structural mount
-   <xref target="STRUCTURAL-MOUNT"/>  or YANG Schema Dispatching
-   Language (YSDL) <xref target="YANG-YSDL"/>.  The function
-   provided by these documents are collectively refered to as
-   "Schema Mount".  This document is expected to use whatever
-   Schema Mount solution is adopted by the Netmod Working Group.
+   and networking perspectives.  
+   Two forms of resource partitioning are referenced:
 </t>
 <t>
-   Two forms of resource partitioning are supported:
-</t>
-<t>
-   The first form provides a logical partitioning of a network
-   device where each partition is separately managed as
-   essentially an independent network element which is 'hosted' by
-   the base network device.  These hosted network elements are
-   referred to as logical network elements, or LNEs, and are
-   supported by the logical-network-element module defined below.
-   The module is used to identify LNEs and associate resources
-   from the network-device with each LNE.  LNEs themselves are
-   represented in YANG as independent network devices; each
-   accessed independently.  Optionally, and when supported by the
+   The first form provides a logical partitioning of a network device
+   where each partition is separately managed as essentially an
+   independent network element which is 'hosted' by the base network
+   device.  These hosted network elements are referred to as logical
+   network elements, or LNEs, and are supported by the
+   logical-network-element module defined in <xref
+   target="LNE-MODEL"/>.  The module is used to identify LNEs and
+   associate resources from the network-device with each LNE.  LNEs
+   themselves are represented in YANG as independent network devices;
+   each accessed independently.  Optionally, and when supported by the
    implementation, they may also be accessed from the host system.
-   Examples of vendor terminology for an LNE include logical
-   system or router, and virtual switch, chassis, or fabric.
+   Examples of vendor terminology for an LNE include logical system or
+   router, and virtual switch, chassis, or fabric.
 </t>
 <t>
-   The second form provides support what is commonly referred to
-   as Virtual Routing and Forwarding (VRF) instances as well as
-   Virtual Switch Instances (VSI), see <xref target="RFC4026"/>.
-   In this form of resource partitioning multiple control plane
-   and forwarding/bridging instances are provided by and managed
-   via a single (physical or logical) network device.  This form
-   of resource partitioning is referred to as Network Instances
-   and are supported by the network-instance module defined
-   below.  Configuration and operation of each network-instance is
-   always via the network device and the network-instance
-   module.
+   The second form provides support what is commonly referred to as
+   Virtual Routing and Forwarding (VRF) instances as well as Virtual
+   Switch Instances (VSI), see <xref target="RFC4026"/>.  In this form
+   of resource partitioning multiple control plane and
+   forwarding/bridging instances are provided by and managed via a
+   single (physical or logical) network device.  This form of resource
+   partitioning is referred to as Network Instances and are supported
+   by the network-instance module defined in <xref
+   target="NI-MODEL"/>. Configuration and operation of each
+   network-instance is always via the network device and the
+   network-instance module.
 </t>
 <t>
    This document was motivated by, and derived from,
@@ -192,9 +174,6 @@
 <t>
 The top open issues are:
   <list style="numbers">
-   <t>The use of YSDL vs Structural Mount, i.e., a Netmod
-      defined Schema Mount solution, needs to be resolved as does
-      ensuring that the selected approach has the needed capabilities.</t>
    <t>This document will need to match the evolution and
    standardization of  <xref target="OC-OPSTATE"/> or
    <xref target="NETMOD-OPSTATE"/> by the Netmod WG.
@@ -208,12 +187,6 @@ The top open issues are:
    the presented System management module.</t>
    <t>The model will be updated once the "opstate" requirements are
       addressed.</t>
-<t>
-      It may make sense to publish the network-instance and
-      logical-network-element modules separately, as different
-      devices may not implement both, and network providers may
-      only require one or the other.
-   </t>
    </list>
  </t>
 </section>
@@ -260,9 +233,9 @@ The top open issues are:
                  Figure 1: Module Element Relationships
 </t>
 <t>
-   A model for LNEs is described in <xref target="sec-LNE"/> and
+   A model for LNEs is described in <xref target="LNE-MODEL"/> and
    the model for network instances is covered in
-   <xref target="sec-NI"/>.
+   <xref target="NI-MODEL"/>.
 </t>
 <t>
    The presented notional network device module can itself be
@@ -332,7 +305,7 @@ The top open issues are:
    but we leave this unspecified.  The quality of service (QoS)
    section is also a placeholder module for device configuration
    and operational state data which relates to the treatment of
-   traffic across the device. This document defines augmentations
+   traffic across the device. This document references augmentations
    to the interface module to support LNEs and NIs.  Similar
    elements, although perhaps only for LNEs, may also need to be
    included as part of the definition of the future hardware and
@@ -378,15 +351,15 @@ The top open issues are:
    <xref target="RFC7223"/>.
 </t>
 <t>
-   The logical-network-element and network-instance modules
-   defined in this document augment the existing interface
-   management model in two ways: The first, by the
-   logical-network-element module, adds an identifier which is
+   The logical-network-element and network-instance modules defined in
+   <xref target="LNE-MODEL"/> and <xref target="NI-MODEL"/> augment
+   the existing interface management model in two ways: The first, by
+   the logical-network-element module, adds an identifier which is
    used on physical interface types to identify an associated LNE.
-   The second, by the network-instance module, adds a name
-   which is used on sub-interface types to identify an associated
-   network instance.  Similarly, this name is also added for
-   IPv4 and IPv6 types, as defined in <xref target="RFC7277"/>.
+   The second, by the network-instance module, adds a name which is
+   used on sub-interface types to identify an associated network
+   instance.  Similarly, this name is also added for IPv4 and IPv6
+   types, as defined in <xref target="RFC7277"/>.
 </t>
 <t>
    The interface related augmentations are as follows:
@@ -662,289 +635,6 @@ routing congruent.  The following is an example of such usage:
 </section>
 </section>
 
-<section anchor="sec-LNE" title="  Logical Network Elements">
-<t>
-   A logical network element is a network-device which is contained
-   within another network-device. Using host-virtualization
-   terminology one could refer to an LNE as a "Guest", and the
-   containing network-device as the "Host". While LNEs may be
-   implemented via host-virtualization technologies this is not a
-   requirement.
-</t>
-<t>
-   Logical network elements represent the capability of some
-   devices to partition resources into independent logical routers
-   and/or switches.  Device support for multiple logical network
-   elements is implementation specific.  Systems without such
-   capabilities need not include support for the
-   logical-network-element module.  In physical devices, some
-   hardware features are shared across partitions, but control
-   plane (e.g., routing) protocol instances, tables, and
-   configuration are managed separately.  For example, in virtual
-   routers or VNFs, this may correspond to establishing multiple
-   logical instances using a single software installation.  The
-   model supports configuration of multiple instances on a single
-   device by creating a list of logical network elements, each
-   with their own configuration and operational state related to
-   routing and switching protocols, as shown below:
-</t>
-<t>
-<figure>
-<artwork>
-    module: ietf-logical-network-element
-       +--rw logical-network-inventory
-          +--rw logical-network-element* [name]
-             +--rw name?   string
-             +--rw description? string
-             +--rw managed?     boolean
-             +--rw root?        schema-mount
-    augment /if:interfaces/if:interface:
-       +--rw bind-lne-name?     string
-</artwork>
-</figure>
-</t>
-<t>
-  `name` identifies the logical network element.
-  `managed` indicates if the host network device is able
-  to manage the LNE via the `root` structure.
-</t>
-
-<section anchor="sec-LNE.HOST"
-  title="  LNE Management - Host Network Device View">
-<t>
-   There are multiple implementation approaches possible to enable
-   a network device to support the logical-network-element
-   module and multiple LNEs.  Some approaches will allow the
-   management functions operating at network device level to
-   access LNE configuration and operation information, while
-   others will not.  Similarly, even when LNE management from the
-   network device is supported by the implementation, it may be
-   prohibited by user policy.
-</t>
-<t>
-   The `managed` boolean mentioned above is used to
-   indicate when LNE management from the network device context is
-   possible. When the `managed` is
-   `false`, the LNE cannot be managed by the host
-   system and can only be managed from within the context of the LNE
-   as described in the next section, <xref target="sec-LNE.LNE"/>.
-</t>
-<t>
-   When `managed` is `true`, the LNE can be managed from both the
-   context of the LNE and the host network device. In this case,
-   the same information that is available from within the LNE
-   context is made available via the `root` element, with paths
-   modified as described in <xref target="STRUCTURAL-MOUNT"/>.
-</t>
-<t>
-   As an example, consider the case where an LNE with a
-   `name` of "one" is defined on a network device.
-   In this case  the following structure might be made available:
-</t>
-<t>
-<figure>
-<artwork>
- .................................................................
-                                          [ network-device state ]
-    module: ietf-logical-network-element
-       +--rw logical-network-inventory
-          +--rw logical-network-element* [name]
-             +--rw name="one"          string
-             +--rw manged=true         boolean
-             +--rw root                schema-mount
-
- .................................................................
-                            [ LNE state exposed to network-device]
-
-                +--rw ietf-yang-library
-                +--rw interfaces
-                +--rw hardware
-                +--rw qos
-                +--rw system-management
-                +--rw network-services
-                +--rw oam-protocols
-                +--rw routing
-                +--rw mpls
-                +--rw ieee-dot1Q
-                +--rw network-instance
- .................................................................
-</artwork>
-</figure>
-</t>
-<t>
-    As an LNE is a network device itself, all modules that may be present at
-    the top level network device may also be present for the LNE, be made
-    available under `root`, and be accessible via paths
-    modified per <xref target="STRUCTURAL-MOUNT"/>. The list of available
-    modules is expected to be implementation dependent. As is the method used
-    by an implementation to support LNEs.
-</t>
-<t>
-    Resources assigned to the LNE will be represented in that LNE's resource
-    modules. e.g., an LNE's interfaces module will contain the interfaces
-    assigned to that LNE from the containing network-device.
-</t>
-</section>
-
-<section anchor="sec-LNE.LNE"
- title="  LNE Management - LNE View">
-<t>
-   Management functions operating with the context of an LNE are
-   accessed through standard LNE's management interfaces, e.g.,
-   NETCONF and SNMP.  When accessing an LNE via an LNE's management
-   interface, a network-device representation will be presented,
-   but its scope will be limited to the specific LNE.
-   Normal YANG/NETCONF mechanisms, together with
-   ietf-yang-library, can be used to identify the available
-   modules.  Each supported module will be presented as a top level
-   module. Only LNE associated resources will be reflected in
-   resource related modules, e.g., interfaces, hardware and
-   perhaps QoS. From the management perspective, there will be no
-   difference between the available LNE view (information) and an
-   a physical network device.
-</t>
-<t>
-   Multiple implementation approaches are possible to provide LNE
-   views, and these are outside the scope of this document.
-</t>
-</section>
-
-<section anchor="sec-LNE.MOUNT"
-  title="  LNE Instantiation">
-<t>
-  TBD -- need to resolve if instantiation is based on new list entry
-  creation per the pending Schema Mount solution definition.
-</t>
-</section>
-
-</section>
-
-<section anchor="sec-NI" title="  Network Instances">
-<t>
-   The network instance container is used to represent virtual routing
-   and forwarding instances (VRFs) and virtual switching instances
-   (VSIs), <xref target="RFC4026"/>.  VRFs and VSIs are commonly used to isolate
-   routing and switching domains, for example to create virtual private
-   networks, each with their own active protocols and routing/switching
-   policies.  The model represents both core/provider and virtual
-   instances.  Network instances reuse and build on <xref target="RTG-CFG"/>
-   and are shown below:
-</t>
-<t>
-<figure>
-<artwork>
-    module: ietf-network-instance
-       +--rw network-instances
-          +--rw network-instance* [name]
-             +--rw name                         string
-             +--rw type?                        identityref
-             +--rw enabled?                     boolean
-             +--rw description?                 string
-             +--rw network-instance-policy
-             |  ...
-             +--rw root?                      schema-mount
-             |  ...
-    augment /if:interfaces/if:interface:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv4:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv6:
-       +--rw bind-network-instance-name?   string
-</artwork>
-</figure>
-</t>
-<t>
-   A network instance is identified by a
-   `name` string.  This string is used both as
-   an index within the network-instance module and to associate
-   resources with a network instance is shown above in the
-   interface augmentation. Type is used to indicate the type NI,
-   such as L3-VRF, VPLS, L2-VSI, etc. Network instance policy
-   and root are discussed in greater detail below.
-</t>
-<section anchor="sec-NI.1" title="  Network Instance Policy">
-<t>
-   Network instance policies are used to control how NI
-   information is represented at the device level, VRF routing
-   policies, and VRF/VSI identifiers. Examples include BGP route
-   targets (RTs) and route distinguishers (RDs), virtual network
-   identifiers (VN-IDs), VPLS neighbors, etc. The structure is
-   expected to be:
-</t>
-<t>
-<figure>
-<artwork>
-    module: ietf-network-instance
-       +--rw network-instances
-          +--rw network-instance* [name]
-             +--rw network-instance-policy
-                (TBD)
-</artwork>
-</figure>
-</t>
-</section>
-
-<section anchor="sec-NI.2" title="  Network Instance Management">
-<t>
-   Modules that may be used to represent network instance
-   specific information will be available under
-   `root`.  As with LNEs, actual module
-   availability is expected to be implementation dependent. The
-   ietf-yang-library module is expected to be the primary method
-   used to identify supported modules.  Resource related control
-   and assignment is expected to be managed at the network-device
-   level, not the network instance level, based on the
-   `bind-network-instance-name` augmentation
-   mentioned above.
-</t>
-<t>
-   As an example, consider the case where a network instance with
-   a `name` of "green" is defined on a network
-   device.  In this case the following structure might be made
-   available:
-</t>
-<t>
-<figure>
-<artwork>
-    module: ietf-network-instance
-       +--rw ietf-yang-library
-       +--rw interfaces
-       |  +--rw bind-network-instance-name="green"  string
-       +--rw system-management
-       +--rw network-instances
-          +--rw network-instance* [name]
-             +--rw name="green"    string
-             +--rw type?                               identityref
-             +--rw enabled=true                        boolean
-             +--rw description="The Green VRF"         string
-             +--rw network-instance-policy
-             |  ... (RT=1000:1, RD=1.2.3.4)
-             +--rw root?                               schema-mount
-                +--rw ietf-yang-library
-                +--rw network-services
-                +--rw oam-protocols
-                +--rw routing
-                +--rw mpls
-</artwork>
-</figure>
-</t>
-<t>
-    All modules that represent control-plane and data-plane
-    information may be present at the `root`,
-    and be accessible via paths modified per
-    <xref target="STRUCTURAL-MOUNT"/>.  The list of available
-    modules is expected to be implementation dependent.  As is the
-    method used by an implementation to support NIs.
-</t>
-</section>
-
-<section anchor="sec-NI.3" title="  Network Instance Instantiation">
-<t>
-  TBD -- need to resolve if instantiation is based on new list entry
-  creation per the pending Schema Mount solution definition.
-</t>
-</section>
-</section>
 <section anchor="sec-4" title="  Security Considerations">
 <t>
    The network-device model structure described in this document
@@ -977,18 +667,12 @@ routing congruent.  The following is an example of such usage:
 <t>
 </t>
 </section>
-<section anchor="sec-6" title="  YANG Modules">
-<t>
-   The structure of the models defined in this document are  described
-   by the YANG module below.
-</t>
-<t>
-</t>
+
 <section anchor="sec-6.1" title="  Network Device Model Structure">
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-device@2016-03-22.yang"
+<CODE BEGINS> file "ietf-network-device@2016-04-24.yang"
 module ietf-network-device {
 
   yang-version "1";
@@ -1014,7 +698,7 @@ module ietf-network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-03-22" {
+  revision "2016-04-24" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -1300,371 +984,50 @@ module ietf-network-device {
 </figure>
 </t>
 </section>
-<section anchor="sec-6.2" title="  Logical Network Element Model">
-<t>
-<figure>
-<artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2016-03-22.yang"
-module ietf-logical-network-element {
-
-  yang-version "1";
-
-  // namespace
-  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
-
-  prefix "struct";
-
-  // import some basic types
-  import ietf-interfaces {
-    prefix if;
-  }
-
-  // meta
-  organization "IETF RTG YANG Design Team Collaboration
-                with OpenConfig";
-
-  contact
-      "Routing Area YANG Architecture Design Team -
-       <rtg-dt-yang-arch@ietf.org>";
-
-  description
-    "This module is used to support multiple logical network
-     elements on a single physical or virtual system.";
-
-  revision "2016-03-22" {
-    description
-      "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD";
-  }
-
-  // feature statements
-  feature bind-lne-name {
-    description
-      "Logical network element to which an interface is bound";
-  }
-
-  // top level device definition statements
-  container logical-network-inventory {
-    description "Allows a network device to support multiple logical
-                 network element (device) instances";
-    list logical-network-element {
-      key name;
-      description "List of logical network elements";
-      leaf name {
-        type string;
-        description "Device-wide unique identifier for the
-                     logical network element";
-      }
-      leaf managed {
-        type boolean;
-        description
-          "True if the host can manage the LNE using the root mount
-           point";
-      }
-      leaf description {
-        type string;
-        description
-          "Description of the logical network element";
-      }
-      leaf root {
-        type schema-mount;
-        description "Root for models supported per logical
-                     network element";
-      }
-    }
-  }
-
-  // augment statements
-  augment "/if:interfaces/if:interface" {
-    description
-        "Add a node for the identification of the logical network
-        element associated with an interface. Applies to interfaces
-        that can be assigned on a per logical network element basis.
-        A <TBD> error is returned when the interface type cannot be
-        assigned.";
-
-    leaf bind-lne-name {
-      type string;
-      description
-        "Logical network element ID to which interface is bound";
-    }
-  }
-
-  // rpc statements
-
-  // notification statements
-
-}
-<CODE ENDS>
-]]></artwork>
-</figure>
-</t>
-</section>
-<section anchor="sec-6.3" title="  Network Instance Model">
-<t>
-<figure>
-<artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2016-03-22.yang"
-module ietf-network-instance {
-
-  yang-version "1";
-
-  // namespace
-  namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
-
-  prefix "struct";
-
-  // import some basic types
-  import ietf-interfaces {
-    prefix if;
-  }
-
-  import ietf-ip {
-    prefix ip;
-  }
-
-  // meta
-  organization "IETF RTG YANG Design Team Collaboration
-                with OpenConfig";
-
-  contact
-      "Routing Area YANG Architecture Design Team -
-       <rtg-dt-yang-arch@ietf.org>";
-
-  description
-    "This module is used to support multiple network instances
-     within a single physical or virtual device.  Network
-     instances are commonly know as VRFs (virtual routing
-     and forwarding) and VSIs (virtual switching instances).";
-
-  revision "2016-03-22" {
-    description
-      "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD";
-  }
-
-  // extension statements
-
-  feature bind-network-instance-name {
-    description
-      "Network Instance to which an interface instance is bound";
-  }
-
-  // identity statements
-
-  identity network-instance-type {
-      description
-         "Base identity from which identities describing
-          network instance types are derived.";
-  }
-
-   identity ipv4-interface-protocol-type {
-      description
-          "Base identity for derivation of IPv4 interface
-           protocols";
-   }
-
-   identity ipv6-interface-protocol-type {
-      description
-          "Base identity for derivation of IPv6 interface
-           protocols";
-   }
-
-  // typedef statements
-
-  // grouping statements
-
-  grouping interface-ip-common {
-    description
-      "interface-specific configuration for IP interfaces, IPv4 and
-      IPv6";
-
-  }
-
-  grouping ipv4-interface-protocols {
-      container ipv4-interface-protocols {
-          list ipv4-interface-protocol {
-              key "type";
-              leaf type {
-                  type identityref {
-                      base ipv4-interface-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "ARP, ICMP, VRRP, DHCP Client, etc.";
-              }
-              description
-                  "List of IPv4 protocols configured
-                   on an interface";
-          }
-          description
-              "Container for list of IPv4 protocols configured
-                on an interface";
-      }
-      description
-          "Grouping for IPv4 protocols configured on an interface";
-  }
-
-  grouping ipv6-interface-protocols {
-      description
-          "Grouping for IPv6 protocols configured on
-           an interface.";
-      container ipv6-interface-protocols {
-          description
-              "Container for list of IPv6 protocols configured
-                on an interface.";
-          list ipv6-interface-protocol {
-              key "type";
-              description
-                  "List of IPv6 protocols configured
-                   on an interface";
-              leaf type {
-                  type identityref {
-                      base ipv6-interface-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "ND, ICMPv6, VRRP, DHCPv6 Client, etc.";
-              }
-          }
-      }
-  }
-
-  grouping network-instance-policy {
-    description
-        "Network instance policies such as route
-         distinguisher, route targets, VPLS ID and neighbor,
-         Ethernet ID, etc. ";
-    reference
-        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
-         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
-              in Layer 2 Virtual Private Networks (L2VPNs)
-         RFC 7432 - BGP MPLS-Based Ethernet VPN";
-    container network-instance-policy {
-        description "Network Instance Policy -- details TBD";
-    }
-  }
-
-  // top level device definition statements
-  container network-instances {
-      description "Network instances each of which have
-                   an independent IP/IPv6 addressing space
-                   and protocol instantiations. For layer 3,
-                   this consistent with the routing-instance
-                   definition in ietf-routing";
-      reference "draft-ietf-netmod-routing-cfg";
-      list network-instance {
-          key name;
-          description "List of network-instances";
-          leaf name {
-              type string;
-              description "device scoped
-                           identifier for the network
-                           instance";
-          }
-          leaf type {
-              type identityref {
-                  base network-instance-type;
-              }
-              description
-                  "The network instance type -- details TBD
-                   Likely types include core, L3-VRF, VPLS,
-                   L2-cross-connect, L2-VSI, etc.";
-          }
-          leaf enabled {
-              type boolean;
-              default "true";
-              description
-                "Flag indicating whether or not the network
-                 instance is enabled.";
-          }
-          leaf description {
-              type string;
-              description
-                "Description of the network instance
-                and its intended purpose";
-          }
-          uses network-instance-policy;
-          leaf root {
-            type schema-mount;
-            description "Root for models supported per
-                         network instance";
-          }
-      }
-  }
-
-  // augment statements
-
-  augment "/if:interfaces/if:interface" {
-    description
-        "Add a node for the identification of the logical network
-        instance (which is within the interface's identified logical
-        network element) associated with the IP information
-        configured on an interface";
-
-    leaf bind-network-instance-name {
-      type string;
-      description
-        "Network Instance to which an interface is bound";
-    }
-  }
-
-  augment "/if:interfaces/if:interface/ip:ipv4" {
-    description
-        "Add a node for the identification of the logical
-        network instance (which is within the interface's
-        identified physical or virtual device) associated with
-        the IP information configured on an interface";
-
-    leaf bind-network-instance-name {
-      type string;
-      description
-        "Network Instance to which IPv4 interface is bound";
-
-    }
-  }
-
-  augment "/if:interfaces/if:interface/ip:ipv6" {
-    description
-        "Add a node for the identification of the logical
-        network instance (which is within the interface's
-        identified physical or virtual device) associated with
-        the IP information configured on an interface";
-
-    leaf bind-network-instance-name {
-      type string;
-      description
-        "Network Instance to which IPv6 interface is bound";
-
-    }
-  }
-
-  // rpc statements
-
-  // notification statements
-
-}
-<CODE ENDS>
-]]></artwork>
-</figure>
-</t>
-</section>
-</section>
 </middle>
 
 <?rfc needLines="20"?>
 <back>
 <references title="Normative References">
 
-<reference anchor="STRUCTURAL-MOUNT">
+<reference anchor="LNE-MODEL">
 <front>
-<title>YANG Structural Mount</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
+<title>Logical Network Element Model</title>
+<author initials='L.' surname="Berger" fullname='Lou Berger'>
+  <organization>LabN Consulting, L.L.C.</organization>
 </author>
-<date month="December" year="2015" />
+<author initials='C.' surname="Hopps" fullname='Christan Hopps'>
+  <organization>Deutsche Telekom</organization>
+</author>
+<author initials='A.' surname="Lindem" fullname='Acee Lindem'>
+    <organization>Cisco Systems</organization>
+</author>
+<author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
+    <organization></organization>
+</author>
+<date month="May" year="2016" />
 </front>
-<seriesInfo name="Internet-Draft" value="draft-bjorklund-netmod-structural-mount-00.txt"/>
+<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-lne-model-00.txt"/>
+</reference>
+
+<reference anchor="NI-MODEL">
+<front>
+<title>Network Instance Model</title>
+<author initials='L.' surname="Berger" fullname='Lou Berger'>
+  <organization>LabN Consulting, L.L.C.</organization>
+</author>
+<author initials='C.' surname="Hopps" fullname='Christan Hopps'>
+  <organization>Deutsche Telekom</organization>
+</author>
+<author initials='A.' surname="Lindem" fullname='Acee Lindem'>
+    <organization>Cisco Systems</organization>
+</author>
+<author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
+    <organization></organization>
+</author>
+<date month="May" year="2016" />
+</front>
+<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-ni-model-00.txt"/>
 </reference>
 
 <reference anchor="RFC6020">
@@ -1739,18 +1102,6 @@ module ietf-network-instance {
 </front>
 <seriesInfo name="RFC" value="4026" />
 </reference>
-
-<reference anchor="YANG-YSDL">
-<front>
-<title>YANG Schema Dispatching Language</title>
-<author initials="L." surname="Lhotha" fullname="Ladislav Lhotha">
-<organization>CZ.NIC</organization>
-</author>
-<date month="November" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-lhotka-netmod-ysdl-00.txt"/>
-</reference>
-
 </references>
 
 <references title="Informative References">

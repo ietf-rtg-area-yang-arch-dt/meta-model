@@ -5,16 +5,16 @@
 Network Working Group                                     A. Lindem, Ed.
 Internet-Draft                                             Cisco Systems
 Intended status: Informational                            L. Berger, Ed.
-Expires: September 23, 2016                      LabN Consulting, L.L.C.
+Expires: October 26, 2016                        LabN Consulting, L.L.C.
                                                            D. Bogdanovic
 
                                                                 C. Hopps
                                                         Deutsche Telekom
-                                                          March 22, 2016
+                                                          April 24, 2016
 
 
                Network Device YANG Organizational Models
-                 draft-rtgyangdt-rtgwg-device-model-03
+                 draft-rtgyangdt-rtgwg-device-model-04
 
 Abstract
 
@@ -25,14 +25,6 @@ Abstract
    in a way that is operationally intuitive, but this model is not
    expected to be implemented.  The identified component modules are
    expected to be defined and implemented on common network devices.
-
-   This document also defines two modules that can be used to model the
-   logical and virtual resource representations that may be present on a
-   network device.  Examples of common industry terms for logical
-   resource representations are Logical Systems or Routers.  Examples of
-   of common industry terms for virtual resource representations are
-   Virtual Routing and Forwarding (VRF) instances and Virtual Switch
-   Instances (VSIs).
 
    This document is derived from work submitted to the IETF by members
    of the informal OpenConfig working group of network operators and is
@@ -50,18 +42,21 @@ Status of This Memo
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
-
-
-
-Lindem, et al.         Expires September 23, 2016               [Page 1]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 23, 2016.
+   This Internet-Draft will expire on October 26, 2016.
+
+
+
+
+
+
+
+Lindem, et al.          Expires October 26, 2016                [Page 1]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
 
 Copyright Notice
 
@@ -80,43 +75,24 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Status of Work and Open Issues  . . . . . . . . . . . . .   4
    2.  Module Overview . . . . . . . . . . . . . . . . . . . . . . .   5
-     2.1.  Interface Model Components  . . . . . . . . . . . . . . .   8
-     2.2.  System Management . . . . . . . . . . . . . . . . . . . .  10
-     2.3.  Network Services  . . . . . . . . . . . . . . . . . . . .  10
-     2.4.  OAM Protocols . . . . . . . . . . . . . . . . . . . . . .  11
-     2.5.  Routing . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     2.6.  MPLS  . . . . . . . . . . . . . . . . . . . . . . . . . .  12
-   3.  Logical Network Elements  . . . . . . . . . . . . . . . . . .  13
-     3.1.  LNE Management - Host Network Device View . . . . . . . .  13
-     3.2.  LNE Management - LNE View . . . . . . . . . . . . . . . .  15
-     3.3.  LNE Instantiation . . . . . . . . . . . . . . . . . . . .  15
-   4.  Network Instances . . . . . . . . . . . . . . . . . . . . . .  15
-     4.1.  Network Instance Policy . . . . . . . . . . . . . . . . .  16
-     4.2.  Network Instance Management . . . . . . . . . . . . . . .  16
-     4.3.  Network Instance Instantiation  . . . . . . . . . . . . .  17
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  17
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
-   7.  YANG Modules  . . . . . . . . . . . . . . . . . . . . . . . .  18
-     7.1.  Network Device Model Structure  . . . . . . . . . . . . .  18
-     7.2.  Logical Network Element Model . . . . . . . . . . . . . .  24
-     7.3.  Network Instance Model  . . . . . . . . . . . . . . . . .  26
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  32
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  32
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  32
-
-
-
-Lindem, et al.         Expires September 23, 2016               [Page 2]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-   Appendix A.  Acknowledgments  . . . . . . . . . . . . . . . . . .  33
-   Appendix B.  Contributors . . . . . . . . . . . . . . . . . . . .  34
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  35
+     2.1.  Interface Model Components  . . . . . . . . . . . . . . .   7
+     2.2.  System Management . . . . . . . . . . . . . . . . . . . .   9
+     2.3.  Network Services  . . . . . . . . . . . . . . . . . . . .   9
+     2.4.  OAM Protocols . . . . . . . . . . . . . . . . . . . . . .  10
+     2.5.  Routing . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     2.6.  MPLS  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
+   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
+   5.  Network Device Model Structure  . . . . . . . . . . . . . . .  12
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . .  19
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .  19
+   Appendix A.  Acknowledgments  . . . . . . . . . . . . . . . . . .  20
+   Appendix B.  Contributors . . . . . . . . . . . . . . . . . . . .  21
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  22
 
 1.  Introduction
 
@@ -129,52 +105,46 @@ Internet-Draft            RTG YANG Device Model               March 2016
    presented a single device-centric model root, this document no longer
    contains this element.  Such an element would have translated to a
    single device management model that would be the root of all other
+
+
+
+
+Lindem, et al.          Expires October 26, 2016                [Page 2]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
    models and was judged to be overly restrictive in terms of
    definition, implementation, and operation.
 
-   The document first presents a notional network device YANG
-   organizational structure that provides a conceptual framework for the
-   models that may be used to configure and operate network devices.
-   The structure is itself presented as a YANG module, with all of the
-   related component modules logically organized in a way that is
-   operationally intuitive.  This network device model is not expected
-   to be implemented, but rather provide as context for the identified
+   The document presents a notional network device YANG organizational
+   structure that provides a conceptual framework for the models that
+   may be used to configure and operate network devices.  The structure
+   is itself presented as a YANG module, with all of the related
+   component modules logically organized in a way that is operationally
+   intuitive.  This network device model is not expected to be
+   implemented, but rather provide as context for the identified
    representative component modules with are expected to be defined, and
    supported on typical network devices.
 
-   This document also defines two new modules that are expected to be
+   This document refers to two new modules that are expected to be
    implemented.  These models are defined to support the configuration
    and operation of network-devices that allow for the partitioning of
    resources from both, or either, management and networking
-   perspectives.  Both make use of emerging YANG functionality supported
-   by either structural mount [STRUCTURAL-MOUNT]  or YANG Schema
-   Dispatching Language (YSDL) [YANG-YSDL].  The function provided by
-   these documents are collectively refered to as "Schema Mount".  This
-   document is expected to use whatever Schema Mount solution is adopted
-   by the Netmod Working Group.
-
-   Two forms of resource partitioning are supported:
+   perspectives.  Two forms of resource partitioning are referenced:
 
    The first form provides a logical partitioning of a network device
    where each partition is separately managed as essentially an
    independent network element which is 'hosted' by the base network
    device.  These hosted network elements are referred to as logical
    network elements, or LNEs, and are supported by the logical-network-
-   element module defined below.  The module is used to identify LNEs
-   and associate resources from the network-device with each LNE.  LNEs
-
-
-
-Lindem, et al.         Expires September 23, 2016               [Page 3]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-   themselves are represented in YANG as independent network devices;
-   each accessed independently.  Optionally, and when supported by the
-   implementation, they may also be accessed from the host system.
-   Examples of vendor terminology for an LNE include logical system or
-   router, and virtual switch, chassis, or fabric.
+   element module defined in [LNE-MODEL].  The module is used to
+   identify LNEs and associate resources from the network-device with
+   each LNE.  LNEs themselves are represented in YANG as independent
+   network devices; each accessed independently.  Optionally, and when
+   supported by the implementation, they may also be accessed from the
+   host system.  Examples of vendor terminology for an LNE include
+   logical system or router, and virtual switch, chassis, or fabric.
 
    The second form provides support what is commonly referred to as
    Virtual Routing and Forwarding (VRF) instances as well as Virtual
@@ -183,14 +153,23 @@ Internet-Draft            RTG YANG Device Model               March 2016
    are provided by and managed via a single (physical or logical)
    network device.  This form of resource partitioning is referred to as
    Network Instances and are supported by the network-instance module
-   defined below.  Configuration and operation of each network-instance
-   is always via the network device and the network-instance module.
+   defined in [NI-MODEL].  Configuration and operation of each network-
+   instance is always via the network device and the network-instance
+   module.
 
    This document was motivated by, and derived from, [OC-STRUCT].  The
    requirements from that document have been combined with the
    requirements from "Consistent Modeling of Operational State Data in
    YANG", [OC-OPSTATE], into "NETMOD Operational State Requirements",
    [NETMOD-OPSTATE].  This document is aimed at the requirement related
+
+
+
+Lindem, et al.          Expires October 26, 2016                [Page 3]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
    to a common model-structure, currently Requirement 7, and also aims
    to provide a modeling base for Operational State representation.
 
@@ -217,46 +196,35 @@ Internet-Draft            RTG YANG Device Model               March 2016
    device model, particularly for "lower-end" devices which are unlikely
    to support multiple network instances or logical network elements.
    Should structural-mount/YSDL not be available, the more explicit tree
-
-
-
-
-Lindem, et al.         Expires September 23, 2016               [Page 4]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
    structure presented in earlier versions of this document will need to
    be utilized.
 
    The top open issues are:
 
-   1.  The use of YSDL vs Structural Mount, i.e., a Netmod defined
-       Schema Mount solution, needs to be resolved as does ensuring that
-       the selected approach has the needed capabilities.
-
-   2.  This document will need to match the evolution and
+   1.  This document will need to match the evolution and
        standardization of [OC-OPSTATE] or [NETMOD-OPSTATE] by the Netmod
        WG.
 
-   3.  Interpretation of different policy containers requires
+   2.  Interpretation of different policy containers requires
        clarification.
 
-   4.  It may make sense to use the identityref structuring with
+   3.  It may make sense to use the identityref structuring with
        hardware and QoS model.
 
-   5.  Which document(s) define the base System management, network
+   4.  Which document(s) define the base System management, network
        services, and oam protocols modules is TBD.  This includes the
        possibility of simply using RFC7317 in place of the presented
        System management module.
 
-   6.  The model will be updated once the "opstate" requirements are
+   5.  The model will be updated once the "opstate" requirements are
        addressed.
 
-   7.  It may make sense to publish the network-instance and logical-
-       network-element modules separately, as different devices may not
-       implement both, and network providers may only require one or the
-       other.
+
+
+Lindem, et al.          Expires October 26, 2016                [Page 4]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
 
 2.  Module Overview
 
@@ -272,14 +240,6 @@ Internet-Draft            RTG YANG Device Model               March 2016
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
    network instances (NIs).  This breakdown is represented in Figure 1.
-
-
-
-
-
-Lindem, et al.         Expires September 23, 2016               [Page 5]
-
-Internet-Draft            RTG YANG Device Model               March 2016
 
 
               ,''''''''''''''''''''''''''''''''''''''''''''''`.
@@ -300,8 +260,8 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
    Figure 1: Module Element Relationships
 
-   A model for LNEs is described in Section 3 and the model for network
-   instances is covered in Section 4.
+   A model for LNEs is described in [LNE-MODEL] and the model for
+   network instances is covered in [NI-MODEL].
 
    The presented notional network device module can itself be thought of
    as a "meta-model" as it describes the relationships between
@@ -315,28 +275,14 @@ Internet-Draft            RTG YANG Device Model               March 2016
    structure should be familiar to network operators and also readily
    mapped to vendor implementations.
 
-   The overall structure is:
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Lindem, et al.         Expires September 23, 2016               [Page 6]
+Lindem, et al.          Expires October 26, 2016                [Page 5]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
+
+   The overall structure is:
 
        module: ietf-network-device
           +--rw ietf-yang-library
@@ -382,18 +328,17 @@ Internet-Draft            RTG YANG Device Model               March 2016
    chassis, line cards, and ports, but we leave this unspecified.  The
    quality of service (QoS) section is also a placeholder module for
    device configuration and operational state data which relates to the
-   treatment of traffic across the device.  This document defines
+   treatment of traffic across the device.  This document references
    augmentations to the interface module to support LNEs and NIs.
-   Similar elements, although perhaps only for LNEs, may also need to be
 
 
 
-
-Lindem, et al.         Expires September 23, 2016               [Page 7]
+Lindem, et al.          Expires October 26, 2016                [Page 6]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
+   Similar elements, although perhaps only for LNEs, may also need to be
    included as part of the definition of the future hardware and QoS
    modules.
 
@@ -432,22 +377,21 @@ Internet-Draft            RTG YANG Device Model               March 2016
    [RFC7223].
 
    The logical-network-element and network-instance modules defined in
-   this document augment the existing interface management model in two
-   ways: The first, by the logical-network-element module, adds an
-   identifier which is used on physical interface types to identify an
-   associated LNE.  The second, by the network-instance module, adds a
-   name which is used on sub-interface types to identify an associated
-   network instance.  Similarly, this name is also added for IPv4 and
-   IPv6 types, as defined in [RFC7277].
+   [LNE-MODEL] and [NI-MODEL] augment the existing interface management
+   model in two ways: The first, by the logical-network-element module,
+   adds an identifier which is used on physical interface types to
+   identify an associated LNE.  The second, by the network-instance
+   module, adds a name which is used on sub-interface types to identify
+   an associated network instance.  Similarly, this name is also added
+   for IPv4 and IPv6 types, as defined in [RFC7277].
 
    The interface related augmentations are as follows:
 
 
 
-
-Lindem, et al.         Expires September 23, 2016               [Page 8]
+Lindem, et al.          Expires October 26, 2016                [Page 7]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
        augment /if:interfaces/if:interface:
@@ -501,9 +445,9 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
 
 
-Lindem, et al.         Expires September 23, 2016               [Page 9]
+Lindem, et al.          Expires October 26, 2016                [Page 8]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
 2.2.  System Management
@@ -557,9 +501,9 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 10]
+Lindem, et al.          Expires October 26, 2016                [Page 9]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
        module: ietf-network-device
@@ -613,9 +557,9 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 11]
+Lindem, et al.          Expires October 26, 2016               [Page 10]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
    for NIs, which it refers to as Routing Instances, while the approach
@@ -669,274 +613,12 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 12]
+Lindem, et al.          Expires October 26, 2016               [Page 11]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
-3.  Logical Network Elements
-
-   A logical network element is a network-device which is contained
-   within another network-device.  Using host-virtualization terminology
-   one could refer to an LNE as a "Guest", and the containing network-
-   device as the "Host".  While LNEs may be implemented via host-
-   virtualization technologies this is not a requirement.
-
-   Logical network elements represent the capability of some devices to
-   partition resources into independent logical routers and/or switches.
-   Device support for multiple logical network elements is
-   implementation specific.  Systems without such capabilities need not
-   include support for the logical-network-element module.  In physical
-   devices, some hardware features are shared across partitions, but
-   control plane (e.g., routing) protocol instances, tables, and
-   configuration are managed separately.  For example, in virtual
-   routers or VNFs, this may correspond to establishing multiple logical
-   instances using a single software installation.  The model supports
-   configuration of multiple instances on a single device by creating a
-   list of logical network elements, each with their own configuration
-   and operational state related to routing and switching protocols, as
-   shown below:
-
-       module: ietf-logical-network-element
-          +--rw logical-network-inventory
-             +--rw logical-network-element* [name]
-                +--rw name?   string
-                +--rw description? string
-                +--rw managed?     boolean
-                +--rw root?        schema-mount
-       augment /if:interfaces/if:interface:
-          +--rw bind-lne-name?     string
-
-   `name` identifies the logical network element.  `managed` indicates
-   if the host network device is able to manage the LNE via the `root`
-   structure.
-
-3.1.  LNE Management - Host Network Device View
-
-   There are multiple implementation approaches possible to enable a
-   network device to support the logical-network-element module and
-   multiple LNEs.  Some approaches will allow the management functions
-   operating at network device level to access LNE configuration and
-   operation information, while others will not.  Similarly, even when
-   LNE management from the network device is supported by the
-   implementation, it may be prohibited by user policy.
-
-
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 13]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-   The `managed` boolean mentioned above is used to indicate when LNE
-   management from the network device context is possible.  When the
-   `managed` is `false`, the LNE cannot be managed by the host system
-   and can only be managed from within the context of the LNE as
-   described in the next section, Section 3.2.
-
-   When `managed` is `true`, the LNE can be managed from both the
-   context of the LNE and the host network device.  In this case, the
-   same information that is available from within the LNE context is
-   made available via the `root` element, with paths modified as
-   described in [STRUCTURAL-MOUNT].
-
-   As an example, consider the case where an LNE with a `name` of "one"
-   is defined on a network device.  In this case the following structure
-   might be made available:
-
-    .................................................................
-                                             [ network-device state ]
-       module: ietf-logical-network-element
-          +--rw logical-network-inventory
-             +--rw logical-network-element* [name]
-                +--rw name="one"          string
-                +--rw manged=true         boolean
-                +--rw root                schema-mount
-
-    .................................................................
-                               [ LNE state exposed to network-device]
-
-                   +--rw ietf-yang-library
-                   +--rw interfaces
-                   +--rw hardware
-                   +--rw qos
-                   +--rw system-management
-                   +--rw network-services
-                   +--rw oam-protocols
-                   +--rw routing
-                   +--rw mpls
-                   +--rw ieee-dot1Q
-                   +--rw network-instance
-    .................................................................
-
-   As an LNE is a network device itself, all modules that may be present
-   at the top level network device may also be present for the LNE, be
-   made available under `root`, and be accessible via paths modified per
-   [STRUCTURAL-MOUNT].  The list of available modules is expected to be
-   implementation dependent.  As is the method used by an implementation
-   to support LNEs.
-
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 14]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-   Resources assigned to the LNE will be represented in that LNE's
-   resource modules. e.g., an LNE's interfaces module will contain the
-   interfaces assigned to that LNE from the containing network-device.
-
-3.2.  LNE Management - LNE View
-
-   Management functions operating with the context of an LNE are
-   accessed through standard LNE's management interfaces, e.g., NETCONF
-   and SNMP.  When accessing an LNE via an LNE's management interface, a
-   network-device representation will be presented, but its scope will
-   be limited to the specific LNE.  Normal YANG/NETCONF mechanisms,
-   together with ietf-yang-library, can be used to identify the
-   available modules.  Each supported module will be presented as a top
-   level module.  Only LNE associated resources will be reflected in
-   resource related modules, e.g., interfaces, hardware and perhaps QoS.
-   From the management perspective, there will be no difference between
-   the available LNE view (information) and an a physical network
-   device.
-
-   Multiple implementation approaches are possible to provide LNE views,
-   and these are outside the scope of this document.
-
-3.3.  LNE Instantiation
-
-   TBD -- need to resolve if instantiation is based on new list entry
-   creation per the pending Schema Mount solution definition.
-
-4.  Network Instances
-
-   The network instance container is used to represent virtual routing
-   and forwarding instances (VRFs) and virtual switching instances
-   (VSIs), [RFC4026].  VRFs and VSIs are commonly used to isolate
-   routing and switching domains, for example to create virtual private
-   networks, each with their own active protocols and routing/switching
-   policies.  The model represents both core/provider and virtual
-   instances.  Network instances reuse and build on [RTG-CFG] and are
-   shown below:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 15]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-       module: ietf-network-instance
-          +--rw network-instances
-             +--rw network-instance* [name]
-                +--rw name                         string
-                +--rw type?                        identityref
-                +--rw enabled?                     boolean
-                +--rw description?                 string
-                +--rw network-instance-policy
-                |  ...
-                +--rw root?                      schema-mount
-                |  ...
-       augment /if:interfaces/if:interface:
-          +--rw bind-network-instance-name?   string
-       augment /if:interfaces/if:interface/ip:ipv4:
-          +--rw bind-network-instance-name?   string
-       augment /if:interfaces/if:interface/ip:ipv6:
-          +--rw bind-network-instance-name?   string
-
-   A network instance is identified by a `name` string.  This string is
-   used both as an index within the network-instance module and to
-   associate resources with a network instance is shown above in the
-   interface augmentation.  Type is used to indicate the type NI, such
-   as L3-VRF, VPLS, L2-VSI, etc.  Network instance policy and root are
-   discussed in greater detail below.
-
-4.1.  Network Instance Policy
-
-   Network instance policies are used to control how NI information is
-   represented at the device level, VRF routing policies, and VRF/VSI
-   identifiers.  Examples include BGP route targets (RTs) and route
-   distinguishers (RDs), virtual network identifiers (VN-IDs), VPLS
-   neighbors, etc.  The structure is expected to be:
-
-       module: ietf-network-instance
-          +--rw network-instances
-             +--rw network-instance* [name]
-                +--rw network-instance-policy
-                   (TBD)
-
-4.2.  Network Instance Management
-
-   Modules that may be used to represent network instance specific
-   information will be available under `root`.  As with LNEs, actual
-   module availability is expected to be implementation dependent.  The
-   ietf-yang-library module is expected to be the primary method used to
-   identify supported modules.  Resource related control and assignment
-   is expected to be managed at the network-device level, not the
-
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 16]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-   network instance level, based on the `bind-network-instance-name`
-   augmentation mentioned above.
-
-   As an example, consider the case where a network instance with a
-   `name` of "green" is defined on a network device.  In this case the
-   following structure might be made available:
-
-       module: ietf-network-instance
-          +--rw ietf-yang-library
-          +--rw interfaces
-          |  +--rw bind-network-instance-name="green"  string
-          +--rw system-management
-          +--rw network-instances
-             +--rw network-instance* [name]
-                +--rw name="green"    string
-                +--rw type?                               identityref
-                +--rw enabled=true                        boolean
-                +--rw description="The Green VRF"         string
-                +--rw network-instance-policy
-                |  ... (RT=1000:1, RD=1.2.3.4)
-                +--rw root?                               schema-mount
-                   +--rw ietf-yang-library
-                   +--rw network-services
-                   +--rw oam-protocols
-                   +--rw routing
-                   +--rw mpls
-
-   All modules that represent control-plane and data-plane information
-   may be present at the `root`, and be accessible via paths modified
-   per [STRUCTURAL-MOUNT].  The list of available modules is expected to
-   be implementation dependent.  As is the method used by an
-   implementation to support NIs.
-
-4.3.  Network Instance Instantiation
-
-   TBD -- need to resolve if instantiation is based on new list entry
-   creation per the pending Schema Mount solution definition.
-
-5.  Security Considerations
+3.  Security Considerations
 
    The network-device model structure described in this document does
    not define actual configuration and state data, hence it is not
@@ -946,14 +628,6 @@ Internet-Draft            RTG YANG Device Model               March 2016
    configuration and state data should be considered sensitive from a
    security standpoint since they generally manipulate aspects of
    network configurations.  Each component model should be carefully
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 17]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
    evaluated to determine its security risks, along with mitigations to
    reduce such risks.
 
@@ -961,7 +635,7 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
    NI portion is TBD
 
-6.  IANA Considerations
+4.  IANA Considerations
 
    This YANG model currently uses a temporary ad-hoc namespace.  If it
    is placed or redirected for the standards track, an appropriate
@@ -969,14 +643,9 @@ Internet-Draft            RTG YANG Device Model               March 2016
    [RFC3688].  The YANG structure modules will be registered in the
    "YANG Module Names" registry [RFC6020].
 
-7.  YANG Modules
+5.  Network Device Model Structure
 
-   The structure of the models defined in this document are described by
-   the YANG module below.
-
-7.1.  Network Device Model Structure
-
-   <CODE BEGINS> file "ietf-network-device@2016-03-22.yang"
+   <CODE BEGINS> file "ietf-network-device@2016-04-24.yang"
    module ietf-network-device {
 
      yang-version "1";
@@ -997,20 +666,20 @@ Internet-Draft            RTG YANG Device Model               March 2016
           <rtg-dt-yang-arch@ietf.org>";
 
      description
+
+
+
+Lindem, et al.          Expires October 26, 2016               [Page 12]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
        "This module describes a model structure for YANG
         configuration and operational state data models. Its intent is
         to describe how individual device protocol and feature models
         fit together and interact.";
 
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 18]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-     revision "2016-03-22" {
+     revision "2016-04-24" {
        description
          "IETF Routing YANG Design Team Meta-Model";
        reference "TBD";
@@ -1054,18 +723,17 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
      // typedef statements
 
+
+
+Lindem, et al.          Expires October 26, 2016               [Page 13]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
      // grouping statements
 
      grouping ribs {
        description
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 19]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
          "Routing Information Bases (RIBs) supported by a
           network-instance";
        container ribs {
@@ -1110,18 +778,18 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
      container interfaces {
        description
+
+
+
+Lindem, et al.          Expires October 26, 2016               [Page 14]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
         "Interface list as defined by RFC7223/RFC7224";
      }
 
      container hardware {
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 20]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
        description
          "Hardware / vendor-specific data relevant to the platform.
          This container is an anchor point for platform-specific
@@ -1166,18 +834,18 @@ Internet-Draft            RTG YANG Device Model               March 2016
              description
                  "List of network services configured for a
                   network instance.";
+
+
+
+Lindem, et al.          Expires October 26, 2016               [Page 15]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
              leaf type {
                  type identityref {
                      base network-service-type;
                  }
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 21]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
                  mandatory true;
                  description
                      "The network service type supported within
@@ -1222,18 +890,18 @@ Internet-Draft            RTG YANG Device Model               March 2016
                    base control-plane-protocol-type;
                }
                description
+
+
+
+Lindem, et al.          Expires October 26, 2016               [Page 16]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
                    "The control plane protocol type, e.g., BGP,
                     OSPF IS-IS, etc";
            }
            container policy {
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 22]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
                description
                    "Protocol specific policy,
                    reusing [RTG-POLICY]";
@@ -1278,18 +946,18 @@ Internet-Draft            RTG YANG Device Model               March 2016
              description
                  "List of LSP types.";
              leaf type {
+
+
+
+Lindem, et al.          Expires October 26, 2016               [Page 17]
+
+Internet-Draft            RTG YANG Device Model               April 2016
+
+
                  type identityref {
                      base mpls-lsp-type;
                  }
                  mandatory true;
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 23]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
                  description
                      "MPLS and Traffic Engineering protocol LSP types,
                       static, LDP/SR (igp-congruent),
@@ -1333,414 +1001,28 @@ Internet-Draft            RTG YANG Device Model               March 2016
    }
    <CODE ENDS>
 
-7.2.  Logical Network Element Model
-
- <CODE BEGINS> file "ietf-logical-network-element@2016-03-22.yang"
- module ietf-logical-network-element {
 
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 24]
+Lindem, et al.          Expires October 26, 2016               [Page 18]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
-   yang-version "1";
+6.  References
 
-   // namespace
-   namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
+6.1.  Normative References
 
-   prefix "struct";
+   [LNE-MODEL]
+              Berger, L., Hopps, C., Lindem, A., and D. Bogdanovic,
+              "Logical Network Element Model", draft-rtgyangdt-rtgwg-
+              lne-model-00.txt (work in progress), May 2016.
 
-   // import some basic types
-   import ietf-interfaces {
-     prefix if;
-   }
-
-   // meta
-   organization "IETF RTG YANG Design Team Collaboration
-                 with OpenConfig";
-
-   contact
-       "Routing Area YANG Architecture Design Team -
-        <rtg-dt-yang-arch@ietf.org>";
-
-   description
-     "This module is used to support multiple logical network
-      elements on a single physical or virtual system.";
-
-   revision "2016-03-22" {
-     description
-       "IETF Routing YANG Design Team Meta-Model";
-     reference "TBD";
-   }
-
-   // feature statements
-   feature bind-lne-name {
-     description
-       "Logical network element to which an interface is bound";
-   }
-
-   // top level device definition statements
-   container logical-network-inventory {
-     description "Allows a network device to support multiple logical
-                  network element (device) instances";
-     list logical-network-element {
-       key name;
-       description "List of logical network elements";
-       leaf name {
-         type string;
-         description "Device-wide unique identifier for the
-                      logical network element";
-       }
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 25]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-       leaf managed {
-         type boolean;
-         description
-           "True if the host can manage the LNE using the root mount
-            point";
-       }
-       leaf description {
-         type string;
-         description
-           "Description of the logical network element";
-       }
-       leaf root {
-         type schema-mount;
-         description "Root for models supported per logical
-                      network element";
-       }
-     }
-   }
-
-   // augment statements
-   augment "/if:interfaces/if:interface" {
-     description
-         "Add a node for the identification of the logical network
-         element associated with an interface. Applies to interfaces
-         that can be assigned on a per logical network element basis.
-         A <TBD> error is returned when the interface type cannot be
-         assigned.";
-
-     leaf bind-lne-name {
-       type string;
-       description
-         "Logical network element ID to which interface is bound";
-     }
-   }
-
-   // rpc statements
-
-   // notification statements
-
- }
- <CODE ENDS>
-
-7.3.  Network Instance Model
-
-   <CODE BEGINS> file "ietf-network-instance@2016-03-22.yang"
-   module ietf-network-instance {
-
-     yang-version "1";
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 26]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-     // namespace
-     namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
-
-     prefix "struct";
-
-     // import some basic types
-     import ietf-interfaces {
-       prefix if;
-     }
-
-     import ietf-ip {
-       prefix ip;
-     }
-
-     // meta
-     organization "IETF RTG YANG Design Team Collaboration
-                   with OpenConfig";
-
-     contact
-         "Routing Area YANG Architecture Design Team -
-          <rtg-dt-yang-arch@ietf.org>";
-
-     description
-       "This module is used to support multiple network instances
-        within a single physical or virtual device.  Network
-        instances are commonly know as VRFs (virtual routing
-        and forwarding) and VSIs (virtual switching instances).";
-
-     revision "2016-03-22" {
-       description
-         "IETF Routing YANG Design Team Meta-Model";
-       reference "TBD";
-     }
-
-     // extension statements
-
-     feature bind-network-instance-name {
-       description
-         "Network Instance to which an interface instance is bound";
-     }
-
-     // identity statements
-
-     identity network-instance-type {
-         description
-            "Base identity from which identities describing
-             network instance types are derived.";
-     }
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 27]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-      identity ipv4-interface-protocol-type {
-         description
-             "Base identity for derivation of IPv4 interface
-              protocols";
-      }
-
-      identity ipv6-interface-protocol-type {
-         description
-             "Base identity for derivation of IPv6 interface
-              protocols";
-      }
-
-     // typedef statements
-
-     // grouping statements
-
-     grouping interface-ip-common {
-       description
-         "interface-specific configuration for IP interfaces, IPv4 and
-         IPv6";
-
-     }
-
-     grouping ipv4-interface-protocols {
-         container ipv4-interface-protocols {
-             list ipv4-interface-protocol {
-                 key "type";
-                 leaf type {
-                     type identityref {
-                         base ipv4-interface-protocol-type;
-                     }
-                     mandatory true;
-                     description
-                         "ARP, ICMP, VRRP, DHCP Client, etc.";
-                 }
-                 description
-                     "List of IPv4 protocols configured
-                      on an interface";
-             }
-             description
-                 "Container for list of IPv4 protocols configured
-                   on an interface";
-         }
-         description
-             "Grouping for IPv4 protocols configured on an interface";
-     }
-
-     grouping ipv6-interface-protocols {
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 28]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-         description
-             "Grouping for IPv6 protocols configured on
-              an interface.";
-         container ipv6-interface-protocols {
-             description
-                 "Container for list of IPv6 protocols configured
-                   on an interface.";
-             list ipv6-interface-protocol {
-                 key "type";
-                 description
-                     "List of IPv6 protocols configured
-                      on an interface";
-                 leaf type {
-                     type identityref {
-                         base ipv6-interface-protocol-type;
-                     }
-                     mandatory true;
-                     description
-                         "ND, ICMPv6, VRRP, DHCPv6 Client, etc.";
-                 }
-             }
-         }
-     }
-
-     grouping network-instance-policy {
-       description
-           "Network instance policies such as route
-            distinguisher, route targets, VPLS ID and neighbor,
-            Ethernet ID, etc. ";
-       reference
-           "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
-            RFC 6074 - Provisioning, Auto-Discovery, and Signaling
-                 in Layer 2 Virtual Private Networks (L2VPNs)
-            RFC 7432 - BGP MPLS-Based Ethernet VPN";
-       container network-instance-policy {
-           description "Network Instance Policy -- details TBD";
-       }
-     }
-
-     // top level device definition statements
-     container network-instances {
-         description "Network instances each of which have
-                      an independent IP/IPv6 addressing space
-                      and protocol instantiations. For layer 3,
-                      this consistent with the routing-instance
-                      definition in ietf-routing";
-         reference "draft-ietf-netmod-routing-cfg";
-         list network-instance {
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 29]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-             key name;
-             description "List of network-instances";
-             leaf name {
-                 type string;
-                 description "device scoped
-                              identifier for the network
-                              instance";
-             }
-             leaf type {
-                 type identityref {
-                     base network-instance-type;
-                 }
-                 description
-                     "The network instance type -- details TBD
-                      Likely types include core, L3-VRF, VPLS,
-                      L2-cross-connect, L2-VSI, etc.";
-             }
-             leaf enabled {
-                 type boolean;
-                 default "true";
-                 description
-                   "Flag indicating whether or not the network
-                    instance is enabled.";
-             }
-             leaf description {
-                 type string;
-                 description
-                   "Description of the network instance
-                   and its intended purpose";
-             }
-             uses network-instance-policy;
-             leaf root {
-               type schema-mount;
-               description "Root for models supported per
-                            network instance";
-             }
-         }
-     }
-
-     // augment statements
-
-     augment "/if:interfaces/if:interface" {
-       description
-           "Add a node for the identification of the logical network
-           instance (which is within the interface's identified logical
-           network element) associated with the IP information
-           configured on an interface";
-
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 30]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-       leaf bind-network-instance-name {
-         type string;
-         description
-           "Network Instance to which an interface is bound";
-       }
-     }
-
-     augment "/if:interfaces/if:interface/ip:ipv4" {
-       description
-           "Add a node for the identification of the logical
-           network instance (which is within the interface's
-           identified physical or virtual device) associated with
-           the IP information configured on an interface";
-
-       leaf bind-network-instance-name {
-         type string;
-         description
-           "Network Instance to which IPv4 interface is bound";
-
-       }
-     }
-
-     augment "/if:interfaces/if:interface/ip:ipv6" {
-       description
-           "Add a node for the identification of the logical
-           network instance (which is within the interface's
-           identified physical or virtual device) associated with
-           the IP information configured on an interface";
-
-       leaf bind-network-instance-name {
-         type string;
-         description
-           "Network Instance to which IPv6 interface is bound";
-
-       }
-     }
-
-     // rpc statements
-
-     // notification statements
-
-   }
-   <CODE ENDS>
-
-
-
-
-
-
-
-
-Lindem, et al.         Expires September 23, 2016              [Page 31]
-
-Internet-Draft            RTG YANG Device Model               March 2016
-
-
-8.  References
-
-8.1.  Normative References
+   [NI-MODEL]
+              Berger, L., Hopps, C., Lindem, A., and D. Bogdanovic,
+              "Network Instance Model", draft-rtgyangdt-rtgwg-ni-model-
+              00.txt (work in progress), May 2016.
 
    [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
               January 2004.
@@ -1761,17 +1043,7 @@ Internet-Draft            RTG YANG Device Model               March 2016
    [RFC7317]  Bierman, A. and M. Bjorklund, "A YANG Data Model for
               System Management", RFC 7317, August 2014.
 
-   [STRUCTURAL-MOUNT]
-              Bjorklund, M., "YANG Structural Mount", draft-bjorklund-
-              netmod-structural-mount-00.txt (work in progress),
-              December 2015.
-
-   [YANG-YSDL]
-              Lhotha, L., "YANG Schema Dispatching Language", draft-
-              lhotka-netmod-ysdl-00.txt (work in progress), November
-              2015.
-
-8.2.  Informative References
+6.2.  Informative References
 
    [IEEE-8021Q]
               Holness, M., "IEEE 802.1Q YANG Module Specifications",
@@ -1789,9 +1061,9 @@ Internet-Draft            RTG YANG Device Model               March 2016
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 32]
+Lindem, et al.          Expires October 26, 2016               [Page 19]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
    [OC-MPLS]  George, J., Fang, L., Osborne, E., and R. Shakir, "MPLS /
@@ -1845,9 +1117,9 @@ Appendix A.  Acknowledgments
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 33]
+Lindem, et al.          Expires October 26, 2016               [Page 20]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
 Appendix B.  Contributors
@@ -1901,9 +1173,9 @@ Appendix B.  Contributors
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 34]
+Lindem, et al.          Expires October 26, 2016               [Page 21]
 
-Internet-Draft            RTG YANG Device Model               March 2016
+Internet-Draft            RTG YANG Device Model               April 2016
 
 
       Stephane Litkowski
@@ -1957,4 +1229,4 @@ Authors' Addresses
 
 
 
-Lindem, et al.         Expires September 23, 2016              [Page 35]
+Lindem, et al.          Expires October 26, 2016               [Page 22]
