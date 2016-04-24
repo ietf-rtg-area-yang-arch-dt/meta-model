@@ -24,7 +24,7 @@ module ietf-logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-03-22" {
+  revision "2016-04-24" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
