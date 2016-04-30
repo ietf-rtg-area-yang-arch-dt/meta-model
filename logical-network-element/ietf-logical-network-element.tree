@@ -1,5 +1,5 @@
 module: ietf-logical-network-element
-   +--rw logical-network-inventory
+   +--rw logical-network-elements
       +--rw logical-network-element* [name]
          +--rw name           string
          +--rw managed?       boolean

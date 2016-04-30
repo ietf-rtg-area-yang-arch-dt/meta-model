@@ -67,12 +67,12 @@
 <section anchor="sec-1" title="Introduction">
 <t>
    "Operational Structure and Organization of YANG Models"
-   <xref target="OC-STRUCT"/>, highlights the value of organizing
+   <xref target="I-D.openconfig-netmod-model-structure"/>, highlights the value of organizing
    individual, self-standing YANG <xref target="RFC6020"/> models
    into a more comprehensive structure.  This document builds on
    that work and presents a derivative structure for use in
    representing the networking infrastructure aspects of physical
-   and virtual devices. <xref target="OC-STRUCT"/> and earlier
+   and virtual devices. <xref target="I-D.openconfig-netmod-model-structure"/> and earlier
    versions of this document presented a single device-centric
    model root, this document no longer contains this element.
    Such an element would have translated to a single device
@@ -130,11 +130,11 @@
 </t>
 <t>
    This document was motivated by, and derived from,
-   <xref target="OC-STRUCT"/>.  The requirements from that
+   <xref target="I-D.openconfig-netmod-model-structure"/>.  The requirements from that
    document have been combined with the requirements from
    "Consistent Modeling of Operational State Data in YANG",
-   <xref target="OC-OPSTATE"/>, into "NETMOD Operational State
-   Requirements", <xref target="NETMOD-OPSTATE"/>.  This document
+   <xref target="I-D.openconfig-netmod-opstate"/>, into "NETMOD Operational State
+   Requirements", <xref target="I-D.ietf-netmod-opstate-reqs"/>.  This document
    is aimed at the requirement related to a common
    model-structure, currently Requirement 7, and also aims to
    provide a modeling base for Operational State representation.
@@ -151,7 +151,7 @@
 </t>
 <t>
    A significant portion of the text and model contained in this
-   document was taken from the -00 of <xref target="OC-STRUCT"/>.
+   document was taken from the -00 of <xref target="I-D.openconfig-netmod-model-structure"/>.
 </t>
 <t>
 </t>
@@ -175,8 +175,8 @@
 The top open issues are:
   <list style="numbers">
    <t>This document will need to match the evolution and
-   standardization of  <xref target="OC-OPSTATE"/> or
-   <xref target="NETMOD-OPSTATE"/> by the Netmod WG.
+   standardization of  <xref target="I-D.openconfig-netmod-opstate"/> or
+   <xref target="I-D.ietf-netmod-opstate-reqs"/> by the Netmod WG.
    </t>
    <t>Interpretation of different policy containers requires clarification.</t>
    <t>It may make sense to use the identityref structuring with
@@ -247,7 +247,7 @@ The top open issues are:
 </t>
 <t>
    The presented modules do not follow the hierarchy of any
-   particular implementation, and hence is vendor-neutral.
+   Particular implementation, and hence is vendor-neutral.
    Nevertheless, the structure should be familiar to network
    operators and also readily mapped to vendor implementations.
 </t>
@@ -256,25 +256,25 @@ The top open issues are:
 <figure>
 <artwork>
     module: ietf-network-device
-       +--rw ietf-yang-library
+       +--rw modules-state            [I-D.ietf-netconf-yang-library]
        |
-       +--rw interfaces
+       +--rw interfaces               [RFC7223]
        +--rw hardware
        +--rw qos
        |
-       +--rw system-management
+       +--rw system-management        [RFC7317 or derived]
        +--rw network-services
        +--rw oam-protocols
        |
-       +--rw routing
+       +--rw routing                  [I-D.ietf-netmod-routing-cfg]
        +--rw mpls
        +--rw ieee-dot1Q
        |
-       +--rw ietf-acl
-       +--rw ietf-key-chain
+       +--rw acls                     [I-D.ietf-netmod-acl-model]
+       +--rw key-chains               [I-D.ietf-rtgwg-yang-key-chain]
        |
-       +--rw logical-network-element
-       +--rw network-instance
+       +--rw logical-network-elements [I-D.rtgyangdt-rtgwg-lne-model]
+       +--rw network-instances        [I-D.rtgyangdt-rtgwg-ni-model]
 </artwork>
 </figure>
 </t>
@@ -289,7 +289,7 @@ The top open issues are:
    included to denote different types of modules included.
 </t>
 <t>
-   YANG library <xref target="YANG-LIBRARY"/> is included as it
+   YANG library <xref target="I-D.ietf-netconf-yang-library"/> is included as it
    used to identify details of the top level modules supported by
    the (physical or logical) network device.  Th ability to
    identify supported modules is particularly important for LNEs
@@ -326,7 +326,7 @@ The top open issues are:
    expected to be LNE and NI unaware, and to be instantiated as needed
    as part of the LNE and NI configuration and operation supported by
    the logical-network-element and network-instance modules.  (Note
-   that this is a change from <xref target="RTG-CFG"/> which is
+   that this is a change from <xref target="I-D.ietf-netmod-routing-cfg"/> which is
    currently defined with VRF/NI semantics.)
 </t>
 <t>
@@ -365,9 +365,11 @@ The top open issues are:
    The interface related augmentations are as follows:
 <figure>
 <artwork>
+    module: ietf-logical-network-element
     augment /if:interfaces/if:interface:
        +--rw bind-lne-name?   string
 
+    module: ietf-network-instance
     augment /if:interfaces/if:interface:
        +--rw bind-network-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv4:
@@ -385,12 +387,12 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-          +--rw interfaces
+          +--rw if:interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
-          |     +--rw bind-lne-name?             string
+          |     +--rw lne:bind-lne-name?         string
           |     +--rw ethernet
-          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw ni:bind-network-instance-name? string
           |     |  +--rw aggregates
           |     |  +--rw rstp
           |     |  +--rw lldp
@@ -398,13 +400,13 @@ The top open issues are:
           |     +--rw vlans
           |     +--rw tunnels
           |     +--rw ipv4
-          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw ni:bind-network-instance-name? string
           |     |  +--rw arp
           |     |  +--rw icmp
           |     |  +--rw vrrp
           |     |  +--rw dhcp-client
           |     +--rw ipv6
-          |        +--rw bind-network-instance-name?   string
+          |        +--rw ni:bind-network-instance-name? string
           |        +--rw vrrp
           |        +--rw icmpv6
           |        +--rw nd
@@ -560,7 +562,7 @@ The top open issues are:
 <t>
     Routing protocol and IP forwarding configuration and operation
     information is modeled via a routing model, such as the one
-    defined in <xref target="RTG-CFG"/>.  Although, the defined
+    defined in <xref target="I-D.ietf-netmod-routing-cfg"/>.  Although, the defined
     routing module includes support for NIs, which it refers to as
     Routing Instances, while the approach presented in this
     document presumes that the routing module is unaware of LNEs
@@ -582,7 +584,7 @@ The top open issues are:
 <figure>
 <artwork>
    module: ietf-network-device
-       +--rw routing
+       +--rw rt:routing                 [I-D.ietf-netmod-routing-cfg]
           +--rw control-plane-protocol* [type]
           |  +--rw type      identityref
           |  +--rw policy
@@ -601,7 +603,7 @@ The top open issues are:
     VRFs/NIs. The model may be instantiated per device, LNE, and
     NI.  MPLS control plane protocols are expected to be included
     in <xref target="sec-2.RTG"/>.  MPLS may reuse and build on
-    <xref target="OC-MPLS"/> or other emerging models and has an
+    <xref target="I-D.openconfig-mpls-consolidated-model"/> or other emerging models and has an
     anticipated structure as follows:
 </t>
 <t>
@@ -1030,118 +1032,23 @@ module ietf-network-device {
 <seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-ni-model-00.txt"/>
 </reference>
 
-<reference anchor="RFC6020">
-<front>
-<title>YANG - A Data Modeling Language for  the Network Configuration Protocol (NETCONF)</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<date month="October" year="2010" />
-</front>
-<seriesInfo name="RFC" value="6020" />
-</reference>
+<?rfc include="reference.RFC.6020"?>
+<?rfc include="reference.RFC.7223"?>
+<?rfc include="reference.RFC.7277"?>
+<?rfc include="reference.RFC.7317"?>
+<?rfc include="reference.RFC.3688"?>
+<?rfc include="reference.RFC.4026"?>
 
-<reference anchor="RFC7223">
-<front>
-<title>A YANG Data Model for Interface Management</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<date month="May" year="2014" />
-</front>
-<seriesInfo name="RFC" value="7223" />
-</reference>
-
-<reference anchor="RFC7277">
-<front>
-<title>A YANG Data Model for IP Management</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<date month="June" year="2014" />
-</front>
-<seriesInfo name="RFC" value="7277" />
-</reference>
-
-<reference anchor="RFC7317">
-<front>
-<title>A YANG Data Model for System Management</title>
-<author initials="A." surname="Bierman" fullname="Andy Bierman">
-<organization>YumaWorks</organization>
-</author>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<date month="August" year="2014" />
-</front>
-<seriesInfo name="RFC" value="7317" />
-</reference>
-
-<reference anchor="RFC3688">
-<front>
-<title>The IETF XML Registry</title>
-<author initials="M." surname="Mealling" fullname="Michael Mealling">
-<organization>Verisign, Inc</organization>
-</author>
-<date month="January" year="2004" />
-</front>
-<seriesInfo name="BCP" value="81" />
-<seriesInfo name="RFC" value="3688" />
-</reference>
-
-<reference anchor="RFC4026">
-<front>
-<title>Provider Provisioned Virtual Private Network (VPN) Terminology</title>
-<author initials="L." surname="Andersson" fullname="Loa Andersson">
-<organization>Acreo AB</organization>
-</author>
-<author initials="T." surname="Madsen" fullname="Tove Madsen">
-<organization>Acreo AB</organization>
-</author>
-<date month="March" year="2005" />
-</front>
-<seriesInfo name="RFC" value="4026" />
-</reference>
 </references>
 
 <references title="Informative References">
 
-<reference anchor="OC-OPSTATE">
-<front>
-<title>Consistent Modeling of Operational State Data in YANG</title>
-<author initials="R." surname="Shakir" fullname="Rob Shakir">
-<organization>Jive</organization>
-</author>
-<author initials="A." surname="Shaikh" fullname="Anees Shaikh">
-<organization>Google</organization>
-</author>
-<author initials="M." surname="Hines" fullname="Marcus Hines">
-<organization>Google</organization>
-</author>
-<date month="July" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-openconfig-netmod-opstate-01.txt"/>
-</reference>
-
-<reference anchor="OC-STRUCT">
-<front>
-<title>Consistent Modeling of Operational State Data in YANG</title>
-<author initials="A." surname="Shaikh" fullname="Anees Shaikh">
-<organization>Google</organization>
-</author>
-<author initials="R." surname="Shakir" fullname="Rob Shakir">
-<organization>Jive Communications, Inc</organization>
-</author>
-<author initials="K." surname="D'Souza" fullname="Kevin D'Souza">
-<organization>AT&amp;T</organization>
-</author>
-<author initials="L" surname="Fang" fullname="Luyuan Fang">
-<organization>Microsoft</organization>
-</author>
-<date month="March" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-openconfig-netmod-model-structure-00.txt"/>
-</reference>
+<?rfc include="reference.I-D.draft-openconfig-netmod-opstate-01.xml"?>
+<?rfc include="reference.I-D.draft-openconfig-netmod-model-structure-00.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-routing-cfg-20.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-03.xml"?>
+<?rfc include="reference.I-D.draft-openconfig-mpls-consolidated-model-02.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netconf-yang-library-05.xml"?>
 
 <reference anchor="IEEE-8021Q">
 <front>
@@ -1152,71 +1059,6 @@ module ietf-network-device {
 <date month="May" year="2015" />
 </front>
 <seriesInfo name="IEEE-Draft" value="http://www.ieee802.org/1/files/public/docs2015/new-mholness-yang-8021Q-0515-v04.pdf"/>
-</reference>
-
-<reference anchor="RTG-CFG">
-<front>
-<title>A YANG Data Model for Routing Management</title>
-<author initials="L." surname="Lhotha" fullname="Ladislav Lhotha">
-<organization>CZ.NIC</organization>
-</author>
-<author initials="A." surname="Lindem" fullname="Acee Lindem">
-<organization>Cisco Systems</organization>
-</author>
-<date month="October" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-netmod-routing-cfg-20.txt"/>
-</reference>
-
-<reference anchor="NETMOD-OPSTATE">
-<front>
-<title>NETMOD Operational State Requirements</title>
-<author initials="K." surname="Watsen" fullname="Kent Watsen">
-<organization>Juniper Networks</organization>
-</author>
-<author initials="T." surname="Nadeau" fullname="Thomas Nadeau">
-<organization>Brocade</organization>
-</author>
-<date month="January" year="2016" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-netmod-opstate-reqs-03.txt"/>
-</reference>
-
-<reference anchor="OC-MPLS">
-<front>
-<title>MPLS / TE Model for Service Provider Networks</title>
-<author initials="J" surname="George" fullname="Joshua George">
-<organization>Google</organization>
-</author>
-<author initials="L" surname="Fang" fullname="Luyuan Fang">
-<organization>Microsoft</organization>
-</author>
-<author initials="E" surname="Osborne" fullname="Eric Osborne">
-<organization>Level 3</organization>
-</author>
-<author initials="R." surname="Shakir" fullname="Rob Shakir">
-<organization>Jive Communications, Inc</organization>
-</author>
-<date month="October" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-openconfig-mpls-consolidated-model-02.txt"/>
-</reference>
-
-<reference anchor="YANG-LIBRARY">
-<front>
-<title>YANG Module Library</title>
-<author initials="A." surname="Bierman" fullname="Andy Bierman">
-<organization>YumaWorks</organization>
-</author>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<author initials="K." surname="Watsen" fullname="Kent Watsen">
-<organization>Juniper Networks</organization>
-</author>
-<date month="December" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-netconf-yang-library-03.txt"/>
 </reference>
 
 </references>
@@ -1313,3 +1155,7 @@ Contributors' Addresses
 </back>
 
 </rfc>
+
+<!-- Local Variables: -->
+<!-- fill-column:72 -->
+<!-- End: -->

@@ -9,6 +9,7 @@
 <?rfc strict="yes" ?>
 <rfc category="std" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-ni-model-00" >
 
+
 <front>
 <title abbrev="LNE Model">Network Instance Model</title>
     <author initials='L.' surname="Berger" fullname='Lou Berger'>
@@ -65,7 +66,7 @@
    allow for the partitioning of resources from both, or either,
    management and networking perspectives.  Both make use of emerging
    YANG functionality supported by YANG Schema Mount <xref
-   target="SCHEMA-MOUNT"/>.  This document is expected to use whatever
+   target="I-D.ietf-netmod-schema-mount"/>.  This document is expected to use whatever
    Schema Mount solution is agreed upon by the Netmod Working Group.
 </t>
 <t>
@@ -109,8 +110,8 @@
 The top open issues are:
   <list style="numbers">
    <t>This document will need to match the evolution and
-   standardization of  <xref target="OC-OPSTATE"/> or
-   <xref target="NETMOD-OPSTATE"/> by the Netmod WG.
+   standardization of  <xref target="I-D.openconfig-netmod-opstate"/> or
+   <xref target="I-D.ietf-netmod-opstate-reqs"/> by the Netmod WG.
    </t>
    </list>
  </t>
@@ -200,9 +201,11 @@ The top open issues are:
    The interface related augmentations are as follows:
 <figure>
 <artwork>
+    module: ietf-logical-network-element
     augment /if:interfaces/if:interface:
        +--rw bind-lne-name?   string
 
+    module: ietf-network-instance
     augment /if:interfaces/if:interface:
        +--rw bind-network-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv4:
@@ -220,12 +223,12 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-          +--rw interfaces
+          +--rw if:interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
           |     +--rw bind-lne-name?             string
           |     +--rw ethernet
-          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw ni:bind-network-instance-name? string
           |     |  +--rw aggregates
           |     |  +--rw rstp
           |     |  +--rw lldp
@@ -233,13 +236,13 @@ The top open issues are:
           |     +--rw vlans
           |     +--rw tunnels
           |     +--rw ipv4
-          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw ni:bind-network-instance-name? string
           |     |  +--rw arp
           |     |  +--rw icmp
           |     |  +--rw vrrp
           |     |  +--rw dhcp-client
           |     +--rw ipv6
-          |        +--rw bind-network-instance-name?   string
+          |        +--rw ni:bind-network-instance-name? string
           |        +--rw vrrp
           |        +--rw icmpv6
           |        +--rw nd
@@ -266,7 +269,7 @@ The top open issues are:
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
    policies.  The model represents both core/provider and virtual
-   instances.  Network instances reuse and build on <xref target="RTG-CFG"/>
+   instances.  Network instances reuse and build on <xref target="I-D.ietf-netmod-routing-cfg"/>
    and are shown below:
 </t>
 <t>
@@ -329,7 +332,8 @@ The top open issues are:
    specific information will be available under
    `root`.  As with LNEs, actual module
    availability is expected to be implementation dependent. The
-   ietf-yang-library module is expected to be the primary method
+   yang library module <xref target="I-D.ietf-netconf-yang-library"/>
+   is expected to be the primary method
    used to identify supported modules.  Resource related control
    and assignment is expected to be managed at the network-device
    level, not the network instance level, based on the
@@ -345,25 +349,24 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: ietf-network-instance
-       +--rw ietf-yang-library
-       +--rw interfaces
-       |  +--rw bind-network-instance-name="green"  string
-       +--rw system-management
-       +--rw network-instances
-          +--rw network-instance* [name]
-             +--rw name="green"    string
-             +--rw type?                               identityref
-             +--rw enabled=true                        boolean
-             +--rw description="The Green VRF"         string
-             +--rw network-instance-policy
-             |  ... (RT=1000:1, RD=1.2.3.4)
-             +--rw root?                               schema-mount
-                +--rw ietf-yang-library
-                +--rw network-services
-                +--rw oam-protocols
-                +--rw routing
-                +--rw mpls
+   +--rw yanglib:modules-state           [I-D.ietf-netconf-yang-library]
+   +--rw if:interfaces                   [RFC7223]
+   |  +--rw bind-network-instance-name="green" string
+   +--rw network-instances
+      +--rw network-instance* [name]
+         +--rw name="green"    string
+         +--rw type?                           identityref
+         +--rw enabled=true                    boolean
+         +--rw description="The Green VRF"     string
+         +--rw network-instance-policy
+         |  ... (RT=1000:1, RD=1.2.3.4)
+         +--rw root?                           schema-mount
+            +--rw yanglib:modules-state  [I-D.ietf-netconf-yang-library]
+            +--rw if:intefaces           [RFC7223]
+            +--rw mm:network-services
+            +--rw nn:oam-protocols
+            +--rw oo:routing
+            +--rw pp:mpls
 </artwork>
 </figure>
 </t>
@@ -371,7 +374,7 @@ The top open issues are:
     All modules that represent control-plane and data-plane
     information may be present at the `root`,
     and be accessible via paths modified per
-    <xref target="SCHEMA-MOUNT"/>.  The list of available
+    <xref target="I-D.ietf-netmod-schema-mount"/>.  The list of available
     modules is expected to be implementation dependent.  As is the
     method used by an implementation to support NIs.
 </t>
@@ -419,7 +422,7 @@ module ietf-network-instance {
   // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
 
-  prefix "struct";
+  prefix "ni";
 
   // import some basic types
   import ietf-interfaces {
@@ -702,127 +705,21 @@ module ietf-network-instance {
 <seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-lne-model-00.txt"/>
 </reference>
 
-<reference anchor="SCHEMA-MOUNT">
-<front>
-<title>YANG Schema Mount</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<author initials="L." surname="Lhotha" fullname="Ladislav Lhotha">
-<organization>CZ.NIC</organization>
-</author>
-<date month="April" year="2016" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-netmod-schema-mount-01.txt"/>
-</reference>
-
-<reference anchor="RFC6020">
-<front>
-<title>YANG - A Data Modeling Language for  the Network Configuration Protocol (NETCONF)</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<date month="October" year="2010" />
-</front>
-<seriesInfo name="RFC" value="6020" />
-</reference>
-
-<reference anchor="RFC7223">
-<front>
-<title>A YANG Data Model for Interface Management</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<date month="May" year="2014" />
-</front>
-<seriesInfo name="RFC" value="7223" />
-</reference>
-
-<reference anchor="RFC7277">
-<front>
-<title>A YANG Data Model for IP Management</title>
-<author initials="M." surname="Bjorklund" fullname="Martin Bjorklund">
-<organization>Tail-F Systems</organization>
-</author>
-<date month="June" year="2014" />
-</front>
-<seriesInfo name="RFC" value="7277" />
-</reference>
-
-<reference anchor="RFC3688">
-<front>
-<title>The IETF XML Registry</title>
-<author initials="M." surname="Mealling" fullname="Michael Mealling">
-<organization>Verisign, Inc</organization>
-</author>
-<date month="January" year="2004" />
-</front>
-<seriesInfo name="BCP" value="81" />
-<seriesInfo name="RFC" value="3688" />
-</reference>
-
-<reference anchor="RFC4026">
-<front>
-<title>Provider Provisioned Virtual Private Network (VPN) Terminology</title>
-<author initials="L." surname="Andersson" fullname="Loa Andersson">
-<organization>Acreo AB</organization>
-</author>
-<author initials="T." surname="Madsen" fullname="Tove Madsen">
-<organization>Acreo AB</organization>
-</author>
-<date month="March" year="2005" />
-</front>
-<seriesInfo name="RFC" value="4026" />
-</reference>
+<?rfc include="reference.I-D.draft-ietf-netmod-schema-mount-01.xml"?>
+<?rfc include="reference.RFC.6020"?>
+<?rfc include="reference.RFC.7223"?>
+<?rfc include="reference.RFC.7277"?>
+<?rfc include="reference.RFC.3688"?>
+<?rfc include="reference.RFC.4026"?>
 
 </references>
 
 <references title="Informative References">
 
-<reference anchor="OC-OPSTATE">
-<front>
-<title>Consistent Modeling of Operational State Data in YANG</title>
-<author initials="R." surname="Shakir" fullname="Rob Shakir">
-<organization>Jive</organization>
-</author>
-<author initials="A." surname="Shaikh" fullname="Anees Shaikh">
-<organization>Google</organization>
-</author>
-<author initials="M." surname="Hines" fullname="Marcus Hines">
-<organization>Google</organization>
-</author>
-<date month="July" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-openconfig-netmod-opstate-01.txt"/>
-</reference>
-
-<reference anchor="RTG-CFG">
-<front>
-<title>A YANG Data Model for Routing Management</title>
-<author initials="L." surname="Lhotha" fullname="Ladislav Lhotha">
-<organization>CZ.NIC</organization>
-</author>
-<author initials="A." surname="Lindem" fullname="Acee Lindem">
-<organization>Cisco Systems</organization>
-</author>
-<date month="October" year="2015" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-netmod-routing-cfg-20.txt"/>
-</reference>
-
-<reference anchor="NETMOD-OPSTATE">
-<front>
-<title>NETMOD Operational State Requirements</title>
-<author initials="K." surname="Watsen" fullname="Kent Watsen">
-<organization>Juniper Networks</organization>
-</author>
-<author initials="T." surname="Nadeau" fullname="Thomas Nadeau">
-<organization>Brocade</organization>
-</author>
-<date month="January" year="2016" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-netmod-opstate-reqs-03.txt"/>
-</reference>
+<?rfc include="reference.I-D.draft-openconfig-netmod-opstate-01.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-routing-cfg-20.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-03.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netconf-yang-library-05.xml"?>
 
 </references>
 
@@ -847,3 +744,7 @@ Contributors' Addresses
 </back>
 
 </rfc>
+
+<!-- Local Variables: -->
+<!-- fill-column:72 -->
+<!-- End: -->

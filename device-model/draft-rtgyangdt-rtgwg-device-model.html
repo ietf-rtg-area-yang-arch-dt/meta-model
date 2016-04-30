@@ -394,12 +394,12 @@
 <link href="#rfc.authors" rel="Chapter"/>
 
 
-  <meta name="generator" content="xml2rfc version 2.5.2.dev0 - http://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.5.1 - http://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Lindem, A., Ed., Berger, L., Ed., Bogdanovic, D., and C. Hopps" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-rtgyangdt-rtgwg-device-model-04" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-4-24" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-4-30" />
   <meta name="dct.abstract" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
   <meta name="description" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
 
@@ -423,7 +423,7 @@
   <td class="right">L. Berger, Ed.</td>
 </tr>
 <tr>
-  <td class="left">Expires: October 26, 2016</td>
+  <td class="left">Expires: November 1, 2016</td>
   <td class="right">LabN Consulting, L.L.C.</td>
 </tr>
 <tr>
@@ -444,7 +444,7 @@
 </tr>
 <tr>
   <td class="left"></td>
-  <td class="right">April 24, 2016</td>
+  <td class="right">April 30, 2016</td>
 </tr>
 
     	
@@ -465,7 +465,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on October 26, 2016.</p>
+<p>This Internet-Draft will expire on November 1, 2016.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -500,14 +500,14 @@
   </ul>
 
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#sec-1" id="sec-1">Introduction</a></h1>
-<p id="rfc.section.1.p.1">"Operational Structure and Organization of YANG Models" <a href="#OC-STRUCT">[OC-STRUCT]</a>, highlights the value of organizing individual, self-standing YANG <a href="#RFC6020">[RFC6020]</a> models into a more comprehensive structure.  This document builds on that work and presents a derivative structure for use in representing the networking infrastructure aspects of physical and virtual devices. <a href="#OC-STRUCT">[OC-STRUCT]</a> and earlier versions of this document presented a single device-centric model root, this document no longer contains this element.  Such an element would have translated to a single device management model that would be the root of all other models and was judged to be overly restrictive in terms of definition, implementation, and operation.  </p>
+<p id="rfc.section.1.p.1">"Operational Structure and Organization of YANG Models" <a href="#I-D.openconfig-netmod-model-structure">[I-D.openconfig-netmod-model-structure]</a>, highlights the value of organizing individual, self-standing YANG <a href="#RFC6020">[RFC6020]</a> models into a more comprehensive structure.  This document builds on that work and presents a derivative structure for use in representing the networking infrastructure aspects of physical and virtual devices. <a href="#I-D.openconfig-netmod-model-structure">[I-D.openconfig-netmod-model-structure]</a> and earlier versions of this document presented a single device-centric model root, this document no longer contains this element.  Such an element would have translated to a single device management model that would be the root of all other models and was judged to be overly restrictive in terms of definition, implementation, and operation.  </p>
 <p id="rfc.section.1.p.2">The document presents a notional network device YANG organizational structure that provides a conceptual framework for the models that may be used to configure and operate network devices.  The structure is itself presented as a YANG module, with all of the related component modules logically organized in a way that is operationally intuitive.  This network device model is not expected to be implemented, but rather provide as context for the identified representative component modules with are expected to be defined, and supported on typical network devices.  </p>
 <p id="rfc.section.1.p.3">This document refers to two new modules that are expected to be implemented.  These models are defined to support the configuration and operation of network-devices that allow for the partitioning of resources from both, or either, management and networking perspectives.  Two forms of resource partitioning are referenced: </p>
 <p id="rfc.section.1.p.4">The first form provides a logical partitioning of a network device where each partition is separately managed as essentially an independent network element which is 'hosted' by the base network device.  These hosted network elements are referred to as logical network elements, or LNEs, and are supported by the logical-network-element module defined in <a href="#LNE-MODEL">[LNE-MODEL]</a>.  The module is used to identify LNEs and associate resources from the network-device with each LNE.  LNEs themselves are represented in YANG as independent network devices; each accessed independently.  Optionally, and when supported by the implementation, they may also be accessed from the host system.  Examples of vendor terminology for an LNE include logical system or router, and virtual switch, chassis, or fabric.  </p>
 <p id="rfc.section.1.p.5">The second form provides support what is commonly referred to as Virtual Routing and Forwarding (VRF) instances as well as Virtual Switch Instances (VSI), see <a href="#RFC4026">[RFC4026]</a>.  In this form of resource partitioning multiple control plane and forwarding/bridging instances are provided by and managed via a single (physical or logical) network device.  This form of resource partitioning is referred to as Network Instances and are supported by the network-instance module defined in <a href="#NI-MODEL">[NI-MODEL]</a>. Configuration and operation of each network-instance is always via the network device and the network-instance module.  </p>
-<p id="rfc.section.1.p.6">This document was motivated by, and derived from, <a href="#OC-STRUCT">[OC-STRUCT]</a>.  The requirements from that document have been combined with the requirements from "Consistent Modeling of Operational State Data in YANG", <a href="#OC-OPSTATE">[OC-OPSTATE]</a>, into "NETMOD Operational State Requirements", <a href="#NETMOD-OPSTATE">[NETMOD-OPSTATE]</a>.  This document is aimed at the requirement related to a common model-structure, currently Requirement 7, and also aims to provide a modeling base for Operational State representation.  </p>
+<p id="rfc.section.1.p.6">This document was motivated by, and derived from, <a href="#I-D.openconfig-netmod-model-structure">[I-D.openconfig-netmod-model-structure]</a>.  The requirements from that document have been combined with the requirements from "Consistent Modeling of Operational State Data in YANG", <a href="#I-D.openconfig-netmod-opstate">[I-D.openconfig-netmod-opstate]</a>, into "NETMOD Operational State Requirements", <a href="#I-D.ietf-netmod-opstate-reqs">[I-D.ietf-netmod-opstate-reqs]</a>.  This document is aimed at the requirement related to a common model-structure, currently Requirement 7, and also aims to provide a modeling base for Operational State representation.  </p>
 <p id="rfc.section.1.p.7">The approach taken in this (and the original) document is to organize the models describing various aspects of network infrastructure, focusing on devices, their subsystems, and relevant protocols operating at the link and network layers.  The proposal does not consider a common model for higher level network services.  We focus on the set of models that are commonly used by network operators, and suggest a corresponding organization.  </p>
-<p id="rfc.section.1.p.8">A significant portion of the text and model contained in this document was taken from the -00 of <a href="#OC-STRUCT">[OC-STRUCT]</a>.  </p>
+<p id="rfc.section.1.p.8">A significant portion of the text and model contained in this document was taken from the -00 of <a href="#I-D.openconfig-netmod-model-structure">[I-D.openconfig-netmod-model-structure]</a>.  </p>
 <p/>
 <h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#sec-1.1" id="sec-1.1">Status of Work and Open Issues</a></h1>
 <p id="rfc.section.1.1.p.1">This version of the document and structure are a product of the Routing Area YANG Architecture design team and is very much a work in progress rather than a final proposal.  This version is a major change from the prior version and this change was enabled by the work on the previously mentioned Schema Mount.  </p>
@@ -515,7 +515,7 @@
 <p id="rfc.section.1.1.p.3">The top open issues are: </p>
 
 <ol>
-  <li>This document will need to match the evolution and standardization of  <a href="#OC-OPSTATE">[OC-OPSTATE]</a> or <a href="#NETMOD-OPSTATE">[NETMOD-OPSTATE]</a> by the Netmod WG.  </li>
+  <li>This document will need to match the evolution and standardization of  <a href="#I-D.openconfig-netmod-opstate">[I-D.openconfig-netmod-opstate]</a> or <a href="#I-D.ietf-netmod-opstate-reqs">[I-D.ietf-netmod-opstate-reqs]</a> by the Netmod WG.  </li>
   <li>Interpretation of different policy containers requires clarification.</li>
   <li>It may make sense to use the identityref structuring with hardware and QoS model.</li>
   <li>Which document(s) define the base System management, network services, and oam protocols modules is TBD.  This includes the possibility of simply using RFC7317 in place of the presented System management module.</li>
@@ -547,44 +547,46 @@
 <p id="rfc.section.2.p.3">Figure 1: Module Element Relationships </p>
 <p id="rfc.section.2.p.4">A model for LNEs is described in <a href="#LNE-MODEL">[LNE-MODEL]</a> and the model for network instances is covered in <a href="#NI-MODEL">[NI-MODEL]</a>.  </p>
 <p id="rfc.section.2.p.5">The presented notional network device module can itself be thought of as a "meta-model" as it describes the relationships between individual models.  We choose to represent it also as a simple YANG module consisting of other models, which are in fact independent top level individual models. Although it is never expected to be implemented.  </p>
-<p id="rfc.section.2.p.6">The presented modules do not follow the hierarchy of any particular implementation, and hence is vendor-neutral.  Nevertheless, the structure should be familiar to network operators and also readily mapped to vendor implementations.  </p>
+<p id="rfc.section.2.p.6">The presented modules do not follow the hierarchy of any Particular implementation, and hence is vendor-neutral.  Nevertheless, the structure should be familiar to network operators and also readily mapped to vendor implementations.  </p>
 <pre>
     module: ietf-network-device
-       +--rw ietf-yang-library
+       +--rw modules-state            [I-D.ietf-netconf-yang-library]
        |
-       +--rw interfaces
+       +--rw interfaces               [RFC7223]
        +--rw hardware
        +--rw qos
        |
-       +--rw system-management
+       +--rw system-management        [RFC7317 or derived]
        +--rw network-services
        +--rw oam-protocols
        |
-       +--rw routing
+       +--rw routing                  [I-D.ietf-netmod-routing-cfg]
        +--rw mpls
        +--rw ieee-dot1Q
        |
-       +--rw ietf-acl
-       +--rw ietf-key-chain
+       +--rw acls                     [I-D.ietf-netmod-acl-model]
+       +--rw key-chains               [I-D.ietf-rtgwg-yang-key-chain]
        |
-       +--rw logical-network-element
-       +--rw network-instance
+       +--rw logical-network-elements [I-D.rtgyangdt-rtgwg-lne-model]
+       +--rw network-instances        [I-D.rtgyangdt-rtgwg-ni-model]
 </pre>
 <p id="rfc.section.2.p.7">The overall structure is: </p>
 <p id="rfc.section.2.p.8">The network device is composed of top level modules that can be used to configure and operate a network device. (This is a significant difference from earlier versions of this document where there was a strict model hierarchy.)  Importantly the network device structure is the same for a physical network device or a logical network device, such as those instantiated via the logical-network-element model.  Extra spacing is included to denote different types of modules included.  </p>
-<p id="rfc.section.2.p.9">YANG library <a href="#YANG-LIBRARY">[YANG-LIBRARY]</a> is included as it used to identify details of the top level modules supported by the (physical or logical) network device.  Th ability to identify supported modules is particularly important for LNEs which may have a set of supported modules which differs from the set supported by the host network device.  </p>
+<p id="rfc.section.2.p.9">YANG library <a href="#I-D.ietf-netconf-yang-library">[I-D.ietf-netconf-yang-library]</a> is included as it used to identify details of the top level modules supported by the (physical or logical) network device.  Th ability to identify supported modules is particularly important for LNEs which may have a set of supported modules which differs from the set supported by the host network device.  </p>
 <p id="rfc.section.2.p.10">The interface management model <a href="#RFC7223">[RFC7223]</a> is included at the top level. The hardware module is a placeholder for a future device-specific configuration and operational state data model.  For example, a common structure for the hardware model might include chassis, line cards, and ports, but we leave this unspecified.  The quality of service (QoS) section is also a placeholder module for device configuration and operational state data which relates to the treatment of traffic across the device. This document references augmentations to the interface module to support LNEs and NIs.  Similar elements, although perhaps only for LNEs, may also need to be included as part of the definition of the future hardware and QoS modules.  </p>
 <p id="rfc.section.2.p.11">System management, network services, and oam protocols represent new top level modules that are used to organize data models of similar functions.  Additional information on each is provided below.  </p>
-<p id="rfc.section.2.p.12">The routing and MPLS modules provide core support for the configuration and operation of a devices control plane and data plane functions. IEEE dot1Q <a href="#IEEE-8021Q">[IEEE-8021Q]</a> is an example of another module that provides similar functions for VLAN bridging, and other similar modules are also possible.  Each of these modules is expected to be LNE and NI unaware, and to be instantiated as needed as part of the LNE and NI configuration and operation supported by the logical-network-element and network-instance modules.  (Note that this is a change from <a href="#RTG-CFG">[RTG-CFG]</a> which is currently defined with VRF/NI semantics.) </p>
+<p id="rfc.section.2.p.12">The routing and MPLS modules provide core support for the configuration and operation of a devices control plane and data plane functions. IEEE dot1Q <a href="#IEEE-8021Q">[IEEE-8021Q]</a> is an example of another module that provides similar functions for VLAN bridging, and other similar modules are also possible.  Each of these modules is expected to be LNE and NI unaware, and to be instantiated as needed as part of the LNE and NI configuration and operation supported by the logical-network-element and network-instance modules.  (Note that this is a change from <a href="#I-D.ietf-netmod-routing-cfg">[I-D.ietf-netmod-routing-cfg]</a> which is currently defined with VRF/NI semantics.) </p>
 <p id="rfc.section.2.p.13">The access control list (ACL) and key chain modules are included as examples of other top level modules that may be supported by a network device.  </p>
 <p id="rfc.section.2.p.14">The logical network element and network instance modules enable LNEs and NIs respectively and are defined below.  </p>
 <h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#sec-2.1" id="sec-2.1">Interface Model Components</a></h1>
 <p id="rfc.section.2.1.p.1">Interfaces are a crucial part of any network device's configuration and operational state.  They generally include a combination of raw physical interfaces, link-layer interfaces, addressing configuration, and logical interfaces that may not be tied to any physical interface.  Several system services, and layer 2 and layer 3 protocols may also associate configuration or operational state data with different types of interfaces (these relationships are not shown for simplicity).  The interface management model is defined by <a href="#RFC7223">[RFC7223]</a>.  </p>
 <p id="rfc.section.2.1.p.2">The logical-network-element and network-instance modules defined in <a href="#LNE-MODEL">[LNE-MODEL]</a> and <a href="#NI-MODEL">[NI-MODEL]</a> augment the existing interface management model in two ways: The first, by the logical-network-element module, adds an identifier which is used on physical interface types to identify an associated LNE.  The second, by the network-instance module, adds a name which is used on sub-interface types to identify an associated network instance.  Similarly, this name is also added for IPv4 and IPv6 types, as defined in <a href="#RFC7277">[RFC7277]</a>.  </p>
 <pre>
+    module: ietf-logical-network-element
     augment /if:interfaces/if:interface:
        +--rw bind-lne-name?   string
 
+    module: ietf-network-instance
     augment /if:interfaces/if:interface:
        +--rw bind-network-instance-name?   string
     augment /if:interfaces/if:interface/ip:ipv4:
@@ -595,12 +597,12 @@
 <p id="rfc.section.2.1.p.3">The interface related augmentations are as follows: </p>
 <p id="rfc.section.2.1.p.4">The following is an example of envisioned combined usage.  The interfaces container includes a number of commonly used components as examples: </p>
 <pre>
-          +--rw interfaces
+          +--rw if:interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
-          |     +--rw bind-lne-name?             string
+          |     +--rw lne:bind-lne-name?         string
           |     +--rw ethernet
-          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw ni:bind-network-instance-name? string
           |     |  +--rw aggregates
           |     |  +--rw rstp
           |     |  +--rw lldp
@@ -608,13 +610,13 @@
           |     +--rw vlans
           |     +--rw tunnels
           |     +--rw ipv4
-          |     |  +--rw bind-network-instance-name?   string
+          |     |  +--rw ni:bind-network-instance-name? string
           |     |  +--rw arp
           |     |  +--rw icmp
           |     |  +--rw vrrp
           |     |  +--rw dhcp-client
           |     +--rw ipv6
-          |        +--rw bind-network-instance-name?   string
+          |        +--rw ni:bind-network-instance-name? string
           |        +--rw vrrp
           |        +--rw icmpv6
           |        +--rw nd
@@ -695,12 +697,12 @@
 <p/>
 <p/>
 <h1 id="rfc.section.2.5"><a href="#rfc.section.2.5">2.5.</a> <a href="#sec-2.RTG" id="sec-2.RTG">Routing</a></h1>
-<p id="rfc.section.2.5.p.1">Routing protocol and IP forwarding configuration and operation information is modeled via a routing model, such as the one defined in <a href="#RTG-CFG">[RTG-CFG]</a>.  Although, the defined routing module includes support for NIs, which it refers to as Routing Instances, while the approach presented in this document presumes that the routing module is unaware of LNEs and NIs.  </p>
+<p id="rfc.section.2.5.p.1">Routing protocol and IP forwarding configuration and operation information is modeled via a routing model, such as the one defined in <a href="#I-D.ietf-netmod-routing-cfg">[I-D.ietf-netmod-routing-cfg]</a>.  Although, the defined routing module includes support for NIs, which it refers to as Routing Instances, while the approach presented in this document presumes that the routing module is unaware of LNEs and NIs.  </p>
 <p id="rfc.section.2.5.p.2">The routing module is expected to include all IETF defined control plane protocols, such as BGP, OSPF, LDP and RSVP-TE.  It is also expected to support configuration and operation of or more routing information bases (RIB).  A RIB is a list of routes complemented with administrative data. Finally, policy is expected to be represented within each control plane protocol and RIB.  </p>
 <p id="rfc.section.2.5.p.3">The anticipated structure is as follows: </p>
 <pre>
    module: ietf-network-device
-       +--rw routing
+       +--rw rt:routing                 [I-D.ietf-netmod-routing-cfg]
           +--rw control-plane-protocol* [type]
           |  +--rw type      identityref
           |  +--rw policy
@@ -711,7 +713,7 @@
 </pre>
 <p/>
 <h1 id="rfc.section.2.6"><a href="#rfc.section.2.6">2.6.</a> <a href="#sec-2.MPLS" id="sec-2.MPLS">MPLS</a></h1>
-<p id="rfc.section.2.6.p.1">MPLS data plane related information is grouped together, as with the previously discussed modules, is unaware of VRFs/NIs. The model may be instantiated per device, LNE, and NI.  MPLS control plane protocols are expected to be included in <a href="#sec-2.RTG">Section 2.5</a>.  MPLS may reuse and build on <a href="#OC-MPLS">[OC-MPLS]</a> or other emerging models and has an anticipated structure as follows: </p>
+<p id="rfc.section.2.6.p.1">MPLS data plane related information is grouped together, as with the previously discussed modules, is unaware of VRFs/NIs. The model may be instantiated per device, LNE, and NI.  MPLS control plane protocols are expected to be included in <a href="#sec-2.RTG">Section 2.5</a>.  MPLS may reuse and build on <a href="#I-D.openconfig-mpls-consolidated-model">[I-D.openconfig-mpls-consolidated-model]</a> or other emerging models and has an anticipated structure as follows: </p>
 <pre>
   module: ietf-network-device
        +--rw mpls
@@ -1071,37 +1073,37 @@ module ietf-network-device {
       <td class="reference">
         <b id="RFC3688">[RFC3688]</b>
       </td>
-      <td class="top"><a title="Verisign, Inc">Mealling, M.</a>, "<a href="http://tools.ietf.org/html/rfc3688">The IETF XML Registry</a>", BCP 81, RFC 3688, January 2004.</td>
+      <td class="top"><a>Mealling, M.</a>, "<a href="http://tools.ietf.org/html/rfc3688">The IETF XML Registry</a>", BCP 81, RFC 3688, DOI 10.17487/RFC3688, January 2004.</td>
     </tr>
     <tr>
       <td class="reference">
         <b id="RFC4026">[RFC4026]</b>
       </td>
-      <td class="top"><a title="Acreo AB">Andersson, L.</a> and <a title="Acreo AB">T. Madsen</a>, "<a href="http://tools.ietf.org/html/rfc4026">Provider Provisioned Virtual Private Network (VPN) Terminology</a>", RFC 4026, March 2005.</td>
+      <td class="top"><a>Andersson, L.</a> and <a>T. Madsen</a>, "<a href="http://tools.ietf.org/html/rfc4026">Provider Provisioned Virtual Private Network (VPN) Terminology</a>", RFC 4026, DOI 10.17487/RFC4026, March 2005.</td>
     </tr>
     <tr>
       <td class="reference">
         <b id="RFC6020">[RFC6020]</b>
       </td>
-      <td class="top"><a title="Tail-F Systems">Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc6020">YANG - A Data Modeling Language for  the Network Configuration Protocol (NETCONF)</a>", RFC 6020, October 2010.</td>
+      <td class="top"><a>Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc6020">YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</a>", RFC 6020, DOI 10.17487/RFC6020, October 2010.</td>
     </tr>
     <tr>
       <td class="reference">
         <b id="RFC7223">[RFC7223]</b>
       </td>
-      <td class="top"><a title="Tail-F Systems">Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc7223">A YANG Data Model for Interface Management</a>", RFC 7223, May 2014.</td>
+      <td class="top"><a>Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc7223">A YANG Data Model for Interface Management</a>", RFC 7223, DOI 10.17487/RFC7223, May 2014.</td>
     </tr>
     <tr>
       <td class="reference">
         <b id="RFC7277">[RFC7277]</b>
       </td>
-      <td class="top"><a title="Tail-F Systems">Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc7277">A YANG Data Model for IP Management</a>", RFC 7277, June 2014.</td>
+      <td class="top"><a>Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc7277">A YANG Data Model for IP Management</a>", RFC 7277, DOI 10.17487/RFC7277, June 2014.</td>
     </tr>
     <tr>
       <td class="reference">
         <b id="RFC7317">[RFC7317]</b>
       </td>
-      <td class="top"><a title="YumaWorks">Bierman, A.</a> and <a title="Tail-F Systems">M. Bjorklund</a>, "<a href="http://tools.ietf.org/html/rfc7317">A YANG Data Model for System Management</a>", RFC 7317, August 2014.</td>
+      <td class="top"><a>Bierman, A.</a> and <a>M. Bjorklund</a>, "<a href="http://tools.ietf.org/html/rfc7317">A YANG Data Model for System Management</a>", RFC 7317, DOI 10.17487/RFC7317, August 2014.</td>
     </tr>
   </tbody>
 </table>
@@ -1110,45 +1112,45 @@ module ietf-network-device {
   <tbody>
     <tr>
       <td class="reference">
+        <b id="I-D.ietf-netconf-yang-library">[I-D.ietf-netconf-yang-library]</b>
+      </td>
+      <td class="top"><a>Bierman, A.</a>, <a>Bjorklund, M.</a> and <a>K. Watsen</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netconf-yang-library-05">YANG Module Library</a>", Internet-Draft draft-ietf-netconf-yang-library-05, April 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-netmod-opstate-reqs">[I-D.ietf-netmod-opstate-reqs]</b>
+      </td>
+      <td class="top"><a>Watsen, K.</a> and <a>T. Nadeau</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netmod-opstate-reqs-03">Terminology and Requirements for Enhanced Handling of Operational State</a>", Internet-Draft draft-ietf-netmod-opstate-reqs-03, January 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-netmod-routing-cfg">[I-D.ietf-netmod-routing-cfg]</b>
+      </td>
+      <td class="top"><a>Lhotka, L.</a> and <a>A. Lindem</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netmod-routing-cfg-20">A YANG Data Model for Routing Management</a>", Internet-Draft draft-ietf-netmod-routing-cfg-20, October 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.openconfig-mpls-consolidated-model">[I-D.openconfig-mpls-consolidated-model]</b>
+      </td>
+      <td class="top"><a>George, J.</a>, <a>Fang, L.</a>, <a>eric.osborne@level3.com, e.</a> and <a>R. Shakir</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-mpls-consolidated-model-02">MPLS / TE Model for Service Provider Networks</a>", Internet-Draft draft-openconfig-mpls-consolidated-model-02, October 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.openconfig-netmod-model-structure">[I-D.openconfig-netmod-model-structure]</b>
+      </td>
+      <td class="top"><a>Shaikh, A.</a>, <a>Shakir, R.</a>, <a>D'Souza, K.</a> and <a>L. Fang</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-netmod-model-structure-00">Operational Structure and Organization of YANG Models</a>", Internet-Draft draft-openconfig-netmod-model-structure-00, March 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.openconfig-netmod-opstate">[I-D.openconfig-netmod-opstate]</b>
+      </td>
+      <td class="top"><a>Shakir, R.</a>, <a>Shaikh, A.</a> and <a>M. Hines</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-netmod-opstate-01">Consistent Modeling of Operational State Data in YANG</a>", Internet-Draft draft-openconfig-netmod-opstate-01, July 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
         <b id="IEEE-8021Q">[IEEE-8021Q]</b>
       </td>
       <td class="top"><a title="IEEE">Holness, M.</a>, "<a>IEEE 802.1Q YANG Module Specifications</a>", IEEE-Draft http://www.ieee802.org/1/files/public/docs2015/new-mholness-yang-8021Q-0515-v04.pdf, May 2015.</td>
-    </tr>
-    <tr>
-      <td class="reference">
-        <b id="NETMOD-OPSTATE">[NETMOD-OPSTATE]</b>
-      </td>
-      <td class="top"><a title="Juniper Networks">Watsen, K.</a> and <a title="Brocade">T. Nadeau</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netmod-opstate-reqs-03.txt">NETMOD Operational State Requirements</a>", Internet-Draft draft-ietf-netmod-opstate-reqs-03.txt, January 2016.</td>
-    </tr>
-    <tr>
-      <td class="reference">
-        <b id="OC-MPLS">[OC-MPLS]</b>
-      </td>
-      <td class="top"><a title="Google">George, J.</a>, <a title="Microsoft">Fang, L.</a>, <a title="Level 3">Osborne, E.</a> and <a title="Jive Communications, Inc">R. Shakir</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-mpls-consolidated-model-02.txt">MPLS / TE Model for Service Provider Networks</a>", Internet-Draft draft-openconfig-mpls-consolidated-model-02.txt, October 2015.</td>
-    </tr>
-    <tr>
-      <td class="reference">
-        <b id="OC-OPSTATE">[OC-OPSTATE]</b>
-      </td>
-      <td class="top"><a title="Jive">Shakir, R.</a>, <a title="Google">Shaikh, A.</a> and <a title="Google">M. Hines</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-netmod-opstate-01.txt">Consistent Modeling of Operational State Data in YANG</a>", Internet-Draft draft-openconfig-netmod-opstate-01.txt, July 2015.</td>
-    </tr>
-    <tr>
-      <td class="reference">
-        <b id="OC-STRUCT">[OC-STRUCT]</b>
-      </td>
-      <td class="top"><a title="Google">Shaikh, A.</a>, <a title="Jive Communications, Inc">Shakir, R.</a>, <a title="AT&amp;T">D'Souza, K.</a> and <a title="Microsoft">L. Fang</a>, "<a href="http://tools.ietf.org/html/draft-openconfig-netmod-model-structure-00.txt">Consistent Modeling of Operational State Data in YANG</a>", Internet-Draft draft-openconfig-netmod-model-structure-00.txt, March 2015.</td>
-    </tr>
-    <tr>
-      <td class="reference">
-        <b id="RTG-CFG">[RTG-CFG]</b>
-      </td>
-      <td class="top"><a title="CZ.NIC">Lhotha, L.</a> and <a title="Cisco Systems">A. Lindem</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netmod-routing-cfg-20.txt">A YANG Data Model for Routing Management</a>", Internet-Draft draft-ietf-netmod-routing-cfg-20.txt, October 2015.</td>
-    </tr>
-    <tr>
-      <td class="reference">
-        <b id="YANG-LIBRARY">[YANG-LIBRARY]</b>
-      </td>
-      <td class="top"><a title="YumaWorks">Bierman, A.</a>, <a title="Tail-F Systems">Bjorklund, M.</a> and <a title="Juniper Networks">K. Watsen</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netconf-yang-library-03.txt">YANG Module Library</a>", Internet-Draft draft-ietf-netconf-yang-library-03.txt, December 2015.</td>
     </tr>
   </tbody>
 </table>
