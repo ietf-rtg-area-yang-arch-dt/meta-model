@@ -5,12 +5,12 @@
 Network Working Group                                     A. Lindem, Ed.
 Internet-Draft                                             Cisco Systems
 Intended status: Informational                            L. Berger, Ed.
-Expires: November 1, 2016                        LabN Consulting, L.L.C.
+Expires: November 2, 2016                        LabN Consulting, L.L.C.
                                                            D. Bogdanovic
 
                                                                 C. Hopps
                                                         Deutsche Telekom
-                                                          April 30, 2016
+                                                             May 1, 2016
 
 
                Network Device YANG Organizational Models
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on November 1, 2016.
+   This Internet-Draft will expire on November 2, 2016.
 
 
 
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 1]
+Lindem, et al.          Expires November 2, 2016                [Page 1]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
 Copyright Notice
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 2]
+Lindem, et al.          Expires November 2, 2016                [Page 2]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    of all other models and was judged to be overly restrictive in terms
@@ -165,9 +165,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 3]
+Lindem, et al.          Expires November 2, 2016                [Page 3]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    Requirements", [I-D.ietf-netmod-opstate-reqs].  This document is
@@ -221,9 +221,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 4]
+Lindem, et al.          Expires November 2, 2016                [Page 4]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    5.  The model will be updated once the "opstate" requirements are
@@ -277,9 +277,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 5]
+Lindem, et al.          Expires November 2, 2016                [Page 5]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    The presented modules do not follow the hierarchy of any Particular
@@ -333,9 +333,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 6]
+Lindem, et al.          Expires November 2, 2016                [Page 6]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    chassis, line cards, and ports, but we leave this unspecified.  The
@@ -389,9 +389,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 7]
+Lindem, et al.          Expires November 2, 2016                [Page 7]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    module, adds a name which is used on sub-interface types to identify
@@ -445,9 +445,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 8]
+Lindem, et al.          Expires November 2, 2016                [Page 8]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    The [RFC7223] defined interface model is structured to include all
@@ -501,9 +501,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016                [Page 9]
+Lindem, et al.          Expires November 2, 2016                [Page 9]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
 2.3.  Network Services
@@ -557,9 +557,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 10]
+Lindem, et al.          Expires November 2, 2016               [Page 10]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
        module: ietf-network-device
@@ -613,9 +613,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 11]
+Lindem, et al.          Expires November 2, 2016               [Page 11]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
      module: ietf-network-device
@@ -662,22 +662,22 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 5.  Network Device Model Structure
 
-   <CODE BEGINS> file "ietf-network-device@2016-04-24.yang"
+   <CODE BEGINS> file "ietf-network-device@2016-05-01.yang"
    module ietf-network-device {
 
      yang-version "1";
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 12]
+Lindem, et al.          Expires November 2, 2016               [Page 12]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
      // namespace
      namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
 
-     prefix "struct";
+     prefix "nd";
 
      // import some basic types
 
@@ -695,7 +695,7 @@ Internet-Draft            RTG YANG Device Model               April 2016
         to describe how individual device protocol and feature models
         fit together and interact.";
 
-     revision "2016-04-24" {
+     revision "2016-05-01" {
        description
          "IETF Routing YANG Design Team Meta-Model";
        reference "TBD";
@@ -725,9 +725,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 13]
+Lindem, et al.          Expires November 2, 2016               [Page 13]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
          description
@@ -781,9 +781,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 14]
+Lindem, et al.          Expires November 2, 2016               [Page 14]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
                // Note that there is no list of interfaces within
@@ -837,9 +837,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 15]
+Lindem, et al.          Expires November 2, 2016               [Page 15]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
                      "Syslog, ssh, TACAC+, SNMP, NETCONF, etc.";
@@ -893,9 +893,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 16]
+Lindem, et al.          Expires November 2, 2016               [Page 16]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
      }
@@ -949,9 +949,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 17]
+Lindem, et al.          Expires November 2, 2016               [Page 17]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
            // Note that there is no list of interfaces within
@@ -1005,9 +1005,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 18]
+Lindem, et al.          Expires November 2, 2016               [Page 18]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
      }
@@ -1061,9 +1061,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 19]
+Lindem, et al.          Expires November 2, 2016               [Page 19]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    [RFC7277]  Bjorklund, M., "A YANG Data Model for IP Management",
@@ -1117,9 +1117,9 @@ Appendix A.  Acknowledgments
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 20]
+Lindem, et al.          Expires November 2, 2016               [Page 20]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
    This document is derived from draft-openconfig-netmod-model-
@@ -1173,9 +1173,9 @@ Internet-Draft            RTG YANG Device Model               April 2016
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 21]
+Lindem, et al.          Expires November 2, 2016               [Page 21]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
 Appendix B.  Contributors
@@ -1229,9 +1229,9 @@ Appendix B.  Contributors
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 22]
+Lindem, et al.          Expires November 2, 2016               [Page 22]
 
-Internet-Draft            RTG YANG Device Model               April 2016
+Internet-Draft            RTG YANG Device Model                 May 2016
 
 
       Stephane Litkowski
@@ -1285,4 +1285,4 @@ Authors' Addresses
 
 
 
-Lindem, et al.          Expires November 1, 2016               [Page 23]
+Lindem, et al.          Expires November 2, 2016               [Page 23]

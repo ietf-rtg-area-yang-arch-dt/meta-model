@@ -5,7 +5,7 @@ module ietf-logical-network-element {
   // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
 
-  prefix "struct";
+  prefix "lne";
 
   // import some basic types
   import ietf-interfaces {
@@ -24,7 +24,7 @@ module ietf-logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-04-30" {
+  revision "2016-05-01" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";

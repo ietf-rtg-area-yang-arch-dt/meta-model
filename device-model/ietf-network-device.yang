@@ -5,7 +5,7 @@ module ietf-network-device {
   // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
 
-  prefix "struct";
+  prefix "nd";
 
   // import some basic types
 
@@ -23,7 +23,7 @@ module ietf-network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-04-24" {
+  revision "2016-05-01" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
