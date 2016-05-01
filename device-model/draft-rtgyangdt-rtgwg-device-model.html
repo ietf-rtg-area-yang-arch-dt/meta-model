@@ -394,12 +394,12 @@
 <link href="#rfc.authors" rel="Chapter"/>
 
 
-  <meta name="generator" content="xml2rfc version 2.5.1 - http://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.5.2.dev0 - http://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Lindem, A., Ed., Berger, L., Ed., Bogdanovic, D., and C. Hopps" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-rtgyangdt-rtgwg-device-model-04" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-4-30" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-5-1" />
   <meta name="dct.abstract" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
   <meta name="description" content="This document presents an approach for organizing YANG models in a comprehensive structure that may be used to configure and operate network devices.  The structure is itself represented as a YANG model, with all of the related component models logically organized in a way that is operationally intuitive, but this model is not expected to be implemented. The identified component modules are expected to be defined and implemented on common network devices.  " />
 
@@ -423,7 +423,7 @@
   <td class="right">L. Berger, Ed.</td>
 </tr>
 <tr>
-  <td class="left">Expires: November 1, 2016</td>
+  <td class="left">Expires: November 2, 2016</td>
   <td class="right">LabN Consulting, L.L.C.</td>
 </tr>
 <tr>
@@ -444,7 +444,7 @@
 </tr>
 <tr>
   <td class="left"></td>
-  <td class="right">April 30, 2016</td>
+  <td class="right">May 1, 2016</td>
 </tr>
 
     	
@@ -465,7 +465,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on November 1, 2016.</p>
+<p>This Internet-Draft will expire on November 2, 2016.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -743,7 +743,7 @@
 <p/>
 <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#sec-6.1" id="sec-6.1">Network Device Model Structure</a></h1>
 <pre>
-&lt;CODE BEGINS&gt; file "ietf-network-device@2016-04-24.yang"
+&lt;CODE BEGINS&gt; file "ietf-network-device@2016-05-01.yang"
 module ietf-network-device {
 
   yang-version "1";
@@ -751,7 +751,7 @@ module ietf-network-device {
   // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
 
-  prefix "struct";
+  prefix "nd";
 
   // import some basic types
 
@@ -769,7 +769,7 @@ module ietf-network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-04-24" {
+  revision "2016-05-01" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
