@@ -50,7 +50,7 @@
    to model the logical and virtual resource representations that
    may be present on a network device. Examples of common industry
    terms for logical resource representations are Logical Systems
-   or Virtual Routers.  Examples of of common industry
+   or Logical Routers.  Examples of of common industry
    terms for virtual resource representations are Virtual
    Routing and Forwarding (VRF) instances and Virtual Switch
    Instances (VSIs).
@@ -86,7 +86,7 @@
    independently.  Optionally, and when supported by the
    implementation, they may also be accessed from the host system.
    Examples of vendor terminology for an LNE include logical
-   system or virtual router, and virtual switch, chassis, or fabric.
+   system or logical router, and virtual switch, chassis, or fabric.
 </t>
 <t>
    The second form, which is defined in this document, provides
@@ -127,7 +127,7 @@ The top open issues are:
    (VNF). Each device may sub-divide their resources into logical
    network elements (LNEs) each of which provides a managed logical
    device.  Examples of vendor terminology for an LNE include logical
-   system or virtual router, and virtual switch, chassis, or fabric. Each
+   system or logical router, and virtual switch, chassis, or fabric. Each
    LNE may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
    network instances (NIs). This breakdown is represented in
