@@ -49,7 +49,7 @@
    to model the logical and virtual resource representations that
    may be present on a network device. Examples of common industry
    terms for logical resource representations are Logical Systems
-   or Routers.  Examples of of common industry terms for virtual
+   or Virtual Routers.  Examples of of common industry terms for virtual
    resource representations are Virtual Routing and Forwarding
    (VRF) instances and Virtual Switch Instances (VSIs).
 </t>
@@ -83,7 +83,7 @@
    independently.  Optionally, and when supported by the
    implementation, they may also be accessed from the host system.
    Examples of vendor terminology for an LNE include logical system or
-   router, and virtual switch, chassis, or fabric.
+   virtual router, and virtual switch, chassis, or fabric.
 </t>
 <t>
    The second form, which is defined in <xref target="NI-MODEL"/>,
@@ -124,7 +124,7 @@ The top open issues are:
    (VNF). Each device may sub-divide their resources into logical
    network elements (LNEs) each of which provides a managed logical
    device.  Examples of vendor terminology for an LNE include logical
-   system or router, and virtual switch, chassis, or fabric. Each LNE
+   system or virtual router, and virtual switch, chassis, or fabric. Each LNE
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
    network instances (NIs). This breakdown is represented in
@@ -190,7 +190,8 @@ The top open issues are:
    identifier which is used on physical interface types to
    identify an associated LNE.  The second, by the
    network-instance module, adds a name which is used on
-   sub-interface types to identify an associated network instance.
+   interface or sub-interface types to identify an associated 
+   network instance.
    Similarly, this name is also added for IPv4 and IPv6 types, as
    defined in <xref target="RFC7277"/>.
 </t>
@@ -318,15 +319,15 @@ The top open issues are:
 <t>
    The `managed` boolean mentioned above is used to
    indicate when LNE management from the network device context is
-   possible. When the `managed` is
+   possible. When the `managed` boolean is
    `false`, the LNE cannot be managed by the host
    system and can only be managed from within the context of the LNE
    as described in the next section, <xref target="sec-LNE.LNE"/>.
 </t>
 <t>
-   When `managed` is `true`, the LNE can be managed from both the
-   context of the LNE and the host network device. In this case,
-   the same information that is available from within the LNE
+   When the `managed` boolean is `true`, the LNE can be managed 
+   from both the context of the LNE and the host network device. In 
+   this case, the same information that is available from within the LNE
    context is made available via the `root` element, with paths
    modified as described in <xref target="I-D.ietf-netmod-schema-mount"/>.
 </t>

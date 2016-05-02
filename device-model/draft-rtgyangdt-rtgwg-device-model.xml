@@ -113,7 +113,7 @@
    each accessed independently.  Optionally, and when supported by the
    implementation, they may also be accessed from the host system.
    Examples of vendor terminology for an LNE include logical system or
-   router, and virtual switch, chassis, or fabric.
+   virtual router, and virtual switch, chassis, or fabric.
 </t>
 <t>
    The second form provides support what is commonly referred to as
@@ -201,7 +201,7 @@ The top open issues are:
    (VNF). Each device may sub-divide their resources into logical
    network elements (LNEs) each of which provides a managed logical
    device.  Examples of vendor terminology for an LNE include logical
-   system or router, and virtual switch, chassis, or fabric. Each LNE
+   system or virtual router, and virtual switch, chassis, or fabric. Each LNE
    may also support virtual routing and forwarding (VRF) and virtual
    switching instance (VSI) functions, which are referred to below as a
    network instances (NIs). This breakdown is represented in
@@ -357,7 +357,7 @@ The top open issues are:
    the logical-network-element module, adds an identifier which is
    used on physical interface types to identify an associated LNE.
    The second, by the network-instance module, adds a name which is
-   used on sub-interface types to identify an associated network
+   used on interface or sub-interface types to identify an associated network
    instance.  Similarly, this name is also added for IPv4 and IPv6
    types, as defined in <xref target="RFC7277"/>.
 </t>
@@ -562,11 +562,7 @@ The top open issues are:
 <t>
     Routing protocol and IP forwarding configuration and operation
     information is modeled via a routing model, such as the one
-    defined in <xref target="I-D.ietf-netmod-routing-cfg"/>.  Although, the defined
-    routing module includes support for NIs, which it refers to as
-    Routing Instances, while the approach presented in this
-    document presumes that the routing module is unaware of LNEs
-    and NIs. 
+    defined in <xref target="I-D.ietf-netmod-routing-cfg"/>.
 </t>
 <t>
     The routing module is expected to include all IETF
