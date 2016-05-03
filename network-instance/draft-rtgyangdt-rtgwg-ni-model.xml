@@ -46,14 +46,14 @@
   <date/>
   <abstract>
 <t>
-   This document defines the second of two modules that can be used
-   to model the logical and virtual resource representations that
-   may be present on a network device. Examples of common industry
-   terms for logical resource representations are Logical Systems
-   or Logical Routers.  Examples of of common industry
-   terms for virtual resource representations are Virtual
-   Routing and Forwarding (VRF) instances and Virtual Switch
-   Instances (VSIs).
+  This document defines a network instance model. This module along
+  with the logical network element model can be used to model the
+  logical and virtual resource representations that may be present on a
+  network device. Examples of common industry terms for logical resource
+  representations are Logical Systems or Logical Routers. Examples of
+  common industry terms for virtual resource representations are Virtual
+  Routing and Forwarding (VRF) instances and Virtual Switch Instances
+  (VSIs).
 </t>
 </abstract>
 </front>
