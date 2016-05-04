@@ -60,44 +60,37 @@
 <middle>
 <section anchor="sec-1" title="Introduction">
 <t>
-   This document defines the first of two new modules that are defined
-   to support the configuration and operation of network-devices that
-   allow for the partitioning of resources from both, or either,
-   management and networking perspectives.  Both make use of emerging
-   YANG functionality supported by YANG Schema Mount <xref
-   target="I-D.ietf-netmod-schema-mount"/>.  This document is expected to use whatever
-   Schema Mount solution is agreed upon by the Netmod Working Group.
+  This document defines a module to support the creation of logical
+  network elements on a network device. A logical network element (LNE)
+  is an independently managed device made up of resources allocated to
+  it from the hosting network device. As such this module also defines
+  the necessary augmentations for allocating these host resources to a
+  given LNE. Currently there is only a single augmentation defined for
+  the assignment of interfaces to an LNE.
 </t>
 <t>
-   Two forms of resource partitioning are supported:
+  As an LNE is an independently managed device, it will have it's own
+  set of yang modeled data that is independent of the host device and
+  other LNEs. So multiple LNEs may all have their own "Tunnel0"
+  interface defined which will not conflict with each other and will not
+  exist in the host interface module data. An LNE will have it's own
+  management interfaces possibly including netconf/restconf/etc servers
+  to support configuration of this yang modeled data. As an example of
+  this independence an implementation may choose to completely rename
+  assigned interfaces, so on the host the assigned interface might be
+  called "Ethernet0/1" while within the LNE it might be called "eth1".
 </t>
 <t>
-   The first form, which is defined in this document, provides a
-   logical partitioning of a network device where each partition is
-   separately managed as essentially an independent network element
-   which is 'hosted' by the base network device.  These hosted network
-   elements are referred to as logical network elements, or LNEs, and
-   are supported by the logical-network-element module defined below.
-   The module is used to identify LNEs and associate resources from
-   the network-device with each LNE.  LNEs themselves are represented
-   in YANG as independent network devices; each accessed
-   independently.  Optionally, and when supported by the
-   implementation, they may also be accessed from the host system.
-   Examples of vendor terminology for an LNE include logical system or
-   logical router, and virtual switch, chassis, or fabric.
+  In addition to these standard management interfaces an implementation
+  may also support accessing the LNE configuration and operational yang
+  data directly from the host system. When supported this is done
+  through the use of schema-mount mount point <xref
+  target="I-D.ietf-netmod-schema-mount"/> under which the root level LNE
+  yang data may be accessed.
 </t>
 <t>
-   The second form, which is defined in <xref target="NI-MODEL"/>,
-   provides support what is commonly referred to as Virtual Routing
-   and Forwarding (VRF) instances as well as Virtual Switch Instances
-   (VSI), see <xref target="RFC4026"/>.  In this form of resource
-   partitioning multiple control plane and forwarding/bridging
-   instances are provided by and managed via a single (physical or
-   logical) network device.  This form of resource partitioning is
-   referred to as Network Instances and are supported by the
-   network-instance module defined below.  Configuration and operation
-   of each network-instance is always via the network device and the
-   network-instance module.
+  Examples of vendor terminology for an LNE include logical system or
+  logical router, and virtual switch, chassis, or fabric.
 </t>
 <t>
    This document was motivated by, and derived from,
@@ -113,6 +106,12 @@ The top open issues are:
    </t>
    </list>
  </t>
+<t>
+   It will also make use of emerging YANG functionality supported
+   by YANG Schema Mount
+   This document is expected to use whatever Schema Mount solution is
+   agreed upon by the Netmod Working Group.
+</t>
 </section>
 </section>
 <section anchor="sec-2" title="Overview">
