@@ -60,33 +60,38 @@
 <middle>
 <section anchor="sec-1" title="Introduction">
 <t>
-  This document defines a module to support the creation of logical
-  network elements on a network device. A logical network element (LNE)
-  is an independently managed device made up of resources allocated to
-  it from the hosting network device. As such this module also defines
-  the necessary augmentations for allocating these host resources to a
-  given LNE. Currently there is only a single augmentation defined for
-  the assignment of interfaces to an LNE.
+  This document defines a YANG <xref target="RFC6020"/> module to
+  support the creation of logical network elements on a network
+  device. A logical network element (LNE) is an independently managed
+  virtual device made up of resources allocated to it from the host, or
+  parent, network device. (An LNE running on a host network device
+  conceptually parallels a virtual machine running on a host system.)
+  This document also defines the necessary augmentations for allocating
+  host resources to a given LNE.  As the interface management model
+  <xref target="RFC7223"/> is the only a module that currently defines
+  host resources, this document currently defines only a single
+  augmentation to cover the assignment of interfaces to an LNE.
 </t>
 <t>
-  As an LNE is an independently managed device, it will have it's own
-  set of yang modeled data that is independent of the host device and
-  other LNEs. So multiple LNEs may all have their own "Tunnel0"
+  As each LNE is an independently managed device, each will have its own
+  set of YANG modeled data that is independent of the host device and
+  other LNEs. For example, multiple LNEs may all have their own "Tunnel0"
   interface defined which will not conflict with each other and will not
-  exist in the host interface module data. An LNE will have it's own
-  management interfaces possibly including netconf/restconf/etc servers
-  to support configuration of this yang modeled data. As an example of
-  this independence an implementation may choose to completely rename
+  exist in the host's interface model. An LNE will have it's own
+  management interfaces possibly including independent instances of
+  netconf/restconf/etc servers 
+  to support configuration of their YANG models. As an example of
+  this independence, an implementation may choose to completely rename
   assigned interfaces, so on the host the assigned interface might be
   called "Ethernet0/1" while within the LNE it might be called "eth1".
 </t>
 <t>
-  In addition to these standard management interfaces an implementation
-  may also support accessing the LNE configuration and operational yang
-  data directly from the host system. When supported this is done
-  through the use of schema-mount mount point <xref
-  target="I-D.ietf-netmod-schema-mount"/> under which the root level LNE
-  yang data may be accessed.
+  In addition to standard management interfaces, a host device
+  implementation may support accessing LNE configuration and operational
+  YANG models directly from the host system. When supported, such access
+  is accomplished through a schema-mount mount point
+  <xref target="I-D.ietf-netmod-schema-mount"/> under which the root
+  level LNE YANG models may be accessed.
 </t>
 <t>
   Examples of vendor terminology for an LNE include logical system or
@@ -588,7 +593,6 @@ module ietf-logical-network-element {
 <?rfc include="reference.RFC.7223"?>
 <?rfc include="reference.RFC.7277"?>
 <?rfc include="reference.RFC.3688"?>
-<?rfc include="reference.RFC.4026"?>
 </references>
 
 <references title="Informative References">
