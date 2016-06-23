@@ -30,7 +30,7 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-05-17" {
+  revision "2016-06-23" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";

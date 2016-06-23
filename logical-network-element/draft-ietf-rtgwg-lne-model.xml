@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-lne-model-00" >
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-00" >
 
 <front>
 <title abbrev="LNE Model">Logical Network Element Model</title>
@@ -348,7 +348,7 @@ The top open issues are:
                                                  (network-device state)
 
 +--rw yanglib:modules-state        [I-D.ietf-netconf-yang-library]
-+--rw lne:logical-network-elements [I-D.rtgyangdt-rtgwg-lne-model]
++--rw lne:logical-network-elements [I-D.ietf-rtgwg-lne-model]
     +--rw logical-network-element* [name]
         +--rw name="one"           string
         +--rw manged=true          boolean
@@ -367,7 +367,7 @@ The top open issues are:
            +--rw rt:routing             [I-D.ietf-netmod-routing-cfg]
            +--rw mpls
            +--rw ieee-dot1Q
-           +--rw ni:network-instances   [I-D.rtgyangdt-rtgwg-ni-model]
+           +--rw ni:network-instances   [I-D.ietf-rtgwg-ni-model]
 </artwork>
 </figure>
 </t>
@@ -446,7 +446,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2016-05-01.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2016-06-23.yang"
 module ietf-logical-network-element {
 
   yang-version "1";
@@ -473,7 +473,7 @@ module ietf-logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-05-01" {
+  revision "2016-06-23" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD";
@@ -583,9 +583,9 @@ module ietf-logical-network-element {
 <author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
     <organization></organization>
 </author>
-<date month="May" year="2016" />
+<date month="June" year="2016" />
 </front>
-<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-ni-model-00.txt"/>
+<seriesInfo name="Internet-Draft" value="draft-ietf-rtgwg-ni-model-00.txt"/>
 </reference>
 
 <?rfc include="reference.I-D.draft-ietf-netmod-schema-mount-01.xml"?>

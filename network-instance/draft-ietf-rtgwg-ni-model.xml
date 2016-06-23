@@ -7,8 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-rtgyangdt-rtgwg-ni-model-00" >
-
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-00" >
 
 <front>
 <title abbrev="LNE Model">Network Instance Model</title>
@@ -701,9 +700,9 @@ module ietf-network-instance {
 <author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
     <organization></organization>
 </author>
-<date month="May" year="2016" />
+<date month="June" year="2016" />
 </front>
-<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-lne-model-00.txt"/>
+<seriesInfo name="Internet-Draft" value="draft-ietf-rtgwg-lne-model-00.txt"/>
 </reference>
 
 <?rfc include="reference.I-D.draft-ietf-netmod-schema-mount-01.xml"?>
