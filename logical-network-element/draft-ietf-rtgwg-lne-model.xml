@@ -462,12 +462,10 @@ module ietf-logical-network-element {
   }
 
   // meta
-  organization "IETF RTG YANG Design Team Collaboration
-                with OpenConfig";
+  organization "IETF Routing Area Working Group (rtgwg)";
 
   contact
-      "Routing Area YANG Architecture Design Team -
-       <rtg-dt-yang-arch@ietf.org>";
+      "Routing Area Working Group - <rtgwg@ietf.org>";
 
   description
     "This module is used to support multiple logical network
@@ -475,8 +473,8 @@ module ietf-logical-network-element {
 
   revision "2016-06-23" {
     description
-      "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD";
+      "Initial revision.";
+    reference "RFC TBD";
   }
 
   // feature statements
@@ -548,26 +546,6 @@ module ietf-logical-network-element {
 <back>
 <references title="Normative References">
 
-<reference anchor="RTG-DEVICE-MODEL">
-<front>
-<title>Network Device YANG Organizational Models</title>
-<author initials='A.' surname="Lindem" fullname='Acee Lindem' role='editor'>
-  <organization>Cisco Systems</organization>
-</author>
-<author initials='L.' surname="Berger" fullname='Lou Berger' role='editor'>
-  <organization>LabN Consulting, L.L.C.</organization>
-</author>
-<author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
-    <organization></organization>
-</author>
-<author initials='C.' surname="Hopps" fullname='Christan Hopps'>
-  <organization>Deutsche Telekom</organization>
-</author>
-<date month="May" year="2016" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-device-model-04.txt"/>
-</reference>
-
 <reference anchor="NI-MODEL">
 <front>
 <title>Network Instance Model</title>
@@ -596,9 +574,30 @@ module ietf-logical-network-element {
 </references>
 
 <references title="Informative References">
+
+<reference anchor="RTG-DEVICE-MODEL">
+<front>
+<title>Network Device YANG Organizational Models</title>
+<author initials='A.' surname="Lindem" fullname='Acee Lindem' role='editor'>
+  <organization>Cisco Systems</organization>
+</author>
+<author initials='L.' surname="Berger" fullname='Lou Berger' role='editor'>
+  <organization>LabN Consulting, L.L.C.</organization>
+</author>
+<author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
+    <organization></organization>
+</author>
+<author initials='C.' surname="Hopps" fullname='Christan Hopps'>
+  <organization>Deutsche Telekom</organization>
+</author>
+<date month="May" year="2016" />
+</front>
+<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-device-model-04.txt"/>
+</reference>
+
 <?rfc include="reference.I-D.draft-openconfig-netmod-opstate-01.xml"?>
-<?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-03.xml"?>
-<?rfc include="reference.I-D.draft-ietf-netconf-yang-library-05.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-04.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netconf-yang-library-06.xml"?>
 </references>
 
 <?rfc needLines="100"?>

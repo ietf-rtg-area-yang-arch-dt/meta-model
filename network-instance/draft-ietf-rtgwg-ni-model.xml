@@ -414,7 +414,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2016-05-01.yang"
+<CODE BEGINS> file "ietf-network-instance@2016-06-23.yang"
 module ietf-network-instance {
 
   yang-version "1";
@@ -434,12 +434,10 @@ module ietf-network-instance {
   }
 
   // meta
-  organization "IETF RTG YANG Design Team Collaboration
-                with OpenConfig";
+  organization "IETF Routing Area Working Group (rtgwg)";
 
   contact
-      "Routing Area YANG Architecture Design Team -
-       <rtg-dt-yang-arch@ietf.org>";
+      "Routing Area Working Group - <rtgwg@ietf.org>";
 
   description
     "This module is used to support multiple network instances
@@ -447,10 +445,10 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-05-01" {
+  revision "2016-06-23" {
     description
-      "IETF Routing YANG Design Team Meta-Model";
-    reference "TBD";
+      "Initial revision.";
+    reference "RFC TBD";
   }
 
   // extension statements
@@ -665,26 +663,6 @@ module ietf-network-instance {
 <back>
 <references title="Normative References">
 
-<reference anchor="RTG-DEVICE-MODEL">
-<front>
-<title>Network Device YANG Organizational Models</title>
-<author initials='A.' surname="Lindem" fullname='Acee Lindem' role='editor'>
-  <organization>Cisco Systems</organization>
-</author>
-<author initials='L.' surname="Berger" fullname='Lou Berger' role='editor'>
-  <organization>LabN Consulting, L.L.C.</organization>
-</author>
-<author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
-    <organization></organization>
-</author>
-<author initials='C.' surname="Hopps" fullname='Christan Hopps'>
-  <organization>Deutsche Telekom</organization>
-</author>
-<date month="May" year="2016" />
-</front>
-<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-device-model-04.txt"/>
-</reference>
-
 <reference anchor="LNE-MODEL">
 <front>
 <title>Logical Network Element Model</title>
@@ -710,16 +688,36 @@ module ietf-network-instance {
 <?rfc include="reference.RFC.7223"?>
 <?rfc include="reference.RFC.7277"?>
 <?rfc include="reference.RFC.3688"?>
-<?rfc include="reference.RFC.4026"?>
 
 </references>
 
 <references title="Informative References">
 
+<reference anchor="RTG-DEVICE-MODEL">
+<front>
+<title>Network Device YANG Organizational Models</title>
+<author initials='A.' surname="Lindem" fullname='Acee Lindem' role='editor'>
+  <organization>Cisco Systems</organization>
+</author>
+<author initials='L.' surname="Berger" fullname='Lou Berger' role='editor'>
+  <organization>LabN Consulting, L.L.C.</organization>
+</author>
+<author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
+    <organization></organization>
+</author>
+<author initials='C.' surname="Hopps" fullname='Christan Hopps'>
+  <organization>Deutsche Telekom</organization>
+</author>
+<date month="May" year="2016" />
+</front>
+<seriesInfo name="Internet-Draft" value="draft-rtgyangdt-rtgwg-device-model-04.txt"/>
+</reference>
+
 <?rfc include="reference.I-D.draft-openconfig-netmod-opstate-01.xml"?>
-<?rfc include="reference.I-D.draft-ietf-netmod-routing-cfg-20.xml"?>
-<?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-03.xml"?>
-<?rfc include="reference.I-D.draft-ietf-netconf-yang-library-05.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-routing-cfg-21.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-04.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netconf-yang-library-06.xml"?>
+<?rfc include="reference.RFC.4026"?>
 
 </references>
 
