@@ -1062,91 +1062,19 @@ module ietf-network-device {
 <?rfc needLines="100"?>
 <section title="Acknowledgments">
    <t>This document is derived from
-   draft-openconfig-netmod-model-structure-00. The Authors of that
-   document who are not also authors of this document are listed as
-   Contributors to this work.</t>
+   draft-openconfig-netmod-model-structure-00.  We thank the Authors of
+   that document and acknowledge their indirect contribution to this
+   work. The authors include: Anees Shaikh, Rob Shakir, Kevin D'Souza,
+   Luyuan Fang, Qin Wu, Stephane Litkowski and Gang Yan.</t>
 
-   <t>The original stated: The authors are grateful for valuable
-   contributions to this document and the associated models from: Deepak
-   Bansal, Paul Borman, Chris Chase, Josh George, Marcus Hines, and Jim
-   Uttaro.</t>
-
-   <t>The Routing Area Yang Architecture design team members included Acee
-   Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger,
-   Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang.</t>
+   <t>This work was discussed in and produced by the Routing Area Yang
+   Architecture design team.  Members at the time of writing included
+   Acee Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou
+   Berger, Qin Wu, Rob Shakir, Stephane Litkowski, and Gang Yan.</t>
 
   <t>The identityref approach was proposed by Mahesh Jethanandani.</t>
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
    <vspace blankLines="100"/></t>
-</section>
-<section title="Contributors">
-<figure>
-<artwork>
-Contributors' Addresses
-
-   Anees Shaikh
-   Google
-   1600 Amphitheatre Pkwy
-   Mountain View, CA  94043
-   United States
-   Email: aashaikh@google.com
-
-
-   Rob Shakir
-   Jive Communications, Inc.
-   1275 W 1600 N, Suite 100
-   Orem, UT  84057
-   United States
-   Email: rjs@rob.sh
-
-
-   Kevin D'Souza
-   AT&amp;T
-   200 S. Laurel Ave
-   Middletown, NJ
-   United States
-   Email: kd6913@att.com
-
-   Luyuan Fang
-   Microsoft
-   205 108th Ave. NE, Suite 400
-   Bellevue, WA
-   United States
-   Email: lufang@microsoft.com
-
-   Qin Wu
-   Huawei Technologies
-   101 Software Avenue, Yuhua District
-   Nanjing, Jiangsu  210012
-   China
-
-   Email: bill.wu@huawei.com
-
-
-
-
-
-
-
-   Stephane Litkowski
-   Orange
-   9 rue du chene germain
-   Cesson Sevigne  35512
-   France
-
-   Email: stephane.litkowski@orange.com
-
-
-   Gang Yan
-   Huawei Technologies
-   Huawei Bld., No.156 Beiqing Rd.
-   Beijing  100095
-   China
-
-   Email: yangang@huawei.com
-
-</artwork>
-</figure>
 </section>
 </back>
 
