@@ -1,11 +1,11 @@
 module ietf-network-instance {
 
-  yang-version "1";
+  yang-version 1.1;
 
   // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
 
-  prefix "ni";
+  prefix ni;
 
   // import some basic types
   import ietf-interfaces {
@@ -16,7 +16,11 @@ module ietf-network-instance {
     prefix ip;
   }
 
-  // meta
+  import ietf-yang-schema-mount {
+    prefix yangmnt;
+  }
+
+// meta
   organization "IETF Routing Area Working Group (rtgwg)";
 
   contact
@@ -28,7 +32,7 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-06-23" {
+  revision "2016-10-21" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -176,10 +180,10 @@ module ietf-network-instance {
                 and its intended purpose";
           }
           uses network-instance-policy;
-          leaf root {
-            type schema-mount;
-            description "Root for models supported per
-                         network instance";
+          anydata root {
+              yangmnt:mount-point "root";
+              description "Root for models supported per
+                           network instance";
           }
       }
   }

@@ -1,15 +1,19 @@
 module ietf-logical-network-element {
 
-  yang-version "1";
+  yang-version 1.1;
 
   // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
 
-  prefix "lne";
+  prefix lne;
 
   // import some basic types
   import ietf-interfaces {
     prefix if;
+  }
+
+  import ietf-yang-schema-mount {
+    prefix yangmnt;
   }
 
   // meta
@@ -22,7 +26,7 @@ module ietf-logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-06-23" {
+  revision "2016-10-21" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -43,8 +47,9 @@ module ietf-logical-network-element {
       description "List of logical network elements";
       leaf name {
         type string;
-        description "Device-wide unique identifier for the
-                     logical network element";
+        description
+          "Device-wide unique identifier for the
+           logical network element";
       }
       leaf managed {
         type boolean;
@@ -57,11 +62,12 @@ module ietf-logical-network-element {
         description
           "Description of the logical network element";
       }
-      leaf root {
-        type schema-mount;
-        description "Root for models supported per logical
-                     network element";
-      }
+      anydata root {
+        yangmnt:mount-point "root";
+        description
+            "Root for models supported per logical
+             network element";
+       }
     }
   }
 

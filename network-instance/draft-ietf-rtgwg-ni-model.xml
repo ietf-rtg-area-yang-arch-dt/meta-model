@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-00" >
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-01" >
 
 <front>
 <title abbrev="LNE Model">Network Instance Model</title>
@@ -63,10 +63,9 @@
    This document defines the second of two new modules that are defined
    to support the configuration and operation of network-devices that
    allow for the partitioning of resources from both, or either,
-   management and networking perspectives.  Both make use of emerging
-   YANG functionality supported by YANG Schema Mount <xref
-   target="I-D.ietf-netmod-schema-mount"/>.  This document is expected to use whatever
-   Schema Mount solution is agreed upon by the Netmod Working Group.
+   management and networking perspectives.  Both make use of the
+   YANG functionality enabled by YANG Schema Mount <xref
+   target="I-D.ietf-netmod-schema-mount"/>.  
 </t>
 <t>
    Two forms of resource partitioning are supported:
@@ -284,7 +283,7 @@ The top open issues are:
              +--rw description?                 string
              +--rw network-instance-policy
              |  ...
-             +--rw root?                      schema-mount
+             +--rw root?                      yang-schema-mount
              |  ...
     augment /if:interfaces/if:interface:
        +--rw bind-network-instance-name?   string
@@ -360,7 +359,7 @@ The top open issues are:
          +--rw description="The Green VRF"     string
          +--rw network-instance-policy
          |  ... (RT=1000:1, RD=1.2.3.4)
-         +--rw root?                           schema-mount
+         +--rw root?                           yang-schema-mount
             +--rw yanglib:modules-state  [I-D.ietf-netconf-yang-library]
             +--rw if:intefaces           [RFC7223]
             +--rw mm:network-services
@@ -414,15 +413,15 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2016-06-23.yang"
+<CODE BEGINS> file "ietf-network-instance@2016-10-21.yang"
 module ietf-network-instance {
 
-  yang-version "1";
+  yang-version 1.1;
 
   // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
 
-  prefix "ni";
+  prefix ni;
 
   // import some basic types
   import ietf-interfaces {
@@ -433,7 +432,11 @@ module ietf-network-instance {
     prefix ip;
   }
 
-  // meta
+  import ietf-yang-schema-mount {
+    prefix yangmnt;
+  }
+
+// meta
   organization "IETF Routing Area Working Group (rtgwg)";
 
   contact
@@ -445,7 +448,7 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-06-23" {
+  revision "2016-10-21" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -593,10 +596,10 @@ module ietf-network-instance {
                 and its intended purpose";
           }
           uses network-instance-policy;
-          leaf root {
-            type schema-mount;
-            description "Root for models supported per
-                         network instance";
+          anydata root {
+              yangmnt:mount-point "root";
+              description "Root for models supported per
+                           network instance";
           }
       }
   }
@@ -678,12 +681,12 @@ module ietf-network-instance {
 <author initials='D.' surname="Bogdanovic" fullname='Dean Bogdanovic'>
     <organization></organization>
 </author>
-<date month="June" year="2016" />
+<date month="October" year="2016" />
 </front>
-<seriesInfo name="Internet-Draft" value="draft-ietf-rtgwg-lne-model-00.txt"/>
+<seriesInfo name="Internet-Draft" value="draft-ietf-rtgwg-lne-model-01.txt"/>
 </reference>
 
-<?rfc include="reference.I-D.draft-ietf-netmod-schema-mount-01.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-schema-mount-02.xml"?>
 <?rfc include="reference.RFC.6020"?>
 <?rfc include="reference.RFC.7223"?>
 <?rfc include="reference.RFC.7277"?>

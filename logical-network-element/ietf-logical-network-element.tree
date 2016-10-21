@@ -1,9 +1,9 @@
 module: ietf-logical-network-element
-   +--rw logical-network-elements
-      +--rw logical-network-element* [name]
-         +--rw name           string
-         +--rw managed?       boolean
-         +--rw description?   string
-         +--rw root?          schema-mount
-augment /if:interfaces/if:interface:
-   +--rw bind-lne-name?   string
+    +--rw logical-network-elements
+       +--rw logical-network-element* [name]
+          +--rw name           string
+          +--rw managed?       boolean
+          +--rw description?   string
+          +--rw root?
+  augment /if:interfaces/if:interface:
+    +--rw bind-lne-name?   string
