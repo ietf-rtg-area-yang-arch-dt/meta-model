@@ -560,10 +560,7 @@ module ietf-network-instance {
   container network-instances {
       description "Network instances each of which have
                    an independent IP/IPv6 addressing space
-                   and protocol instantiations. For layer 3,
-                   this consistent with the routing-instance
-                   definition in ietf-routing";
-      reference "draft-ietf-netmod-routing-cfg";
+                   and protocol instantiations.";
       list network-instance {
           key name;
           description "List of network-instances";
@@ -717,7 +714,7 @@ module ietf-network-instance {
 </reference>
 
 <?rfc include="reference.I-D.draft-openconfig-netmod-opstate-01.xml"?>
-<?rfc include="reference.I-D.draft-ietf-netmod-routing-cfg-21.xml"?>
+<?rfc include="reference.I-D.draft-ietf-netmod-routing-cfg-24.xml"?>
 <?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-04.xml"?>
 <?rfc include="reference.I-D.draft-ietf-netconf-yang-library-06.xml"?>
 <?rfc include="reference.RFC.4026"?>

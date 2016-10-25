@@ -66,6 +66,12 @@
   virtual device made up of resources allocated to it from the host, or
   parent, network device. (An LNE running on a host network device
   conceptually parallels a virtual machine running on a host system.)
+  Using host-virtualization terminology one could refer to an LNE as
+  a "Guest", and the containing network-device as the "Host". While 
+  LNEs may be implemented via host-virtualization technologies this 
+  is not a requirement.
+</t>
+<t>
   This document also defines the necessary augmentations for allocating
   host resources to a given LNE.  As the interface management model
   <xref target="RFC7223"/> is the only a module that currently defines
@@ -261,14 +267,6 @@ The top open issues are:
 </t>
 </section>
 <section anchor="sec-LNE" title="  Logical Network Elements">
-<t>
-   A logical network element is a network-device which is contained
-   within another network-device. Using host-virtualization
-   terminology one could refer to an LNE as a "Guest", and the
-   containing network-device as the "Host". While LNEs may be
-   implemented via host-virtualization technologies this is not a
-   requirement.
-</t>
 <t>
    Logical network elements represent the capability of some
    devices to partition resources into independent logical routers
