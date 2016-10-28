@@ -10,7 +10,7 @@
 <rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-01" >
 
 <front>
-<title abbrev="LNE Model">Network Instance Model</title>
+<title abbrev="YANG NIs">YANG Network Instances</title>
     <author initials='L.' surname="Berger" fullname='Lou Berger'>
      <organization>LabN Consulting, L.L.C.</organization>
      <address>
@@ -380,31 +380,51 @@ The top open issues are:
 </section>
 
 <section anchor="sec-NI.3" title="  Network Instance Instantiation">
-<t>
-  TBD -- need to resolve if instantiation is based on new list entry
-  creation per the pending Schema Mount solution definition.
+  <t>
+    Network instances may be controlled by clients using existing list
+    operations.  When list entries are created, a new instance is
+    instantiated. The models mounted under a NI root is expected to be
+    dependent on the server implementation.  When a list entry is
+    deleted, an existing network instance is destroyed. For more
+    information see <xref target="RFC7950"/> Section 7.8.6.
 </t>
 </section>
 </section>
 <section anchor="sec-4" title="  Security Considerations">
-<t>
-  LNE portion is TBD
-</t>
-<t>
-  NI portion is TBD
-</t>
+  <t>
+    TBD
+  </t>
 </section>
+
 <section anchor="sec-5" title="  IANA Considerations">
-<t>
-   This YANG model currently uses a temporary ad-hoc namespace.  If it
-   is placed or redirected for the standards track, an appropriate
-   namespace URI will be registered in the "IETF XML Registry"
-   <xref target="RFC3688"/>.  The YANG structure modules will be registered in the
-   "YANG Module Names" registry <xref target="RFC6020"/>.
-</t>
-<t>
-</t>
+  <t>
+    This document registers a URI in the IETF XML registry <xref
+    target="RFC3688"/>.  Following the format in RFC 3688, the following
+    registration is requested to be made.
+  </t>
+  <figure>
+    <artwork><![CDATA[
+     URI: urn:ietf:params:xml:ns:yang:ietf-network-instance
+
+     Registrant Contact: The IESG.
+
+     XML: N/A, the requested URI is an XML namespace.
+     ]]></artwork>
+  </figure>
+  <t>
+    This document registers a YANG module in the YANG Module Names
+    registry <xref target="RFC6020"/>.
+  </t>
+  <figure>
+    <artwork><![CDATA[
+  name:        ietf-network-instance
+  namespace:   urn:ietf:params:xml:ns:yang:ietf-network-instance
+  prefix:      ni
+  reference:   RFC XXXX
+  ]]></artwork>
+  </figure>
 </section>
+
 <section anchor="sec-6.3" title="  Network Instance Model">
 <t>
    The structure of the model defined in this document is described
@@ -413,7 +433,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2016-10-21.yang"
+<CODE BEGINS> file "ietf-network-instance@2016-10-27.yang"
 module ietf-network-instance {
 
   yang-version 1.1;
@@ -448,7 +468,7 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-10-21" {
+  revision "2016-10-27" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -552,7 +572,9 @@ module ietf-network-instance {
               in Layer 2 Virtual Private Networks (L2VPNs)
          RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container network-instance-policy {
-        description "Network Instance Policy -- details TBD";
+        description
+          "Network Instance Policy -- details TBD, 
+          perhaps based on BESS model";
     }
   }
 
@@ -560,7 +582,10 @@ module ietf-network-instance {
   container network-instances {
       description "Network instances each of which have
                    an independent IP/IPv6 addressing space
-                   and protocol instantiations.";
+                   and protocol instantiations. For layer 3,
+                   this consistent with the routing-instance
+                   definition in ietf-routing";
+      reference "draft-ietf-netmod-routing-cfg";
       list network-instance {
           key name;
           description "List of network-instances";
@@ -592,9 +617,11 @@ module ietf-network-instance {
                 "Description of the network instance
                 and its intended purpose";
           }
+
           uses network-instance-policy;
+
           anydata root {
-              yangmnt:mount-point "root";
+              yangmnt:mount-point root;
               description "Root for models supported per
                            network instance";
           }
@@ -718,6 +745,7 @@ module ietf-network-instance {
 <?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-04.xml"?>
 <?rfc include="reference.I-D.draft-ietf-netconf-yang-library-06.xml"?>
 <?rfc include="reference.RFC.4026"?>
+<?rfc include="reference.RFC.7950"?>
 
 </references>
 

@@ -10,7 +10,7 @@
 <rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-01" >
 
 <front>
-<title abbrev="LNE Model">Logical Network Element Model</title>
+<title abbrev="YANG LNEs">YANG Logical Network Elements</title>
     <author initials='L.' surname="Berger" fullname='Lou Berger'>
      <organization>LabN Consulting, L.L.C.</organization>
      <address>
@@ -406,33 +406,51 @@ The top open issues are:
 </t>
 </section>
 
-<section anchor="sec-LNE.MOUNT"
-  title="  LNE Instantiation">
-<t>
-  TBD -- need to resolve if instantiation is based on new list entry
-  creation per the pending Schema Mount solution definition.
-</t>
+<section anchor="sec-LNE.MOUNT" title="  LNE Instantiation">
+  <t>
+    Logical network elements may be controlled by clients using existing
+    list operations. When list entries are created, a new LNE is
+    instantiated. The models mounted under an LNE root is expected to be
+    dependent on the server implementation. When a list entry is
+    deleted, an existing LNE is destroyed. For more information see
+    <xref target="RFC7950"/> Section 7.8.6.
+  </t>
 </section>
 </section>
 
 <section anchor="sec-4" title="  Security Considerations">
-<t>
-  LNE portion is TBD
-</t>
-<t>
-  NI portion is TBD
-</t>
+ <t>
+   TBD
+ </t>
 </section>
 <section anchor="sec-5" title="  IANA Considerations">
-<t>
-   This YANG model currently uses a temporary ad-hoc namespace.  If it
-   is placed or redirected for the standards track, an appropriate
-   namespace URI will be registered in the "IETF XML Registry"
-   <xref target="RFC3688"/>.  The YANG structure modules will be registered in the
-   "YANG Module Names" registry <xref target="RFC6020"/>.
-</t>
-<t>
-</t>
+  <t>
+    This document registers a URI in the IETF XML registry <xref
+    target="RFC3688"/>.  Following the format in RFC 3688, the following
+    registration is requested to be made.
+  </t>
+  <figure>
+    <artwork><![CDATA[
+     URI: urn:ietf:params:xml:ns:yang:ietf-logical-network-element
+
+     Registrant Contact: The IESG.
+
+     XML: N/A, the requested URI is an XML namespace.
+     ]]></artwork>
+  </figure>
+  <t>
+    This document registers a YANG module in the YANG Module Names
+    registry <xref target="RFC6020"/>.
+  </t>
+  <figure>
+    <artwork><![CDATA[
+  name:        ietf-logical-network-element
+  namespace:   urn:ietf:params:xml:ns:yang:ietf-logical-network-element
+  prefix:      lne
+  reference:   RFC XXXX
+  ]]></artwork>
+  </figure>
+
 </section>
 <section anchor="sec-6.2" title="  Logical Network Element Model">
 <t>
@@ -600,6 +618,7 @@ module ietf-logical-network-element {
 <?rfc include="reference.I-D.draft-openconfig-netmod-opstate-01.xml"?>
 <?rfc include="reference.I-D.draft-ietf-netmod-opstate-reqs-04.xml"?>
 <?rfc include="reference.I-D.draft-ietf-netconf-yang-library-06.xml"?>
+<?rfc include="reference.RFC.7950"?>
 </references>
 
 <?rfc needLines="100"?>

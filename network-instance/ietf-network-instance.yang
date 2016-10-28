@@ -32,7 +32,7 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-10-21" {
+  revision "2016-10-27" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -136,7 +136,9 @@ module ietf-network-instance {
               in Layer 2 Virtual Private Networks (L2VPNs)
          RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container network-instance-policy {
-        description "Network Instance Policy -- details TBD";
+        description
+          "Network Instance Policy -- details TBD, 
+          perhaps based on BESS model";
     }
   }
 
@@ -179,9 +181,11 @@ module ietf-network-instance {
                 "Description of the network instance
                 and its intended purpose";
           }
+
           uses network-instance-policy;
+
           anydata root {
-              yangmnt:mount-point "root";
+              yangmnt:mount-point root;
               description "Root for models supported per
                            network instance";
           }
