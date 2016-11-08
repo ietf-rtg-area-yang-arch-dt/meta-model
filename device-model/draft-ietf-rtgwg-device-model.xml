@@ -10,7 +10,7 @@
 <rfc category="info" ipr="trust200902" docName="draft-ietf-rtgwg-device-model-02" >
 
 <front>
-<title abbrev="RTG YANG Device Model">Network Device YANG Organizational Models</title>
+<title abbrev="RTG YANG Device Model">Network Device YANG Logical Organization</title>
    <author initials='A.' surname="Lindem" fullname='Acee Lindem' role='editor'>
     <organization>Cisco Systems</organization>
     <address>
@@ -46,9 +46,9 @@
   <abstract>
 <t>
    This document presents an approach for organizing YANG models
-   in a comprehensive structure that may be used to configure and
+   in a comprehensive logical structure that may be used to configure and
    operate network devices.  The structure is itself represented
-   as a YANG model, with all of the related component models
+   as an example YANG model, with all of the related component models
    logically organized in a way that is operationally intuitive,
    but this model is not expected to be implemented. The
    identified component modules are expected to be defined and
@@ -70,7 +70,7 @@
    <xref target="I-D.openconfig-netmod-model-structure"/>, highlights the value of organizing
    individual, self-standing YANG <xref target="RFC6020"/> models
    into a more comprehensive structure.  This document builds on
-   that work and presents a derivative structure for use in
+   that work and presents a derivative logical structure for use in
    representing the networking infrastructure aspects of physical
    and virtual devices. <xref target="I-D.openconfig-netmod-model-structure"/> and earlier
    versions of this document presented a single device-centric
@@ -81,10 +81,10 @@
    implementation, and operation.
 </t>
 <t>
-   The document presents a notional network device YANG
+   The document presents a logical network device YANG
    organizational structure that provides a conceptual framework
    for the models that may be used to configure and operate
-   network devices.  The structure is itself presented as a YANG
+   network devices.  The structure is itself presented as an example YANG
    module, with all of the related component modules logically
    organized in a way that is operationally intuitive.  This
    network device model is not expected to be implemented, but
@@ -255,7 +255,7 @@ The top open issues are:
    The overall structure is:
 <figure>
 <artwork>
-    module: ietf-network-device
+    module: example-network-device
        +--rw modules-state            [RFC7895]
        |
        +--rw interfaces               [RFC7223]
@@ -438,7 +438,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: ietf-network-device
+    module: example-network-device
        +--rw system-management
        |  +--rw system-management-global
        |  +--rw system-management-protocol* [type]
@@ -458,7 +458,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: ietf-network-device
+    module: example-network-device
        +--rw system-management
           +--rw system-management-global
           |  +--rw statistics-collection
@@ -490,7 +490,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: ietf-network-device
+    module: example-network-device
        +--rw network-services
        |  +--rw network-service* [type]
        |     +--rw type    identityref
@@ -506,7 +506,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: ietf-network-device
+    module: example-network-device
        +--rw network-services
           +--rw network-service* [type]
              +--rw type=ntp-server
@@ -529,7 +529,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: ietf-network-device
+    module: example-network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type    identityref
@@ -546,7 +546,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-    module: ietf-network-device
+    module: example-network-device
        +--rw oam-protocols
           +--rw oam-protocol* [type]
              +--rw type=bfd
@@ -579,7 +579,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-   module: ietf-network-device
+   module: example-network-device
        +--rw rt:routing                 [I-D.ietf-netmod-routing-cfg]
           +--rw control-plane-protocol* [type]
           |  +--rw type      identityref
@@ -605,7 +605,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork>
-  module: ietf-network-device
+  module: example-network-device
        +--rw mpls
           +--rw global
           +--rw lsps* [type]
@@ -620,7 +620,7 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork>
-  module: ietf-network-device
+  module: example-network-device
        +--rw mpls
           +--rw global
           +--rw lsps* [type]
@@ -670,13 +670,13 @@ routing congruent.  The following is an example of such usage:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-device@2016-05-01.yang"
-module ietf-network-device {
+<CODE BEGINS> file "example-network-device@2016-11-08.yang"
+module example-network-device {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
+  namespace "urn:example:network-device";
 
   prefix "nd";
 
@@ -696,7 +696,7 @@ module ietf-network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-05-01" {
+  revision "2016-11-08" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -883,6 +883,7 @@ module ietf-network-device {
             type identityref {
                 base control-plane-protocol-type;
             }
+            mandatory true;
             description
                 "The control plane protocol type, e.g., BGP,
                  OSPF IS-IS, etc";
@@ -895,7 +896,6 @@ module ietf-network-device {
     }
     list rib {
         key "name";
-        min-elements "1";
         description
             "Each entry represents a RIB identified by the
            'name' key. All routes in a RIB must belong to the
@@ -906,6 +906,7 @@ module ietf-network-device {
             supported address family.";
         leaf name {
             type string;
+            mandatory true;
             description
                 "The name of the RIB.";
         }

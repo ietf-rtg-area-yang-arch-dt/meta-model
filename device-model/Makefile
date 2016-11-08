@@ -5,7 +5,7 @@
 
 DRAFT  = draft-ietf-rtgwg-device-model
 MODELS = \
-	ietf-network-device.yang
+	example-network-device.yang
 
 #assumes standard yang modules installed in ../yang, customize as needed
 #  e.g., based on a 'cd .. ; git clone https://github.com/YangModels/yang.git'
@@ -67,6 +67,7 @@ $(DRAFT).xml: $(MODELS)
 				{pout=0; print NR-1;} 			\
 			pout == 0 && /^<CODE E/ 			\
 				{pout=1; print NR;}' $@.tmp`) 		; \
+		echo "start: $${start_stop}xxx";\
 		head -$${start_stop[0]}    $@.tmp    		> $@	; \
 		echo '<CODE BEGINS> file "'$${base}'@'`date +%F`'.yang"'>> $@;\
 		cat $$model					>> $@	; \

@@ -1,9 +1,9 @@
-module ietf-network-device {
+module example-network-device {
 
   yang-version "1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:ietf-network-device";
+  namespace "urn:example:network-device";
 
   prefix "nd";
 
@@ -23,7 +23,7 @@ module ietf-network-device {
      to describe how individual device protocol and feature models
      fit together and interact.";
 
-  revision "2016-05-01" {
+  revision "2016-11-08" {
     description
       "IETF Routing YANG Design Team Meta-Model";
     reference "TBD"; 
@@ -210,6 +210,7 @@ module ietf-network-device {
             type identityref {
                 base control-plane-protocol-type;
             }
+            mandatory true;
             description
                 "The control plane protocol type, e.g., BGP,
                  OSPF IS-IS, etc";
@@ -222,7 +223,6 @@ module ietf-network-device {
     }
     list rib {
         key "name";
-        min-elements "1";
         description
             "Each entry represents a RIB identified by the
            'name' key. All routes in a RIB must belong to the
@@ -233,6 +233,7 @@ module ietf-network-device {
             supported address family.";
         leaf name {
             type string;
+            mandatory true;
             description
                 "The name of the RIB.";
         }
