@@ -65,7 +65,7 @@
    allow for the partitioning of resources from both, or either,
    management and networking perspectives.  Both make use of the
    YANG functionality enabled by YANG Schema Mount <xref
-   target="I-D.ietf-netmod-schema-mount"/>.  
+   target="I-D.ietf-netmod-schema-mount"/>.
 </t>
 <t>
    Two forms of resource partitioning are supported:
@@ -191,7 +191,7 @@ The top open issues are:
    identifier which is used on physical interface types to
    identify an associated LNE.  The second, by the
    network-instance module, adds a name which is used on
-   interface or sub-interface types to identify an associated 
+   interface or sub-interface types to identify an associated
    network instance.
    Similarly, this name is also added for IPv4 and IPv6 types, as
    defined in <xref target="RFC7277"/>.
@@ -268,7 +268,7 @@ The top open issues are:
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
    policies.  The model represents both core/provider and virtual
-   instances.  Network instances reuse and build on <xref target="I-D.ietf-netmod-routing-cfg"/>
+   instances.  Network instances reuse and build on <xref target="RFC8022"/>
    and are shown below:
 </t>
 <t>
@@ -331,19 +331,22 @@ The top open issues are:
    specific information will be available under
    `root`.  As with LNEs, actual module
    availability is expected to be implementation dependent. The
-   yang library module <xref target="RFC7895"/>
+   use-schema mechanism defined as part of the Schema Mount module
+   <xref target="I-D.ietf-netmod-schema-mount"/>
    is expected to be the primary method
    used to identify supported modules.  Resource related control
    and assignment is expected to be managed at the network-device
    level, not the network instance level, based on the
    `bind-network-instance-name` augmentation
-   mentioned above.
+   mentioned above.  Mounted modules will access such information, as
+   well as any other information contained within a module at the device
+   root, by using the parent-reference mechanism defined in <xref
+   target="I-D.ietf-netmod-schema-mount"/>.
 </t>
 <t>
-   As an example, consider the case where a network instance with
-   a `name` of "green" is defined on a network
-   device.  In this case the following structure might be made
-   available:
+   As an example, consider the case where a network instance with a
+   `name` of "green" is defined on a network device.  In this case the
+   following logical structure might be made available:
 </t>
 <t>
 <figure>
@@ -360,12 +363,39 @@ The top open issues are:
          +--rw network-instance-policy
          |  ... (RT=1000:1, RD=1.2.3.4)
          +--rw root?                           yang-schema-mount
-            +--rw yanglib:modules-state  [RFC7895]
-            +--rw if:intefaces           [RFC7223]
-            +--rw mm:network-services
-            +--rw nn:oam-protocols
-            +--rw oo:routing
-            +--rw pp:mpls
+</artwork>
+</figure>
+</t>
+<t>with a corresponding logical structure in the schema-mount module: </t>
+<t>
+<figure>
+<artwork>
+module: ietf-yang-schema-mount
+   +--ro schema-mounts
+      :
+      +--ro mount-point* [module name]
+      |  +--ro module="ietf-network-instance"
+      |  +--ro name="root"
+      |  +--ro config=true
+      |  +--ro (schema-ref)?
+      |     +--:(use-schema)
+      |        +--ro use-schema* [name]
+      |           +--ro name="ni-vrf"
+      :           :
+      :
+      +--ro schema* [name]
+         +--ro name="ni-vrf"           string
+         +--ro module*  [name revision]
+         |  +--ro name="mm:network-services"
+         :  :
+         |  +--ro name="nn:oam-protocols"
+         :  :
+         |  +--ro name="oo:routing"
+         :  :
+         |  +--ro name="pp:mpls"
+         :  :
+         +--ro mount-point* [network-instance]
+            :
 </artwork>
 </figure>
 </t>
@@ -433,7 +463,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2016-10-27.yang"
+<CODE BEGINS> file "ietf-network-instance@2017-02-24.yang"
 module ietf-network-instance {
 
   yang-version 1.1;
@@ -468,7 +498,7 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2016-10-27" {
+  revision "2017-02-24" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -573,7 +603,7 @@ module ietf-network-instance {
          RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container network-instance-policy {
         description
-          "Network Instance Policy -- details TBD, 
+          "Network Instance Policy -- details TBD,
           perhaps based on BESS model";
     }
   }
@@ -585,7 +615,8 @@ module ietf-network-instance {
                    and protocol instantiations. For layer 3,
                    this consistent with the routing-instance
                    definition in ietf-routing";
-      reference "draft-ietf-netmod-routing-cfg";
+      reference
+          "RFC 8022 - A YANG Data Model for Routing Management";
       list network-instance {
           key name;
           description "List of network-instances";
@@ -622,8 +653,11 @@ module ietf-network-instance {
 
           anydata root {
               yangmnt:mount-point root;
-              description "Root for models supported per
-                           network instance";
+              description
+                "Root for models supported per
+                 network instance.  This will
+                 typically not be an inline type
+                 mount point.";
           }
       }
   }
@@ -703,11 +737,11 @@ module ietf-network-instance {
 
 <?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
 <?rfc include="reference.I-D.openconfig-netmod-opstate.xml"?>
-<?rfc include="reference.I-D.ietf-netmod-routing-cfg.xml"?>
 <?rfc include="reference.I-D.ietf-netmod-opstate-reqs.xml"?>
 <?rfc include="reference.RFC.7895"?>
 <?rfc include="reference.RFC.4026"?>
 <?rfc include="reference.RFC.7950"?>
+<?rfc include="reference.RFC.8022"?>
 
 </references>
 

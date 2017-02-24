@@ -460,7 +460,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2016-10-21.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2017-02-24.yang"
 module ietf-logical-network-element {
 
   yang-version 1.1;
@@ -489,7 +489,7 @@ module ietf-logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2016-10-21" {
+  revision "2017-02-24" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -529,7 +529,9 @@ module ietf-logical-network-element {
         yangmnt:mount-point "root";
         description
             "Root for models supported per logical
-             network element";
+             network element.  This mount point will
+             typically be of type inline.  It shall
+             always contain a yang library instance.";
        }
     }
   }
