@@ -6,7 +6,6 @@ module: ietf-network-instance
           +--rw enabled?                   boolean
           +--rw description?               string
           +--rw network-instance-policy
-          +--rw root?
   augment /if:interfaces/if:interface:
     +--rw bind-network-instance-name?   string
   augment /if:interfaces/if:interface/ip:ipv4:

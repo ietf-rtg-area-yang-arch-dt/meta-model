@@ -26,7 +26,7 @@ module ietf-logical-network-element {
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.";
 
-  revision "2017-02-24" {
+  revision "2017-03-13" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -62,8 +62,7 @@ module ietf-logical-network-element {
         description
           "Description of the logical network element";
       }
-      anydata root {
-        yangmnt:mount-point "root";
+      yangmnt:mount-point root {
         description
             "Root for models supported per logical
              network element.  This mount point will

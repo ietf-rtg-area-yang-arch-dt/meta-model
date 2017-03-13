@@ -32,7 +32,7 @@ module ietf-network-instance {
      instances are commonly know as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).";
 
-  revision "2017-02-24" {
+  revision "2017-03-13" {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -185,8 +185,7 @@ module ietf-network-instance {
 
           uses network-instance-policy;
 
-          anydata root {
-              yangmnt:mount-point root;
+	  yangmnt:mount-point root {
               description
                 "Root for models supported per
                  network instance.  This will
