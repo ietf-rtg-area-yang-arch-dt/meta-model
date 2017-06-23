@@ -1,248 +1,209 @@
 module ietf-network-instance {
-
   yang-version 1.1;
-
-  // namespace
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
-
   prefix ni;
 
   // import some basic types
+
   import ietf-interfaces {
     prefix if;
+    reference "RFC 7223: A YANG Data Model for Interface Management";
   }
-
   import ietf-ip {
     prefix ip;
+    reference "RFC 7277: A YANG Data Model for IP Management";
   }
-
   import ietf-yang-schema-mount {
     prefix yangmnt;
+    reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
+    // RFC Ed.: Please replace this draft name with the corresponding
+    // RFC number
   }
 
-// meta
-  organization "IETF Routing Area Working Group (rtgwg)";
-
+  organization
+    "IETF Routing Area (rtgwg) Working Group";
   contact
-      "Routing Area Working Group - <rtgwg@ietf.org>";
+    "WG Web:   <http://tools.ietf.org/wg/rtgwg/>
+     WG List:  <mailto:rtgwg@ietf.org>
 
+     Authors:  Lou Berger
+               <mailto:lberger@labn.net>
+     Authors:  Christan Hopps
+               <mailto:chopps@chopps.org>
+     Authors:  Acee Lindem
+               <mailto:acee@cisco.com>
+     Authors:  Dean Bogdanovic
+               <mailto:ivandean@gmail.com>";
   description
     "This module is used to support multiple network instances
      within a single physical or virtual device.  Network
      instances are commonly know as VRFs (virtual routing
-     and forwarding) and VSIs (virtual switching instances).";
+     and forwarding) and VSIs (virtual switching instances).
 
-  revision "2017-03-13" {
+     Copyright (c) 2017 IETF Trust and the persons
+     identified as authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (http://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX; see
+     the RFC itself for full legal notices.";
+
+  // RFC Ed.: replace XXXX with actual RFC number and remove
+  // this note
+  // RFC Ed.: please update TBD
+
+  revision 2017-06-23 {
     description
       "Initial revision.";
     reference "RFC TBD";
   }
 
-  // extension statements
-
-  feature bind-network-instance-name {
-    description
-      "Network Instance to which an interface instance is bound";
-  }
-
   // identity statements
 
   identity network-instance-type {
-      description
-         "Base identity from which identities describing
-          network instance types are derived.";
+    description
+      "Base identity from which identities describing
+       network instance types are derived.";
   }
 
-   identity ipv4-interface-protocol-type {
-      description
-          "Base identity for derivation of IPv4 interface
-           protocols";
-   }
+  identity vrf {
+    base network-instance-type;
+    description
+      "A network instance providing L3VPN capabilities.";
+  }
 
-   identity ipv6-interface-protocol-type {
-      description
-          "Base identity for derivation of IPv6 interface
-           protocols";
-   }
+  identity vsi {
+    base network-instance-type;
+    description
+      "A network instance providing L2VPN capabilities.";
+  }
 
-  // typedef statements
+  identity vsiVrf {
+    base network-instance-type;
+    description
+      "A network instance providing L2VPN and L3VPN
+       capabilities.";
+  }
 
   // grouping statements
 
-  grouping interface-ip-common {
-    description
-      "interface-specific configuration for IP interfaces, IPv4 and
-      IPv6";
-
-  }
-
-  grouping ipv4-interface-protocols {
-      container ipv4-interface-protocols {
-          list ipv4-interface-protocol {
-              key "type";
-              leaf type {
-                  type identityref {
-                      base ipv4-interface-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "ARP, ICMP, VRRP, DHCP Client, etc.";
-              }
-              description
-                  "List of IPv4 protocols configured
-                   on an interface";
-          }
-          description
-              "Container for list of IPv4 protocols configured
-                on an interface";
-      }
-      description
-          "Grouping for IPv4 protocols configured on an interface";
-  }
-
-  grouping ipv6-interface-protocols {
-      description
-          "Grouping for IPv6 protocols configured on
-           an interface.";
-      container ipv6-interface-protocols {
-          description
-              "Container for list of IPv6 protocols configured
-                on an interface.";
-          list ipv6-interface-protocol {
-              key "type";
-              description
-                  "List of IPv6 protocols configured
-                   on an interface";
-              leaf type {
-                  type identityref {
-                      base ipv6-interface-protocol-type;
-                  }
-                  mandatory true;
-                  description
-                      "ND, ICMPv6, VRRP, DHCPv6 Client, etc.";
-              }
-          }
-      }
-  }
-
   grouping network-instance-policy {
     description
-        "Network instance policies such as route
-         distinguisher, route targets, VPLS ID and neighbor,
-         Ethernet ID, etc. ";
+      "Network instance policies such as route
+       distinguisher, route targets, VPLS ID and neighbor,
+       Ethernet ID, etc. ";
     reference
-        "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
-         RFC 6074 - Provisioning, Auto-Discovery, and Signaling
-              in Layer 2 Virtual Private Networks (L2VPNs)
-         RFC 7432 - BGP MPLS-Based Ethernet VPN";
+      "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
+       RFC 6074 - Provisioning, Auto-Discovery, and Signaling
+            in Layer 2 Virtual Private Networks (L2VPNs)
+       RFC 7432 - BGP MPLS-Based Ethernet VPN";
     container network-instance-policy {
-        description
-          "Network Instance Policy -- details TBD,
-          perhaps based on BESS model";
+      description
+        "Network Instance Policy -- details TBD,
+         perhaps based on BESS model";
     }
   }
 
   // top level device definition statements
+
   container network-instances {
-      description "Network instances each of which have
-                   an independent IP/IPv6 addressing space
-                   and protocol instantiations. For layer 3,
-                   this consistent with the routing-instance
-                   definition in ietf-routing";
-      reference
-          "RFC 8022 - A YANG Data Model for Routing Management";
-      list network-instance {
-          key name;
-          description "List of network-instances";
-          leaf name {
-              type string;
-              description "device scoped
-                           identifier for the network
-                           instance";
-          }
-          leaf type {
-              type identityref {
-                  base network-instance-type;
-              }
-              description
-                  "The network instance type -- details TBD
-                   Likely types include core, L3-VRF, VPLS,
-                   L2-cross-connect, L2-VSI, etc.";
-          }
-          leaf enabled {
-              type boolean;
-              default "true";
-              description
-                "Flag indicating whether or not the network
-                 instance is enabled.";
-          }
-          leaf description {
-              type string;
-              description
-                "Description of the network instance
-                and its intended purpose";
-          }
-
-          uses network-instance-policy;
-
-	  yangmnt:mount-point root {
-              description
-                "Root for models supported per
-                 network instance.  This will
-                 typically not be an inline type
-                 mount point.";
-          }
+    description
+      "Network instances each of which consists of a
+       VRFs (virtual routing and forwarding) and/or
+       VSIs (virtual switching instances).";
+    reference "RFC 8022 - A YANG Data Model for Routing Management";
+    list network-instance {
+      key "name";
+      description
+        "List of network-instances";
+      leaf name {
+        type string;
+        description
+          "device scoped identifier for the network
+           instance";
       }
+      leaf type {
+        type identityref {
+          base network-instance-type;
+        }
+        description
+          "The network instance type -- details TBD
+           Likely types include core, L3-VRF, VPLS,
+           L2-cross-connect, L2-VSI, etc.";
+      }
+      leaf enabled {
+        type boolean;
+        default "true";
+        description
+          "Flag indicating whether or not the network
+           instance is enabled.";
+      }
+      leaf description {
+        type string;
+        description
+          "Description of the network instance
+           and its intended purpose";
+      }
+      uses network-instance-policy;
+      yangmnt:mount-point "root" {
+        description
+          "Root for models supported per
+           network instance.  This will
+           typically not be an inline type
+           mount point.";
+      }
+    }
   }
 
   // augment statements
 
   augment "/if:interfaces/if:interface" {
     description
-        "Add a node for the identification of the logical network
-        instance (which is within the interface's identified logical
-        network element) associated with the IP information
-        configured on an interface";
-
+      "Add a node for the identification of the network
+       instance associated with the information configured
+       on a interface";
     leaf bind-network-instance-name {
-      type string;
+      type leafref {
+        path "/network-instances/network-instance/name";
+      }
       description
         "Network Instance to which an interface is bound";
     }
   }
-
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
-        "Add a node for the identification of the logical
-        network instance (which is within the interface's
-        identified physical or virtual device) associated with
-        the IP information configured on an interface";
-
+      "Add a node for the identification of the network
+       instance associated with the information configured
+       on an IP interface";
     leaf bind-network-instance-name {
-      type string;
+      type leafref {
+        path "/network-instances/network-instance/name";
+      }
       description
         "Network Instance to which IPv4 interface is bound";
-
     }
   }
-
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
-        "Add a node for the identification of the logical
-        network instance (which is within the interface's
-        identified physical or virtual device) associated with
-        the IP information configured on an interface";
-
+      "Add a node for the identification of the network
+       instance associated with the information configured
+       on an IP interface";
     leaf bind-network-instance-name {
-      type string;
+      type leafref {
+        path "/network-instances/network-instance/name";
+      }
       description
         "Network Instance to which IPv6 interface is bound";
-
     }
   }
 
   // rpc statements
-
+  // Note: TBD
   // notification statements
-
+  // Note: TBD
 }

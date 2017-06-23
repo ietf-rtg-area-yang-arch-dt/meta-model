@@ -7,8 +7,8 @@ module: ietf-network-instance
           +--rw description?               string
           +--rw network-instance-policy
   augment /if:interfaces/if:interface:
-    +--rw bind-network-instance-name?   string
+    +--rw bind-network-instance-name?   -> /network-instances/network-instance/name
   augment /if:interfaces/if:interface/ip:ipv4:
-    +--rw bind-network-instance-name?   string
+    +--rw bind-network-instance-name?   -> /network-instances/network-instance/name
   augment /if:interfaces/if:interface/ip:ipv6:
-    +--rw bind-network-instance-name?   string
+    +--rw bind-network-instance-name?   -> /network-instances/network-instance/name
