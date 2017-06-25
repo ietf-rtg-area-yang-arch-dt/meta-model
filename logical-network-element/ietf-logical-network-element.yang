@@ -76,6 +76,13 @@ module ietf-logical-network-element {
           "Device-wide unique identifier for the
            logical network element.";
       }
+      leaf managed {
+        type boolean;
+        description
+          "True if the host can access LNE information
+           using the root mount point.  This value 
+           my not be settable in all implementations.";
+      }
       leaf description {
         type string;
         description
@@ -86,8 +93,14 @@ module ietf-logical-network-element {
           "Root for models supported per logical
            network element.  This mount point will
            may or may not be inline based on the server
-           implementation.  It shall always contain a yang
-           library instance.";
+           implementation.  It SHALL always contain a YANG
+           library and interfaces instance.
+
+           When the associated 'managed' leaf is false any
+           operation that attempts to access information below
+           the root SHALL fail with an error-tag of
+           'access-denied' and an error-app-tag of
+           'lne-not-managed'.";
       }
     }
   }
@@ -103,7 +116,7 @@ module ietf-logical-network-element {
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and a error-app-tag
+       with an error-tag of 'operation-failed' and an error-app-tag
        of 'lne-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
@@ -120,4 +133,5 @@ module ietf-logical-network-element {
   // Note: TBD
   // notification statements
   // Note: TBD
+  //perhaps notification of a deffered interface assignment?
 }

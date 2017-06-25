@@ -107,8 +107,8 @@
 <t>
 The top open issues are:
   <list style="numbers">
-   <t>This document will need to match the evolution and
-   standardization of <xref target="I-D.ietf-netmod-schema-mount"/>.
+    <t>
+      Close on other TBDs in doc/module, e.g., RPCs and notifications.
    </t>
    </list>
  </t>
@@ -134,7 +134,7 @@ The top open issues are:
 <figure>
 <artwork>
 
-           ,''''''''''''''''''''''''''''''''''''''''''''''`.
+           ,'''''''''''''''''''''''''''''''''''''''''''''''.
            |      Network Device (Physical or Virtual)     |
            | .....................   ..................... |
            | :  Logical Network  :   :  Logical Network  : |
@@ -146,7 +146,7 @@ The top open issues are:
            | :  | |   | |   | |  :   :  | |   | |   | |  : |
            | :..|.|...|.|...|.|..:   :..|.|...|.|...|.|..: |
            |    | |   | |   | |         | |   | |   | |    |
-            `'''|'|'''|'|'''|'|'''''''''|'|'''|'|'''|'|'''''
+            ''''|'|'''|'|'''|'|'''''''''|'|'''|'|'''|'|'''''
                 | |   | |   | |         | |   | |   | |
                    Interfaces              Interfaces
 </artwork>
@@ -210,14 +210,14 @@ The top open issues are:
    target="I-D.ietf-rtgwg-ni-model"/>. 
 </t>
 </section>
-<section anchor="sec-LNE" title="  Logical Network Elements">
+<section anchor="sec-LNE" title="Logical Network Elements">
 <t>
-   Logical network elements represent the capability of some
+   Logical network elements support the ability of some
    devices to partition resources into independent logical routers
    and/or switches.  Device support for multiple logical network
    elements is implementation specific.  Systems without such
    capabilities need not include support for the
-   logical-network-element module.  In physical devices some
+   logical-network-element module.  In physical devices, some
    hardware features are shared across partitions, but control
    plane (e.g., routing) protocol instances, tables, and
    configuration are managed separately.  For example, in virtual
@@ -236,7 +236,8 @@ The top open issues are:
            +--rw logical-network-element* [name]
               +--rw name           string
               +--rw description?   string
-              +--rw root?        yang-schema-mount
+              +--rw managed?       boolean
+              +--rw root?          yang-schema-mount
       augment /if:interfaces/if:interface:
         +--rw bind-lne-name?   -> 
                /logical-network-elements/logical-network-element/name
@@ -244,13 +245,76 @@ The top open issues are:
 </figure>
 </t>
 <t>
-  `name` identifies the logical network element.
-  `managed` indicates if the host network device is able
-  to manage the LNE via the `root` structure.
+  'name' identifies the logical network element.  'managed'
+  indicates if the server providing the host network device will
+  provide the client LNE information via the 'root' structure.
+  The root of an LNE's specific data is the schema mount point
+  'root'.
+</t>
+<t>
+  An LNE root MUST contain at least the YANG library <xref
+  target="RFC7895"/> Interfaces <xref target="RFC7223"/> modules.
 </t>
 
+
+<section anchor="sec-LNE.MOUNT" title="LNE Instantiation and
+                                       Resource Assignment">
+  <t>
+    Logical network elements may be controlled by clients using existing
+    list operations. When list entries are created, a new LNE is
+    instantiated. The models mounted under an LNE root is expected to be
+    dependent on the server implementation. When a list entry is
+    deleted, an existing LNE is destroyed. For more information see
+    <xref target="RFC7950"/> Section 7.8.6.
+  </t>
+  <t>
+    Once instantiated, host network device resources can be
+    associated with the new LNE.  As previously mentioned, this
+    document augments ietf-interfaces with the bind-lne-name leaf
+    to support such associations for interfaces.  When an
+    bind-lne-name is set to a valid LNE name, an implementation
+    MUST take whatever steps are internally necessary to assign
+    the interface to the LNE or provide an error message (defined
+    below)with an indication of why the assignment failed.  It
+    MUST also make the resource available to the LNE by providing
+    a system created interface to the LNE.  The name of the system
+    created interface is a local matter and may be identical or
+    completely different, and mapped from and to, the name used in
+    the context of the host device.  The system created interface
+    SHOULD be exposed via the LNE-specific instance of the
+    interfaces module <xref target="RFC7223"/>.
+  </t>
+</section>
+
+<section anchor="sec-LNE.LNE"
+ title="LNE Management - LNE View">
+<t>
+  Each LNE instance is expected to support management functions
+  from within the context of the LNE root, via a server that
+  provides information with the LNE's root exposed as device root.
+  Management functions operating with the context of an LNE are
+  accessed through standard LNE's management interfaces, e.g.,
+  NETCONF and SNMP.  Initial configuration, much like the initial
+  configuration of the host device, is a local implementation
+  matter.
+</t>
+<t>
+  When accessing an LNE via the LNE's management interface, a
+  network-device representation will be presented, but its scope
+  will be limited to the specific LNE.  Normal YANG/NETCONF
+  mechanisms, together with the required YANG library <xref
+  target="RFC7895"/> instance, can be used to identify the
+  available modules.  Each supported module will be presented as a
+  top level module. Only LNE associated resources will be
+  reflected in resource related modules, e.g., interfaces,
+  hardware and perhaps QoS. From the management perspective, there
+  will be no difference between the available LNE view
+  (information) and an a physical network device.
+</t>
+</section>
+
 <section anchor="sec-LNE.HOST"
-  title="  LNE Management - Host Network Device View">
+  title="LNE Management - Host Network Device View">
 <t>
    There are multiple implementation approaches possible to enable
    a network device to support the logical-network-element
@@ -262,23 +326,50 @@ The top open issues are:
    prohibited by user policy.
 </t>
 <t>
-   The `managed` boolean mentioned above is used to
-   indicate when LNE management from the network device context is
-   possible. When the `managed` boolean is
-   `false`, the LNE cannot be managed by the host
-   system and can only be managed from within the context of the LNE
-   as described in the next section, <xref target="sec-LNE.LNE"/>.
+   Independent of the method selected by an implementation, the
+   'managed' boolean mentioned above is used to indicate when LNE
+   management from the network device context is possible. When
+   the 'managed' boolean is 'false', the LNE cannot be managed by
+   the host system and can only be managed from within the context
+   of the LNE as described in the next section, <xref
+   target="sec-LNE.LNE"/>.  Attempts to access information below a
+   root node whose associated 'managed' boolean is set to 'false'
+   MUST result in the error message indicated below.  In some
+   implementations it may not be possible to change this
+   value. For example, when an LNE is implemented using virtual
+   machine and traditional hypervisor technologies, it is likely
+   that this value will be restricted to a 'false' value.
 </t>
 <t>
-   When the `managed` boolean is `true`, the LNE can be managed 
-   from both the context of the LNE and the host network device. In 
-   this case, the same information that is available from within the LNE
-   context is made available via the `root` element, with paths
-   modified as described in <xref target="I-D.ietf-netmod-schema-mount"/>.
+   It is an implementation choice if the information can be
+   accessed and modified from within the context of the LNE, or
+   even the context of the host device.  When the 'managed'
+   boolean is 'true', LNE information SHALL be accessible from the
+   context of the host device.  When the associated schema-mount
+   definition has the 'config' leaf set to true, then LNE
+   information SHALL also be modifiable from the context of the
+   host device.  When LNE information is available from both the
+   host device and from within the context of the LNE, the same
+   information MUST be made available via the 'root' element, with
+   paths modified as described in <xref
+   target="I-D.ietf-netmod-schema-mount"/>.
+</t>
+<t>
+  An implementation MAY represent a LNE's schema using either the
+  'inline' or 'use-schema' approaches defined in <xref
+  target="I-D.ietf-netmod-schema-mount"/>.  The choice of which to
+  use is completely an implementation choice.  The inline case is
+  anticipated to be generally used in the cases the 'managed' will
+  always be false.  The 'use-schema' approach is expected to be be
+  most useful in the case where all LNEs share the same
+  schema. When 'use-schema' is used with an LNE mount point, the
+  YANG library rooted in the LNE's mount point MUST match the
+  associated schema defined within the ietf-yang-schema-mount
+  module.
 </t>
 <t>
    As an example, consider the case where an LNE with a
-   `name` of "one" is defined on a network device.
+   'name' of "one" is defined on a network device.
    In this case  the following structure might be made available:
 </t>
 <t>
@@ -314,7 +405,7 @@ The top open issues are:
 <t>
     As an LNE is a network device itself, all modules that may be present at
     the top level network device may also be present for the LNE, be made
-    available under `root`, and be accessible via paths
+    available under 'root', and be accessible via paths
     modified per <xref target="I-D.ietf-netmod-schema-mount"/>. The list of available
     modules is expected to be implementation dependent. As is the method used
     by an implementation to support LNEs.
@@ -326,46 +417,43 @@ The top open issues are:
 </t>
 </section>
 
-<section anchor="sec-LNE.LNE"
- title="  LNE Management - LNE View">
-<t>
-   Management functions operating with the context of an LNE are
-   accessed through standard LNE's management interfaces, e.g.,
-   NETCONF and SNMP.  When accessing an LNE via an LNE's management
-   interface, a network-device representation will be presented,
-   but its scope will be limited to the specific LNE.
-   Normal YANG/NETCONF mechanisms, together with
-   yang library <xref target="RFC7895"/>,
-   can be used to identify the available
-   modules.  Each supported module will be presented as a top level
-   module. Only LNE associated resources will be reflected in
-   resource related modules, e.g., interfaces, hardware and
-   perhaps QoS. From the management perspective, there will be no
-   difference between the available LNE view (information) and an
-   a physical network device.
-</t>
-<t>
-   Multiple implementation approaches are possible to provide LNE
-   views, and these are outside the scope of this document.
-</t>
-</section>
-
-<section anchor="sec-LNE.MOUNT" title="  LNE Instantiation">
-  <t>
-    Logical network elements may be controlled by clients using existing
-    list operations. When list entries are created, a new LNE is
-    instantiated. The models mounted under an LNE root is expected to be
-    dependent on the server implementation. When a list entry is
-    deleted, an existing LNE is destroyed. For more information see
-    <xref target="RFC7950"/> Section 7.8.6.
-  </t>
-</section>
 </section>
 
 <section anchor="sec-4" title="  Security Considerations">
- <t>
-   TBD
- </t>
+  <t>
+    LNE information represents device and network configuration
+    information. As such, the security of this information is important,
+    but it is fundamentally no different than any other interface or
+    device configuration information that has already been covered in
+    other documents such as <xref target="RFC7223"/>, <xref
+    target="RFC7317"/> and <xref target="RFC8022"/>.
+  </t>
+  <t>The vulnerable "config true" parameters and subtrees are the
+  following:
+  <list style="hanging">
+    <t hangText="/logical-network-elements/logical-network-element:">
+      This list specifies the logical network element and the related
+      logical device configuration.
+    </t>
+    <t hangText="/logical-network-elements/logical-network-element/managed:">
+      While this leaf is contained in the previous list, it is worth
+      particular attention as it controls whether information under the
+      LNE mount point is accessible by both the host device and within
+      the LNE context.  There may be extra sensitivity to this leaf in
+      environments where an LNE is managed by a different party than
+      the host device, and that party does not wish to share LNE
+      information with the operator of the host device.
+    </t>
+    <t hangText="/if:interfaces/if:interface/bind-lne-name:">
+      This leaf indicates the LNE instance to which an interface is
+      assigned.
+    </t>
+  </list>
+  Unauthorized access to any of these lists can adversely affect the
+  of both the local device and the network. This
+  may lead to network malfunctions, delivery of packets to
+  inappropriate destinations and other problems.
+  </t>
 </section>
 <section anchor="sec-5" title="  IANA Considerations">
   <t>
@@ -431,29 +519,29 @@ module ietf-logical-network-element {
   contact
     "WG Web:   <http://tools.ietf.org/wg/rtgwg/>
      WG List:  <mailto:rtgwg@ietf.org>
-     
-     Authors:  Lou Berger
+
+     Author:   Lou Berger
                <mailto:lberger@labn.net>
-     Authors:  Christan Hopps
+     Author:   Christan Hopps
                <mailto:chopps@chopps.org>
-     Authors:  Acee Lindem
+     Author:   Acee Lindem
                <mailto:acee@cisco.com>
-     Authors:  Dean Bogdanovic
+     Author:   Dean Bogdanovic
                <mailto:ivandean@gmail.com>";
   description
     "This module is used to support multiple logical network
      elements on a single physical or virtual system.
-     
+
      Copyright (c) 2017 IETF Trust and the persons
      identified as authors of the code.  All rights reserved.
-     
+
      Redistribution and use in source and binary forms, with or
      without modification, is permitted pursuant to, and subject
      to the license terms contained in, the Simplified BSD License
      set forth in Section 4.c of the IETF Trust's Legal Provisions
      Relating to IETF Documents
      (http://trustee.ietf.org/license-info).
-     
+
      This version of this YANG module is part of RFC XXXX; see
      the RFC itself for full legal notices.";
 
@@ -472,34 +560,42 @@ module ietf-logical-network-element {
   container logical-network-elements {
     description
       "Allows a network device to support multiple logical
-       network element (device) instances";
+       network element (device) instances.";
     list logical-network-element {
       key "name";
       description
-        "List of logical network elements";
+        "List of logical network elements.";
       leaf name {
         type string;
         description
           "Device-wide unique identifier for the
-           logical network element";
+           logical network element.";
       }
       leaf managed {
         type boolean;
         description
-          "True if the host can manage the LNE using the root mount
-           point";
+          "True if the host can access LNE information
+           using the root mount point.  This value 
+           my not be settable in all implementations.";
       }
       leaf description {
         type string;
         description
-          "Description of the logical network element";
+          "Description of the logical network element.";
       }
       yangmnt:mount-point "root" {
         description
           "Root for models supported per logical
            network element.  This mount point will
-           typically be of type inline.  It shall
-           always contain a yang library instance.";
+           may or may not be inline based on the server
+           implementation.  It SHALL always contain a YANG
+           library and interfaces instance.
+
+           When the associated 'managed' leaf is false any
+           operation that attempts to access information below
+           the root SHALL fail with an error-tag of
+           'access-denied' and an error-app-tag of
+           'lne-not-managed'.";
       }
     }
   }
@@ -511,19 +607,28 @@ module ietf-logical-network-element {
       "Add a node for the identification of the logical network
        element associated with an interface. Applies to interfaces
        that can be assigned on a per logical network element basis.
-       A <TBD> error is returned when the interface type cannot be
-       assigned.";
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an error-app-tag
+       of 'lne-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-lne-name {
       type leafref {
         path "/logical-network-elements/logical-network-element/name";
       }
       description
-        "Logical network element ID to which interface is bound";
+        "Logical network element ID to which interface is bound.";
     }
   }
 
   // rpc statements
+  // Note: TBD
   // notification statements
+  // Note: TBD
+  //perhaps notification of a deffered interface assignment?
 }
 <CODE ENDS>
 ]]></artwork>
@@ -537,20 +642,18 @@ module ietf-logical-network-element {
 <references title="Normative References">
 <?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
 <?rfc include="reference.I-D.ietf-rtgwg-ni-model.xml"?>
+<?rfc include="reference.RFC.3688"?>
 <?rfc include="reference.RFC.6020"?>
 <?rfc include="reference.RFC.7223"?>
-<?rfc include="reference.RFC.7277"?>
-<?rfc include="reference.RFC.3688"?>
 </references>
 
 <references title="Informative References">
 
-<?rfc include="reference.I-D.ietf-netmod-opstate-reqs.xml"?>
-<?rfc include="reference.I-D.ietf-netmod-routing-cfg.xml"?>
 <?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
-<?rfc include="reference.I-D.openconfig-netmod-opstate.xml"?>
+<?rfc include="reference.RFC.7317"?>
 <?rfc include="reference.RFC.7895"?>
 <?rfc include="reference.RFC.7950"?>
+<?rfc include="reference.RFC.8022"?>
 </references>
 
 <?rfc needLines="100"?>
@@ -565,15 +668,6 @@ module ietf-logical-network-element {
 </t>
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
    <vspace blankLines="100"/></t>
-</section>
-<section title="Contributors">
-<figure>
-<artwork>
-Contributors' Addresses
-
-   TBD
-</artwork>
-</figure>
 </section>
 </back>
 
