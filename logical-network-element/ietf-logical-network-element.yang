@@ -65,34 +65,29 @@ module ietf-logical-network-element {
   container logical-network-elements {
     description
       "Allows a network device to support multiple logical
-       network element (device) instances";
+       network element (device) instances.";
     list logical-network-element {
       key "name";
       description
-        "List of logical network elements";
+        "List of logical network elements.";
       leaf name {
         type string;
         description
           "Device-wide unique identifier for the
-           logical network element";
-      }
-      leaf managed {
-        type boolean;
-        description
-          "True if the host can manage the LNE using the root mount
-           point";
+           logical network element.";
       }
       leaf description {
         type string;
         description
-          "Description of the logical network element";
+          "Description of the logical network element.";
       }
       yangmnt:mount-point "root" {
         description
           "Root for models supported per logical
            network element.  This mount point will
-           typically be of type inline.  It shall
-           always contain a yang library instance.";
+           may or may not be inline based on the server
+           implementation.  It shall always contain a yang
+           library instance.";
       }
     }
   }
@@ -104,17 +99,25 @@ module ietf-logical-network-element {
       "Add a node for the identification of the logical network
        element associated with an interface. Applies to interfaces
        that can be assigned on a per logical network element basis.
-       A <TBD> error is returned when the interface type cannot be
-       assigned.";
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and a error-app-tag
+       of 'lne-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-lne-name {
       type leafref {
         path "/logical-network-elements/logical-network-element/name";
       }
       description
-        "Logical network element ID to which interface is bound";
+        "Logical network element ID to which interface is bound.";
     }
   }
 
   // rpc statements
+  // Note: TBD
   // notification statements
+  // Note: TBD
 }

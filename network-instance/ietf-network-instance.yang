@@ -26,13 +26,13 @@ module ietf-network-instance {
     "WG Web:   <http://tools.ietf.org/wg/rtgwg/>
      WG List:  <mailto:rtgwg@ietf.org>
 
-     Authors:  Lou Berger
+     Author:   Lou Berger
                <mailto:lberger@labn.net>
-     Authors:  Christan Hopps
+     Author:   Christan Hopps
                <mailto:chopps@chopps.org>
-     Authors:  Acee Lindem
+     Author:   Acee Lindem
                <mailto:acee@cisco.com>
-     Authors:  Dean Bogdanovic
+     Author:   Dean Bogdanovic
                <mailto:ivandean@gmail.com>";
   description
     "This module is used to support multiple network instances
@@ -105,7 +105,7 @@ module ietf-network-instance {
     container network-instance-policy {
       description
         "Network Instance Policy -- details TBD,
-         perhaps based on BESS model";
+         perhaps based on BESS model.";
     }
   }
 
@@ -120,12 +120,12 @@ module ietf-network-instance {
     list network-instance {
       key "name";
       description
-        "List of network-instances";
+        "List of network-instances.";
       leaf name {
         type string;
         description
           "device scoped identifier for the network
-           instance";
+           instance.";
       }
       leaf type {
         type identityref {
@@ -147,7 +147,7 @@ module ietf-network-instance {
         type string;
         description
           "Description of the network instance
-           and its intended purpose";
+           and its intended purpose.";
       }
       uses network-instance-policy;
       yangmnt:mount-point "root" {
@@ -166,39 +166,63 @@ module ietf-network-instance {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on a interface";
+       on a interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and a error-app-tag
+       of 'ni-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-network-instance-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
       description
-        "Network Instance to which an interface is bound";
+        "Network Instance to which an interface is bound.";
     }
   }
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface";
+       on an IP interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and a error-app-tag
+       of 'ni-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-network-instance-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
       description
-        "Network Instance to which IPv4 interface is bound";
+        "Network Instance to which IPv4 interface is bound.";
     }
   }
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface";
+       on an IP interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and a error-app-tag
+       of 'ni-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-network-instance-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
       description
-        "Network Instance to which IPv6 interface is bound";
+        "Network Instance to which IPv6 interface is bound.";
     }
   }
 

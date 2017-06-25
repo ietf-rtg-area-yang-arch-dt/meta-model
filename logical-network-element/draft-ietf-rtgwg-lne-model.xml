@@ -46,13 +46,10 @@
   <abstract>
 <t>
    This document defines a logical network element module. This module
-   along with the network instance module can be used to manage the
-   logical and virtual resource representations that may be present on a
+   can be used to manage the
+   logical resource partitioning that may be present on a
    network device. Examples of common industry terms for logical
-   resource representations are Logical Systems or Logical Routers.
-   Examples of of common industry terms for virtual resource
-   representations are Virtual Routing and Forwarding (VRF) instances
-   and Virtual Switch Instances (VSIs).
+   resource partitioning are Logical Systems or Logical Routers.
 </t>
 </abstract>
 </front>
@@ -76,7 +73,10 @@
   host resources to a given LNE.  As the interface management model
   <xref target="RFC7223"/> is the only a module that currently defines
   host resources, this document currently defines only a single
-  augmentation to cover the assignment of interfaces to an LNE.
+  augmentation to cover the assignment of interfaces to an LNE. Future
+  modules that define support for the control of host device resources
+  are expected to, where appropriate, provide parallel support for the
+  assignment of controlled resources to LNEs.
 </t>
 <t>
   As each LNE is an independently managed device, each will have its own
@@ -103,24 +103,15 @@
   Examples of vendor terminology for an LNE include logical system or
   logical router, and virtual switch, chassis, or fabric.
 </t>
-<t>
-   This document was motivated by, and derived from,
-   <xref target="I-D.ietf-rtgwg-device-model"/>.
-</t>
 <section anchor="sec-1.1" title="Status of Work and Open Issues">
 <t>
 The top open issues are:
   <list style="numbers">
    <t>This document will need to match the evolution and
-   standardization of  <xref target="I-D.openconfig-netmod-opstate"/> or
-   <xref target="I-D.ietf-netmod-opstate-reqs"/> by the Netmod WG.
+   standardization of <xref target="I-D.ietf-netmod-schema-mount"/>.
    </t>
    </list>
  </t>
-<t>
-   It will also make use of emerging YANG functionality supported
-   by YANG Schema Mount.
-</t>
 </section>
 </section>
 <section anchor="sec-2" title="Overview">
@@ -166,13 +157,11 @@ The top open issues are:
 </t>
 <t>
    A model for LNEs is described in <xref target="sec-LNE"/> and
-   the model for network instances is covered in <xref
-   target="I-D.ietf-rtgwg-ni-model"/>.  For more information on how these models
-   may be used within an overall device model structure, see <xref
-   target="I-D.ietf-rtgwg-device-model"/>.
+   the model for NIs is covered in <xref
+   target="I-D.ietf-rtgwg-ni-model"/>. 
 </t>
 <t>
-   The interface management model <xref target="RFC7223"/> is and
+   The interface management model <xref target="RFC7223"/> is an
    existing model that is impacted by the definition of LNEs and
    network instances.  This document and <xref target="I-D.ietf-rtgwg-ni-model"/>
    define augmentations to the interface module to support LNEs
@@ -191,79 +180,34 @@ The top open issues are:
    interfaces (these relationships are not shown for simplicity).
    The interface management model is defined by <xref
    target="RFC7223"/>.
-</t>
-<t>
-   The logical-network-element and network-instance modules
-   augment the existing interface management model in two ways:
-   The first, by the logical-network-element module, adds an
+   The logical-network-element module
+   augments existing interface management model by adding an
    identifier which is used on physical interface types to
-   identify an associated LNE.  The second, by the
-   network-instance module, adds a name which is used on
-   interface or sub-interface types to identify an associated 
-   network instance.
-   Similarly, this name is also added for IPv4 and IPv6 types, as
-   defined in <xref target="RFC7277"/>.
+   identify an associated LNE. 
 </t>
 <t>
    The interface related augmentations are as follows:
 <figure>
-<artwork>
+  <artwork>
     module: ietf-logical-network-element
-    augment /if:interfaces/if:interface:
-       +--rw bind-lne-name?   string
-
-    augment /if:interfaces/if:interface:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv4:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv6:
-       +--rw bind-network-instance-name?   string
-</artwork>
-</figure>
-</t>
-<t>
-   The following is an example of envisioned combined usage.  The
-   interfaces container includes a number of commonly used
-   components as examples:
-</t>
-<t>
-<figure>
-<artwork>
-          +--rw interfaces
-          |  +--rw interface* [name]
-          |     +--rw name                       string
-          |     +--rw lne:bind-lne-name?         string
-          |     +--rw ethernet
-          |     |  +--rw ni:bind-network-instance-name? string
-          |     |  +--rw aggregates
-          |     |  +--rw rstp
-          |     |  +--rw lldp
-          |     |  +--rw ptp
-          |     +--rw vlans
-          |     +--rw tunnels
-          |     +--rw ipv4
-          |     |  +--rw ni:bind-network-instance-name? string
-          |     |  +--rw arp
-          |     |  +--rw icmp
-          |     |  +--rw vrrp
-          |     |  +--rw dhcp-client
-          |     +--rw ipv6
-          |        +--rw ni:bind-network-instance-name? string
-          |        +--rw vrrp
-          |        +--rw icmpv6
-          |        +--rw nd
-          |        +--rw dhcpv6-client
+        augment /if:interfaces/if:interface:
+          +--rw bind-lne-name?   ->
+               /logical-network-elements/logical-network-element/name
 </artwork>
 </figure>
 </t>
 <t>
    The <xref target="RFC7223"/> defined interface model is
    structured to include all interfaces in a flat list, without
-   regard to logical or virtual instances (e.g., VRFs) supported
+   regard to logical assignment of resources supported
    on the device.  The bind-lne-name and
-   bind-network-instance-name leaves provide the association
-   between an interface and its associated LNE and NI (e.g., VRF
-   or VSI).
+   leaf provides the association
+   between an interface and its associated LNE.  Note that as currently
+   defined, to assign an interface to both an LNE and NI, the interface
+   would first be assigned to the LNE and then within that LNE's
+   interface module, the LNE's representation of that interface would be
+   assigned to an NI using the mechanisms defined in <xref
+   target="I-D.ietf-rtgwg-ni-model"/>. 
 </t>
 </section>
 <section anchor="sec-LNE" title="  Logical Network Elements">
@@ -273,7 +217,7 @@ The top open issues are:
    and/or switches.  Device support for multiple logical network
    elements is implementation specific.  Systems without such
    capabilities need not include support for the
-   logical-network-element module.  In physical devices, some
+   logical-network-element module.  In physical devices some
    hardware features are shared across partitions, but control
    plane (e.g., routing) protocol instances, tables, and
    configuration are managed separately.  For example, in virtual
@@ -288,14 +232,14 @@ The top open issues are:
 <figure>
 <artwork>
     module: ietf-logical-network-element
-       +--rw logical-network-inventory
-          +--rw logical-network-element* [name]
-             +--rw name?   string
-             +--rw description? string
-             +--rw managed?     boolean
-             +--rw root?        yang-schema-mount
-    augment /if:interfaces/if:interface:
-       +--rw bind-lne-name?     string
+        +--rw logical-network-elements
+           +--rw logical-network-element* [name]
+              +--rw name           string
+              +--rw description?   string
+              +--rw root?        yang-schema-mount
+      augment /if:interfaces/if:interface:
+        +--rw bind-lne-name?   -> 
+               /logical-network-elements/logical-network-element/name
 </artwork>
 </figure>
 </t>
@@ -460,54 +404,79 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2017-03-13.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2017-06-25.yang"
 module ietf-logical-network-element {
-
   yang-version 1.1;
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
 
+  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
   prefix lne;
 
   // import some basic types
+
   import ietf-interfaces {
     prefix if;
+    reference "RFC 7223: A YANG Data Model for Interface Management";
   }
-
   import ietf-yang-schema-mount {
     prefix yangmnt;
+    reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
+    // RFC Ed.: Please replace this draft name with the corresponding
+    // RFC number
   }
 
-  // meta
-  organization "IETF Routing Area Working Group (rtgwg)";
-
+  organization
+    "IETF Routing Area (rtgwg) Working Group";
   contact
-      "Routing Area Working Group - <rtgwg@ietf.org>";
-
+    "WG Web:   <http://tools.ietf.org/wg/rtgwg/>
+     WG List:  <mailto:rtgwg@ietf.org>
+     
+     Authors:  Lou Berger
+               <mailto:lberger@labn.net>
+     Authors:  Christan Hopps
+               <mailto:chopps@chopps.org>
+     Authors:  Acee Lindem
+               <mailto:acee@cisco.com>
+     Authors:  Dean Bogdanovic
+               <mailto:ivandean@gmail.com>";
   description
     "This module is used to support multiple logical network
-     elements on a single physical or virtual system.";
+     elements on a single physical or virtual system.
+     
+     Copyright (c) 2017 IETF Trust and the persons
+     identified as authors of the code.  All rights reserved.
+     
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (http://trustee.ietf.org/license-info).
+     
+     This version of this YANG module is part of RFC XXXX; see
+     the RFC itself for full legal notices.";
 
-  revision "2017-03-13" {
+  // RFC Ed.: replace XXXX with actual RFC number and remove
+  // this note
+  // RFC Ed.: please update TBD
+
+  revision 2017-03-13 {
     description
       "Initial revision.";
     reference "RFC TBD";
   }
 
-  // feature statements
-  feature bind-lne-name {
-    description
-      "Logical network element to which an interface is bound";
-  }
-
   // top level device definition statements
+
   container logical-network-elements {
-    description "Allows a network device to support multiple logical
-                 network element (device) instances";
+    description
+      "Allows a network device to support multiple logical
+       network element (device) instances";
     list logical-network-element {
-      key name;
-      description "List of logical network elements";
+      key "name";
+      description
+        "List of logical network elements";
       leaf name {
         type string;
         description
@@ -525,36 +494,36 @@ module ietf-logical-network-element {
         description
           "Description of the logical network element";
       }
-      yangmnt:mount-point root {
+      yangmnt:mount-point "root" {
         description
-            "Root for models supported per logical
-             network element.  This mount point will
-             typically be of type inline.  It shall
-             always contain a yang library instance.";
-       }
+          "Root for models supported per logical
+           network element.  This mount point will
+           typically be of type inline.  It shall
+           always contain a yang library instance.";
+      }
     }
   }
 
   // augment statements
+
   augment "/if:interfaces/if:interface" {
     description
-        "Add a node for the identification of the logical network
-        element associated with an interface. Applies to interfaces
-        that can be assigned on a per logical network element basis.
-        A <TBD> error is returned when the interface type cannot be
-        assigned.";
-
+      "Add a node for the identification of the logical network
+       element associated with an interface. Applies to interfaces
+       that can be assigned on a per logical network element basis.
+       A <TBD> error is returned when the interface type cannot be
+       assigned.";
     leaf bind-lne-name {
-      type string;
+      type leafref {
+        path "/logical-network-elements/logical-network-element/name";
+      }
       description
         "Logical network element ID to which interface is bound";
     }
   }
 
   // rpc statements
-
   // notification statements
-
 }
 <CODE ENDS>
 ]]></artwork>
@@ -588,8 +557,12 @@ module ietf-logical-network-element {
 <section title="Acknowledgments">
    <t>The Routing Area Yang Architecture design team members included Acee
    Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger,
-   Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang.</t>
-
+   Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang. Useful review
+   comments were also received by Martin Bjorklund and John Scudder.</t>
+<t>
+   This document was motivated by, and derived from,
+   <xref target="I-D.ietf-rtgwg-device-model"/>.
+</t>
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
    <vspace blankLines="100"/></t>
 </section>

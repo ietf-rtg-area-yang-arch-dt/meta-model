@@ -173,28 +173,21 @@ The top open issues are:
    configuration or operational state data with different types of
    interfaces (these relationships are not shown for simplicity).
    The interface management model is defined by <xref
-   target="RFC7223"/>.
+   target="RFC7223"/>.  
 </t>
 <t>
-   The logical-network-element and network-instance modules
-   augment the existing interface management model in two ways:
-   The first, by the logical-network-element module, adds an
-   identifier which is used on physical interface types to
-   identify an associated LNE.  The second, by the
-   network-instance module, adds a name which is used on
+   The network-instance module
+   augments the existing interface management model by
+   adding a name which is used on
    interface or sub-interface types to identify an associated
    network instance.
    Similarly, this name is also added for IPv4 and IPv6 types, as
    defined in <xref target="RFC7277"/>.
 </t>
 <t>
-   The interface related augmentations are as follows:
+   The interface related augmentations is as follows:
 <figure>
 <artwork>
-    module: ietf-logical-network-element
-    augment /if:interfaces/if:interface:
-       +--rw bind-lne-name?   string
-
     module: ietf-network-instance
     augment /if:interfaces/if:interface:
        +--rw bind-network-instance-name?   string
@@ -206,7 +199,7 @@ The top open issues are:
 </figure>
 </t>
 <t>
-   The following is an example of envisioned combined usage.  The
+   The following is an example of envisioned usage.  The
    interfaces container includes a number of commonly used
    components as examples:
 </t>
@@ -216,7 +209,6 @@ The top open issues are:
           +--rw if:interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
-          |     +--rw bind-lne-name?             string
           |     +--rw ethernet
           |     |  +--rw ni:bind-network-instance-name? string
           |     |  +--rw aggregates
@@ -243,11 +235,16 @@ The top open issues are:
 <t>
    The <xref target="RFC7223"/> defined interface model is
    structured to include all interfaces in a flat list, without
-   regard to logical or virtual instances (e.g., VRFs) supported
-   on the device.  The bind-lne-name and
-   bind-network-instance-name leaves provide the association
-   between an interface and its associated LNE and NI (e.g., VRF
-   or VSI).
+   regard to virtual instances (e.g., VRFs) supported
+   on the device.  The 
+   bind-network-instance-name leaf provides the association
+   between an interface and its associated NI (e.g., VRF
+   or VSI).  Note that as currently
+   defined, to assign an interface to both an LNE and NI, the interface
+   would first be assigned to the LNE using the mechanisms defined in
+   <xref target="I-D.ietf-rtgwg-lne-model"/>
+   and then within that LNE's interface module, the LNE's representation
+   of that interface would be assigned to an NI.
 </t>
 </section>
 
@@ -700,7 +697,8 @@ module ietf-network-instance {
 <section title="Acknowledgments">
    <t>The Routing Area Yang Architecture design team members included Acee
    Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger,
-   Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang.</t>
+   Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang. Useful review
+   comments were also received by Martin Bjorklund and John Scudder.</t>
 
 <t>
    This document was motivated by, and derived from,
