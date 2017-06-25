@@ -171,7 +171,7 @@ module ietf-network-instance {
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and a error-app-tag
+       with an error-tag of 'operation-failed' and an error-app-tag
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
@@ -192,7 +192,7 @@ module ietf-network-instance {
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and a error-app-tag
+       with an error-tag of 'operation-failed' and an error-app-tag
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
@@ -213,7 +213,7 @@ module ietf-network-instance {
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and a error-app-tag
+       with an error-tag of 'operation-failed' and an error-app-tag
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";

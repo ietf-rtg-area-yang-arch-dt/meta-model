@@ -41,6 +41,12 @@
        <email>ivandean@gmail.com</email>
     </address>
     </author>
+   <author initials='X.' surname="Liu" fullname='Xufeng Liu'>
+    <organization>Jabil</organization>
+     <address>
+       <email>Xufeng_Liu@jabil.com</email>
+    </address>
+    </author>
 
   <date/>
   <abstract>
@@ -102,9 +108,26 @@
 <t>
 The top open issues are:
   <list style="numbers">
-   <t>This document will need to match the evolution and
-   standardization of  <xref target="I-D.openconfig-netmod-opstate"/> or
-   <xref target="I-D.ietf-netmod-opstate-reqs"/> by the Netmod WG.
+    <t>
+      The "policy" definitions related to the (core) support of VRFs and
+      VSIs is TBD.  This could be defined based on the L2SM and L3SM.
+    </t>
+    <t>
+      The current definition of schema mount has schema definition tied
+      to a mount point. This implies that it would be beneficial to have
+      different mount points for different types of NIs, e.g., VRF vs
+      VSI vs VSI+VRF.  Resolving this is TBD.
+    </t>
+    <t>
+      Schema mount currently doesn't allow parent-reference filtering on
+      the instance of  mount point, but rather just the schema.  This
+      means it is not possible to filter based on actual data, e.g.,
+      bind-network-instance-name="green".  If the schema mount
+      definition, the text and examples should be updated to cover this
+      case.
+    </t>
+    <t>
+      Close on other TBDs in doc/module, e.g., RPCs and notifications.
    </t>
    </list>
  </t>
@@ -189,12 +212,15 @@ The top open issues are:
 <figure>
 <artwork>
     module: ietf-network-instance
-    augment /if:interfaces/if:interface:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv4:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv6:
-       +--rw bind-network-instance-name?   string
+      augment /if:interfaces/if:interface:
+        +--rw bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
+      augment /if:interfaces/if:interface/ip:ipv4:
+        +--rw bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
+      augment /if:interfaces/if:interface/ip:ipv6:
+        +--rw bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
 </artwork>
 </figure>
 </t>
@@ -204,13 +230,15 @@ The top open issues are:
    components as examples:
 </t>
 <t>
+  <!-- TBD: Maybe use longer example from Xufeng -->
 <figure>
 <artwork>
           +--rw if:interfaces
           |  +--rw interface* [name]
           |     +--rw name                       string
           |     +--rw ethernet
-          |     |  +--rw ni:bind-network-instance-name? string
+          |     |  +--rw ni:bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
           |     |  +--rw aggregates
           |     |  +--rw rstp
           |     |  +--rw lldp
@@ -218,13 +246,15 @@ The top open issues are:
           |     +--rw vlans
           |     +--rw tunnels
           |     +--rw ipv4
-          |     |  +--rw ni:bind-network-instance-name? string
+          |     |  +--rw ni:bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
           |     |  +--rw arp
           |     |  +--rw icmp
           |     |  +--rw vrrp
           |     |  +--rw dhcp-client
           |     +--rw ipv6
-          |        +--rw ni:bind-network-instance-name? string
+          |        +--rw ni:bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
           |        +--rw vrrp
           |        +--rw icmpv6
           |        +--rw nd
@@ -248,16 +278,17 @@ The top open issues are:
 </t>
 </section>
 
-<section anchor="sec-NI" title="  Network Instances">
+<section anchor="sec-NI" title="Network Instances">
 <t>
    The network instance container is used to represent virtual routing
    and forwarding instances (VRFs) and virtual switching instances
    (VSIs), <xref target="RFC4026"/>.  VRFs and VSIs are commonly used to isolate
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
-   policies.  The model represents both core/provider and virtual
-   instances.  Network instances reuse and build on <xref target="RFC8022"/>
-   and are shown below:
+   policies.  The model represents supports both core/provider and virtual
+   instances.  Core/provider instance information is accessible at the
+   top level of the server, while virtual instance information is
+   accessible under the NI root schema mount point.
 </t>
 <t>
 <figure>
@@ -271,24 +302,29 @@ The top open issues are:
              +--rw description?                 string
              +--rw network-instance-policy
              |  ...
-             +--rw root?                      yang-schema-mount
+             +--rw root?                      yangmnt:mount-point
              |  ...
-    augment /if:interfaces/if:interface:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv4:
-       +--rw bind-network-instance-name?   string
-    augment /if:interfaces/if:interface/ip:ipv6:
-       +--rw bind-network-instance-name?   string
+      augment /if:interfaces/if:interface:
+        +--rw bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
+      augment /if:interfaces/if:interface/ip:ipv4:
+        +--rw bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
+      augment /if:interfaces/if:interface/ip:ipv6:
+        +--rw bind-network-instance-name?   ->
+                          /network-instances/network-instance/name
 </artwork>
 </figure>
 </t>
 <t>
    A network instance is identified by a
-   `name` string.  This string is used both as
+   'name' string.  This string is used both as
    an index within the network-instance module and to associate
    resources with a network instance as shown above in the
    interface augmentation. Type is used to indicate the type NI,
-   such as L3-VRF, VPLS, L2-VSI, etc. Network instance policy
+   such as L3-VRF, VPLS, L2-VSI, etc. (TBD: Replace with choice, and per
+   type case).
+   Network instance policy
    and root are discussed in greater detail below.
 </t>
 <section anchor="sec-NI.1" title="  Network Instance Policy">
@@ -313,87 +349,121 @@ The top open issues are:
 </t>
 </section>
 
-<section anchor="sec-NI.2" title="  Network Instance Management">
+<section anchor="sec-NI.2" title="Network Instance Management">
 <t>
    Modules that may be used to represent network instance
    specific information will be available under
-   `root`.  As with LNEs, actual module
-   availability is expected to be implementation dependent. The
+   'root'.  The
    use-schema mechanism defined as part of the Schema Mount module
    <xref target="I-D.ietf-netmod-schema-mount"/>
-   is expected to be the primary method
-   used to identify supported modules.  Resource related control
-   and assignment is expected to be managed at the network-device
-   level, not the network instance level, based on the
-   `bind-network-instance-name` augmentation
-   mentioned above.  Mounted modules will access such information, as
-   well as any other information contained within a module at the device
-   root, by using the parent-reference mechanism defined in <xref
-   target="I-D.ietf-netmod-schema-mount"/>.
+   MUST used with the module defined in this document to identify
+   supported modules. 
+   A future version of this document could relax this requirement.
+   Mounted modules in the non-inline case SHOULD be defined with 
+   access, via the appropriate schema mount parent-references <xref
+   target="I-D.ietf-netmod-schema-mount"/>, to
+   device resources such as interfaces.
 </t>
-<t>
-   As an example, consider the case where a network instance with a
-   `name` of "green" is defined on a network device.  In this case the
-   following logical structure might be made available:
-</t>
-<t>
-<figure>
-<artwork>
-   +--rw yanglib:modules-state           [RFC7895]
-   +--rw if:interfaces                   [RFC7223]
-   |  +--rw bind-network-instance-name="green" string
-   +--rw network-instances
-      +--rw network-instance* [name]
-         +--rw name="green"    string
-         +--rw type?                           identityref
-         +--rw enabled=true                    boolean
-         +--rw description="The Green VRF"     string
-         +--rw network-instance-policy
-         |  ... (RT=1000:1, RD=1.2.3.4)
-         +--rw root?                           yang-schema-mount
-</artwork>
-</figure>
-</t>
-<t>with a corresponding logical structure in the schema-mount module: </t>
-<t>
-<figure>
-<artwork>
-module: ietf-yang-schema-mount
-   +--ro schema-mounts
-      :
-      +--ro mount-point* [module name]
-      |  +--ro module="ietf-network-instance"
-      |  +--ro name="root"
-      |  +--ro config=true
-      |  +--ro (schema-ref)?
-      |     +--:(use-schema)
-      |        +--ro use-schema* [name]
-      |           +--ro name="ni-vrf"
-      :           :
-      :
-      +--ro schema* [name]
-         +--ro name="ni-vrf"           string
-         +--ro module*  [name revision]
-         |  +--ro name="mm:network-services"
-         :  :
-         |  +--ro name="nn:oam-protocols"
-         :  :
-         |  +--ro name="oo:routing"
-         :  :
-         |  +--ro name="pp:mpls"
-         :  :
-         +--ro mount-point* [network-instance]
-            :
-</artwork>
-</figure>
-</t>
+
 <t>
     All modules that represent control-plane and data-plane
-    information may be present at the `root`,
+    information may be present at the 'root',
     and be accessible via paths modified per
     <xref target="I-D.ietf-netmod-schema-mount"/>.  The list of available
     modules is expected to be implementation dependent.  As is the
     method used by an implementation to support NIs.
+</t>
+
+<t>
+  As an example, the following could be used to define support for
+  an NI used to support VRFs which use OSPF <xref
+  target="I-D.ietf-ospf-yang"/>:
+</t>
+<t>
+  <figure>
+    <artwork>
+    "ietf-yang-schema-mount:schema-mounts": {
+      "mount-point": [
+        {
+          "module": "ietf-network-instance",
+          "name": "root",
+          "use-schema": [
+            {
+              "name": "ni-schema",
+              "parent-reference": [
+                "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+              ]
+            }
+          ]
+        }
+      ],
+      "schema": [
+        {
+          "name": "ni-schema",
+          "module": [
+            {
+               "name": "ietf-routing",
+               "revision": "2016-11-04",
+               "namespace":
+                 "urn:ietf:params:xml:ns:yang:ietf-routing",
+               "conformance-type": "implement"
+             },
+            {
+               "name": "ietf-ospf",
+               "revision": "2017-03-12",
+               "namespace":
+                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
+               "conformance-type": "implement"
+            }
+          ]
+        }
+      ]
+    }
+    </artwork>
+  </figure>
+</t>
+<t>
+  The resulting full module tree representation would be:
+</t>
+<t>
+<figure>
+  <artwork>
+   module: ietf-network-instance
+   +--rw network-instances
+      +--rw network-instance* [name]
+         +--rw name                       string
+         +--rw type?                      identityref
+         +--rw enabled?                   boolean
+         +--rw description?               string
+         +--rw network-instance-policy
+         +--rw root?          yangmnt:mount-point
+            // module: ietf-routing
+            +--ro routing-state
+            |  +--ro router-id?                 yang:dotted-quad
+            |  +--ro control-plane-protocols
+            |  |  +--ro control-plane-protocol* [type name]
+            |        // module: ietf-ospf
+            |         +--ro ospf
+            |           +--ro instance* [af]
+            +--rw routing
+               +--rw router-id?                 yang:dotted-quad
+               +--rw control-plane-protocols
+               |  +--rw control-plane-protocol* [type name]
+               |  // module: ietf-ospf
+               |     +--rw ospf:ospf
+               |        +--rw ospf:instance* [af]
+               |           +--rw ospf:areas
+               |           |  +--rw ospf:area* [area-id]
+               |           |     +--rw ospf:interfaces
+               |           |        +--rw ospf:interface* [name]
+               |           |           +--rw ospf:name
+                                                   if:interface-ref
+               |           |           +--rw ospf:cost?   uint16
+            // module: ietf-interfaces
+            // access is enabled by parent-reference in the YANG
+            // schema mount.
+</artwork>
+</figure>
 </t>
 </section>
 
@@ -408,9 +478,43 @@ module: ietf-yang-schema-mount
 </t>
 </section>
 </section>
-<section anchor="sec-4" title="  Security Considerations">
+<section anchor="sec-4" title="Security Considerations">
   <t>
-    TBD
+    There are two different sets of security considerations to consider
+    in the context of this document.  One set is security related to
+    information contained within mounted modules.  The security
+    considerations for mounted modules is not substantively changed
+    based on the information being accessible within the context of an
+    NI.  For example, when considering the modules defined in <xref
+    target="RFC8022"/>, the security considerations identified in that
+    document are equally applicable, whether those modules are accessed
+    at a server's root or under an NI instances root node.
+  </t>
+  <t>
+    The second area for consideration is information contained in the NI
+    module itself.  NI information represents network configuration and
+    route distribution policy information. As such, the security of this
+    information is important, but it is fundamentally no different than
+    any other interface or routing configuration information that has
+    already been covered in <xref target="RFC7223"/> and <xref
+    target="RFC8022"/>.
+  </t>
+  <t>The vulnerable "config true" parameters and subtrees are the
+  following:
+  <list style="hanging">
+    <t hangText="/network-instances/network-instance:">
+      This list specifies the network instances and the related control
+      plane protocols configured on a device.
+    </t>
+    <t hangText="/if:interfaces/if:interface/*/bind-network-instance-name:">
+      This leaf indicates the NI instance to which an interface is
+      assigned.
+    </t>
+  </list>
+  Unauthorized access to any of these lists can adversely affect the
+  routing subsystem of both the local device and the network. This
+  may lead to network malfunctions, delivery of packets to
+  inappropriate destinations and other problems.
   </t>
 </section>
 
@@ -451,7 +555,7 @@ module: ietf-yang-schema-mount
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2017-06-23.yang"
+<CODE BEGINS> file "ietf-network-instance@2017-06-25.yang"
 module ietf-network-instance {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
@@ -480,13 +584,13 @@ module ietf-network-instance {
     "WG Web:   <http://tools.ietf.org/wg/rtgwg/>
      WG List:  <mailto:rtgwg@ietf.org>
 
-     Authors:  Lou Berger
+     Author:   Lou Berger
                <mailto:lberger@labn.net>
-     Authors:  Christan Hopps
+     Author:   Christan Hopps
                <mailto:chopps@chopps.org>
-     Authors:  Acee Lindem
+     Author:   Acee Lindem
                <mailto:acee@cisco.com>
-     Authors:  Dean Bogdanovic
+     Author:   Dean Bogdanovic
                <mailto:ivandean@gmail.com>";
   description
     "This module is used to support multiple network instances
@@ -559,7 +663,7 @@ module ietf-network-instance {
     container network-instance-policy {
       description
         "Network Instance Policy -- details TBD,
-         perhaps based on BESS model";
+         perhaps based on BESS model.";
     }
   }
 
@@ -574,12 +678,12 @@ module ietf-network-instance {
     list network-instance {
       key "name";
       description
-        "List of network-instances";
+        "List of network-instances.";
       leaf name {
         type string;
         description
           "device scoped identifier for the network
-           instance";
+           instance.";
       }
       leaf type {
         type identityref {
@@ -601,7 +705,7 @@ module ietf-network-instance {
         type string;
         description
           "Description of the network instance
-           and its intended purpose";
+           and its intended purpose.";
       }
       uses network-instance-policy;
       yangmnt:mount-point "root" {
@@ -620,39 +724,63 @@ module ietf-network-instance {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on a interface";
+       on a interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an error-app-tag
+       of 'ni-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-network-instance-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
       description
-        "Network Instance to which an interface is bound";
+        "Network Instance to which an interface is bound.";
     }
   }
   augment "/if:interfaces/if:interface/ip:ipv4" {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface";
+       on an IP interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an error-app-tag
+       of 'ni-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-network-instance-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
       description
-        "Network Instance to which IPv4 interface is bound";
+        "Network Instance to which IPv4 interface is bound.";
     }
   }
   augment "/if:interfaces/if:interface/ip:ipv6" {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface";
+       on an IP interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an error-app-tag
+       of 'ni-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
     leaf bind-network-instance-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
       description
-        "Network Instance to which IPv6 interface is bound";
+        "Network Instance to which IPv6 interface is bound.";
     }
   }
 
@@ -684,9 +812,7 @@ module ietf-network-instance {
 <references title="Informative References">
 
 <?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
-<?rfc include="reference.I-D.openconfig-netmod-opstate.xml"?>
-<?rfc include="reference.I-D.ietf-netmod-opstate-reqs.xml"?>
-<?rfc include="reference.RFC.7895"?>
+<?rfc include="reference.I-D.ietf-ospf-yang.xml"?>
 <?rfc include="reference.RFC.4026"?>
 <?rfc include="reference.RFC.7950"?>
 <?rfc include="reference.RFC.8022"?>
@@ -707,15 +833,6 @@ module ietf-network-instance {
 
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
    <vspace blankLines="100"/></t>
-</section>
-<section title="Contributors">
-<figure>
-<artwork>
-Contributors' Addresses
-
-   TBD
-</artwork>
-</figure>
 </section>
 </back>
 
