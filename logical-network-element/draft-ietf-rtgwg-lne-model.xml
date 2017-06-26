@@ -41,6 +41,12 @@
        <email>ivandean@gmail.com</email>
     </address>
     </author>
+   <author initials='X.' surname="Liu" fullname='Xufeng Liu'>
+    <organization>Jabil</organization>
+     <address>
+       <email>Xufeng_Liu@jabil.com</email>
+    </address>
+    </author>
 
   <date/>
   <abstract>
@@ -64,8 +70,8 @@
   parent, network device. (An LNE running on a host network device
   conceptually parallels a virtual machine running on a host system.)
   Using host-virtualization terminology one could refer to an LNE as
-  a "Guest", and the containing network-device as the "Host". While 
-  LNEs may be implemented via host-virtualization technologies this 
+  a "Guest", and the containing network-device as the "Host". While
+  LNEs may be implemented via host-virtualization technologies this
   is not a requirement.
 </t>
 <t>
@@ -85,7 +91,7 @@
   interface defined which will not conflict with each other and will not
   exist in the host's interface model. An LNE will have it's own
   management interfaces possibly including independent instances of
-  netconf/restconf/etc servers 
+  netconf/restconf/etc servers
   to support configuration of their YANG models. As an example of
   this independence, an implementation may choose to completely rename
   assigned interfaces, so on the host the assigned interface might be
@@ -158,7 +164,7 @@ The top open issues are:
 <t>
    A model for LNEs is described in <xref target="sec-LNE"/> and
    the model for NIs is covered in <xref
-   target="I-D.ietf-rtgwg-ni-model"/>. 
+   target="I-D.ietf-rtgwg-ni-model"/>.
 </t>
 <t>
    The interface management model <xref target="RFC7223"/> is an
@@ -183,7 +189,7 @@ The top open issues are:
    The logical-network-element module
    augments existing interface management model by adding an
    identifier which is used on physical interface types to
-   identify an associated LNE. 
+   identify an associated LNE.
 </t>
 <t>
    The interface related augmentations are as follows:
@@ -207,7 +213,7 @@ The top open issues are:
    would first be assigned to the LNE and then within that LNE's
    interface module, the LNE's representation of that interface would be
    assigned to an NI using the mechanisms defined in <xref
-   target="I-D.ietf-rtgwg-ni-model"/>. 
+   target="I-D.ietf-rtgwg-ni-model"/>.
 </t>
 </section>
 <section anchor="sec-LNE" title="Logical Network Elements">
@@ -237,9 +243,9 @@ The top open issues are:
               +--rw name           string
               +--rw description?   string
               +--rw managed?       boolean
-              +--rw root?          yang-schema-mount
+              +--rw root?          yangmnt:mount-point
       augment /if:interfaces/if:interface:
-        +--rw bind-lne-name?   -> 
+        +--rw bind-lne-name?   ->
                /logical-network-elements/logical-network-element/name
 </artwork>
 </figure>
@@ -368,55 +374,420 @@ The top open issues are:
   module.
 </t>
 <t>
-   As an example, consider the case where an LNE with a
-   'name' of "one" is defined on a network device.
-   In this case  the following structure might be made available:
+  Beyond the two modules that always be present for an LNE, as an LNE is
+  a network device itself, all modules that may be present at the top
+  level network device MAY also be present for the LNE.The list of
+  available modules is expected to be implementation dependent. As is
+  the method used by an implementation to support LNEs.  The following
+  subsections provide some examples uses of LNEs.
 </t>
-<t>
-<figure>
-<artwork>
-.......................................................................
-                                                 (network-device state)
+<section anchor="sec-LNE.exHost" title="Example: Host Device Managed LNE">
+  <t>
+    [Editor's note: this section needs to be updated.]
+  </t>
+  <t>
+    This section describes an example of the LNE model using schema
+    mount to achieve the parent management. An example company
+    implements a device that supports multiple instances of virtual
+    routers, each of them supports the features of layer 2 and layer 3
+    interfaces [RFC7223], routing information base [RFC8022], and OSPF
+    protocol. Each of these features is specified by an YANG model, and
+    they are put together by the YANG Schema Mount as following:
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+module: ietf-logical-network-element
+   +--rw logical-network-elements
+      +--rw logical-network-element* [name]
+         +--rw name           string
+         +--rw root?          yangmnt:mount-point
+            // module: ietf-yang-library
+               +--ro modules-state
+                  +--ro module-set-id    string
+                  +--ro module* [name revision]
+                     +--ro name                yang:yang-identifier
 
-+--rw yanglib:modules-state        [RFC7895]
-+--rw lne:logical-network-elements [This document]
-    +--rw logical-network-element* [name]
-        +--rw name="one"           string
-        +--rw manged=true          boolean
-        +--rw root                 yang-schema-mount
-           |
-.......................................................................
-           |                        (exposed LNE state if managed=true)
-           |
-           +--rw yanglib:modules-state  [RFC7895]
-           +--rw if:intefaces           [RFC7223]
-           +--rw hardware
-           +--rw qos
-           +--rw system-management
-           +--rw network-services
-           +--rw oam-protocols
-           +--rw rt:routing             [I-D.ietf-netmod-routing-cfg]
-           +--rw mpls
-           +--rw ieee-dot1Q
-           +--rw ni:network-instances   [I-D.ietf-rtgwg-ni-model]
-</artwork>
-</figure>
-</t>
-<t>
-    As an LNE is a network device itself, all modules that may be present at
-    the top level network device may also be present for the LNE, be made
-    available under 'root', and be accessible via paths
-    modified per <xref target="I-D.ietf-netmod-schema-mount"/>. The list of available
-    modules is expected to be implementation dependent. As is the method used
-    by an implementation to support LNEs.
-</t>
-<t>
-    Resources assigned to the LNE will be represented in that LNE's resource
-    modules. e.g., an LNE's interfaces module will contain the interfaces
-    assigned to that LNE from the containing network-device.
-</t>
+            // module: ietf-system
+            +--rw system
+            |  +--rw contact?          string
+            |  +--rw hostname?         inet:domain-name
+            |  +--rw authentication {authentication}?
+            |     +--rw user-authentication-order*   identityref
+            |     +--rw user* [name] {local-users}?
+            |        +--rw name              string
+            |        +--rw password?         ianach:crypt-hash
+            |        +--rw authorized-key* [name]
+            |           +--rw name         string
+            |           +--rw algorithm    string
+            |           +--rw key-data     binary
+            +--ro system-state
+               +--ro platform
+               |  +--ro os-name?      string
+               |  +--ro os-release?   string
+
+            // module: ietf-routing
+            +--ro routing-state
+            |  +--ro router-id?                 yang:dotted-quad
+            |  +--ro control-plane-protocols
+            |  |  +--ro control-plane-protocol* [type name]
+                     // module: ietf-ospf
+                     +--ro ospf
+                        +--ro instance* [af]
+            +--rw routing
+               +--rw router-id?                 yang:dotted-quad
+               +--rw control-plane-protocols
+               |  +--rw control-plane-protocol* [type name]
+                  // module: ietf-ospf
+               |     +--rw ospf:ospf
+               |        +--rw ospf:instance* [af]
+               |           +--rw ospf:areas
+               |           |  +--rw ospf:area* [area-id]
+               |           |     +--rw ospf:interfaces
+               |           |        +--rw ospf:interface* [name]
+               |           |           +--rw ospf:name
+                                                   if:interface-ref
+               |           |           +--rw ospf:cost?   uint16
+            // module: ietf-interfaces
+            +--rw interfaces
+            |  +--rw interface* [name]
+            |     +--rw name            string
+            +--ro interfaces-state
+               +--ro interface* [name]
+               +--ro name               string
+
+module: ietf-interfaces
+   +--rw interfaces
+   |  +--rw interface* [name]
+   |     +--rw name                        string
+   |     +--rw lne:bind-lne-name?          string
+   +--ro interfaces-state
+      +--ro interface* [name]
+         +--ro name               string
+         +--ro oper-status        enumeration
+
+module: ietf-yang-library
+   +--ro modules-state
+      +--ro module-set-id    string
+      +--ro module* [name revision]
+         +--ro name                yang:yang-identifier
+
+module: ietf-system
+   +--rw system
+   |  +--rw contact?          string
+   |  +--rw hostname?         inet:domain-name
+   |  +--rw authentication {authentication}?
+   |     +--rw user-authentication-order*   identityref
+   |     +--rw user* [name] {local-users}?
+   |        +--rw name              string
+   |        +--rw password?         ianach:crypt-hash
+   |        +--rw authorized-key* [name]
+   |           +--rw name         string
+   |           +--rw algorithm    string
+   |           +--rw key-data     binary
+   +--ro system-state
+      +--ro platform
+      |  +--ro os-name?      string
+      |  +--ro os-release?   string
+      ]]></artwork>
+    </figure>
+  </t>
+  <t>
+To realize the above schema, the example company implements the following schema mount instance:
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+"ietf-yang-schema-mount:schema-mounts": {
+  "mount-point": [
+    {
+      "module": "ietf-logical-network-element",
+      "name": "root",
+      "use-schema": [
+        {
+          "name": "lne-schema"
+        }
+      ]
+    }
+  ],
+  "schema": [
+    {
+      "name": "lne-schema",
+      "module": [
+        {
+          "name": "ietf-yang-library",
+          "revision": "2016-06-21",
+          "namespace":
+            "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+          "conformance-type": "implement"
+        },
+        {
+          "name": "ietf-system",
+          "revision": "2014-08-06",
+          "namespace":
+            "urn:ietf:params:xml:ns:yang:ietf-system",
+          "conformance-type": "implement"
+        },
+        {
+          "name": "ietf-routing",
+          "revision": "2016-11-04",
+          "namespace":
+            "urn:ietf:params:xml:ns:yang:ietf-routing",
+          "conformance-type": "implement"
+        },
+          "name": "ietf-ospf",
+          "revision": "2017-03-12",
+          "namespace":
+            "urn:ietf:params:xml:ns:yang:ietf-ospf",
+          "conformance-type": "implement"
+        },
+        {
+          "name": "ietf-interfaces",
+          "revision": "2014-05-08",
+          "namespace":
+            "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+          "conformance-type": "implement"
+        }
+      ]
+    }
+  ]
+}
+      ]]></artwork>
+    </figure>
+  </t>
+  <t>
+    By using the implementation of the YANG schema mount, an operator
+    can create instances of virtual routers. An interface can be
+    assigned to a virtual router, so that the virtual router has the
+    permission to access this interface. OSPF protocol can then be
+    enabled on this assigned interface.
+  </t>
+  <t>
+    For this implementation, a parent management session has access to
+    the schemas of both the parent hosting system and the child virtual
+    routers. In addition, each child virtual router can grant its own
+    management sessions, which have the following schema:
+  </t>
+  <t>
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+module: ietf-yang-library
+   +--ro modules-state
+      +--ro module-set-id    string
+      +--ro module* [name revision]
+         +--ro name                yang:yang-identifier
+
+module: ietf-system
+   +--rw system
+   |  +--rw contact?          string
+   |  +--rw hostname?         inet:domain-name
+   |  +--rw authentication {authentication}?
+   |     +--rw user-authentication-order*   identityref
+   |     +--rw user* [name] {local-users}?
+   |        +--rw name              string
+   |        +--rw password?         ianach:crypt-hash
+   |        +--rw authorized-key* [name]
+   |           +--rw name         string
+   |           +--rw algorithm    string
+   |           +--rw key-data     binary
+   +--ro system-state
+      +--ro platform
+      |  +--ro os-name?      string
+      |  +--ro os-release?   string
+
+module: ietf-routing
+   +--ro routing-state
+   |  +--ro router-id?                 yang:dotted-quad
+   |  +--ro control-plane-protocols
+   |  |  +--ro control-plane-protocol* [type name]
+            // module: ietf-ospf
+            +--ro ospf
+               +--ro instance* [af]
+   +--rw routing
+      +--rw router-id?                 yang:dotted-quad
+      +--rw control-plane-protocols
+      |  +--rw control-plane-protocol* [type name]
+            // module: ietf-ospf
+      |     +--rw ospf:ospf
+      |        +--rw ospf:instance* [af]
+      |           +--rw ospf:areas
+      |           |  +--rw ospf:area* [area-id]
+      |           |     +--rw ospf:interfaces
+      |           |        +--rw ospf:interface* [name]
+      |           |           +--rw ospf:name    if:interface-ref
+      |           |           +--rw ospf:cost?   uint16
+
+module: ietf-interfaces
+   +--rw interfaces
+   |  +--rw interface* [name]
+   |     +--rw name                        string
+   +--ro interfaces-state
+      +--ro interface* [name]
+      +--ro name               string
+      +--ro oper-status        enumeration
+      ]]></artwork>
+    </figure>
+  </t>
 </section>
+<section anchor="sec-LNE.exLNE" title="Example: Self Managed LNE">
+  <t>
+    [Editor's note: this section needs to be updated.]
+  </t>
+  <t>
+    This section describes an example of the LNE model using schema
+    mount to achieve child independent management. An example company
+    implements a device that supports multiple instances of virtual
+    routers, each of them has the features of layer 2 and layer 3
+    interfaces [RFC7223], routing information base [RFC8022], and OSPF
+    protocol. Each of these features is specified by an YANG model, and
+    they are put together by the YANG Schema Mount as following:
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+module: ietf-logical-network-element
+   +--rw logical-network-elements
+      +--rw logical-network-element* [name]
+         +--rw name           string
+         +--rw description?   string
+         +--rw managed?       boolean
+         +--rw root?          yangmnt:mount-point
+            // Assuming managed='false', the internal modules
+            // of the LNE are not visible to the parent management.
+            // The child manages its modules, including ietf-routing
+            // and ietf-interfaces
 
+module: ietf-interfaces
+   +--rw interfaces
+   |  +--rw interface* [name]
+   |     +--rw name                        string
+   |     +--rw lne:bind-lne-name?          string
+   +--ro interfaces-state
+      +--ro interface* [name]
+         +--ro name               string
+         +--ro oper-status        enumeration
+
+module: ietf-yang-library
+   +--ro modules-state
+      +--ro module-set-id    string
+      +--ro module* [name revision]
+         +--ro name                yang:yang-identifier
+         //full list of modules accessible, including augmentations
+
+module: ietf-system
+   +--rw system
+   |  +--rw contact?          string
+   |  +--rw hostname?         inet:domain-name
+   |  +--rw authentication {authentication}?
+   |     +--rw user-authentication-order*   identityref
+   |     +--rw user* [name] {local-users}?
+   |        +--rw name              string
+   |        +--rw password?         ianach:crypt-hash
+   |        +--rw authorized-key* [name]
+   |           +--rw name         string
+   |           +--rw algorithm    string
+   |           +--rw key-data     binary
+   +--ro system-state
+      +--ro platform
+      |  +--ro os-name?      string
+      |  +--ro os-release?   string
+      ]]></artwork>
+    </figure>
+  </t>
+  <t>
+    To realize the above schema, the example company implements the
+    following schema mount instance:
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+"ietf-yang-schema-mount:schema-mounts": {
+  "mount-point": [
+    {
+      "module": "ietf-logical-network-element",
+      "name": "root",
+      "inline": [null]
+    }
+  ]
+}
+      ]]></artwork>
+    </figure>
+  </t>
+  <t>
+    By using the implementation of the YANG schema mount, an operator
+    can create instances of virtual routers, with their virtual router
+    specific in-line modules. An interface can be assigned to a virtual
+    router, so that the virtual router has the permission to access this
+    interface. OSPF protocol can then be enabled on this assigned
+    interface. Each virtual router independently manages its own set of
+    modules, which may or may not be the same as other virtual
+    routers. The following is an example of schema set implemented on
+    one particular virtual router:
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+module: ietf-yang-library
+   +--ro modules-state
+      +--ro module-set-id    string
+      +--ro module* [name revision]
+         +--ro name                yang:yang-identifier
+
+module: ietf-system
+   +--rw system
+   |  +--rw contact?          string
+   |  +--rw hostname?         inet:domain-name
+   |  +--rw authentication {authentication}?
+   |     +--rw user-authentication-order*   identityref
+   |     +--rw user* [name] {local-users}?
+   |        +--rw name              string
+   |        +--rw password?         ianach:crypt-hash
+   |        +--rw authorized-key* [name]
+   |           +--rw name         string
+   |           +--rw algorithm    string
+   |           +--rw key-data     binary
+   +--ro system-state
+      +--ro platform
+      |  +--ro os-name?      string
+      |  +--ro os-release?   string
+
+module: ietf-routing
+   +--ro routing-state
+   |  +--ro router-id?                 yang:dotted-quad
+   |  +--ro control-plane-protocols
+   |  |  +--ro control-plane-protocol* [type name]
+            // module: ietf-ospf
+            +--ro ospf
+               +--ro instance* [af]
+   +--rw routing
+      +--rw router-id?                 yang:dotted-quad
+      +--rw control-plane-protocols
+      |  +--rw control-plane-protocol* [type name]
+            // module: ietf-ospf
+      |     +--rw ospf:ospf
+      |        +--rw ospf:instance* [af]
+      |           +--rw ospf:areas
+      |           |  +--rw ospf:area* [area-id]
+      |           |     +--rw ospf:interfaces
+      |           |        +--rw ospf:interface* [name]
+      |           |           +--rw ospf:name    if:interface-ref
+      |           |           +--rw ospf:cost?   uint16
+
+module: ietf-interfaces
+   +--rw interfaces
+   |  +--rw interface* [name]
+   |     +--rw name                        string
+   +--ro interfaces-state
+      +--ro interface* [name]
+      +--ro name               string
+      +--ro oper-status        enumeration
+      ]]></artwork>
+    </figure>
+  </t>
+</section>
+</section>
 </section>
 
 <section anchor="sec-4" title="  Security Considerations">
@@ -575,7 +946,7 @@ module ietf-logical-network-element {
         type boolean;
         description
           "True if the host can access LNE information
-           using the root mount point.  This value 
+           using the root mount point.  This value
            my not be settable in all implementations.";
       }
       leaf description {
