@@ -35,3 +35,15 @@ Statements.
 A participant in any IETF activity acknowledges that written, audio and
 video records of meetings may be made and may be available to the
 public.
+
+Formatted version of the XML contained in this repo can be accessed via:
+
+o ietf-rtgwg-lne-model:
+	https://xml2rfc.tools.ietf.org/cgi-bin/xml2rfc.cgi?url=https://raw.githubusercontent.com/ietf-rtg-area-yang-arch-dt/meta-model/master/logical-network-element/draft-ietf-rtgwg-lne-model.xml&modeAsFormat=html%2Fascii
+
+o ietf-rtgwg-ni-model: 
+	https://xml2rfc.tools.ietf.org/cgi-bin/xml2rfc.cgi?url=https://raw.githubusercontent.com/ietf-rtg-area-yang-arch-dt/meta-model/master/network-instance/draft-ietf-rtgwg-ni-model.xml&modeAsFormat=html%2Fascii
+
+o ietf-rtgwg-device-model:
+    https://xml2rfc.tools.ietf.org/cgi-bin/xml2rfc.cgi?url=https://raw.githubusercontent.com/ietf-rtg-area-yang-arch-dt/meta-model/master/device-model/draft-ietf-rtgwg-device-model.xml&modeAsFormat=html%2Fascii
+ 
