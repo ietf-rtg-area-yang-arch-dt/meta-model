@@ -31,7 +31,7 @@ TREES := $(MODELS:.yang=.tree)
 	@sed 's/revision.\"[0-9]*\-[0-9]*\-[0-9]*\"/revision "'`date +%F`'"/' < $<.prev > $<
 	@diff $<.prev $< || exit 0
 	@echo Generating $@	
-	@PYTHONPATH=$(PYTHONPATH) pyang --ietf -f tree -p $(PLUGPATH) $< > $@  || exit 0
+	@PYTHONPATH=$(PYTHONPATH) pyang --ietf -f tree --tree-line-length 68 -p $(PLUGPATH) $< > $@  || exit 0
 
 %.txt: %.xml
 	@if [ $(WITHXML2RFC) == 0 ] ; then 	\
