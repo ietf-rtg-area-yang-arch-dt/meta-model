@@ -266,7 +266,7 @@ module: ietf-logical-network-element
   indicates if the server providing the host network device will
   provide the client LNE information via the 'root' structure.
   The root of an LNE's specific data is the schema mount point
-  'root'. bind-lne-nam is used to associated an interface with an LNE
+  'root'. bind-lne-name is used to associated an interface with an LNE
   and bind-lne-name-failed is used in certain failure cases.
 </t>
 <t>
@@ -400,16 +400,14 @@ module: ietf-logical-network-element
 </t>
 <section anchor="sec-LNE.exHost" title="Example: Host Device Managed LNE">
   <t>
-    [Editor's note: this section needs to be updated.]
-  </t>
-  <t>
     This section describes an example of the LNE model using schema
     mount to achieve the parent management. An example company
-    implements a device that supports multiple instances of virtual
-    routers, each of them supports the features of layer 2 and layer 3
-    interfaces [RFC7223], routing information base [RFC8022], and OSPF
-    protocol. Each of these features is specified by an YANG model, and
-    they are put together by the YANG Schema Mount as following:
+    implements a device that supports multiple instances of LNEs
+    (virtual routers), each of which supports features of layer 2 and
+    layer 3 interfaces <xref target="RFC7223"/>, routing information base
+    <xref target="RFC8022"/>, and OSPF protocol. Each of these features
+    is specified by a YANG model, and they are combined using YANG
+    Schema Mount as following:
   </t>
   <t>
     <figure>
@@ -418,60 +416,62 @@ module: ietf-logical-network-element
    +--rw logical-network-elements
       +--rw logical-network-element* [name]
          +--rw name           string
-         +--rw root?          yangmnt:mount-point
-            // module: ietf-yang-library
-               +--ro modules-state
-                  +--ro module-set-id    string
-                  +--ro module* [name revision]
-                     +--ro name                yang:yang-identifier
-
-            // module: ietf-system
-            +--rw system
-            |  +--rw contact?          string
-            |  +--rw hostname?         inet:domain-name
-            |  +--rw authentication {authentication}?
-            |     +--rw user-authentication-order*   identityref
-            |     +--rw user* [name] {local-users}?
-            |        +--rw name              string
-            |        +--rw password?         ianach:crypt-hash
-            |        +--rw authorized-key* [name]
-            |           +--rw name         string
-            |           +--rw algorithm    string
-            |           +--rw key-data     binary
-            +--ro system-state
-               +--ro platform
-               |  +--ro os-name?      string
-               |  +--ro os-release?   string
-
-            // module: ietf-routing
-            +--ro routing-state
-            |  +--ro router-id?                 yang:dotted-quad
-            |  +--ro control-plane-protocols
-            |  |  +--ro control-plane-protocol* [type name]
-                     // module: ietf-ospf
-                     +--ro ospf
-                        +--ro instance* [af]
-            +--rw routing
-               +--rw router-id?                 yang:dotted-quad
-               +--rw control-plane-protocols
-               |  +--rw control-plane-protocol* [type name]
-                  // module: ietf-ospf
-               |     +--rw ospf:ospf
-               |        +--rw ospf:instance* [af]
-               |           +--rw ospf:areas
-               |           |  +--rw ospf:area* [area-id]
-               |           |     +--rw ospf:interfaces
-               |           |        +--rw ospf:interface* [name]
-               |           |           +--rw ospf:name
-                                                   if:interface-ref
-               |           |           +--rw ospf:cost?   uint16
-            // module: ietf-interfaces
-            +--rw interfaces
-            |  +--rw interface* [name]
-            |     +--rw name            string
-            +--ro interfaces-state
-               +--ro interface* [name]
-               +--ro name               string
+         +--mp root
+            +--rw ietf-yang-library/
+            |  +--ro modules-state
+            |     +--ro module-set-id    string
+            |     +--ro module* [name revision]
+            |        +--ro name                yang:yang-identifier
+            +--rw ietf-system/
+            |  +--rw system
+            |  |  +--rw contact?          string
+            |  |  +--rw hostname?         inet:domain-name
+            |  |  +--rw authentication {authentication}?
+            |  |     +--rw user-authentication-order*   identityref
+            |  |     +--rw user* [name] {local-users}?
+            |  |        +--rw name              string
+            |  |        +--rw password?         ianach:crypt-hash
+            |  |        +--rw authorized-key* [name]
+            |  |           +--rw name         string
+            |  |           +--rw algorithm    string
+            |  |           +--rw key-data     binary
+            |  +--ro system-state
+            |     ...
+            +--rw ietf-routing/
+            |  +--ro routing-state
+            |  |  +--ro router-id?                 yang:dotted-quad
+            |  |  +--ro control-plane-protocols
+            |  |     +--ro control-plane-protocol* [type name]
+            |  |        +--rw ietf-ospf/
+            |  |        +--ro ospf
+            |  |           +--ro instance* [af]
+            |  |           ...
+            |  +--rw routing
+            |     +--rw router-id?                 yang:dotted-quad
+            |     +--rw control-plane-protocols
+            |        +--rw control-plane-protocol* [type name]
+            |           +--rw ietf-ospf/
+            |              +--rw ospf
+            |                 +--rw instance* [af]
+            |                    +--rw areas
+            |                       +--rw area* [area-id]
+            |                          +--rw interfaces
+            |                             +--rw interface* [name]
+            |                                +--rw name if:interface-ref
+            |                                +--rw cost?   uint16
+            +--rw ietf-interfaces/
+               +--rw interfaces
+               |  +--rw interface* [name]
+               |     +--rw name            string
+               |     +--rw ietf-ip/
+               |        +--rw ipv4!
+               |        |  +--rw address* [ip]
+               +--ro interfaces-state
+                  +--ro interface* [name]
+                  +--ro name               string
+                     +--rw ietf-ip/
+                        +--ro ipv4!
+                        |  +--ro address* [ip]
 
 module: ietf-interfaces
    +--rw interfaces
@@ -506,11 +506,11 @@ module: ietf-system
       +--ro platform
       |  +--ro os-name?      string
       |  +--ro os-release?   string
-      ]]></artwork>
+]]></artwork>
     </figure>
   </t>
   <t>
-To realize the above schema, the example company implements the following schema mount instance:
+To realize the above schema, the example device implements the following schema mount instance:
   </t>
   <t>
     <figure>
@@ -552,6 +552,7 @@ To realize the above schema, the example company implements the following schema
             "urn:ietf:params:xml:ns:yang:ietf-routing",
           "conformance-type": "implement"
         },
+        {
           "name": "ietf-ospf",
           "revision": "2017-03-12",
           "namespace":
@@ -563,6 +564,13 @@ To realize the above schema, the example company implements the following schema
           "revision": "2014-05-08",
           "namespace":
             "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+          "conformance-type": "implement"
+        },
+        {
+          "name": "ietf-ip",
+          "revision": "2014-06-16",
+          "namespace":
+            "urn:ietf:params:xml:ns:yang:ietf-ip",
           "conformance-type": "implement"
         }
       ]
@@ -619,22 +627,22 @@ module: ietf-routing
    |  +--ro router-id?                 yang:dotted-quad
    |  +--ro control-plane-protocols
    |  |  +--ro control-plane-protocol* [type name]
-            // module: ietf-ospf
-            +--ro ospf
-               +--ro instance* [af]
+   |        +--rw ietf-ospf/
+   |           +--ro ospf
+   |              +--ro instance* [af]
    +--rw routing
       +--rw router-id?                 yang:dotted-quad
       +--rw control-plane-protocols
-      |  +--rw control-plane-protocol* [type name]
-            // module: ietf-ospf
-      |     +--rw ospf:ospf
-      |        +--rw ospf:instance* [af]
-      |           +--rw ospf:areas
-      |           |  +--rw ospf:area* [area-id]
-      |           |     +--rw ospf:interfaces
-      |           |        +--rw ospf:interface* [name]
-      |           |           +--rw ospf:name    if:interface-ref
-      |           |           +--rw ospf:cost?   uint16
+         +--rw control-plane-protocol* [type name]
+            +--rw ietf-ospf/
+            +--rw ospf
+               +--rw instance* [af]
+                  +--rw areas
+                     +--rw area* [area-id]
+                        +--rw interfaces
+                           +--rw interface* [name]
+                              +--rw name    if:interface-ref
+                              +--rw cost?   uint16
 
 module: ietf-interfaces
    +--rw interfaces
@@ -647,6 +655,620 @@ module: ietf-interfaces
       ]]></artwork>
     </figure>
   </t>
+  <t>
+    The following shows an example where two customer specific LNEs are configured:
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+{
+  "ietf-logical-network-element:logical-network-elements": {
+    "logical-network-element": [
+      {
+        "name": "cust1",
+        "root": {
+          "ietf-system:system": {
+            "authentication": {
+              "user": [
+                {
+                  "name": "john",
+                  "password": "$0$password"
+                }
+              ]
+            }
+          },
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                      "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth1",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "ietf-interfaces:interfaces": {
+            "interfaces": {
+              "interface": [
+                {
+                  "name": "eth1",
+                  "ip:ipv4": {
+                    "address": [
+                      {
+                        "ip": "192.0.2.11",
+                        "prefix-length": 24,
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "cust2",
+        "root": {
+          "ietf-system:system": {
+            "authentication": {
+              "user": [
+                {
+                  "name": "john",
+                  "password": "$0$password"
+                }
+              ]
+            }
+          }
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                        "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth1",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+          "ietf-interfaces:interfaces": {
+            "interfaces": {
+              {
+                "name": "eth1",
+                "ip:ipv4": {
+                  "address": [
+                    {
+                      "ip": "192.0.2.11",
+                      "prefix-length": 24,
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        },
+        {
+          "name": "cust1:eth1",
+          "lne:bind-lne-name": "cust1"
+        },
+        {
+          "name": "cust2:eth1",
+          "lne:bind-lne-name": "cust2"
+        }
+      ]
+    }
+  },
+
+  "ietf-system:system": {
+    "authentication": {
+      "user": [
+        {
+          "name": "root",
+          "password": "$0$password"
+        }
+      ]
+    }
+  }
+}
+      ]]></artwork>
+    </figure>
+  </t>
+
+  <t>
+    The following shows possible state data associated the above
+    configuration data:
+  </t>
+  <t>
+    <figure>
+      <artwork><![CDATA[
+{
+  "ietf-logical-network-element:logical-network-elements": {
+    "logical-network-element": [
+      {
+        "name": "cust1",
+        "root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "iana-if-type",
+                "revision": "2014-05-08",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:iana-if-type",
+                "conformance-type": "import"
+              },
+              {
+                "name": "ietf-inet-types",
+                "revision": "2013-07-15",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+                "conformance-type": "import"
+              },
+              {
+                "name": "ietf-interfaces",
+                "revision": "2014-05-08",
+                "feature": [
+                  "arbitrary-names",
+                  "pre-provisioning"
+                ],
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ip",
+                "revision": "2014-06-16",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ip",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2017-03-12",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2016-11-04",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-system",
+                "revision": "2014-08-06",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-system",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-yang-types",
+                "revision": "2013-07-15",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+                "conformance-type": "import"
+              }
+            ]
+          }
+          "ietf-system:system-state": {
+            "ietf-system:system-state": {
+              "platform": {
+                "os-name": "NetworkOS"
+              }
+            }
+          },
+          "ietf-routing:routing-state": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                      "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth1",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "ietf-interfaces:interfaces-state": {
+            "interfaces": {
+              "interface": [
+                {
+                  "name": "eth1",
+                  "type": "iana-if-type:ethernetCsmacd",
+                  "oper-status": "up",
+                  "phys-address": "00:01:02:A1:B1:C1",
+                  "statistics": {
+                    "discontinuity-time": "2017-06-26T12:34:56-05:00"
+                  },
+                  "ip:ipv4": {
+                    "address": [
+                      {
+                        "ip": "192.0.2.11",
+                        "prefix-length": 24,
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "cust2",
+        "root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "iana-if-type",
+                "revision": "2014-05-08",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:iana-if-type",
+                "conformance-type": "import"
+              },
+              {
+                "name": "ietf-inet-types",
+                "revision": "2013-07-15",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+                "conformance-type": "import"
+              },
+              {
+                "name": "ietf-interfaces",
+                "revision": "2014-05-08",
+                "feature": [
+                  "arbitrary-names",
+                  "pre-provisioning"
+                ],
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ip",
+                "revision": "2014-06-16",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ip",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2017-03-12",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2016-11-04",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-system",
+                "revision": "2014-08-06",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-system",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-yang-types",
+                "revision": "2013-07-15",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+                "conformance-type": "import"
+              }
+            ]
+          }
+          "ietf-system:system-state": {
+            "ietf-system:system-state": {
+              "platform": {
+                "os-name": "NetworkOS"
+              }
+            }
+          },
+          "ietf-routing:routing-state": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                        "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth1",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+          "ietf-interfaces:interfaces-state": {
+            "interfaces": {
+              {
+                "name": "eth1",
+                "type": "iana-if-type:ethernetCsmacd",
+                "oper-status": "up",
+                "phys-address": "00:01:02:A1:B1:C2",
+                "statistics": {
+                  "discontinuity-time": "2017-06-26T12:34:56-05:00"
+                },
+                "ip:ipv4": {
+                  "address": [
+                    {
+                      "ip": "192.0.2.11",
+                      "prefix-length": 24,
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces-state": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C0",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        },
+        {
+          "name": "cust1:eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C1",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          }
+        },
+        {
+          "name": "cust2:eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C2",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2014-05-08",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2014-06-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-logical-network-element",
+        "revision": "2017-03-13",
+        "feature": [
+          "bind-lne-name"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-logical-network-element",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ospf",
+        "revision": "2017-03-12",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ospf",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2016-11-04",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-schema-mount",
+        "revision": "2017-05-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  }
+}
+      ]]></artwork>
+    </figure>
+  </t>
+
 </section>
 <section anchor="sec-LNE.exLNE" title="Example: Self Managed LNE">
   <t>
@@ -670,7 +1292,7 @@ module: ietf-logical-network-element
          +--rw name           string
          +--rw description?   string
          +--rw managed?       boolean
-         +--rw root?          yangmnt:mount-point
+         +--mp root
             // Assuming managed='false', the internal modules
             // of the LNE are not visible to the parent management.
             // The child manages its modules, including ietf-routing
