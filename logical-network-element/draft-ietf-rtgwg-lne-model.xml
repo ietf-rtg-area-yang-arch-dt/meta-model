@@ -274,8 +274,7 @@ module: ietf-logical-network-element
   target="RFC7895"/> Interfaces <xref target="RFC7223"/> modules.
 </t>
 
-<section anchor="sec-LNE.MOUNT" title="LNE Instantiation and
-                                       Resource Assignment">
+<section anchor="sec-LNE.MOUNT" title="LNE Instantiation and Resource Assignment">
   <t>
     Logical network elements may be controlled by clients using existing
     list operations. When list entries are created, a new LNE is
@@ -395,9 +394,295 @@ module: ietf-logical-network-element
   a network device itself, all modules that may be present at the top
   level network device MAY also be present for the LNE.The list of
   available modules is expected to be implementation dependent. As is
-  the method used by an implementation to support LNEs.  The following
-  subsections provide some examples uses of LNEs.
+  the method used by an implementation to support LNEs.  <xref
+  target="sec-examples"/> provide example uses of LNEs.
 </t>
+</section>
+</section>
+
+<section anchor="sec-4" title="  Security Considerations">
+  <t>
+    LNE information represents device and network configuration
+    information. As such, the security of this information is important,
+    but it is fundamentally no different than any other interface or
+    device configuration information that has already been covered in
+    other documents such as <xref target="RFC7223"/>, <xref
+    target="RFC7317"/> and <xref target="RFC8022"/>.
+  </t>
+  <t>The vulnerable "config true" parameters and subtrees are the
+  following:
+  <list style="hanging">
+    <t hangText="/logical-network-elements/logical-network-element:">
+      This list specifies the logical network element and the related
+      logical device configuration.
+    </t>
+    <t hangText="/logical-network-elements/logical-network-element/managed:">
+      While this leaf is contained in the previous list, it is worth
+      particular attention as it controls whether information under the
+      LNE mount point is accessible by both the host device and within
+      the LNE context.  There may be extra sensitivity to this leaf in
+      environments where an LNE is managed by a different party than
+      the host device, and that party does not wish to share LNE
+      information with the operator of the host device.
+    </t>
+    <t hangText="/if:interfaces/if:interface/bind-lne-name:">
+      This leaf indicates the LNE instance to which an interface is
+      assigned.
+    </t>
+  </list>
+  Unauthorized access to any of these lists can adversely affect the
+  of both the local device and the network. This
+  may lead to network malfunctions, delivery of packets to
+  inappropriate destinations and other problems.
+  </t>
+</section>
+<section anchor="sec-5" title="  IANA Considerations">
+  <t>
+    This document registers a URI in the IETF XML registry <xref
+    target="RFC3688"/>.  Following the format in RFC 3688, the following
+    registration is requested to be made.
+  </t>
+  <figure>
+    <artwork><![CDATA[
+     URI: urn:ietf:params:xml:ns:yang:ietf-logical-network-element
+
+     Registrant Contact: The IESG.
+
+     XML: N/A, the requested URI is an XML namespace.
+     ]]></artwork>
+  </figure>
+  <t>
+    This document registers a YANG module in the YANG Module Names
+    registry <xref target="RFC6020"/>.
+  </t>
+  <figure>
+    <artwork><![CDATA[
+name:        ietf-logical-network-element
+namespace:   urn:ietf:params:xml:ns:yang:ietf-logical-network-element
+prefix:      lne
+reference:   RFC XXXX
+]]></artwork>
+  </figure>
+
+</section>
+<section anchor="sec-6.2" title="  Logical Network Element Model">
+<t>
+   The structure of the model defined in this document is described
+   by the YANG module below.
+</t>
+<t>
+<figure>
+<artwork><![CDATA[
+<CODE BEGINS> file "ietf-logical-network-element@2017-06-29.yang"
+module ietf-logical-network-element {
+  yang-version 1.1;
+
+  // namespace
+
+  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
+  prefix lne;
+
+  // import some basic types
+
+  import ietf-interfaces {
+    prefix if;
+    reference "RFC 7223: A YANG Data Model for Interface Management";
+  }
+  import ietf-yang-schema-mount {
+    prefix yangmnt;
+    reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
+    // RFC Ed.: Please replace this draft name with the corresponding
+    // RFC number
+  }
+
+  organization
+    "IETF Routing Area (rtgwg) Working Group";
+  contact
+    "WG Web:   <http://tools.ietf.org/wg/rtgwg/>
+     WG List:  <mailto:rtgwg@ietf.org>
+
+     Author:   Lou Berger
+               <mailto:lberger@labn.net>
+     Author:   Christan Hopps
+               <mailto:chopps@chopps.org>
+     Author:   Acee Lindem
+               <mailto:acee@cisco.com>
+     Author:   Dean Bogdanovic
+               <mailto:ivandean@gmail.com>";
+  description
+    "This module is used to support multiple logical network
+     elements on a single physical or virtual system.
+
+     Copyright (c) 2017 IETF Trust and the persons
+     identified as authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (http://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX; see
+     the RFC itself for full legal notices.";
+
+  // RFC Ed.: replace XXXX with actual RFC number and remove
+  // this note
+  // RFC Ed.: please update TBD
+
+  revision 2017-03-13 {
+    description
+      "Initial revision.";
+    reference "RFC TBD";
+  }
+
+  // top level device definition statements
+
+  container logical-network-elements {
+    description
+      "Allows a network device to support multiple logical
+       network element (device) instances.";
+    list logical-network-element {
+      key "name";
+      description
+        "List of logical network elements.";
+      leaf name {
+        type string;
+        description
+          "Device-wide unique identifier for the
+           logical network element.";
+      }
+      leaf managed {
+        type boolean;
+        description
+          "True if the host can access LNE information
+           using the root mount point.  This value
+           my not be settable in all implementations.";
+      }
+      leaf description {
+        type string;
+        description
+          "Description of the logical network element.";
+      }
+      yangmnt:mount-point "root" {
+        description
+          "Root for models supported per logical
+           network element.  This mount point will
+           may or may not be inline based on the server
+           implementation.  It SHALL always contain a YANG
+           library and interfaces instance.
+
+           When the associated 'managed' leaf is false any
+           operation that attempts to access information below
+           the root SHALL fail with an error-tag of
+           'access-denied' and an error-app-tag of
+           'lne-not-managed'.";
+      }
+    }
+  }
+
+  // augment statements
+
+  augment "/if:interfaces/if:interface" {
+    description
+      "Add a node for the identification of the logical network
+       element associated with an interface. Applies to interfaces
+       that can be assigned on a per logical network element basis.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an error-app-tag
+       of 'lne-assignment-failed'.  A meaningful error-info that
+       indicates the source of the assignment failure SHOULD also
+       be provided.";
+    leaf bind-lne-name {
+      type leafref {
+        path "/logical-network-elements/logical-network-element/name";
+      }
+      description
+        "Logical network element ID to which interface is bound.";
+    }
+  }
+
+  // notification statements
+
+  notification bind-lne-name-failed {
+    description
+      "Indicates an error in the association of an interface to an
+       LNE. Only generated after success is initially returned when
+       bind-lne-name is set.";
+    leaf name {
+      type leafref {
+        path "/if:interfaces/if:interface/if:name";
+      }
+      mandatory true;
+      description
+        "Contains the interface name associated with the
+         failure.";
+    }
+    leaf bind-lne-name {
+      type leafref {
+        path "/if:interfaces/if:interface/lne:bind-lne-name";
+      }
+      mandatory true;
+      description
+        "Contains the bind-lne-name associated with the
+         failure.";
+    }
+    leaf error-info {
+      type string;
+      description
+        "Optionally, indicates the source of the assignment
+         failure.";
+    }
+  }
+}
+<CODE ENDS>
+]]></artwork>
+</figure>
+</t>
+</section>
+</middle>
+
+<?rfc needLines="20"?>
+<back>
+<references title="Normative References">
+<?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
+<?rfc include="reference.I-D.ietf-rtgwg-ni-model.xml"?>
+<?rfc include="reference.RFC.3688"?>
+<?rfc include="reference.RFC.6020"?>
+<?rfc include="reference.RFC.7223"?>
+</references>
+
+<references title="Informative References">
+
+<?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
+<?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
+<?rfc include="reference.RFC.7317"?>
+<?rfc include="reference.RFC.7895"?>
+<?rfc include="reference.RFC.7950"?>
+<?rfc include="reference.RFC.8022"?>
+</references>
+
+<?rfc needLines="100"?>
+<section title="Acknowledgments">
+   <t>The Routing Area Yang Architecture design team members included Acee
+   Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger,
+   Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang. Useful review
+   comments were also received by Martin Bjorklund and John Scudder.</t>
+<t>
+   This document was motivated by, and derived from,
+   <xref target="I-D.ietf-rtgwg-device-model"/>.
+</t>
+  <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
+   <vspace blankLines="100"/></t>
+</section>
+
+<section anchor="sec-examples" title="Examples">
+  <t>
+    The following subsections provide example uses of LNEs.
+  </t>
 <section anchor="sec-LNE.exHost" title="Example: Host Device Managed LNE">
   <t>
     This section describes an example of the LNE model using schema
@@ -1425,287 +1710,30 @@ module: ietf-interfaces
       ]]></artwork>
     </figure>
   </t>
-</section>
-</section>
-</section>
 
-<section anchor="sec-4" title="  Security Considerations">
+
   <t>
-    LNE information represents device and network configuration
-    information. As such, the security of this information is important,
-    but it is fundamentally no different than any other interface or
-    device configuration information that has already been covered in
-    other documents such as <xref target="RFC7223"/>, <xref
-    target="RFC7317"/> and <xref target="RFC8022"/>.
+    The following shows an example where two customer specific LNEs are configured:
   </t>
-  <t>The vulnerable "config true" parameters and subtrees are the
-  following:
-  <list style="hanging">
-    <t hangText="/logical-network-elements/logical-network-element:">
-      This list specifies the logical network element and the related
-      logical device configuration.
-    </t>
-    <t hangText="/logical-network-elements/logical-network-element/managed:">
-      While this leaf is contained in the previous list, it is worth
-      particular attention as it controls whether information under the
-      LNE mount point is accessible by both the host device and within
-      the LNE context.  There may be extra sensitivity to this leaf in
-      environments where an LNE is managed by a different party than
-      the host device, and that party does not wish to share LNE
-      information with the operator of the host device.
-    </t>
-    <t hangText="/if:interfaces/if:interface/bind-lne-name:">
-      This leaf indicates the LNE instance to which an interface is
-      assigned.
-    </t>
-  </list>
-  Unauthorized access to any of these lists can adversely affect the
-  of both the local device and the network. This
-  may lead to network malfunctions, delivery of packets to
-  inappropriate destinations and other problems.
-  </t>
-</section>
-<section anchor="sec-5" title="  IANA Considerations">
   <t>
-    This document registers a URI in the IETF XML registry <xref
-    target="RFC3688"/>.  Following the format in RFC 3688, the following
-    registration is requested to be made.
+    <figure>
+      <artwork><![CDATA[
+      ]]></artwork>
+    </figure>
   </t>
-  <figure>
-    <artwork><![CDATA[
-     URI: urn:ietf:params:xml:ns:yang:ietf-logical-network-element
 
-     Registrant Contact: The IESG.
-
-     XML: N/A, the requested URI is an XML namespace.
-     ]]></artwork>
-  </figure>
   <t>
-    This document registers a YANG module in the YANG Module Names
-    registry <xref target="RFC6020"/>.
+    The following shows possible state data associated the above
+    configuration data:
   </t>
-  <figure>
-    <artwork><![CDATA[
-name:        ietf-logical-network-element
-namespace:   urn:ietf:params:xml:ns:yang:ietf-logical-network-element
-prefix:      lne
-reference:   RFC XXXX
-]]></artwork>
-  </figure>
-
+  <t>
+    <figure>
+      <artwork><![CDATA[
+      ]]></artwork>
+    </figure>
+  </t>
 </section>
-<section anchor="sec-6.2" title="  Logical Network Element Model">
-<t>
-   The structure of the model defined in this document is described
-   by the YANG module below.
-</t>
-<t>
-<figure>
-<artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2017-06-29.yang"
-module ietf-logical-network-element {
-  yang-version 1.1;
 
-  // namespace
-
-  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
-  prefix lne;
-
-  // import some basic types
-
-  import ietf-interfaces {
-    prefix if;
-    reference "RFC 7223: A YANG Data Model for Interface Management";
-  }
-  import ietf-yang-schema-mount {
-    prefix yangmnt;
-    reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
-    // RFC Ed.: Please replace this draft name with the corresponding
-    // RFC number
-  }
-
-  organization
-    "IETF Routing Area (rtgwg) Working Group";
-  contact
-    "WG Web:   <http://tools.ietf.org/wg/rtgwg/>
-     WG List:  <mailto:rtgwg@ietf.org>
-
-     Author:   Lou Berger
-               <mailto:lberger@labn.net>
-     Author:   Christan Hopps
-               <mailto:chopps@chopps.org>
-     Author:   Acee Lindem
-               <mailto:acee@cisco.com>
-     Author:   Dean Bogdanovic
-               <mailto:ivandean@gmail.com>";
-  description
-    "This module is used to support multiple logical network
-     elements on a single physical or virtual system.
-
-     Copyright (c) 2017 IETF Trust and the persons
-     identified as authors of the code.  All rights reserved.
-
-     Redistribution and use in source and binary forms, with or
-     without modification, is permitted pursuant to, and subject
-     to the license terms contained in, the Simplified BSD License
-     set forth in Section 4.c of the IETF Trust's Legal Provisions
-     Relating to IETF Documents
-     (http://trustee.ietf.org/license-info).
-
-     This version of this YANG module is part of RFC XXXX; see
-     the RFC itself for full legal notices.";
-
-  // RFC Ed.: replace XXXX with actual RFC number and remove
-  // this note
-  // RFC Ed.: please update TBD
-
-  revision 2017-03-13 {
-    description
-      "Initial revision.";
-    reference "RFC TBD";
-  }
-
-  // top level device definition statements
-
-  container logical-network-elements {
-    description
-      "Allows a network device to support multiple logical
-       network element (device) instances.";
-    list logical-network-element {
-      key "name";
-      description
-        "List of logical network elements.";
-      leaf name {
-        type string;
-        description
-          "Device-wide unique identifier for the
-           logical network element.";
-      }
-      leaf managed {
-        type boolean;
-        description
-          "True if the host can access LNE information
-           using the root mount point.  This value
-           my not be settable in all implementations.";
-      }
-      leaf description {
-        type string;
-        description
-          "Description of the logical network element.";
-      }
-      yangmnt:mount-point "root" {
-        description
-          "Root for models supported per logical
-           network element.  This mount point will
-           may or may not be inline based on the server
-           implementation.  It SHALL always contain a YANG
-           library and interfaces instance.
-
-           When the associated 'managed' leaf is false any
-           operation that attempts to access information below
-           the root SHALL fail with an error-tag of
-           'access-denied' and an error-app-tag of
-           'lne-not-managed'.";
-      }
-    }
-  }
-
-  // augment statements
-
-  augment "/if:interfaces/if:interface" {
-    description
-      "Add a node for the identification of the logical network
-       element associated with an interface. Applies to interfaces
-       that can be assigned on a per logical network element basis.
-
-       Note that a standard error will be returned if the
-       identified leafref isn't present.  If an interfaces cannot
-       be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'lne-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
-    leaf bind-lne-name {
-      type leafref {
-        path "/logical-network-elements/logical-network-element/name";
-      }
-      description
-        "Logical network element ID to which interface is bound.";
-    }
-  }
-
-  // notification statements
-
-  notification bind-lne-name-failed {
-    description
-      "Indicates an error in the association of an interface to an
-       LNE. Only generated after success is initially returned when
-       bind-lne-name is set.";
-    leaf name {
-      type leafref {
-        path "/if:interfaces/if:interface/if:name";
-      }
-      mandatory true;
-      description
-        "Contains the interface name associated with the
-         failure.";
-    }
-    leaf bind-lne-name {
-      type leafref {
-        path "/if:interfaces/if:interface/lne:bind-lne-name";
-      }
-      mandatory true;
-      description
-        "Contains the bind-lne-name associated with the
-         failure.";
-    }
-    leaf error-info {
-      type string;
-      description
-        "Optionally, indicates the source of the assignment
-         failure.";
-    }
-  }
-}
-<CODE ENDS>
-]]></artwork>
-</figure>
-</t>
-</section>
-</middle>
-
-<?rfc needLines="20"?>
-<back>
-<references title="Normative References">
-<?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
-<?rfc include="reference.I-D.ietf-rtgwg-ni-model.xml"?>
-<?rfc include="reference.RFC.3688"?>
-<?rfc include="reference.RFC.6020"?>
-<?rfc include="reference.RFC.7223"?>
-</references>
-
-<references title="Informative References">
-
-<?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
-<?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
-<?rfc include="reference.RFC.7317"?>
-<?rfc include="reference.RFC.7895"?>
-<?rfc include="reference.RFC.7950"?>
-<?rfc include="reference.RFC.8022"?>
-</references>
-
-<?rfc needLines="100"?>
-<section title="Acknowledgments">
-   <t>The Routing Area Yang Architecture design team members included Acee
-   Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger,
-   Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang. Useful review
-   comments were also received by Martin Bjorklund and John Scudder.</t>
-<t>
-   This document was motivated by, and derived from,
-   <xref target="I-D.ietf-rtgwg-device-model"/>.
-</t>
-  <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
-   <vspace blankLines="100"/></t>
 </section>
 </back>
 
