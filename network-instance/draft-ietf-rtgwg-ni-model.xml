@@ -291,28 +291,45 @@ The top open issues are:
    accessible under the NI root schema mount point.
 </t>
 <t>
+  The NI model can be represented using the tree format defined in <xref
+   target="I-D.ietf-netmod-yang-tree-diagrams"/> as:
+</t>
+<t>
 <figure>
 <artwork>
-    module: ietf-network-instance
-       +--rw network-instances
-          +--rw network-instance* [name]
-             +--rw name                         string
-             +--rw type?                        identityref
-             +--rw enabled?                     boolean
-             +--rw description?                 string
-             +--rw network-instance-policy
-             |  ...
-             +--rw root?                      yangmnt:mount-point
-             |  ...
-      augment /if:interfaces/if:interface:
-        +--rw bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-      augment /if:interfaces/if:interface/ip:ipv4:
-        +--rw bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-      augment /if:interfaces/if:interface/ip:ipv6:
-        +--rw bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
+module: ietf-network-instance
+  +--rw network-instances
+     +--rw network-instance* [name]
+        +--rw name                       string
+        +--rw type?                      identityref
+        +--rw enabled?                   boolean
+        +--rw description?               string
+        +--rw network-instance-policy
+        
+augment /if:interfaces/if:interface:
+  +--rw bind-ni-name?   -> /network-instances/network-instance/name
+augment /if:interfaces/if:interface/ip:ipv4:
+  +--rw bind-ni-name?   -> /network-instances/network-instance/name
+augment /if:interfaces/if:interface/ip:ipv6:
+  +--rw bind-ni-name?   -> /network-instances/network-instance/name
+
+notifications:
+  +---n bind-ni-name-failed
+     +--ro name          -> /if:interfaces/interface/name
+     +--ro (interface-type)?
+     |  +--:(interface)
+     |  |  +--ro interface
+     |  |     +--ro bind-ni-name
+     |  |             -> /if:interfaces/interface/ni:bind-ni-name
+     |  +--:(ipv4)
+     |  |  +--ro ipv4
+     |  |     +--ro bind-ni-name
+     |  |             -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
+     |  +--:(ipv6)
+     |     +--ro ipv6
+     |        +--ro bind-ni-name
+     |                -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
+     +--ro error-info?   string
 </artwork>
 </figure>
 </t>
@@ -326,6 +343,7 @@ The top open issues are:
    type case).
    Network instance policy
    and root are discussed in greater detail below.
+   bind-lne-name-failed is used in certain failure cases.
 </t>
 <section anchor="sec-NI.1" title="  Network Instance Policy">
 <t>
@@ -475,7 +493,20 @@ The top open issues are:
     dependent on the server implementation.  When a list entry is
     deleted, an existing network instance is destroyed. For more
     information see <xref target="RFC7950"/> Section 7.8.6.
-</t>
+  </t>  
+  <t>
+    Once instantiated, host network device resources can be
+    associated with the new NI.  As previously mentioned, this
+    document augments ietf-interfaces with the bind-ni-name leaf
+    to support such associations for interfaces.  When an
+    bind-ni-name is set to a valid NI name, an implementation
+    MUST take whatever steps are internally necessary to assign
+    the interface to the NI or provide an error message (defined
+    below) with an indication of why the assignment failed.  It is
+    possible for the assignment to fail while processing the set, or
+    after asynchronous processing.  Error notification in the latter
+    case is supported via a notification.
+  </t>
 </section>
 </section>
 <section anchor="sec-4" title="Security Considerations">
@@ -555,7 +586,7 @@ The top open issues are:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2017-06-25.yang"
+<CODE BEGINS> file "ietf-network-instance@2017-06-29.yang"
 module ietf-network-instance {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
@@ -733,7 +764,7 @@ module ietf-network-instance {
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
-    leaf bind-network-instance-name {
+    leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
@@ -754,7 +785,7 @@ module ietf-network-instance {
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
-    leaf bind-network-instance-name {
+    leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
@@ -775,7 +806,7 @@ module ietf-network-instance {
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
-    leaf bind-network-instance-name {
+    leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
@@ -784,10 +815,72 @@ module ietf-network-instance {
     }
   }
 
-  // rpc statements
-  // Note: TBD
   // notification statements
-  // Note: TBD
+
+  notification bind-ni-name-failed {
+    description
+      "Indicates an error in the association of an interface to an
+       NI. Only generated after success is initially returned when
+       bind-ni-name is set.";
+    leaf name {
+      type leafref {
+        path "/if:interfaces/if:interface/if:name";
+      }
+      mandatory true;
+      description
+        "Contains the interface name associated with the
+        failure.";
+    }
+    choice interface-type {
+      description
+        "Interface type that contained the bind-ni-name.";
+      container interface {
+        description
+          "Generic interface type.";
+        leaf bind-ni-name {
+          type leafref {
+            path "/if:interfaces/if:interface/ni:bind-ni-name";
+          }
+          mandatory true;
+          description
+            "Contains the bind-ni-name associated with the
+             failure.";
+        }
+      }
+      container ipv4 {
+        description
+          "IPv4 interface type.";
+        leaf bind-ni-name {
+          type leafref {
+            path "/if:interfaces/if:interface/ip:ipv4/ni:bind-ni-name";
+          }
+          mandatory true;
+          description
+            "Contains the bind-ni-name associated with the
+             failure.";
+        }
+      }
+      container ipv6 {
+        description
+          "IPv6 interface type.";
+        leaf bind-ni-name {
+          type leafref {
+            path "/if:interfaces/if:interface/ip:ipv6/ni:bind-ni-name";
+          }
+          mandatory true;
+          description
+            "Contains the bind-ni-name associated with the
+             failure.";
+        }
+      }
+    }
+    leaf error-info {
+      type string;
+      description
+        "Optionally, indicates the source of the assignment
+         failure.";
+    }
+  }
 }
 <CODE ENDS>
 ]]></artwork>
@@ -811,6 +904,7 @@ module ietf-network-instance {
 
 <references title="Informative References">
 
+<?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
 <?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
 <?rfc include="reference.I-D.ietf-ospf-yang.xml"?>
 <?rfc include="reference.RFC.4026"?>

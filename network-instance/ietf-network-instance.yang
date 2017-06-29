@@ -175,7 +175,7 @@ module ietf-network-instance {
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
-    leaf bind-network-instance-name {
+    leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
@@ -196,7 +196,7 @@ module ietf-network-instance {
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
-    leaf bind-network-instance-name {
+    leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
@@ -217,7 +217,7 @@ module ietf-network-instance {
        of 'ni-assignment-failed'.  A meaningful error-info that
        indicates the source of the assignment failure SHOULD also
        be provided.";
-    leaf bind-network-instance-name {
+    leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
       }
@@ -226,8 +226,70 @@ module ietf-network-instance {
     }
   }
 
-  // rpc statements
-  // Note: TBD
   // notification statements
-  // Note: TBD
+
+  notification bind-ni-name-failed {
+    description
+      "Indicates an error in the association of an interface to an
+       NI. Only generated after success is initially returned when
+       bind-ni-name is set.";
+    leaf name {
+      type leafref {
+        path "/if:interfaces/if:interface/if:name";
+      }
+      mandatory true;
+      description
+        "Contains the interface name associated with the
+        failure.";
+    }
+    choice interface-type {
+      description
+        "Interface type that contained the bind-ni-name.";
+      container interface {
+        description
+          "Generic interface type.";
+        leaf bind-ni-name {
+          type leafref {
+            path "/if:interfaces/if:interface/ni:bind-ni-name";
+          }
+          mandatory true;
+          description
+            "Contains the bind-ni-name associated with the
+             failure.";
+        }
+      }
+      container ipv4 {
+        description
+          "IPv4 interface type.";
+        leaf bind-ni-name {
+          type leafref {
+            path "/if:interfaces/if:interface/ip:ipv4/ni:bind-ni-name";
+          }
+          mandatory true;
+          description
+            "Contains the bind-ni-name associated with the
+             failure.";
+        }
+      }
+      container ipv6 {
+        description
+          "IPv6 interface type.";
+        leaf bind-ni-name {
+          type leafref {
+            path "/if:interfaces/if:interface/ip:ipv6/ni:bind-ni-name";
+          }
+          mandatory true;
+          description
+            "Contains the bind-ni-name associated with the
+             failure.";
+        }
+      }
+    }
+    leaf error-info {
+      type string;
+      description
+        "Optionally, indicates the source of the assignment
+         failure.";
+    }
+  }
 }

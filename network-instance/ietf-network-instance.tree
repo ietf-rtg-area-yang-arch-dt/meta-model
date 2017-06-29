@@ -7,8 +7,26 @@ module: ietf-network-instance
           +--rw description?               string
           +--rw network-instance-policy
   augment /if:interfaces/if:interface:
-    +--rw bind-network-instance-name?   -> /network-instances/network-instance/name
+    +--rw bind-ni-name?   -> /network-instances/network-instance/name
   augment /if:interfaces/if:interface/ip:ipv4:
-    +--rw bind-network-instance-name?   -> /network-instances/network-instance/name
+    +--rw bind-ni-name?   -> /network-instances/network-instance/name
   augment /if:interfaces/if:interface/ip:ipv6:
-    +--rw bind-network-instance-name?   -> /network-instances/network-instance/name
+    +--rw bind-ni-name?   -> /network-instances/network-instance/name
+
+  notifications:
+    +---n bind-ni-name-failed
+       +--ro name          -> /if:interfaces/interface/name
+       +--ro (interface-type)?
+       |  +--:(interface)
+       |  |  +--ro interface
+       |  |     +--ro bind-ni-name
+       |  |             -> /if:interfaces/interface/ni:bind-ni-name
+       |  +--:(ipv4)
+       |  |  +--ro ipv4
+       |  |     +--ro bind-ni-name
+       |  |             -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
+       |  +--:(ipv6)
+       |     +--ro ipv6
+       |        +--ro bind-ni-name
+       |                -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
+       +--ro error-info?   string
