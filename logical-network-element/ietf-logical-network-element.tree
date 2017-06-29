@@ -5,4 +5,12 @@ module: ietf-logical-network-element
           +--rw managed?       boolean
           +--rw description?   string
   augment /if:interfaces/if:interface:
-    +--rw bind-lne-name?   -> /logical-network-elements/logical-network-element/name
+    +--rw bind-lne-name?
+            -> /logical-network-elements/logical-network-element/name
+
+  notifications:
+    +---n bind-lne-name-failed
+       +--ro name             -> /if:interfaces/interface/name
+       +--ro bind-lne-name
+       |       -> /if:interfaces/interface/lne:bind-lne-name
+       +--ro error-info?      string

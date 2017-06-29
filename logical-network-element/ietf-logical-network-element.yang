@@ -80,7 +80,7 @@ module ietf-logical-network-element {
         type boolean;
         description
           "True if the host can access LNE information
-           using the root mount point.  This value 
+           using the root mount point.  This value
            my not be settable in all implementations.";
       }
       leaf description {
@@ -129,9 +129,36 @@ module ietf-logical-network-element {
     }
   }
 
-  // rpc statements
-  // Note: TBD
   // notification statements
-  // Note: TBD
-  //perhaps notification of a deffered interface assignment?
+
+  notification bind-lne-name-failed {
+    description
+      "Indicates an error in the association of an interface to an
+       LNE. Only generated after success is initially returned when
+       bind-lne-name is set.";
+    leaf name {
+      type leafref {
+        path "/if:interfaces/if:interface/if:name";
+      }
+      mandatory true;
+      description
+        "Contains the interface name associated with the
+         failure.";
+    }
+    leaf bind-lne-name {
+      type leafref {
+        path "/if:interfaces/if:interface/lne:bind-lne-name";
+      }
+      mandatory true;
+      description
+        "Contains the bind-lne-name associated with the
+         failure.";
+    }
+    leaf error-info {
+      type string;
+      description
+        "Optionally, indicates the source of the assignment
+         failure.";
+    }
+  }
 }
