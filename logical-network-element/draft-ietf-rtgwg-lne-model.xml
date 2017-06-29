@@ -226,7 +226,7 @@ The top open issues are:
    logical-network-element module.  In physical devices, some
    hardware features are shared across partitions, but control
    plane (e.g., routing) protocol instances, tables, and
-   configuration are managed separately.  For example, in virtual
+   configuration are managed separately.  For example, in logical
    routers or VNFs, this may correspond to establishing multiple
    logical instances using a single software installation.  The
    model supports configuration of multiple instances on a single
@@ -271,7 +271,7 @@ module: ietf-logical-network-element
 </t>
 <t>
   An LNE root MUST contain at least the YANG library <xref
-  target="RFC7895"/> Interfaces <xref target="RFC7223"/> modules.
+  target="RFC7895"/> and Interfaces <xref target="RFC7223"/> modules.
 </t>
 
 <section anchor="sec-LNE.MOUNT" title="LNE Instantiation and Resource Assignment">
@@ -686,9 +686,9 @@ module ietf-logical-network-element {
 <section anchor="sec-LNE.exHost" title="Example: Host Device Managed LNE">
   <t>
     This section describes an example of the LNE model using schema
-    mount to achieve the parent management. An example company
-    implements a device that supports multiple instances of LNEs
-    (virtual routers), each of which supports features of layer 2 and
+    mount to achieve the parent management. An example
+    device supports multiple instances of LNEs
+    (logical routers), each of which supports features of layer 2 and
     layer 3 interfaces <xref target="RFC7223"/>, routing information base
     <xref target="RFC8022"/>, and OSPF protocol. Each of these features
     is specified by a YANG model, and they are combined using YANG
@@ -867,15 +867,15 @@ To realize the above schema, the example device implements the following schema 
   </t>
   <t>
     By using the implementation of the YANG schema mount, an operator
-    can create instances of virtual routers. An interface can be
-    assigned to a virtual router, so that the virtual router has the
+    can create instances of logical routers. An interface can be
+    assigned to a logical router, so that the logical router has the
     permission to access this interface. OSPF protocol can then be
     enabled on this assigned interface.
   </t>
   <t>
     For this implementation, a parent management session has access to
-    the schemas of both the parent hosting system and the child virtual
-    routers. In addition, each child virtual router can grant its own
+    the schemas of both the parent hosting system and the child logical
+    routers. In addition, each child logical router can grant its own
     management sessions, which have the following schema:
   </t>
   <t>
@@ -940,6 +940,7 @@ module: ietf-interfaces
       ]]></artwork>
     </figure>
   </t>
+ <section anchor="sec-LNE.ex1cd" title="Configuration Data">
   <t>
     The following shows an example where two customer specific LNEs are configured:
   </t>
@@ -1120,6 +1121,9 @@ module: ietf-interfaces
       ]]></artwork>
     </figure>
   </t>
+
+ </section>
+ <section anchor="sec-LNE.ex1sd" title="State Data">
 
   <t>
     The following shows possible state data associated the above
@@ -1553,33 +1557,29 @@ module: ietf-interfaces
       ]]></artwork>
     </figure>
   </t>
-
+ </section>
 </section>
 <section anchor="sec-LNE.exLNE" title="Example: Self Managed LNE">
   <t>
-    [Editor's note: this section needs to be updated.]
-  </t>
-  <t>
     This section describes an example of the LNE model using schema
-    mount to achieve child independent management. An example company
-    implements a device that supports multiple instances of virtual
-    routers, each of them has the features of layer 2 and layer 3
-    interfaces [RFC7223], routing information base [RFC8022], and OSPF
+    mount to achieve child independent management. An example device
+    supports multiple instances of LNEs (logical
+    routers), each of them has the features of layer 2 and layer 3
+    interfaces <xref target="RFC7223"/>, routing information base
+    <xref target="RFC8022"/>, and OSPF
     protocol. Each of these features is specified by an YANG model, and
     they are put together by the YANG Schema Mount as following:
   </t>
   <t>
     <figure>
       <artwork><![CDATA[
-module: ietf-logical-network-element
+      module: ietf-logical-network-element
    +--rw logical-network-elements
       +--rw logical-network-element* [name]
          +--rw name           string
-         +--rw description?   string
-         +--rw managed?       boolean
          +--mp root
-            // Assuming managed='false', the internal modules
-            // of the LNE are not visible to the parent management.
+            // The internal modules of the LNE are not visible to
+            // the parament management.
             // The child manages its modules, including ietf-routing
             // and ietf-interfaces
 
@@ -1598,7 +1598,6 @@ module: ietf-yang-library
       +--ro module-set-id    string
       +--ro module* [name revision]
          +--ro name                yang:yang-identifier
-         //full list of modules accessible, including augmentations
 
 module: ietf-system
    +--rw system
@@ -1621,7 +1620,7 @@ module: ietf-system
     </figure>
   </t>
   <t>
-    To realize the above schema, the example company implements the
+    To realize the above schema, the device implements the
     following schema mount instance:
   </t>
   <t>
@@ -1641,14 +1640,14 @@ module: ietf-system
   </t>
   <t>
     By using the implementation of the YANG schema mount, an operator
-    can create instances of virtual routers, with their virtual router
-    specific in-line modules. An interface can be assigned to a virtual
-    router, so that the virtual router has the permission to access this
+    can create instances of logical routers, with their logical router
+    specific in-line modules. An interface can be assigned to a logical
+    router, so that the logical router has the permission to access this
     interface. OSPF protocol can then be enabled on this assigned
-    interface. Each virtual router independently manages its own set of
-    modules, which may or may not be the same as other virtual
+    interface. Each logical router independently manages its own set of
+    modules, which may or may not be the same as other logical
     routers. The following is an example of schema set implemented on
-    one particular virtual router:
+    one particular logical router:
   </t>
   <t>
     <figure>
@@ -1681,23 +1680,23 @@ module: ietf-routing
    +--ro routing-state
    |  +--ro router-id?                 yang:dotted-quad
    |  +--ro control-plane-protocols
-   |  |  +--ro control-plane-protocol* [type name]
-            // module: ietf-ospf
-            +--ro ospf
-               +--ro instance* [af]
+   |    +--ro control-plane-protocol* [type name]
+   |        +--rw ietf-ospf/
+   |           +--ro ospf
+   |              +--ro instance* [af]
    +--rw routing
       +--rw router-id?                 yang:dotted-quad
       +--rw control-plane-protocols
-      |  +--rw control-plane-protocol* [type name]
-            // module: ietf-ospf
-      |     +--rw ospf:ospf
-      |        +--rw ospf:instance* [af]
-      |           +--rw ospf:areas
-      |           |  +--rw ospf:area* [area-id]
-      |           |     +--rw ospf:interfaces
-      |           |        +--rw ospf:interface* [name]
-      |           |           +--rw ospf:name    if:interface-ref
-      |           |           +--rw ospf:cost?   uint16
+         +--rw control-plane-protocol* [type name]
+            +--rw ietf-ospf/
+               +--rw ospf
+                  +--rw instance* [af]
+                     +--rw areas
+                        +--rw area* [area-id]
+                           +--rw interfaces
+                              +--rw interface* [name]
+                                 +--rw name    if:interface-ref
+                                 +--rw cost?   uint16
 
 module: ietf-interfaces
    +--rw interfaces
@@ -1711,27 +1710,619 @@ module: ietf-interfaces
     </figure>
   </t>
 
+  <section anchor="sec-LNE.ex2cd" title="Configuration Data">
+    <t>
+      Each of the child virtual routers is managed through its own sessions and configuration data.
+    </t>
+    <section anchor="sec-LNE.ex2cd1" title="Logical Network Element 'vnf1'">
+      <t>
+        The following shows an example configuration data for the LNE
+        name "vnf1":
+      </t>
+      <t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "ietf-system:system": {
+    "authentication": {
+      "user": [
+        {
+          "name": "john",
+          "password": "$0$password"
+        }
+      ]
+    }
+  },
+  "ietf-routing:routing": {
+    "router-id": "192.0.2.1",
+    "control-plane-protocols": {
+      "control-plane-protocol": [
+        {
+          "type": "ietf-routing:ospf",
+          "name": "1",
+          "ietf-ospf:ospf": {
+            "instance": [
+              {
+                "af": "ipv4",
+                "areas": {
+                  "area": [
+                    {
+                      "area-id": "203.0.113.1",
+                      "interfaces": {
+                        "interface": [
+                          {
+                            "name": "eth1",
+                            "cost": 10
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "ietf-interfaces:interfaces": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth1",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+          ]]></artwork>
+        </figure>
+      </t>
+    </section>
+    <section anchor="sec-LNE.ex2cd2" title="Logical Network Element 'vnf2'">
+      <t>
+        The following shows an example configuration data for the LNE
+        name "vnf2":
+      </t>
+      <t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "ietf-system:system": {
+    "authentication": {
+      "user": [
+        {
+          "name": "john",
+          "password": "$0$password"
+        }
+      ]
+    }
+  },
+  "ietf-routing:routing": {
+    "router-id": "192.0.2.2",
+    "control-plane-protocols": {
+      "control-plane-protocol": [
+        {
+          "type": "ietf-routing:ospf",
+          "name": "1",
+          "ietf-ospf:ospf": {
+            "instance": [
+              {
+                "af": "ipv4",
+                "areas": {
+                  "area": [
+                    {
+                      "area-id": "203.0.113.1",
+                      "interfaces": {
+                        "interface": [
+                          {
+                            "name": "eth1",
+                            "cost": 10
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "ietf-interfaces:interfaces": {
+"interfaces": {
+      "interface": [
+        {
+          "name": "eth1",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+          ]]></artwork>
+        </figure>
+      </t>
+    </section>
+  </section>
+
+  <section anchor="sec-LNE.ex2sd" title="State Data">
 
   <t>
-    The following shows an example where two customer specific LNEs are configured:
-  </t>
-  <t>
-    <figure>
-      <artwork><![CDATA[
-      ]]></artwork>
-    </figure>
+    The following sections shows possible state data associated the above
+    configuration data.  Note that there are three views: the host
+    device's, and each LNE's.
   </t>
 
-  <t>
-    The following shows possible state data associated the above
-    configuration data:
-  </t>
-  <t>
-    <figure>
-      <artwork><![CDATA[
-      ]]></artwork>
-    </figure>
-  </t>
+    <section anchor="sec-LNE.ex2sdH" title="Host Device">
+      <t>
+        The following shows state data for the device hosting the
+        example LNEs:
+      </t>
+      <t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "ietf-logical-network-element:logical-network-elements": {
+    "logical-network-element": [
+      {
+        "name": "vnf1",
+        "root": {
+        }
+      },
+      {
+        "name": "vnf2",
+        "root": {
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces-state": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C0",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        },
+        {
+          "name": "vnf1:eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C1",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          }
+        },
+        {
+          "name": "vnf2:eth2",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C2",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2014-05-08",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2014-06-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-logical-network-element",
+        "revision": "2017-03-13",
+        "feature": [
+          "bind-lne-name"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-logical-network-element",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-schema-mount",
+        "revision": "2017-05-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  }
+}
+          ]]></artwork>
+        </figure>
+      </t>
+    </section>
+    <section anchor="sec-LNE.ex2sd1" title="Logical Network Element 'vnf1'">
+      <t>
+        The following shows state data for the example LNE name "vnf1":
+      </t>
+      <t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2014-05-08",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2014-06-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ospf",
+        "revision": "2017-03-12",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ospf",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2016-11-04",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  },
+
+  "ietf-routing:routing-state": {
+    "router-id": "192.0.2.1",
+    "control-plane-protocols": {
+      "control-plane-protocol": [
+        {
+          "type": "ietf-routing:ospf",
+          "name": "1",
+          "ietf-ospf:ospf": {
+            "instance": [
+              {
+                "af": "ipv4",
+                "areas": {
+                  "area": [
+                    {
+                      "area-id": "203.0.113.1",
+                      "interfaces": {
+                        "interface": [
+                          {
+                            "name": "eth1",
+                            "cost": 10
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-interfaces:interfaces-state": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C1",
+          "statistics": {
+            "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+          ]]></artwork>
+        </figure>
+      </t>
+    </section>
+    <section anchor="sec-LNE.ex2sd2" title="Logical Network Element 'vnf2'">
+      <t>
+        The following shows state data for the example LNE name "vnf2":
+      </t>
+      <t>
+        <figure>
+          <artwork><![CDATA[
+{
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2014-05-08",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2014-06-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ospf",
+        "revision": "2017-03-12",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ospf",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2016-11-04",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  },
+
+  "ietf-routing:routing-state": {
+    "router-id": "192.0.2.2",
+    "control-plane-protocols": {
+      "control-plane-protocol": [
+        {
+          "type": "ietf-routing:ospf",
+          "name": "1",
+          "ietf-ospf:ospf": {
+            "instance": [
+              {
+                "af": "ipv4",
+                "areas": {
+                  "area": [
+                    {
+                      "area-id": "203.0.113.1",
+                      "interfaces": {
+                        "interface": [
+                          {
+                            "name": "eth1",
+                            "cost": 10
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-interfaces:interfaces-state": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C2",
+          "statistics": {
+            "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+          ]]></artwork>
+        </figure>
+      </t>
+    </section>
+  </section>
 </section>
 
 </section>
