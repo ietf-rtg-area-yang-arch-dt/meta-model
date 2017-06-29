@@ -65,48 +65,13 @@ module ietf-network-instance {
 
   // identity statements
 
-  identity network-instance-type {
+  identity ni-types {
     description
-      "Base identity from which identities describing
-       network instance types are derived.";
-  }
-
-  identity vrf {
-    base network-instance-type;
-    description
-      "A network instance providing L3VPN capabilities.";
-  }
-
-  identity vsi {
-    base network-instance-type;
-    description
-      "A network instance providing L2VPN capabilities.";
-  }
-
-  identity vsiVrf {
-    base network-instance-type;
-    description
-      "A network instance providing L2VPN and L3VPN
-       capabilities.";
-  }
-
-  // grouping statements
-
-  grouping network-instance-policy {
-    description
-      "Network instance policies such as route
-       distinguisher, route targets, VPLS ID and neighbor,
-       Ethernet ID, etc. ";
-    reference
-      "RFC 4364 - BGP/MPLS Virtual Private Networks (VPNs)
-       RFC 6074 - Provisioning, Auto-Discovery, and Signaling
-            in Layer 2 Virtual Private Networks (L2VPNs)
-       RFC 7432 - BGP MPLS-Based Ethernet VPN";
-    container network-instance-policy {
-      description
-        "Network Instance Policy -- details TBD,
-         perhaps based on BESS model.";
-    }
+      "Base identity from which types used in the ni-type 
+      choice statement are defined. The primary purpose
+      of this identity is to support a companion IANA
+      registry to ensure two modules don't define the
+      same ni-type";
   }
 
   // top level device definition statements
@@ -127,15 +92,6 @@ module ietf-network-instance {
           "device scoped identifier for the network
            instance.";
       }
-      leaf type {
-        type identityref {
-          base network-instance-type;
-        }
-        description
-          "The network instance type -- details TBD
-           Likely types include core, L3-VRF, VPLS,
-           L2-cross-connect, L2-VSI, etc.";
-      }
       leaf enabled {
         type boolean;
         default "true";
@@ -149,13 +105,15 @@ module ietf-network-instance {
           "Description of the network instance
            and its intended purpose.";
       }
-      uses network-instance-policy;
-      yangmnt:mount-point "root" {
+      choice ni-type {
         description
-          "Root for models supported per
-           network instance.  This will
-           typically not be an inline type
-           mount point.";
+	  "This node serves as an anchor point for different types of
+	   network instances.  Each 'case' is expected to differ in
+	   terms of the information need in the parent/core to support
+	   the NI, and may differ in their mounted schema definition.
+	   When the mounted schema is expected to be the same for
+	   different types of NIs, they may share the same mount
+	   point name and consequently may share schemas.";
       }
     }
   }

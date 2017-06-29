@@ -1,11 +1,10 @@
 module: ietf-network-instance
     +--rw network-instances
        +--rw network-instance* [name]
-          +--rw name                       string
-          +--rw type?                      identityref
-          +--rw enabled?                   boolean
-          +--rw description?               string
-          +--rw network-instance-policy
+          +--rw name           string
+          +--rw enabled?       boolean
+          +--rw description?   string
+          +--rw (ni-type)?
   augment /if:interfaces/if:interface:
     +--rw bind-ni-name?   -> /network-instances/network-instance/name
   augment /if:interfaces/if:interface/ip:ipv4:
