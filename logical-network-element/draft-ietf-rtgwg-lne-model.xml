@@ -109,16 +109,24 @@
   Examples of vendor terminology for an LNE include logical system or
   logical router, and virtual switch, chassis, or fabric.
 </t>
-<section anchor="sec-1.1" title="Status of Work and Open Issues">
-<t>
-The top open issues are:
-  <list style="numbers">
-    <t>
-      Close on other TBDs in doc/module, e.g., RPCs and notifications.
-   </t>
-   </list>
- </t>
-</section>
+    <section title="Terminology" anchor="sec-definitions">
+      <t>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+        "OPTIONAL" in this document are to be interpreted as described
+        in <xref target="RFC2119"/>.
+      </t>
+      <t>
+        Readers are expected to be familiar with terms and concepts of
+        YANG <xref target="RFC7950"/> and YANG Schema Mount <xref
+        target="I-D.ietf-netmod-schema-mount"/>.
+      </t>
+      <t>
+        This document uses the graphical representation of data models
+        defined in <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>.
+      </t>
+
+    </section>
 </section>
 <section anchor="sec-2" title="Overview">
 <t>
@@ -649,7 +657,7 @@ module ietf-logical-network-element {
 <back>
 <references title="Normative References">
 <?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
-<?rfc include="reference.I-D.ietf-rtgwg-ni-model.xml"?>
+<?rfc include="reference.RFC.2119"?>
 <?rfc include="reference.RFC.3688"?>
 <?rfc include="reference.RFC.6020"?>
 <?rfc include="reference.RFC.7223"?>
@@ -658,6 +666,7 @@ module ietf-logical-network-element {
 <references title="Informative References">
 
 <?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
+<?rfc include="reference.I-D.ietf-rtgwg-ni-model.xml"?>
 <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
 <?rfc include="reference.RFC.7317"?>
 <?rfc include="reference.RFC.7895"?>
