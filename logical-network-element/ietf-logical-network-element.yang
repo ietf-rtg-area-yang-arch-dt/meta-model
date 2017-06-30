@@ -81,7 +81,7 @@ module ietf-logical-network-element {
         description
           "True if the host can access LNE information
            using the root mount point.  This value
-           my not be settable in all implementations.";
+           my not be modifiable in all implementations.";
       }
       leaf description {
         type string;
@@ -96,7 +96,7 @@ module ietf-logical-network-element {
            implementation.  It SHALL always contain a YANG
            library and interfaces instance.
 
-           When the associated 'managed' leaf is false any
+           When the associated 'managed' leaf is 'false' any
            operation that attempts to access information below
            the root SHALL fail with an error-tag of
            'access-denied' and an error-app-tag of
