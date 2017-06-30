@@ -1050,11 +1050,396 @@ module ietf-network-instance {
 
   <section anchor="sec-ex1cd" title="Configuration Data">
     <t>
+      The following shows an example where two customer specific network
+      instances are configured:
     </t>
+<t>
+<figure>
+<artwork><![CDATA[
+{
+  "ietf-network-instance:network-instances": {
+    "network-instance": [
+      {
+        "name": "vrf-red",
+        "root": {
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                        "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth1",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "vrf-blue",
+        "root": {
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                        "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth2",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ] 
+  }, 
+  
+  "ietf-interfaces:interfaces": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth1",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          },
+          "ni:bind-network-instance-name": "vrf-red"
+        },
+        {
+          "name": "eth2",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          },
+          "ni:bind-network-instance-name": "vrf-blue"
+        }
+      ]
+    }
+  },
+  
+  "ietf-system:system": {
+    "authentication": {
+      "user": [
+        {
+          "name": "john",
+          "password": "$0$password"
+        }
+      ]
+    }
+  }
+}
+]]></artwork>
+</figure>
+</t>
   </section>
   <section anchor="sec-ex1sd" title="State Data">
     <t>
+      The following shows state data for the example above.
     </t>
+<t>
+<figure>
+<artwork><![CDATA[
+{
+  "ietf-network-instance:network-instances": {
+    "network-instance": [
+      {
+        "name": "vrf-red",
+        "root": {
+          "ietf-routing:routing-state": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                        "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth1",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "vrf-blue",
+        "root": {
+          "ietf-routing:routing-state": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "instance": [
+                      {
+                        "af": "ipv4",
+                        "areas": {
+                          "area": [
+                            {
+                              "area-id": "203.0.113.1",
+                              "interfaces": {
+                                "interface": [
+                                  {
+                                    "name": "eth2",
+                                    "cost": 10
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces-state": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C0",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C1",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth2",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C2",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2014-05-08",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2014-06-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-network-instance",
+        "revision": "2017-03-13",
+        "feature": [
+          "bind-network-instance-name"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-network-instance",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ospf",
+        "revision": "2017-03-12",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-ospf",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2016-11-04",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-schema-mount",
+        "revision": "2017-05-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  }
+}
+]]></artwork>
+</figure>
+</t>
   </section>
 </section>
 </back>
