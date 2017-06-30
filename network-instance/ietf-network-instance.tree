@@ -5,6 +5,7 @@ module: ietf-network-instance
           +--rw enabled?       boolean
           +--rw description?   string
           +--rw (ni-type)?
+          +--rw (root-type)?
   augment /if:interfaces/if:interface:
     +--rw bind-ni-name?   -> /network-instances/network-instance/name
   augment /if:interfaces/if:interface/ip:ipv4:

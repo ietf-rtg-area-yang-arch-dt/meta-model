@@ -214,9 +214,8 @@ The top open issues are:
   specific information both at the device level and for NI internal
   operation.  Information related to NI internal operation is supported
   via schema mount <xref target="I-D.ietf-netmod-schema-mount"/> and
-  mounting appropriate modules under mount point.  Mount points are
-  expected to be defined based on if the NI type supports VRFs, VSIs or
-  both.
+  mounting appropriate modules under mount point.  Well known mount points are
+  defined for L3VPN, L2VPN and L2+L3VPN NI types.
 </t>
 </section>
 
@@ -230,7 +229,7 @@ The top open issues are:
    policies.  The model represents supports both core/provider and virtual
    instances.  Core/provider instance information is accessible at the
    top level of the server, while virtual instance information is
-   accessible under the NI root schema mount point.
+   accessible under the root schema mount points.
 </t>
 <t>
   The NI model can be represented using the tree format defined in <xref
@@ -246,6 +245,13 @@ module: ietf-network-instance
         +--rw enabled?       boolean
         +--rw description?   string
         +--rw (ni-type)?
+        +--rw (root-type)?
+           +--:(vrf-root)
+           |  +--mp vrf-root?
+           +--:(vsi-root)
+           |  +--mp vsi-root?
+           +--:(vv-root)
+              +--mp vv-root?
 augment /if:interfaces/if:interface:
   +--rw bind-ni-name?   -> /network-instances/network-instance/name
 augment /if:interfaces/if:interface/ip:ipv4:
@@ -278,7 +284,7 @@ notifications:
    'name' string.  This string is used both as
    an index within the network-instance module and to associate
    resources with a network instance as shown above in the
-   interface augmentation. ni-type is used to support different types of
+   interface augmentation. ni-type and root-type are used to support different types of
    L2 and L3 VPN technologies.
    bind-lne-name-failed is used in certain failure cases.
 </t>
@@ -299,8 +305,11 @@ notifications:
     of network instances should augment the network instance module.
     The basic structure that should be used for such augmentations
     include a case statement, with containers for configuration and
-    state data and finally an appropriate well known mount point, as
-    defined in the next section. For example:
+    state data and finally, when needed, a type specific mount point.
+    Generally ni types, are expected to not need to define type specific
+    mount points, but rather reuse one of the well known mount point, as
+    defined in the next section. The following is an example type
+    specific augmentation:
   </t>
   <t>
     <figure>
@@ -313,7 +322,6 @@ notifications:
      container l3vpn-state {
          ...
      }
-     uses ni:vrf-root;
    }
  }
       </artwork>
@@ -321,20 +329,22 @@ notifications:
   </t>
   <section anchor="sec-2.nit.stdt" title="Well Known Mount Points">
     <t>
-      YANG Schema Mount, <xref
-      target="I-D.ietf-netmod-schema-mount"/>, identifies mount points
-      by name within a module.  This definition allows for the definition
-      of mount points whose schema can be shared across ni-types.  As
-      described above, while ni-types contain a type specific mount point,
-      they are defined largely based on the configuration information
-      needed in the core/top level instance to support the NI.
+      YANG Schema Mount, <xref target="I-D.ietf-netmod-schema-mount"/>,
+      identifies mount points by name within a module.  This definition
+      allows for the definition of mount points whose schema can be
+      shared across ni-types. As discussed above, ni-types largely
+      differ in the configuration information needed in the core/top
+      level instance to support the NI, rather than in the information
+      represented within an NI.  This allows the use of shared mount
+      points across certain NI types.
     </t>
     <t>
-      The expectation is that there are actually very few different schema
-      that need to be defined to support NIs on an implementation. In
-      particular, the expectation that the following  three forms of NI
-      schema are needed, and each can be defined with a well known mount
-      point that can be reused by future modules defining ni-types.
+      The expectation is that there are actually very few different
+      schema that need to be defined to support NIs on an
+      implementation. In particular, the expectation that the following
+      three forms of NI schema are needed, and each can be defined with
+      a well known mount point that can be reused by future modules
+      defining ni-types.
     </t>
     <t>
       The three well known mount points are:
@@ -346,15 +356,16 @@ notifications:
         vsi-root is intended for use with L2VPN type ni-types.
         </t>
         <t hangText="vv-root"><vspace blankLines="0"/>
-        vv-root is intended for use with  ni-types that simultaneously
+        vv-root is intended for use with ni-types that simultaneously
         support L2VPN bridging and L3VPN routing capabilities.
         </t>
       </list>
     </t>
     <t>
       Future model definitions should use the above mount points
-      whenever possible.  Groupings are defined in the network-instance
-      module to facilitate such use.
+      whenever possible.  When a well known mount point isn't
+      appropriate, a model may define a type specific mount point via
+      augmentation.
     </t>
     </section>
   <section anchor="sec-2.nit.ex" title="NI Type Example">
@@ -734,40 +745,6 @@ module ietf-network-instance {
     reference "RFC TBD";
   }
 
-  // groupings
-
-  grouping vrf-root {
-    description
-      "Reusable NI mount point for use with L3VPN type
-       ni-types.";
-    yangmnt:mount-point "vrf-root" {
-      description
-        "Root for L3VPN type models. This will typically
-         not be an inline type mount point.";
-    }
-  }
-  grouping vsi-root {
-    description
-      "Reusable NI mount point for use with L3VPN type
-       ni-types.";
-    yangmnt:mount-point "vsi-root" {
-      description
-        "Root for L2VPN type models. This will typically
-         not be an inline type mount point.";
-    }
-  }
-  grouping vv-root {
-    description
-      "Reusable NI mount point for use with L3VPN type
-       ni-types.";
-    yangmnt:mount-point "vv-root" {
-      description
-        "Root models that support both L2VPN type bridging
-         and L3VPN type routing. This will typically
-         not be an inline type mount point.";
-    }
-  }
-
   // top level device definition statements
 
   container network-instances {
@@ -805,9 +782,28 @@ module ietf-network-instance {
            network instances.  Each 'case' is expected to differ in
            terms of the information need in the parent/core to support
            the NI, and may differ in their mounted schema definition.
-           When the mounted schema is expected to be the same for
-           different types of NIs, they may share the same mount
-           point name and consequently may share schema.";
+           When the mounted schema is not expected to be the same for
+           a specific type of NI a mount point should be defined.";
+      }
+      choice root-type {
+        description
+          "Well known mount points.";
+        yangmnt:mount-point "vrf-root" {
+          description
+            "Root for L3VPN type models. This will typically
+             not be an inline type mount point.";
+        }
+        yangmnt:mount-point "vsi-root" {
+          description
+            "Root for L2VPN type models. This will typically
+             not be an inline type mount point.";
+        }
+        yangmnt:mount-point "vv-root" {
+          description
+            "Root models that support both L2VPN type bridging
+             and L3VPN type routing. This will typically
+             not be an inline type mount point.";
+        }
       }
     }
   }
@@ -1086,9 +1082,9 @@ module ietf-network-instance {
           }
         }
       }
-    ] 
-  }, 
-  
+    ]
+  },
+
   "ietf-interfaces:interfaces": {
     "interfaces": {
       "interface": [
@@ -1130,7 +1126,7 @@ module ietf-network-instance {
       ]
     }
   },
-  
+
   "ietf-system:system": {
     "authentication": {
       "user": [
