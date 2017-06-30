@@ -108,6 +108,25 @@
    of such can be found in the emerging L3VPN model defined in <xref
    target="I-D.ietf-bess-l3vpn-yang"/> and the examples discussed below.
 </t>
+
+<section title="Terminology" anchor="sec-definitions">
+  <t>
+    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+    NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+    "OPTIONAL" in this document are to be interpreted as described
+    in <xref target="RFC2119"/>.
+  </t>
+  <t>
+    Readers are expected to be familiar with terms and concepts of
+    YANG <xref target="RFC7950"/> and YANG Schema Mount <xref
+    target="I-D.ietf-netmod-schema-mount"/>.
+  </t>
+  <t>
+    This document uses the graphical representation of data models
+    defined in <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>.
+  </t>
+
+</section>
 <section anchor="sec-1.1" title="Status of Work and Open Issues">
 <t>
 The top open issues are:
@@ -380,9 +399,9 @@ module: ietf-network-instance
         +--rw (ni-type)?
            +--:(l3vpn)
               +--rw l3vpn:l3vpn
-              |  +-- ... // config data
+              |  ... // config data
               +--ro l3vpn:l3vpn-state
-              |  +-- ... // state date
+              |  ... // state data
               +--mp vrf-root
                  +--ro rt:routing-state/
                  |  +--ro router-id?                 yang:dotted-quad
@@ -410,9 +429,9 @@ module: ietf-network-instance
       </figure>
     </t>
     <t>
-      As shown, YANG Routing Management <xref target="RFC8022"/> and
-      YANG OSPF <xref target="I-D.ietf-ospf-yang"/> are mounted modules,
-      and these modules can reference interface information via a
+      This shows YANG Routing Management <xref target="RFC8022"/> and
+      YANG OSPF <xref target="I-D.ietf-ospf-yang"/> as mounted modules.
+      The mounted modules can reference interface information via a
       parent-reference to the containers defined in <xref
       target="RFC7223"/>.
     </t>
@@ -973,9 +992,9 @@ module ietf-network-instance {
 <?rfc needLines="20"?>
 <back>
 <references title="Normative References">
-
-  <?rfc include="reference.I-D.ietf-rtgwg-lne-model.xml"?>
   <?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
+  <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
+  <?rfc include="reference.RFC.2119"?>
   <?rfc include="reference.RFC.6020"?>
   <?rfc include="reference.RFC.7223"?>
   <?rfc include="reference.RFC.7277"?>
@@ -984,9 +1003,9 @@ module ietf-network-instance {
 </references>
 
 <references title="Informative References">
+  <?rfc include="reference.I-D.ietf-rtgwg-lne-model.xml"?>
 <?rfc include="reference.I-D.ietf-bess-l2vpn-yang.xml"?>
 <?rfc include="reference.I-D.ietf-bess-l3vpn-yang.xml"?>
-<?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
 <?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
 <?rfc include="reference.I-D.ietf-ospf-yang.xml"?>
 <?rfc include="reference.RFC.4026"?>
