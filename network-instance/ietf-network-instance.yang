@@ -67,11 +67,45 @@ module ietf-network-instance {
 
   identity ni-types {
     description
-      "Base identity from which types used in the ni-type 
-      choice statement are defined. The primary purpose
-      of this identity is to support a companion IANA
-      registry to ensure two modules don't define the
-      same ni-type";
+      "Base identity from which types used in the ni-type
+       choice statement are defined. The primary purpose
+       of this identity is to support a companion IANA
+       registry to ensure two modules don't define the
+       same ni-type";
+  }
+
+  // groupings
+
+  grouping vrf-root {
+    description
+      "Reusable NI mount point for use with L3VPN type
+       ni-types.";
+    yangmnt:mount-point "vrf-root" {
+      description
+        "Root for L3VPN type models. This will typically
+         not be an inline type mount point.";
+    }
+  }
+  grouping vsi-root {
+    description
+      "Reusable NI mount point for use with L3VPN type
+       ni-types.";
+    yangmnt:mount-point "vsi-root" {
+      description
+        "Root for L2VPN type models. This will typically
+         not be an inline type mount point.";
+    }
+  }
+  grouping vv-root {
+    description
+      "Reusable NI mount point for use with L3VPN type
+       ni-types.";
+    yangmnt:mount-point "vv-root" {
+      description
+        "Root models that support both L2VPN type bridging
+         and L3VPN type routing. This will typically
+         not be an inline type mount point.";
+    }
   }
 
   // top level device definition statements
@@ -107,13 +141,13 @@ module ietf-network-instance {
       }
       choice ni-type {
         description
-	  "This node serves as an anchor point for different types of
-	   network instances.  Each 'case' is expected to differ in
-	   terms of the information need in the parent/core to support
-	   the NI, and may differ in their mounted schema definition.
-	   When the mounted schema is expected to be the same for
-	   different types of NIs, they may share the same mount
-	   point name and consequently may share schemas.";
+          "This node serves as an anchor point for different types of
+           network instances.  Each 'case' is expected to differ in
+           terms of the information need in the parent/core to support
+           the NI, and may differ in their mounted schema definition.
+           When the mounted schema is expected to be the same for
+           different types of NIs, they may share the same mount
+           point name and consequently may share schema.";
       }
     }
   }

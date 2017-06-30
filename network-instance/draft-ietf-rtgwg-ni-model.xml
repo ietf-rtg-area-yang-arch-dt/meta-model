@@ -68,26 +68,22 @@
    This document defines the second of two new modules that are defined
    to support the configuration and operation of network-devices that
    allow for the partitioning of resources from both, or either,
-   management and networking perspectives.  Both make use of the
+   management and networking perspectives.  Both leverage the
    YANG functionality enabled by YANG Schema Mount <xref
    target="I-D.ietf-netmod-schema-mount"/>.
 </t>
 <t>
-   Two forms of resource partitioning are supported:
-</t>
-<t>
-   The first form
+   The first form of resource partitioning
    provides a logical partitioning of a network device where each
    partition is separately managed as essentially an independent
    network element which is 'hosted' by the base network device.
    These hosted network elements are referred to as logical
    network elements, or LNEs, and are supported by the
    logical-network-element module defined in <xref target="I-D.ietf-rtgwg-lne-model"/>.
-   The module is used to identify LNEs and associate resources from the
+   That module is used to identify LNEs and associate resources from the
    network-device with each LNE.  LNEs themselves are represented
    in YANG as independent network devices; each accessed
-   independently.  Optionally, and when supported by the
-   implementation, they may also be accessed from the host system.
+   independently.
    Examples of vendor terminology for an LNE include logical
    system or logical router, and virtual switch, chassis, or fabric.
 </t>
@@ -95,8 +91,8 @@
    The second form, which is defined in this document, provides
    support what is commonly referred to as Virtual Routing and
    Forwarding (VRF) instances as well as Virtual Switch Instances
-   (VSI), see <xref target="RFC4026"/>.  In this form of resource
-   partitioning multiple control plane and forwarding/bridging
+   (VSI), see <xref target="RFC4026"/> and <xref target="RFC4664"/>.  In this form of resource
+   partitionin,g multiple control plane and forwarding/bridging
    instances are provided by and managed via a single (physical or
    logical) network device.  This form of resource partitioning is
    referred to as Network Instances and are supported by the
@@ -104,20 +100,18 @@
    operation of each network-instance is always via the network
    device and the network-instance module.
 </t>
+<t>
+   One notable difference between the LNE model mentioned and the NI
+   model is that the NI model provides a framework for VRF and VSI
+   management.  This document envisions the separate definition of VRF
+   and VSI, i.e., L3 and L2 VPN, technology specific models.  An example
+   of such can be found in the emerging L3VPN model defined in <xref
+   target="I-D.ietf-bess-l3vpn-yang"/> and the examples discussed below.
+</t>
 <section anchor="sec-1.1" title="Status of Work and Open Issues">
 <t>
 The top open issues are:
   <list style="numbers">
-    <t>
-      The "policy" definitions related to the (core) support of VRFs and
-      VSIs is TBD.  This could be defined based on the L2SM and L3SM.
-    </t>
-    <t>
-      The current definition of schema mount has schema definition tied
-      to a mount point. This implies that it would be beneficial to have
-      different mount points for different types of NIs, e.g., VRF vs
-      VSI vs VSI+VRF.  Resolving this is TBD.
-    </t>
     <t>
       Schema mount currently doesn't allow parent-reference filtering on
       the instance of  mount point, but rather just the schema.  This
@@ -126,9 +120,6 @@ The top open issues are:
       definition, the text and examples should be updated to cover this
       case.
     </t>
-    <t>
-      Close on other TBDs in doc/module, e.g., RPCs and notifications.
-   </t>
    </list>
  </t>
 </section>
@@ -176,105 +167,37 @@ The top open issues are:
 </t>
 <t>
    A model for LNEs is described in <xref target="I-D.ietf-rtgwg-lne-model"/> and
-   the model for network instances is covered in <xref
+   the model for NIs is covered in this document in <xref
    target="sec-NI"/>.
 </t>
 <t>
-   The interface management model <xref target="RFC7223"/> is an
-   existing model that is impacted by the definition of LNEs and
-   network instances.  This document and <xref target="I-D.ietf-rtgwg-lne-model"/>
+   The current interface management model <xref target="RFC7223"/>
+   is impacted by the definition of LNEs and
+   NIs.  This document and <xref target="I-D.ietf-rtgwg-lne-model"/>
    define augmentations to the interface module to support LNEs
    and NIs.
 </t>
 <t>
-   Interfaces are a crucial part of any network device's
-   configuration and operational state.  They generally include a
-   combination of raw physical interfaces, link-layer interfaces,
-   addressing configuration, and logical interfaces that may not
-   be tied to any physical interface.  Several system services,
-   and layer 2 and layer 3 protocols may also associate
-   configuration or operational state data with different types of
-   interfaces (these relationships are not shown for simplicity).
-   The interface management model is defined by <xref
-   target="RFC7223"/>.  
+  The network instance model supports the configuration of VRFs and
+  VSIs.  Each instance is supported by information that relates to the
+  device, for example the route target used when advertising VRF routes
+  via the mechanisms defined in <xref target="RFC4364"/>, and
+  information that relates to the internal operation of the NI, for
+  example for routing protocols <xref target="RFC8022"/> and OSPF <xref
+  target="I-D.ietf-ospf-yang"/>.  This document defines the
+  network-instance module that provides a basis for the management of
+  both types of information.
 </t>
 <t>
-   The network-instance module
-   augments the existing interface management model by
-   adding a name which is used on
-   interface or sub-interface types to identify an associated
-   network instance.
-   Similarly, this name is also added for IPv4 and IPv6 types, as
-   defined in <xref target="RFC7277"/>.
-</t>
-<t>
-   The interface related augmentations is as follows:
-<figure>
-<artwork>
-    module: ietf-network-instance
-      augment /if:interfaces/if:interface:
-        +--rw bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-      augment /if:interfaces/if:interface/ip:ipv4:
-        +--rw bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-      augment /if:interfaces/if:interface/ip:ipv6:
-        +--rw bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-</artwork>
-</figure>
-</t>
-<t>
-   The following is an example of envisioned usage.  The
-   interfaces container includes a number of commonly used
-   components as examples:
-</t>
-<t>
-  <!-- TBD: Maybe use longer example from Xufeng -->
-<figure>
-<artwork>
-          +--rw if:interfaces
-          |  +--rw interface* [name]
-          |     +--rw name                       string
-          |     +--rw ethernet
-          |     |  +--rw ni:bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-          |     |  +--rw aggregates
-          |     |  +--rw rstp
-          |     |  +--rw lldp
-          |     |  +--rw ptp
-          |     +--rw vlans
-          |     +--rw tunnels
-          |     +--rw ipv4
-          |     |  +--rw ni:bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-          |     |  +--rw arp
-          |     |  +--rw icmp
-          |     |  +--rw vrrp
-          |     |  +--rw dhcp-client
-          |     +--rw ipv6
-          |        +--rw ni:bind-network-instance-name?   ->
-                          /network-instances/network-instance/name
-          |        +--rw vrrp
-          |        +--rw icmpv6
-          |        +--rw nd
-          |        +--rw dhcpv6-client
-</artwork>
-</figure>
-</t>
-<t>
-   The <xref target="RFC7223"/> defined interface model is
-   structured to include all interfaces in a flat list, without
-   regard to virtual instances (e.g., VRFs) supported
-   on the device.  The 
-   bind-network-instance-name leaf provides the association
-   between an interface and its associated NI (e.g., VRF
-   or VSI).  Note that as currently
-   defined, to assign an interface to both an LNE and NI, the interface
-   would first be assigned to the LNE using the mechanisms defined in
-   <xref target="I-D.ietf-rtgwg-lne-model"/>
-   and then within that LNE's interface module, the LNE's representation
-   of that interface would be assigned to an NI.
+  NI information that relates to the device, including the assignment of
+  interfaces to NIs, is defined as part of this document. The defined
+  module also provides a placeholder for the definition of NI-technology
+  specific information both at the device level and for NI internal
+  operation.  Information related to NI internal operation is supported
+  via schema mount <xref target="I-D.ietf-netmod-schema-mount"/> and
+  mounting appropriate modules under mount point.  Mount points are
+  expected to be defined based on if the NI type supports VRFs, VSIs or
+  both.
 </t>
 </section>
 
@@ -282,7 +205,7 @@ The top open issues are:
 <t>
    The network instance container is used to represent virtual routing
    and forwarding instances (VRFs) and virtual switching instances
-   (VSIs), <xref target="RFC4026"/>.  VRFs and VSIs are commonly used to isolate
+   (VSIs).  VRFs and VSIs are commonly used to isolate
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
    policies.  The model represents supports both core/provider and virtual
@@ -298,36 +221,36 @@ The top open issues are:
 <figure>
 <artwork>
 module: ietf-network-instance
-    +--rw network-instances
-       +--rw network-instance* [name]
-          +--rw name           string
-          +--rw enabled?       boolean
-          +--rw description?   string
-          +--rw (ni-type)?
-  augment /if:interfaces/if:interface:
-    +--rw bind-ni-name?   -> /network-instances/network-instance/name
-  augment /if:interfaces/if:interface/ip:ipv4:
-    +--rw bind-ni-name?   -> /network-instances/network-instance/name
-  augment /if:interfaces/if:interface/ip:ipv6:
-    +--rw bind-ni-name?   -> /network-instances/network-instance/name
+  +--rw network-instances
+     +--rw network-instance* [name]
+        +--rw name           string
+        +--rw enabled?       boolean
+        +--rw description?   string
+        +--rw (ni-type)?
+augment /if:interfaces/if:interface:
+  +--rw bind-ni-name?   -> /network-instances/network-instance/name
+augment /if:interfaces/if:interface/ip:ipv4:
+  +--rw bind-ni-name?   -> /network-instances/network-instance/name
+augment /if:interfaces/if:interface/ip:ipv6:
+  +--rw bind-ni-name?   -> /network-instances/network-instance/name
 
-  notifications:
-    +---n bind-ni-name-failed
-       +--ro name          -> /if:interfaces/interface/name
-       +--ro (interface-type)?
-       |  +--:(interface)
-       |  |  +--ro interface
-       |  |     +--ro bind-ni-name
-       |  |             -> /if:interfaces/interface/ni:bind-ni-name
-       |  +--:(ipv4)
-       |  |  +--ro ipv4
-       |  |     +--ro bind-ni-name
-       |  |             -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
-       |  +--:(ipv6)
-       |     +--ro ipv6
-       |        +--ro bind-ni-name
-       |                -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
-       +--ro error-info?   string
+notifications:
+  +---n bind-ni-name-failed
+     +--ro name          -> /if:interfaces/interface/name
+     +--ro (interface-type)?
+     |  +--:(interface)
+     |  |  +--ro interface
+     |  |     +--ro bind-ni-name
+     |  |             -> /if:interfaces/interface/ni:bind-ni-name
+     |  +--:(ipv4)
+     |  |  +--ro ipv4
+     |  |     +--ro bind-ni-name
+     |  |            -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
+     |  +--:(ipv6)
+     |     +--ro ipv6
+     |        +--ro bind-ni-name
+     |               -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
+     +--ro error-info?   string
 </artwork>
 </figure>
 </t>
@@ -336,36 +259,234 @@ module: ietf-network-instance
    'name' string.  This string is used both as
    an index within the network-instance module and to associate
    resources with a network instance as shown above in the
-   interface augmentation. Type is used to indicate the type NI,
-   such as L3-VRF, VPLS, L2-VSI, etc. (TBD: Replace with choice, and per
-   type case).
-   Network instance policy
-   and root are discussed in greater detail below.
+   interface augmentation. ni-type is used to support different types of
+   L2 and L3 VPN technologies.
    bind-lne-name-failed is used in certain failure cases.
 </t>
-<section anchor="sec-NI.1" title="  Network Instance Policy">
+
+<section anchor="sec-2.nit" title="NI Types and Mount Points">
+  <t>
+    The network-instance module is structure to facilitate the
+    definition of information models for specific types of VRFs and VSIs
+    using augmentations.  For example, the information needed to support
+    VPLS, VxLAN and EVPN based L2VPNs are likely to be quite different.
+    Example models under development that could be restructured to take
+    advantage on NIs include, for L3VPNs <xref
+    target="I-D.ietf-bess-l3vpn-yang"/> and for L2VPNs <xref
+    target="I-D.ietf-bess-l2vpn-yang"/>.
+  </t>
+  <t>
+    Documents defining new YANG models for the support of specific types
+    of network instances should augment the network instance module.
+    The basic structure that should be used for such augmentations
+    include a case statement, with containers for configuration and
+    state data and finally an appropriate well known mount point, as
+    defined in the next section. For example:
+  </t>
+  <t>
+    <figure>
+      <artwork>
+ augment "/ni:network-instances/ni:network-instance/ni:ni-type" {
+   case l3vpn {
+     container l3vpn {
+         ...
+     }
+     container l3vpn-state {
+         ...
+     }
+     uses ni:vrf-root;
+   }
+ }
+      </artwork>
+    </figure>
+  </t>
+  <t>
+    In order to reduce the possibility of collision of ni-type names,
+    this document defines the ni-types base identity as well as
+    establishes an associated IANA registry.  Documents augmenting
+    ni-type are expected to add an identify with the exact name as the
+    'case' name and add it to the IANA registry.  This will ensure that
+    independent models are not defined in a conflicting fashion.
+  </t>
+  <t>
+    The identify corresponding to the above example augmentation would
+    be:
+  </t>
+  <t>
+    <figure>
+      <artwork>
+identity l3vpn {
+  base ni-types;
+  description
+    "Type corresponding to the 'l3vpn' ni-type.";
+}
+      </artwork>
+    </figure>
+  </t>
+  <section anchor="sec-2.nit.stdt" title="Well Known Mount Points">
+    <t>
+      YANG Schema Mount, <xref
+      target="I-D.ietf-netmod-schema-mount"/>, identifies mount points
+      by name within a module.  This definition allows for the definition
+      of mount points whose schema can be shared across ni-types.  As
+      described above, while ni-types contain a type specific mount point,
+      they are defined largely based on the configuration information
+      needed in the core/top level instance to support the NI.
+    </t>
+    <t>
+      The expectation is that there are actually very few different schema
+      that need to be defined to support NIs on an implementation. In
+      particular, the expectation that the following  three forms of NI
+      schema are needed, and each can be defined with a well known mount
+      point that can be reused by future modules defining ni-types.
+    </t>
+    <t>
+      The three well known mount points are:
+      <list style="hanging">
+        <t hangText="vrf-root"><vspace blankLines="0"/>
+        vrf-root is intended for use with L3VPN type ni-types.
+        </t>
+        <t hangText="vsi-root"><vspace blankLines="0"/>
+        vsi-root is intended for use with L2VPN type ni-types.
+        </t>
+        <t hangText="vv-root"><vspace blankLines="0"/>
+        vv-root is intended for use with  ni-types that simultaneously
+        support L2VPN bridging and L3VPN routing capabilities.
+        </t>
+      </list>
+    </t>
+    <t>
+      Future model definitions should use the above mount points
+      whenever possible.  Groupings are defined in the network-instance
+      module to facilitate such use.
+    </t>
+    </section>
+  <section anchor="sec-2.nit.ex" title="NI Type Example">
+    <t>
+      The following is an example of an L3VPN VRF using a hypothetical
+      augmentation to the networking instance schema defined in <xref
+      target="I-D.ietf-bess-l3vpn-yang"/>. More detailed examples can be
+      found in <xref target="sec-examples"/>.
+    </t>
+    <t>
+      <figure>
+        <artwork>
+module: ietf-network-instance
+  +--rw network-instances
+     +--rw network-instance* [name]
+        +--rw name           string
+        +--rw enabled?       boolean
+        +--rw description?   string
+        +--rw (ni-type)?
+           +--:(l3vpn)
+              +--rw l3vpn:l3vpn
+              |  +-- ... // config data
+              +--ro l3vpn:l3vpn-state
+              |  +-- ... // state date
+              +--mp vrf-root
+                 +--rw ietf-routing/
+                 |  +--ro routing-state
+                 |  |  +--ro router-id?                 yang:dotted-quad
+                 |  |  +--ro control-plane-protocols
+                 |  |     +--ro control-plane-protocol* [type name]
+                 |  |        +--rw ietf-ospf/
+                 |  |           +--ro ospf
+                 |  |              +--ro instance* [af]
+                 |  +--rw routing
+                 |     +--rw router-id?                 yang:dotted-quad
+                 |     +--rw control-plane-protocols
+                 |        +--rw control-plane-protocol* [type name]
+                 |        +--rw ietf-ospf/
+                 |           +--rw ospf
+                 |              +--rw instance* [af]
+                 |                 +--rw areas
+                 |                    +--rw area* [area-id]
+                 |                       +--rw interfaces
+                 |                          +--rw interface* [name]
+                 |                             +--rw name if:interface-ref
+                 |                             +--rw cost?   uint16
+                 +--ro ietf-interfaces@
+                    +--rw interfaces
+                    |  ...
+                    +--ro interfaces-state
+                    |  ...
+        </artwork>
+      </figure>
+    </t>
+  </section>
+</section>
+<section anchor="sec-2.int" title="NIs and Interfaces">
 <t>
-   Network instance policies are used to control how NI
-   information is represented at the device level, VRF routing
-   policies, and VRF/VSI identifiers. Examples include BGP route
-   targets (RTs) and route distinguishers (RDs), virtual network
-   identifiers (VN-IDs), VPLS neighbors, etc. The structure is
-   expected to be:
+   Interfaces are a crucial part of any network device's
+   configuration and operational state.  They generally include a
+   combination of raw physical interfaces, link-layer interfaces,
+   addressing configuration, and logical interfaces that may not
+   be tied to any physical interface.  Several system services,
+   and layer 2 and layer 3 protocols may also associate
+   configuration or operational state data with different types of
+   interfaces (these relationships are not shown for simplicity).
+   The interface management model is defined by <xref
+   target="RFC7223"/>.
+</t>
+<t>
+   As shown above, the network-instance module augments the existing
+   interface management model by adding a name which is used on
+   interface or sub-interface types to identify an associated network
+   instance.  Similarly, this name is also added for IPv4 and IPv6
+   types, as defined in <xref target="RFC7277"/>.
+</t>
+<t>
+   The following is an example of envisioned usage.  The
+   interfaces container includes a number of commonly used
+   components as examples:
 </t>
 <t>
 <figure>
-<artwork>
-    module: ietf-network-instance
-       +--rw network-instances
-          +--rw network-instance* [name]
-             +--rw network-instance-policy
-                (TBD)
+  <artwork>
+module: ietf-interfaces
+   +--rw interfaces
+   |  +--rw interface* [name]
+   |     +--rw name                        string
+   |     +--rw ip:ipv4!
+   |     |  +--rw ip:enabled?                      boolean
+   |     |  +--rw ip:forwarding?                   boolean
+   |     |  +--rw ip:mtu?                          uint16
+   |     |  +--rw ip:address* [ip]
+   |     |  |  +--rw ip:ip               inet:ipv4-address-no-zone
+   |     |  |  +--rw (ip:subnet)
+   |     |  |     +--:(ip:prefix-length)
+   |     |  |     |  +--rw ip:prefix-length?   uint8
+   |     |  |     +--:(ip:netmask)
+   |     |  |        +--rw ip:netmask?         yang:dotted-quad
+   |     |  +--rw ip:neighbor* [ip]
+   |     |  |  +--rw ip:ip                    inet:ipv4-address-no-zone
+   |     |  |  +--rw ip:link-layer-address    yang:phys-address
+   |     |  +--rw ni:bind-network-instance-name?   string
+   |     +--rw ni:bind-network-instance-name?   string
 </artwork>
 </figure>
 </t>
+<t>
+   The <xref target="RFC7223"/> defined interface model is
+   structured to include all interfaces in a flat list, without
+   regard to virtual instances (e.g., VRFs) supported
+   on the device.  The
+   bind-network-instance-name leaf provides the association
+   between an interface and its associated NI (e.g., VRF
+   or VSI).  Note that as currently
+   defined, to assign an interface to both an LNE and NI, the interface
+   would first be assigned to the LNE using the mechanisms defined in
+   <xref target="I-D.ietf-rtgwg-lne-model"/>
+   and then within that LNE's interface module, the LNE's representation
+   of that interface would be assigned to an NI.
+</t>
 </section>
 
+
 <section anchor="sec-NI.2" title="Network Instance Management">
+<t>
+  TBD: update section to new YANG model.
+</t>
 <t>
    Modules that may be used to represent network instance
    specific information will be available under
@@ -373,9 +494,9 @@ module: ietf-network-instance
    use-schema mechanism defined as part of the Schema Mount module
    <xref target="I-D.ietf-netmod-schema-mount"/>
    MUST used with the module defined in this document to identify
-   supported modules. 
+   supported modules.
    A future version of this document could relax this requirement.
-   Mounted modules in the non-inline case SHOULD be defined with 
+   Mounted modules in the non-inline case SHOULD be defined with
    access, via the appropriate schema mount parent-references <xref
    target="I-D.ietf-netmod-schema-mount"/>, to
    device resources such as interfaces.
@@ -491,7 +612,7 @@ module: ietf-network-instance
     dependent on the server implementation.  When a list entry is
     deleted, an existing network instance is destroyed. For more
     information see <xref target="RFC7950"/> Section 7.8.6.
-  </t>  
+  </t>
   <t>
     Once instantiated, host network device resources can be
     associated with the new NI.  As previously mentioned, this
@@ -566,6 +687,7 @@ module: ietf-network-instance
     This document registers a YANG module in the YANG Module Names
     registry <xref target="RFC6020"/>.
   </t>
+  <t>
   <figure>
     <artwork><![CDATA[
   name:        ietf-network-instance
@@ -574,6 +696,10 @@ module: ietf-network-instance
   reference:   RFC XXXX
   ]]></artwork>
   </figure>
+  </t>
+  <t>
+    TBD: add ni-types registry
+  </t>
 </section>
 
 <section anchor="sec-6.3" title="  Network Instance Model">
@@ -654,11 +780,45 @@ module ietf-network-instance {
 
   identity ni-types {
     description
-      "Base identity from which types used in the ni-type 
-      choice statement are defined. The primary purpose
-      of this identity is to support a companion IANA
-      registry to ensure two modules don't define the
-      same ni-type";
+      "Base identity from which types used in the ni-type
+       choice statement are defined. The primary purpose
+       of this identity is to support a companion IANA
+       registry to ensure two modules don't define the
+       same ni-type";
+  }
+
+  // groupings
+
+  grouping vrf-root {
+    description
+      "Reusable NI mount point for use with L3VPN type
+       ni-types.";
+    yangmnt:mount-point "vrf-root" {
+      description
+        "Root for L3VPN type models. This will typically
+         not be an inline type mount point.";
+    }
+  }
+  grouping vsi-root {
+    description
+      "Reusable NI mount point for use with L3VPN type
+       ni-types.";
+    yangmnt:mount-point "vsi-root" {
+      description
+        "Root for L2VPN type models. This will typically
+         not be an inline type mount point.";
+    }
+  }
+  grouping vv-root {
+    description
+      "Reusable NI mount point for use with L3VPN type
+       ni-types.";
+    yangmnt:mount-point "vv-root" {
+      description
+        "Root models that support both L2VPN type bridging
+         and L3VPN type routing. This will typically
+         not be an inline type mount point.";
+    }
   }
 
   // top level device definition statements
@@ -694,13 +854,13 @@ module ietf-network-instance {
       }
       choice ni-type {
         description
-	  "This node serves as an anchor point for different types of
-	   network instances.  Each 'case' is expected to differ in
-	   terms of the information need in the parent/core to support
-	   the NI, and may differ in their mounted schema definition.
-	   When the mounted schema is expected to be the same for
-	   different types of NIs, they may share the same mount
-	   point name and consequently may share schemas.";
+          "This node serves as an anchor point for different types of
+           network instances.  Each 'case' is expected to differ in
+           terms of the information need in the parent/core to support
+           the NI, and may differ in their mounted schema definition.
+           When the mounted schema is expected to be the same for
+           different types of NIs, they may share the same mount
+           point name and consequently may share schema.";
       }
     }
   }
@@ -859,11 +1019,14 @@ module ietf-network-instance {
 </references>
 
 <references title="Informative References">
-
+<?rfc include="reference.I-D.ietf-bess-l2vpn-yang.xml"?>
+<?rfc include="reference.I-D.ietf-bess-l3vpn-yang.xml"?>
 <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
 <?rfc include="reference.I-D.ietf-rtgwg-device-model.xml"?>
 <?rfc include="reference.I-D.ietf-ospf-yang.xml"?>
 <?rfc include="reference.RFC.4026"?>
+<?rfc include="reference.RFC.4364"?>
+<?rfc include="reference.RFC.4664"?>
 <?rfc include="reference.RFC.7950"?>
 <?rfc include="reference.RFC.8022"?>
 
@@ -883,6 +1046,20 @@ module ietf-network-instance {
 
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
    <vspace blankLines="100"/></t>
+</section>
+<section anchor="sec-examples" title="Example NI usage">
+  <t>
+    The following subsections provide example uses of NIs.
+  </t>
+
+  <section anchor="sec-ex1cd" title="Configuration Data">
+    <t>
+    </t>
+  </section>
+  <section anchor="sec-ex1sd" title="State Data">
+    <t>
+    </t>
+  </section>
 </section>
 </back>
 
