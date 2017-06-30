@@ -71,7 +71,10 @@ module ietf-network-instance {
        choice statement are defined. The primary purpose
        of this identity is to support a companion IANA
        registry to ensure two modules don't define the
-       same ni-type";
+       same ni-type.
+
+       Derrived identtities MUST be registered in the
+       IANA Network Instance Types Registry.";
   }
 
   // groupings

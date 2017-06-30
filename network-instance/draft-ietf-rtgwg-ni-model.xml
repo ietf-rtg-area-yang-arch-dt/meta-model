@@ -682,7 +682,24 @@ module: ietf-interfaces
   </figure>
   </t>
   <t>
-    TBD: add ni-types registry
+    Upon approval of this document, IANA is requested to create a new
+    registry named "Network Instance Types (ni-types)" as part of the
+    "YANG Parameters" registry located at
+    https://www.iana.org/assignments/yang-parameters/yang-parameters.xhtml
+  </t>
+  <t>
+    The format of the registry shall be:
+    <figure>
+      <artwork>
+        Identity Name     Reference
+        -------------     ---------
+      </artwork>
+    </figure>
+  </t>
+  <t>
+    The are no initial contents of the registry, i.e., it should be empty.
+    All assignments are to be performed via Standards Action and
+    Specification Required policies as defined in <xref target="RFC5226"/>.
   </t>
 </section>
 
@@ -694,7 +711,7 @@ module: ietf-interfaces
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2017-06-29.yang"
+<CODE BEGINS> file "ietf-network-instance@2017-06-30.yang"
 module ietf-network-instance {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
@@ -768,7 +785,10 @@ module ietf-network-instance {
        choice statement are defined. The primary purpose
        of this identity is to support a companion IANA
        registry to ensure two modules don't define the
-       same ni-type";
+       same ni-type.
+
+       Derrived identtities MUST be registered in the
+       IANA Network Instance Types Registry.";
   }
 
   // groupings
@@ -995,6 +1015,7 @@ module ietf-network-instance {
   <?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
   <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
   <?rfc include="reference.RFC.2119"?>
+  <?rfc include="reference.RFC.5226"?>
   <?rfc include="reference.RFC.6020"?>
   <?rfc include="reference.RFC.7223"?>
   <?rfc include="reference.RFC.7277"?>
