@@ -702,61 +702,55 @@ module: ietf-logical-network-element
       +--rw logical-network-element* [name]
          +--rw name           string
          +--mp root
-            +--rw ietf-yang-library/
-            |  +--ro modules-state
-            |     +--ro module-set-id    string
-            |     +--ro module* [name revision]
-            |        +--ro name                yang:yang-identifier
-            +--rw ietf-system/
-            |  +--rw system
-            |  |  +--rw contact?          string
-            |  |  +--rw hostname?         inet:domain-name
-            |  |  +--rw authentication {authentication}?
-            |  |     +--rw user-authentication-order*   identityref
-            |  |     +--rw user* [name] {local-users}?
-            |  |        +--rw name              string
-            |  |        +--rw password?         ianach:crypt-hash
-            |  |        +--rw authorized-key* [name]
-            |  |           +--rw name         string
-            |  |           +--rw algorithm    string
-            |  |           +--rw key-data     binary
-            |  +--ro system-state
+            +--ro yanglib:modules-state/
+            |  +--ro module-set-id    string
+            |  +--ro module* [name revision]
+            |     +--ro name                yang:yang-identifier
+            +--rw sys:system/
+            |  +--rw contact?          string
+            |  +--rw hostname?         inet:domain-name
+            |  +--rw authentication {authentication}?
+            |     +--rw user-authentication-order*   identityref
+            |     +--rw user* [name] {local-users}?
+            |        +--rw name              string
+            |        +--rw password?         ianach:crypt-hash
+            |        +--rw authorized-key* [name]
+            |           +--rw name         string
+            |           +--rw algorithm    string
+            |           +--rw key-data     binary
+            +--ro sys:system-state/
             |     ...
-            +--rw ietf-routing/
-            |  +--ro routing-state
-            |  |  +--ro router-id?                 yang:dotted-quad
-            |  |  +--ro control-plane-protocols
-            |  |     +--ro control-plane-protocol* [type name]
-            |  |        +--rw ietf-ospf/
-            |  |        +--ro ospf
-            |  |           +--ro instance* [af]
-            |  |           ...
-            |  +--rw routing
-            |     +--rw router-id?                 yang:dotted-quad
-            |     +--rw control-plane-protocols
-            |        +--rw control-plane-protocol* [type name]
-            |           +--rw ietf-ospf/
-            |              +--rw ospf
-            |                 +--rw instance* [af]
-            |                    +--rw areas
-            |                       +--rw area* [area-id]
-            |                          +--rw interfaces
-            |                             +--rw interface* [name]
-            |                                +--rw name if:interface-ref
-            |                                +--rw cost?   uint16
-            +--rw ietf-interfaces/
-               +--rw interfaces
-               |  +--rw interface* [name]
-               |     +--rw name            string
-               |     +--rw ietf-ip/
-               |        +--rw ipv4!
-               |        |  +--rw address* [ip]
-               +--ro interfaces-state
-                  +--ro interface* [name]
+            +--ro rt:routing-state/
+            |  +--ro router-id?                 yang:dotted-quad
+            |  +--ro control-plane-protocols
+            |     +--ro control-plane-protocol* [type name]
+            |        +--ro ospf:ospf/
+            |           +--ro instance* [af]
+            |           ...
+            +--rw rt:routing/
+            |  +--rw router-id?                 yang:dotted-quad
+            |  +--rw control-plane-protocols
+            |     +--rw control-plane-protocol* [type name]
+            |        +--rw ospf:ospf/
+            |           +--rw instance* [af]
+            |              +--rw areas
+            |                 +--rw area* [area-id]
+            |                    +--rw interfaces
+            |                       +--rw interface* [name]
+            |                          +--rw name if:interface-ref
+            |                          +--rw cost?   uint16
+            +--rw if:interfaces/
+            |  +--rw interface* [name]
+            |     +--rw name            string
+            |     +--rw ip:ipv4!/
+            |     |  +--rw address* [ip]
+            |     |  ...
+            +--ro if:interfaces-state/
+               +--ro interface* [name]
                   +--ro name               string
-                     +--rw ietf-ip/
-                        +--ro ipv4!
-                        |  +--ro address* [ip]
+                  +--ro ip:ipv4!/
+                  |  +--ro address* [ip]
+                  |  ...
 
 module: ietf-interfaces
    +--rw interfaces
@@ -912,15 +906,13 @@ module: ietf-routing
    |  +--ro router-id?                 yang:dotted-quad
    |  +--ro control-plane-protocols
    |  |  +--ro control-plane-protocol* [type name]
-   |        +--rw ietf-ospf/
-   |           +--ro ospf
-   |              +--ro instance* [af]
+   |  |     +--ro ospf:ospf/
+   |  |        +--ro instance* [af]
    +--rw routing
       +--rw router-id?                 yang:dotted-quad
       +--rw control-plane-protocols
          +--rw control-plane-protocol* [type name]
-            +--rw ietf-ospf/
-            +--rw ospf
+            +--rw ospf:ospf/
                +--rw instance* [af]
                   +--rw areas
                      +--rw area* [area-id]
@@ -1680,23 +1672,21 @@ module: ietf-routing
    +--ro routing-state
    |  +--ro router-id?                 yang:dotted-quad
    |  +--ro control-plane-protocols
-   |    +--ro control-plane-protocol* [type name]
-   |        +--rw ietf-ospf/
-   |           +--ro ospf
-   |              +--ro instance* [af]
+   |  |  +--ro control-plane-protocol* [type name]
+   |  |     +--ro ospf:ospf/
+   |  |        +--ro instance* [af]
    +--rw routing
       +--rw router-id?                 yang:dotted-quad
       +--rw control-plane-protocols
          +--rw control-plane-protocol* [type name]
-            +--rw ietf-ospf/
-               +--rw ospf
-                  +--rw instance* [af]
-                     +--rw areas
-                        +--rw area* [area-id]
-                           +--rw interfaces
-                              +--rw interface* [name]
-                                 +--rw name    if:interface-ref
-                                 +--rw cost?   uint16
+            +--rw ospf:ospf/
+               +--rw instance* [af]
+                  +--rw areas
+                     +--rw area* [area-id]
+                        +--rw interfaces
+                           +--rw interface* [name]
+                              +--rw name    if:interface-ref
+                              +--rw cost?   uint16
 
 module: ietf-interfaces
    +--rw interfaces
