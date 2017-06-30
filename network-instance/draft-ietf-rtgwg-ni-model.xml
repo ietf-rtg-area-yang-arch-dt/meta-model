@@ -689,6 +689,8 @@ module: ietf-interfaces
   </t>
   <t>
     The format of the registry shall be:
+  </t>
+  <t>
     <figure>
       <artwork>
         Identity Name     Reference
