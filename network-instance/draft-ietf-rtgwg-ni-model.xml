@@ -394,15 +394,14 @@ module: ietf-network-instance
                  |  +--rw router-id?                 yang:dotted-quad
                  |  +--rw control-plane-protocols
                  |     +--rw control-plane-protocol* [type name]
-                 |     +--rw ietf-ospf/
-                 |        +--rw ospf
-                 |           +--rw instance* [af]
-                 |              +--rw areas
-                 |                 +--rw area* [area-id]
-                 |                    +--rw interfaces
-                 |                       +--rw interface* [name]
-                 |                          +--rw name if:interface-ref
-                 |                          +--rw cost?   uint16
+                 |     +--rw ospf/
+                 |        +--rw instance* [af]
+                 |           +--rw areas
+                 |              +--rw area* [area-id]
+                 |                 +--rw interfaces
+                 |                    +--rw interface* [name]
+                 |                       +--rw name if:interface-ref
+                 |                       +--rw cost?   uint16
                  +--ro if:interfaces@
                  |  ...
                  +--ro if:interfaces-state@
