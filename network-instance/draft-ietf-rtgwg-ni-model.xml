@@ -405,11 +405,10 @@ module: ietf-network-instance
                  |                          +--rw interface* [name]
                  |                             +--rw name if:interface-ref
                  |                             +--rw cost?   uint16
-                 +--ro ietf-interfaces@
-                    +--rw interfaces
-                    |  ...
-                    +--ro interfaces-state
-                    |  ...
+                 +--ro if:interfaces@
+                 |  ...
+                 +--ro if:interfaces-state@
+                 |  ...
         </artwork>
       </figure>
     </t>
