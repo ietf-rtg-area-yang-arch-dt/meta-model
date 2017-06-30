@@ -384,17 +384,17 @@ module: ietf-network-instance
               +--ro l3vpn:l3vpn-state
               |  +-- ... // state date
               +--mp vrf-root
-                 +--ro routing-state/
+                 +--ro rt:routing-state/
                  |  +--ro router-id?                 yang:dotted-quad
                  |  +--ro control-plane-protocols
                  |     +--ro control-plane-protocol* [type name]
-                 |        +--ro ospf/
+                 |        +--ro ospf:ospf/
                  |           +--ro instance* [af]
-                 +--rw routing/
+                 +--rw rt:routing/
                  |  +--rw router-id?                 yang:dotted-quad
                  |  +--rw control-plane-protocols
                  |     +--rw control-plane-protocol* [type name]
-                 |     +--rw ospf/
+                 |     +--rw ospf:ospf/
                  |        +--rw instance* [af]
                  |           +--rw areas
                  |              +--rw area* [area-id]
