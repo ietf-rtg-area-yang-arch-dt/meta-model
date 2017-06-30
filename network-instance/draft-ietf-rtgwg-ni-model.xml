@@ -385,11 +385,13 @@ module: ietf-network-instance
         +--rw enabled?       boolean
         +--rw description?   string
         +--rw (ni-type)?
-           +--:(l3vpn)
-              +--rw l3vpn:l3vpn
-              |  ... // config data
-              +--ro l3vpn:l3vpn-state
-              |  ... // state data
+        |  +--:(l3vpn)
+        |     +--rw l3vpn:l3vpn
+        |     |  ... // config data
+        |     +--ro l3vpn:l3vpn-state
+        |     |  ... // state data
+        +--rw (root-type)?
+           +--:(vrf-root)
               +--mp vrf-root
                  +--ro rt:routing-state/
                  |  +--ro router-id?                 yang:dotted-quad
