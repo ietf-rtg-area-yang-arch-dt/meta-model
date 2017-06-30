@@ -409,6 +409,13 @@ module: ietf-network-instance
         </artwork>
       </figure>
     </t>
+    <t>
+      As shown, YANG Routing Management <xref target="RFC8022"/> and
+      YANG OSPF <xref target="I-D.ietf-ospf-yang"/> are mounted modules,
+      and these modules can reference interface information via a
+      parent-reference to the containers defined in <xref
+      target="RFC7223"/>.
+    </t>
   </section>
 </section>
 <section anchor="sec-2.int" title="NIs and Interfaces">
@@ -481,16 +488,14 @@ module: ietf-interfaces
 
 <section anchor="sec-NI.2" title="Network Instance Management">
 <t>
-  TBD: update section to new YANG model.
-</t>
-<t>
-   Modules that may be used to represent network instance
-   specific information will be available under
-   'root'.  The
+   Modules that may be used to
+   represent network instance
+   information will be available under the ni-type specific
+   'root' mount point.  The
    use-schema mechanism defined as part of the Schema Mount module
    <xref target="I-D.ietf-netmod-schema-mount"/>
    MUST used with the module defined in this document to identify
-   supported modules.
+   accessible modules.
    A future version of this document could relax this requirement.
    Mounted modules in the non-inline case SHOULD be defined with
    access, via the appropriate schema mount parent-references <xref
@@ -500,17 +505,16 @@ module: ietf-interfaces
 
 <t>
     All modules that represent control-plane and data-plane
-    information may be present at the 'root',
+    information may be present at the 'root' mount point,
     and be accessible via paths modified per
     <xref target="I-D.ietf-netmod-schema-mount"/>.  The list of available
-    modules is expected to be implementation dependent.  As is the
+    modules is expected to be implementation dependent, as is the
     method used by an implementation to support NIs.
 </t>
 
 <t>
-  As an example, the following could be used to define support for
-  an NI used to support VRFs which use OSPF <xref
-  target="I-D.ietf-ospf-yang"/>:
+  For example, the following could be used to define the data
+  organization of the example NI shown in <xref target="sec-2.nit.ex"/>:
 </t>
 <t>
   <figure>
@@ -519,7 +523,7 @@ module: ietf-interfaces
       "mount-point": [
         {
           "module": "ietf-network-instance",
-          "name": "root",
+          "name": "vrf-root",
           "use-schema": [
             {
               "name": "ni-schema",
@@ -556,47 +560,12 @@ module: ietf-interfaces
   </figure>
 </t>
 <t>
-  The resulting full module tree representation would be:
-</t>
-<t>
-<figure>
-  <artwork>
-   module: ietf-network-instance
-   +--rw network-instances
-      +--rw network-instance* [name]
-         +--rw name                       string
-         +--rw type?                      identityref
-         +--rw enabled?                   boolean
-         +--rw description?               string
-         +--rw network-instance-policy
-         +--rw root?          yangmnt:mount-point
-            // module: ietf-routing
-            +--ro routing-state
-            |  +--ro router-id?                 yang:dotted-quad
-            |  +--ro control-plane-protocols
-            |  |  +--ro control-plane-protocol* [type name]
-            |        // module: ietf-ospf
-            |         +--ro ospf
-            |           +--ro instance* [af]
-            +--rw routing
-               +--rw router-id?                 yang:dotted-quad
-               +--rw control-plane-protocols
-               |  +--rw control-plane-protocol* [type name]
-               |  // module: ietf-ospf
-               |     +--rw ospf:ospf
-               |        +--rw ospf:instance* [af]
-               |           +--rw ospf:areas
-               |           |  +--rw ospf:area* [area-id]
-               |           |     +--rw ospf:interfaces
-               |           |        +--rw ospf:interface* [name]
-               |           |           +--rw ospf:name
-                                                   if:interface-ref
-               |           |           +--rw ospf:cost?   uint16
-            // module: ietf-interfaces
-            // access is enabled by parent-reference in the YANG
-            // schema mount.
-</artwork>
-</figure>
+  Module data identified under "schema" will be instantiated under the
+  mount point identified under "mount-point".  These modules will be
+  able to reference information for nodes belonging top-level modules
+  that are identified under "parent-reference".  Parent referenced
+  information is available to clients via their top level paths only,
+  and not under the associated mount point.
 </t>
 </section>
 
