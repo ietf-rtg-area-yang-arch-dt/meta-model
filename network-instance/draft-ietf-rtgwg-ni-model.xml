@@ -319,29 +319,6 @@ notifications:
       </artwork>
     </figure>
   </t>
-  <t>
-    In order to reduce the possibility of collision of ni-type names,
-    this document defines the ni-types base identity as well as
-    establishes an associated IANA registry.  Documents augmenting
-    ni-type are expected to add an identify with the exact name as the
-    'case' name and add it to the IANA registry.  This will ensure that
-    independent models are not defined in a conflicting fashion.
-  </t>
-  <t>
-    The identify corresponding to the above example augmentation would
-    be:
-  </t>
-  <t>
-    <figure>
-      <artwork>
-identity l3vpn {
-  base ni-types;
-  description
-    "Type corresponding to the 'l3vpn' ni-type.";
-}
-      </artwork>
-    </figure>
-  </t>
   <section anchor="sec-2.nit.stdt" title="Well Known Mount Points">
     <t>
       YANG Schema Mount, <xref
@@ -681,28 +658,6 @@ module: ietf-interfaces
   ]]></artwork>
   </figure>
   </t>
-  <t>
-    Upon approval of this document, IANA is requested to create a new
-    registry named "Network Instance Types (ni-types)" as part of the
-    "YANG Parameters" registry located at
-    https://www.iana.org/assignments/yang-parameters/yang-parameters.xhtml
-  </t>
-  <t>
-    The format of the registry shall be:
-  </t>
-  <t>
-    <figure>
-      <artwork>
-        Identity Name     Reference
-        -------------     ---------
-      </artwork>
-    </figure>
-  </t>
-  <t>
-    The are no initial contents of the registry, i.e., it should be empty.
-    All assignments are to be performed via Standards Action and
-    Specification Required policies as defined in <xref target="RFC5226"/>.
-  </t>
 </section>
 
 <section anchor="sec-6.3" title="  Network Instance Model">
@@ -777,20 +732,6 @@ module ietf-network-instance {
     description
       "Initial revision.";
     reference "RFC TBD";
-  }
-
-  // identity statements
-
-  identity ni-types {
-    description
-      "Base identity from which types used in the ni-type
-       choice statement are defined. The primary purpose
-       of this identity is to support a companion IANA
-       registry to ensure two modules don't define the
-       same ni-type.
-
-       Derrived identtities MUST be registered in the
-       IANA Network Instance Types Registry.";
   }
 
   // groupings
@@ -1017,7 +958,6 @@ module ietf-network-instance {
   <?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
   <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
   <?rfc include="reference.RFC.2119"?>
-  <?rfc include="reference.RFC.5226"?>
   <?rfc include="reference.RFC.6020"?>
   <?rfc include="reference.RFC.7223"?>
   <?rfc include="reference.RFC.7277"?>
