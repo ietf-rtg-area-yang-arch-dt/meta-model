@@ -92,7 +92,7 @@
    support what is commonly referred to as Virtual Routing and
    Forwarding (VRF) instances as well as Virtual Switch Instances
    (VSI), see <xref target="RFC4026"/> and <xref target="RFC4664"/>.  In this form of resource
-   partitionin,g multiple control plane and forwarding/bridging
+   partitioning, multiple control plane and forwarding/bridging
    instances are provided by and managed via a single (physical or
    logical) network device.  This form of resource partitioning is
    referred to as Network Instances and are supported by the
