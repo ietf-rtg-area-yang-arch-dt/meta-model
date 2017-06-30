@@ -1070,7 +1070,7 @@ module ietf-network-instance {
     "network-instance": [
       {
         "name": "vrf-red",
-        "root": {
+        "vrf-root": {
           "ietf-routing:routing": {
             "router-id": "192.0.2.1",
             "control-plane-protocols": {
@@ -1108,7 +1108,7 @@ module ietf-network-instance {
       },
       {
         "name": "vrf-blue",
-        "root": {
+        "vrf-root": {
           "ietf-routing:routing": {
             "router-id": "192.0.2.2",
             "control-plane-protocols": {
@@ -1216,7 +1216,7 @@ module ietf-network-instance {
     "network-instance": [
       {
         "name": "vrf-red",
-        "root": {
+        "vrf-root": {
           "ietf-routing:routing-state": {
             "router-id": "192.0.2.1",
             "control-plane-protocols": {
@@ -1254,7 +1254,7 @@ module ietf-network-instance {
       },
       {
         "name": "vrf-blue",
-        "root": {
+        "vrf-root": {
           "ietf-routing:routing-state": {
             "router-id": "192.0.2.2",
             "control-plane-protocols": {
