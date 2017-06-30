@@ -388,9 +388,8 @@ module: ietf-network-instance
                  |  +--ro router-id?                 yang:dotted-quad
                  |  +--ro control-plane-protocols
                  |     +--ro control-plane-protocol* [type name]
-                 |        +--rw ietf-ospf/
-                 |           +--ro ospf
-                 |              +--ro instance* [af]
+                 |        +--ro ospf/
+                 |           +--ro instance* [af]
                  +--rw routing/
                  |  +--rw router-id?                 yang:dotted-quad
                  |  +--rw control-plane-protocols
