@@ -89,19 +89,19 @@
 </t>
 <t>
    The second form, which is defined in this document, provides
-   support what is commonly referred to as Virtual Routing and
+   support for what is commonly referred to as Virtual Routing and
    Forwarding (VRF) instances as well as Virtual Switch Instances
    (VSI), see <xref target="RFC4026"/> and <xref target="RFC4664"/>.  In this form of resource
    partitioning, multiple control plane and forwarding/bridging
    instances are provided by and managed via a single (physical or
    logical) network device.  This form of resource partitioning is
-   referred to as Network Instances and are supported by the
+   referred to as a Network Instance and is supported by the
    network-instance module defined below.  Configuration and
    operation of each network-instance is always via the network
    device and the network-instance module.
 </t>
 <t>
-   One notable difference between the LNE model mentioned and the NI
+   One notable difference between the LNE model and the NI
    model is that the NI model provides a framework for VRF and VSI
    management.  This document envisions the separate definition of VRF
    and VSI, i.e., L3 and L2 VPN, technology specific models.  An example
@@ -133,9 +133,9 @@ The top open issues are:
   <list style="numbers">
     <t>
       Schema mount currently doesn't allow parent-reference filtering on
-      the instance of  mount point, but rather just the schema.  This
+      the instance of the mount point, but rather just the schema.  This
       means it is not possible to filter based on actual data, e.g.,
-      bind-network-instance-name="green".  If the schema mount
+      bind-network-instance-name="green".  In the schema mount
       definition, the text and examples should be updated to cover this
       case.
     </t>
@@ -144,10 +144,10 @@ The top open issues are:
 </section>
 </section>
 <section anchor="sec-2" title="Overview">
-<t>
+                                  <t>
    In this document, we consider network devices that support protocols
    and functions defined within the IETF Routing Area, e.g, routers,
-   firewalls and hosts. Such devices may be physical or virtual, e.g., a
+   firewalls, and hosts. Such devices may be physical or virtual, e.g., a
    classic router with custom hardware or one residing within a
    server-based virtual machine implementing a virtual network function
    (VNF). Each device may sub-divide their resources into logical
@@ -214,8 +214,8 @@ The top open issues are:
   specific information both at the device level and for NI internal
   operation.  Information related to NI internal operation is supported
   via schema mount <xref target="I-D.ietf-netmod-schema-mount"/> and
-  mounting appropriate modules under mount point.  Well known mount points are
-  defined for L3VPN, L2VPN and L2+L3VPN NI types.
+  mounting appropriate modules under the mount point.  Well known mount 
+  points are defined for L3VPN, L2VPN, and L2+L3VPN NI types.
 </t>
 </section>
 
@@ -226,7 +226,7 @@ The top open issues are:
    (VSIs).  VRFs and VSIs are commonly used to isolate
    routing and switching domains, for example to create virtual private
    networks, each with their own active protocols and routing/switching
-   policies.  The model represents supports both core/provider and virtual
+   policies.  The model supports both core/provider and virtual
    instances.  Core/provider instance information is accessible at the
    top level of the server, while virtual instance information is
    accessible under the root schema mount points.
@@ -261,20 +261,20 @@ augment /if:interfaces/if:interface/ip:ipv6:
 
 notifications:
   +---n bind-ni-name-failed
-     +--ro name          -> /if:interfaces/interface/name
+     +--ro name    -> /if:interfaces/interface/name
      +--ro (interface-type)?
      |  +--:(interface)
      |  |  +--ro interface
      |  |     +--ro bind-ni-name
-     |  |             -> /if:interfaces/interface/ni:bind-ni-name
+     |  |         -> /if:interfaces/interface/ni:bind-ni-name
      |  +--:(ipv4)
      |  |  +--ro ipv4
      |  |     +--ro bind-ni-name
-     |  |            -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
+     |  |         -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
      |  +--:(ipv6)
      |     +--ro ipv6
      |        +--ro bind-ni-name
-     |               -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
+     |            -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
      +--ro error-info?   string
 </artwork>
 </figure>
@@ -284,9 +284,9 @@ notifications:
    'name' string.  This string is used both as
    an index within the network-instance module and to associate
    resources with a network instance as shown above in the
-   interface augmentation. ni-type and root-type are used to support different types of
-   L2 and L3 VPN technologies.
-   bind-lne-name-failed is used in certain failure cases.
+   interface augmentation. The ni-type and root-type leafs are used to 
+   support different types of L2 and L3 VPN technologies.
+   The bind-lne-name-failed notification is used in certain failure cases.
 </t>
 
 <section anchor="sec-2.nit" title="NI Types and Mount Points">
@@ -441,7 +441,7 @@ module: ietf-network-instance
    target="RFC7223"/>.
 </t>
 <t>
-   As shown above, the network-instance module augments the existing
+   As shown below, the network-instance module augments the existing
    interface management model by adding a name which is used on
    interface or sub-interface types to identify an associated network
    instance.  Similarly, this name is also added for IPv4 and IPv6
@@ -471,8 +471,8 @@ module: ietf-interfaces
    |     |  |     +--:(ip:netmask)
    |     |  |        +--rw ip:netmask?         yang:dotted-quad
    |     |  +--rw ip:neighbor* [ip]
-   |     |  |  +--rw ip:ip                    inet:ipv4-address-no-zone
-   |     |  |  +--rw ip:link-layer-address    yang:phys-address
+   |     |  |  +--rw ip:ip                  inet:ipv4-address-no-zone
+   |     |  |  +--rw ip:link-layer-address  yang:phys-address
    |     |  +--rw ni:bind-network-instance-name?   string
    |     +--rw ni:bind-network-instance-name?   string
 </artwork>
@@ -528,50 +528,50 @@ module: ietf-interfaces
 <t>
   <figure>
     <artwork>
-    "ietf-yang-schema-mount:schema-mounts": {
-      "mount-point": [
-        {
-          "module": "ietf-network-instance",
-          "name": "vrf-root",
-          "use-schema": [
-            {
-              "name": "ni-schema",
-              "parent-reference": [
-                "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
-              ]
-            }
-          ]
-        }
-      ],
-      "schema": [
-        {
-          "name": "ni-schema",
-          "module": [
-            {
-               "name": "ietf-routing",
-               "revision": "2016-11-04",
-               "namespace":
-                 "urn:ietf:params:xml:ns:yang:ietf-routing",
-               "conformance-type": "implement"
-             },
-            {
-               "name": "ietf-ospf",
-               "revision": "2017-03-12",
-               "namespace":
-                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
-               "conformance-type": "implement"
-            }
-          ]
-        }
-      ]
-    }
+  "ietf-yang-schema-mount:schema-mounts": {
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "name": "vrf-root",
+        "use-schema": [
+          {
+            "name": "ni-schema",
+            "parent-reference": [
+              "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+            ]
+          }
+        ]
+      }
+    ],
+    "schema": [
+      {
+        "name": "ni-schema",
+        "module": [
+          {
+             "name": "ietf-routing",
+             "revision": "2016-11-04",
+             "namespace":
+               "urn:ietf:params:xml:ns:yang:ietf-routing",
+             "conformance-type": "implement"
+           },
+          {
+             "name": "ietf-ospf",
+             "revision": "2017-03-12",
+             "namespace":
+               "urn:ietf:params:xml:ns:yang:ietf-ospf",
+             "conformance-type": "implement"
+          }
+        ]
+      }
+    ]
+  }
     </artwork>
   </figure>
 </t>
 <t>
   Module data identified under "schema" will be instantiated under the
   mount point identified under "mount-point".  These modules will be
-  able to reference information for nodes belonging top-level modules
+  able to reference information for nodes belonging to top-level modules
   that are identified under "parent-reference".  Parent referenced
   information is available to clients via their top level paths only,
   and not under the associated mount point.
@@ -582,23 +582,23 @@ module: ietf-interfaces
   <t>
     Network instances may be controlled by clients using existing list
     operations.  When list entries are created, a new instance is
-    instantiated. The models mounted under a NI root is expected to be
+    instantiated. The models mounted under an NI root is expected to be
     dependent on the server implementation.  When a list entry is
     deleted, an existing network instance is destroyed. For more
-    information see <xref target="RFC7950"/> Section 7.8.6.
+    information, see <xref target="RFC7950"/> Section 7.8.6.
   </t>
   <t>
     Once instantiated, host network device resources can be
     associated with the new NI.  As previously mentioned, this
     document augments ietf-interfaces with the bind-ni-name leaf
-    to support such associations for interfaces.  When an
+    to support such associations for interfaces.  When a
     bind-ni-name is set to a valid NI name, an implementation
     MUST take whatever steps are internally necessary to assign
     the interface to the NI or provide an error message (defined
     below) with an indication of why the assignment failed.  It is
-    possible for the assignment to fail while processing the set, or
-    after asynchronous processing.  Error notification in the latter
-    case is supported via a notification.
+    possible for the assignment to fail while processing the 
+    set operation, or after asynchronous processing.  Error 
+    notification in the latter case is supported via a notification.
   </t>
 </section>
 </section>
@@ -612,7 +612,7 @@ module: ietf-interfaces
     NI.  For example, when considering the modules defined in <xref
     target="RFC8022"/>, the security considerations identified in that
     document are equally applicable, whether those modules are accessed
-    at a server's root or under an NI instances root node.
+    at a server's root or under an NI instance's root node.
   </t>
   <t>
     The second area for consideration is information contained in the NI
@@ -681,7 +681,7 @@ module: ietf-interfaces
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2017-06-30.yang"
+<CODE BEGINS> file "ietf-network-instance@2017-07-01.yang"
 module ietf-network-instance {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
@@ -691,7 +691,8 @@ module ietf-network-instance {
 
   import ietf-interfaces {
     prefix if;
-    reference "RFC 7223: A YANG Data Model for Interface Management";
+    reference "RFC 7223: A YANG Data Model for Interface 
+               Management";
   }
   import ietf-ip {
     prefix ip;
@@ -700,8 +701,8 @@ module ietf-network-instance {
   import ietf-yang-schema-mount {
     prefix yangmnt;
     reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
-    // RFC Ed.: Please replace this draft name with the corresponding
-    // RFC number
+    // RFC Ed.: Please replace this draft name with the 
+    // corresponding RFC number
   }
 
   organization
@@ -721,7 +722,7 @@ module ietf-network-instance {
   description
     "This module is used to support multiple network instances
      within a single physical or virtual device.  Network
-     instances are commonly know as VRFs (virtual routing
+     instances are commonly known as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).
 
      Copyright (c) 2017 IETF Trust and the persons
@@ -754,7 +755,8 @@ module ietf-network-instance {
       "Network instances each of which consists of a
        VRFs (virtual routing and forwarding) and/or
        VSIs (virtual switching instances).";
-    reference "RFC 8022 - A YANG Data Model for Routing Management";
+    reference "RFC 8022 - A YANG Data Model for Routing 
+               Management";
     list network-instance {
       key "name";
       description
@@ -780,12 +782,13 @@ module ietf-network-instance {
       }
       choice ni-type {
         description
-          "This node serves as an anchor point for different types of
-           network instances.  Each 'case' is expected to differ in
-           terms of the information need in the parent/core to support
-           the NI, and may differ in their mounted schema definition.
-           When the mounted schema is not expected to be the same for
-           a specific type of NI a mount point should be defined.";
+          "This node serves as an anchor point for different types
+           of network instances.  Each 'case' is expected to 
+           differ in terms of the information needed in the 
+           parent/core to support the NI, and may differ in their
+           mounted schema definition. When the mounted schema is
+           not expected to be the same for a specific type of NI
+           a mount point should be defined.";
       }
       choice root-type {
         description
@@ -821,10 +824,10 @@ module ietf-network-instance {
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'ni-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
+       with an error-tag of 'operation-failed' and an 
+       error-app-tag of 'ni-assignment-failed'.  A meaningful 
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
     leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
@@ -837,15 +840,15 @@ module ietf-network-instance {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface.
+       on an IPv4 interface.
 
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'ni-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
     leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
@@ -858,15 +861,15 @@ module ietf-network-instance {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface.
+       on an IPv6 interface.
 
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'ni-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
     leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
@@ -913,7 +916,8 @@ module ietf-network-instance {
           "IPv4 interface type.";
         leaf bind-ni-name {
           type leafref {
-            path "/if:interfaces/if:interface/ip:ipv4/ni:bind-ni-name";
+            path "/if:interfaces/if:interface"
+               + "/ip:ipv4/ni:bind-ni-name";
           }
           mandatory true;
           description
@@ -926,7 +930,8 @@ module ietf-network-instance {
           "IPv6 interface type.";
         leaf bind-ni-name {
           type leafref {
-            path "/if:interfaces/if:interface/ip:ipv6/ni:bind-ni-name";
+            path "/if:interfaces/if:interface"
+               + "/ip:ipv6/ni:bind-ni-name";
           }
           mandatory true;
           description

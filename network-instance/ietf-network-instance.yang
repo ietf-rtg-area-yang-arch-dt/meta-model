@@ -7,7 +7,8 @@ module ietf-network-instance {
 
   import ietf-interfaces {
     prefix if;
-    reference "RFC 7223: A YANG Data Model for Interface Management";
+    reference "RFC 7223: A YANG Data Model for Interface 
+               Management";
   }
   import ietf-ip {
     prefix ip;
@@ -16,8 +17,8 @@ module ietf-network-instance {
   import ietf-yang-schema-mount {
     prefix yangmnt;
     reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
-    // RFC Ed.: Please replace this draft name with the corresponding
-    // RFC number
+    // RFC Ed.: Please replace this draft name with the 
+    // corresponding RFC number
   }
 
   organization
@@ -37,7 +38,7 @@ module ietf-network-instance {
   description
     "This module is used to support multiple network instances
      within a single physical or virtual device.  Network
-     instances are commonly know as VRFs (virtual routing
+     instances are commonly known as VRFs (virtual routing
      and forwarding) and VSIs (virtual switching instances).
 
      Copyright (c) 2017 IETF Trust and the persons
@@ -70,7 +71,8 @@ module ietf-network-instance {
       "Network instances each of which consists of a
        VRFs (virtual routing and forwarding) and/or
        VSIs (virtual switching instances).";
-    reference "RFC 8022 - A YANG Data Model for Routing Management";
+    reference "RFC 8022 - A YANG Data Model for Routing 
+               Management";
     list network-instance {
       key "name";
       description
@@ -96,12 +98,13 @@ module ietf-network-instance {
       }
       choice ni-type {
         description
-          "This node serves as an anchor point for different types of
-           network instances.  Each 'case' is expected to differ in
-           terms of the information need in the parent/core to support
-           the NI, and may differ in their mounted schema definition.
-           When the mounted schema is not expected to be the same for
-           a specific type of NI a mount point should be defined.";
+          "This node serves as an anchor point for different types
+           of network instances.  Each 'case' is expected to 
+           differ in terms of the information needed in the 
+           parent/core to support the NI, and may differ in their
+           mounted schema definition. When the mounted schema is
+           not expected to be the same for a specific type of NI
+           a mount point should be defined.";
       }
       choice root-type {
         description
@@ -137,10 +140,10 @@ module ietf-network-instance {
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'ni-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
+       with an error-tag of 'operation-failed' and an 
+       error-app-tag of 'ni-assignment-failed'.  A meaningful 
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
     leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
@@ -153,15 +156,15 @@ module ietf-network-instance {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface.
+       on an IPv4 interface.
 
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'ni-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
     leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
@@ -174,15 +177,15 @@ module ietf-network-instance {
     description
       "Add a node for the identification of the network
        instance associated with the information configured
-       on an IP interface.
+       on an IPv6 interface.
 
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'ni-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
     leaf bind-ni-name {
       type leafref {
         path "/network-instances/network-instance/name";
@@ -229,7 +232,8 @@ module ietf-network-instance {
           "IPv4 interface type.";
         leaf bind-ni-name {
           type leafref {
-            path "/if:interfaces/if:interface/ip:ipv4/ni:bind-ni-name";
+            path "/if:interfaces/if:interface"
+               + "/ip:ipv4/ni:bind-ni-name";
           }
           mandatory true;
           description
@@ -242,7 +246,8 @@ module ietf-network-instance {
           "IPv6 interface type.";
         leaf bind-ni-name {
           type leafref {
-            path "/if:interfaces/if:interface/ip:ipv6/ni:bind-ni-name";
+            path "/if:interfaces/if:interface"
+               + "/ip:ipv6/ni:bind-ni-name";
           }
           mandatory true;
           description
