@@ -261,20 +261,15 @@ augment /if:interfaces/if:interface/ip:ipv6:
 
 notifications:
   +---n bind-ni-name-failed
-     +--ro name    -> /if:interfaces/interface/name
-     +--ro (interface-type)?
-     |  +--:(interface)
-     |  |  +--ro interface
-     |  |     +--ro bind-ni-name
-     |  |         -> /if:interfaces/interface/ni:bind-ni-name
-     |  +--:(ipv4)
-     |  |  +--ro ipv4
-     |  |     +--ro bind-ni-name
-     |  |         -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
-     |  +--:(ipv6)
-     |     +--ro ipv6
-     |        +--ro bind-ni-name
-     |            -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
+     +--ro name          -> /if:interfaces/interface/name
+     +--ro interface
+     |  +--ro bind-ni-name?   -> /if:interfaces/interface/ni:bind-ni-name
+     +--ro ipv4
+     |  +--ro bind-ni-name?
+     |          -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
+     +--ro ipv6
+     |  +--ro bind-ni-name?
+     |          -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
      +--ro error-info?   string
 </artwork>
 </figure>
@@ -284,9 +279,9 @@ notifications:
    'name' string.  This string is used both as
    an index within the network-instance module and to associate
    resources with a network instance as shown above in the
-   interface augmentation. The ni-type and root-type leafs are used to 
+   interface augmentation. The ni-type and root-type choice statements are used to 
    support different types of L2 and L3 VPN technologies.
-   The bind-lne-name-failed notification is used in certain failure cases.
+   The bind-ni-name-failed notification is used in certain failure cases.
 </t>
 
 <section anchor="sec-2.nit" title="NI Types and Mount Points">
@@ -681,7 +676,7 @@ module: ietf-interfaces
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2017-07-01.yang"
+<CODE BEGINS> file "ietf-network-instance@2017-07-02.yang"
 module ietf-network-instance {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
@@ -742,7 +737,7 @@ module ietf-network-instance {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2017-06-23 {
+  revision 2017-07-02 {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -895,49 +890,42 @@ module ietf-network-instance {
         "Contains the interface name associated with the
         failure.";
     }
-    choice interface-type {
+    container interface {
       description
-        "Interface type that contained the bind-ni-name.";
-      container interface {
-        description
-          "Generic interface type.";
-        leaf bind-ni-name {
-          type leafref {
-            path "/if:interfaces/if:interface/ni:bind-ni-name";
-          }
-          mandatory true;
-          description
-            "Contains the bind-ni-name associated with the
-             failure.";
+        "Generic interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface/ni:bind-ni-name";
         }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
       }
-      container ipv4 {
-        description
-          "IPv4 interface type.";
-        leaf bind-ni-name {
-          type leafref {
-            path "/if:interfaces/if:interface"
-               + "/ip:ipv4/ni:bind-ni-name";
-          }
-          mandatory true;
-          description
-            "Contains the bind-ni-name associated with the
-             failure.";
+    }
+    container ipv4 {
+      description
+        "IPv4 interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface"
+            + "/ip:ipv4/ni:bind-ni-name";
         }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
       }
-      container ipv6 {
-        description
-          "IPv6 interface type.";
-        leaf bind-ni-name {
-          type leafref {
-            path "/if:interfaces/if:interface"
-               + "/ip:ipv6/ni:bind-ni-name";
-          }
-          mandatory true;
-          description
-            "Contains the bind-ni-name associated with the
-             failure.";
+    }
+    container ipv6 {
+      description
+        "IPv6 interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface"
+            + "/ip:ipv6/ni:bind-ni-name";
         }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
       }
     }
     leaf error-info {

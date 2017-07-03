@@ -16,17 +16,12 @@ module: ietf-network-instance
   notifications:
     +---n bind-ni-name-failed
        +--ro name          -> /if:interfaces/interface/name
-       +--ro (interface-type)?
-       |  +--:(interface)
-       |  |  +--ro interface
-       |  |     +--ro bind-ni-name
-       |  |             -> /if:interfaces/interface/ni:bind-ni-name
-       |  +--:(ipv4)
-       |  |  +--ro ipv4
-       |  |     +--ro bind-ni-name
-       |  |             -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
-       |  +--:(ipv6)
-       |     +--ro ipv6
-       |        +--ro bind-ni-name
-       |                -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
+       +--ro interface
+       |  +--ro bind-ni-name?   -> /if:interfaces/interface/ni:bind-ni-name
+       +--ro ipv4
+       |  +--ro bind-ni-name?
+       |          -> /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
+       +--ro ipv6
+       |  +--ro bind-ni-name?
+       |          -> /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
        +--ro error-info?   string

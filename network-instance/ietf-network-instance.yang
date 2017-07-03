@@ -58,7 +58,7 @@ module ietf-network-instance {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2017-06-23 {
+  revision 2017-07-02 {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -211,49 +211,42 @@ module ietf-network-instance {
         "Contains the interface name associated with the
         failure.";
     }
-    choice interface-type {
+    container interface {
       description
-        "Interface type that contained the bind-ni-name.";
-      container interface {
-        description
-          "Generic interface type.";
-        leaf bind-ni-name {
-          type leafref {
-            path "/if:interfaces/if:interface/ni:bind-ni-name";
-          }
-          mandatory true;
-          description
-            "Contains the bind-ni-name associated with the
-             failure.";
+        "Generic interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface/ni:bind-ni-name";
         }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
       }
-      container ipv4 {
-        description
-          "IPv4 interface type.";
-        leaf bind-ni-name {
-          type leafref {
-            path "/if:interfaces/if:interface"
-               + "/ip:ipv4/ni:bind-ni-name";
-          }
-          mandatory true;
-          description
-            "Contains the bind-ni-name associated with the
-             failure.";
+    }
+    container ipv4 {
+      description
+        "IPv4 interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface"
+            + "/ip:ipv4/ni:bind-ni-name";
         }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
       }
-      container ipv6 {
-        description
-          "IPv6 interface type.";
-        leaf bind-ni-name {
-          type leafref {
-            path "/if:interfaces/if:interface"
-               + "/ip:ipv6/ni:bind-ni-name";
-          }
-          mandatory true;
-          description
-            "Contains the bind-ni-name associated with the
-             failure.";
+    }
+    container ipv6 {
+      description
+        "IPv6 interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface"
+            + "/ip:ipv6/ni:bind-ni-name";
         }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
       }
     }
     leaf error-info {
