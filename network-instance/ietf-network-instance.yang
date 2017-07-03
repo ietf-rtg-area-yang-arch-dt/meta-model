@@ -7,7 +7,7 @@ module ietf-network-instance {
 
   import ietf-interfaces {
     prefix if;
-    reference "RFC 7223: A YANG Data Model for Interface 
+    reference "RFC 7223: A YANG Data Model for Interface
                Management";
   }
   import ietf-ip {
@@ -17,7 +17,7 @@ module ietf-network-instance {
   import ietf-yang-schema-mount {
     prefix yangmnt;
     reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
-    // RFC Ed.: Please replace this draft name with the 
+    // RFC Ed.: Please replace this draft name with the
     // corresponding RFC number
   }
 
@@ -71,7 +71,7 @@ module ietf-network-instance {
       "Network instances each of which consists of a
        VRFs (virtual routing and forwarding) and/or
        VSIs (virtual switching instances).";
-    reference "RFC 8022 - A YANG Data Model for Routing 
+    reference "RFC 8022 - A YANG Data Model for Routing
                Management";
     list network-instance {
       key "name";
@@ -99,8 +99,8 @@ module ietf-network-instance {
       choice ni-type {
         description
           "This node serves as an anchor point for different types
-           of network instances.  Each 'case' is expected to 
-           differ in terms of the information needed in the 
+           of network instances.  Each 'case' is expected to
+           differ in terms of the information needed in the
            parent/core to support the NI, and may differ in their
            mounted schema definition. When the mounted schema is
            not expected to be the same for a specific type of NI
@@ -140,8 +140,8 @@ module ietf-network-instance {
        Note that a standard error will be returned if the
        identified leafref isn't present.  If an interfaces cannot
        be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an 
-       error-app-tag of 'ni-assignment-failed'.  A meaningful 
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
        error-info that indicates the source of the assignment
        failure SHOULD also be provided.";
     leaf bind-ni-name {
@@ -201,7 +201,14 @@ module ietf-network-instance {
     description
       "Indicates an error in the association of an interface to an
        NI. Only generated after success is initially returned when
-       bind-ni-name is set.";
+       bind-ni-name is set.
+
+       Note: some errors may need to be reported for multiple
+       associations, e.g., a single error may need to be reported
+       for an IPv4 and an IPv6 bind-ni-name.
+
+       At least one container with a bind-ni-name leaf MUST be
+       included in this notification.";
     leaf name {
       type leafref {
         path "/if:interfaces/if:interface/if:name";
