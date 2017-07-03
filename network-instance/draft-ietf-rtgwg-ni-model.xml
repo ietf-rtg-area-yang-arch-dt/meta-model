@@ -291,7 +291,7 @@ notifications:
 
 <section anchor="sec-2.nit" title="NI Types and Mount Points">
   <t>
-    The network-instance module is structure to facilitate the
+    The network-instance module is structured to facilitate the
     definition of information models for specific types of VRFs and VSIs
     using augmentations.  For example, the information needed to support
     VPLS, VxLAN and EVPN based L2VPNs are likely to be quite different.
@@ -341,7 +341,7 @@ notifications:
     <t>
       The expectation is that there are actually very few different
       schema that need to be defined to support NIs on an
-      implementation. In particular, the expectation that the following
+      implementation. In particular, it is expected that the following
       three forms of NI schema are needed, and each can be defined with
       a well known mount point that can be reused by future modules
       defining ni-types.
@@ -503,7 +503,7 @@ module: ietf-interfaces
    'root' mount point.  The
    use-schema mechanism defined as part of the Schema Mount module
    <xref target="I-D.ietf-netmod-schema-mount"/>
-   MUST used with the module defined in this document to identify
+   MUST be used with the module defined in this document to identify
    accessible modules.
    A future version of this document could relax this requirement.
    Mounted modules in the non-inline case SHOULD be defined with
@@ -581,8 +581,8 @@ module: ietf-interfaces
 <section anchor="sec-NI.3" title="  Network Instance Instantiation">
   <t>
     Network instances may be controlled by clients using existing list
-    operations.  When list entries are created, a new instance is
-    instantiated. The models mounted under an NI root is expected to be
+    operations.  When a list entry is created, a new instance is
+    instantiated. The models mounted under an NI root are expected to be
     dependent on the server implementation.  When a list entry is
     deleted, an existing network instance is destroyed. For more
     information, see <xref target="RFC7950"/> Section 7.8.6.
@@ -607,7 +607,7 @@ module: ietf-interfaces
     There are two different sets of security considerations to consider
     in the context of this document.  One set is security related to
     information contained within mounted modules.  The security
-    considerations for mounted modules is not substantively changed
+    considerations for mounted modules are not substantively changed
     based on the information being accessible within the context of an
     NI.  For example, when considering the modules defined in <xref
     target="RFC8022"/>, the security considerations identified in that
