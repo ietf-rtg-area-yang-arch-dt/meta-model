@@ -6,6 +6,12 @@ module: ietf-network-instance
           +--rw description?   string
           +--rw (ni-type)?
           +--rw (root-type)?
+             +--:(vrf-root)
+             |  +--rw vrf-root
+             +--:(vsi-root)
+             |  +--rw vsi-root
+             +--:(vv-root)
+                +--rw vv-root
   augment /if:interfaces/if:interface:
     +--rw bind-ni-name?   -> /network-instances/network-instance/name
   augment /if:interfaces/if:interface/ip:ipv4:

@@ -481,7 +481,7 @@ reference:   RFC XXXX
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2017-06-30.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2017-09-13.yang"
 module ietf-logical-network-element {
   yang-version 1.1;
 
@@ -572,19 +572,23 @@ module ietf-logical-network-element {
         description
           "Description of the logical network element.";
       }
-      yangmnt:mount-point "root" {
+      container "root" {
         description
-          "Root for models supported per logical
-           network element.  This mount point will
-           may or may not be inline based on the server
-           implementation.  It SHALL always contain a YANG
-           library and interfaces instance.
+          "Container for mount point.";
+	yangmnt:mount-point "root" {
+	  description
+	    "Root for models supported per logical
+	     network element.  This mount point will
+	     may or may not be inline based on the server
+	     implementation.  It SHALL always contain a YANG
+	     library and interfaces instance.
 
-           When the associated 'managed' leaf is 'false' any
-           operation that attempts to access information below
-           the root SHALL fail with an error-tag of
-           'access-denied' and an error-app-tag of
-           'lne-not-managed'.";
+	     When the associated 'managed' leaf is 'false' any
+	     operation that attempts to access information below
+	     the root SHALL fail with an error-tag of
+	     'access-denied' and an error-app-tag of
+	     'lne-not-managed'.";
+        }
       }
     }
   }

@@ -109,21 +109,33 @@ module ietf-network-instance {
       choice root-type {
         description
           "Well known mount points.";
-        yangmnt:mount-point "vrf-root" {
+        container vrf-root {
           description
-            "Root for L3VPN type models. This will typically
-             not be an inline type mount point.";
+            "Container for mount point.";
+          yangmnt:mount-point "vrf-root" {
+            description
+              "Root for L3VPN type models. This will typically
+               not be an inline type mount point.";
+          }
         }
-        yangmnt:mount-point "vsi-root" {
+        container vsi-root {
           description
-            "Root for L2VPN type models. This will typically
-             not be an inline type mount point.";
+            "Container for mount point.";
+          yangmnt:mount-point "vsi-root" {
+            description
+              "Root for L2VPN type models. This will typically
+               not be an inline type mount point.";
+          }
         }
-        yangmnt:mount-point "vv-root" {
+        container vv-root {
           description
-            "Root models that support both L2VPN type bridging
-             and L3VPN type routing. This will typically
-             not be an inline type mount point.";
+            "Container for mount point.";
+          yangmnt:mount-point "vv-root" {
+            description
+              "Root models that support both L2VPN type bridging
+               and L3VPN type routing. This will typically
+               not be an inline type mount point.";
+          }
         }
       }
     }
