@@ -79,6 +79,7 @@ module ietf-network-instance {
         "List of network-instances.";
       leaf name {
         type string;
+        mandatory true;
         description
           "device scoped identifier for the network
            instance.";
@@ -107,6 +108,7 @@ module ietf-network-instance {
            a mount point should be defined.";
       }
       choice root-type {
+        mandatory true;
         description
           "Well known mount points.";
         container vrf-root {

@@ -245,13 +245,13 @@ module: ietf-network-instance
         +--rw enabled?       boolean
         +--rw description?   string
         +--rw (ni-type)?
-        +--rw (root-type)?
+        +--rw (root-type)
            +--:(vrf-root)
-           |  +--mp vrf-root?
+           |  +--mp vrf-root
            +--:(vsi-root)
-           |  +--mp vsi-root?
+           |  +--mp vsi-root
            +--:(vv-root)
-              +--mp vv-root?
+              +--mp vv-root
 augment /if:interfaces/if:interface:
   +--rw bind-ni-name?   -> /network-instances/network-instance/name
 augment /if:interfaces/if:interface/ip:ipv4:
@@ -386,7 +386,7 @@ module: ietf-network-instance
         |     |  ... // config data
         |     +--ro l3vpn:l3vpn-state
         |     |  ... // state data
-        +--rw (root-type)?
+        +--rw (root-type)
            +--:(vrf-root)
               +--mp vrf-root
                  +--ro rt:routing-state/
@@ -759,6 +759,7 @@ module ietf-network-instance {
         "List of network-instances.";
       leaf name {
         type string;
+        mandatory true;
         description
           "device scoped identifier for the network
            instance.";
@@ -787,6 +788,7 @@ module ietf-network-instance {
            a mount point should be defined.";
       }
       choice root-type {
+        mandatory true;
         description
           "Well known mount points.";
         container vrf-root {

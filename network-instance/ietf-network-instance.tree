@@ -5,7 +5,7 @@ module: ietf-network-instance
           +--rw enabled?       boolean
           +--rw description?   string
           +--rw (ni-type)?
-          +--rw (root-type)?
+          +--rw (root-type)
              +--:(vrf-root)
              |  +--rw vrf-root
              +--:(vsi-root)

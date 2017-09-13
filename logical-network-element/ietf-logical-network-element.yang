@@ -68,6 +68,7 @@ module ietf-logical-network-element {
        network element (device) instances.";
     list logical-network-element {
       key "name";
+      mandatory true;
       description
         "List of logical network elements.";
       leaf name {
@@ -78,6 +79,7 @@ module ietf-logical-network-element {
       }
       leaf managed {
         type boolean;
+        default "true";
         description
           "True if the host can access LNE information
            using the root mount point.  This value
@@ -89,21 +91,22 @@ module ietf-logical-network-element {
           "Description of the logical network element.";
       }
       container "root" {
+        mandatory true;
         description
           "Container for mount point.";
-	yangmnt:mount-point "root" {
-	  description
-	    "Root for models supported per logical
-	     network element.  This mount point will
-	     may or may not be inline based on the server
-	     implementation.  It SHALL always contain a YANG
-	     library and interfaces instance.
+        yangmnt:mount-point "root" {
+          description
+            "Root for models supported per logical
+             network element.  This mount point will
+             may or may not be inline based on the server
+             implementation.  It SHALL always contain a YANG
+             library and interfaces instance.
 
-	     When the associated 'managed' leaf is 'false' any
-	     operation that attempts to access information below
-	     the root SHALL fail with an error-tag of
-	     'access-denied' and an error-app-tag of
-	     'lne-not-managed'.";
+             When the associated 'managed' leaf is 'false' any
+             operation that attempts to access information below
+             the root SHALL fail with an error-tag of
+             'access-denied' and an error-app-tag of
+             'lne-not-managed'.";
         }
       }
     }
