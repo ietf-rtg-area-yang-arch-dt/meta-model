@@ -505,7 +505,11 @@ module: ietf-interfaces
    Mounted modules in the non-inline case SHOULD be defined with
    access, via the appropriate schema mount parent-references <xref
    target="I-D.ietf-netmod-schema-mount"/>, to
-   device resources such as interfaces.
+   device resources such as interfaces. An implementation MAY choose to
+   restrict parent referenced information to information related to a
+   specific instance, e.g., only allowing references to interfaces that
+   have a "bind-network-instance-name" which is identical to the
+   instance's "name".
 </t>
 
 <t>
@@ -571,6 +575,33 @@ module: ietf-interfaces
   that are identified under "parent-reference".  Parent referenced
   information is available to clients via their top level paths only,
   and not under the associated mount point.
+</t>
+<t>
+  To allow a client to understand the previously mentioned instance
+  restrictions on parent referenced information, an implementation MAY
+  represent such restrictions in the "parent-reference" leaf-list. For
+  example:
+  <figure>
+    <artwork>
+  "parent-reference": [
+    "/if:interfaces/if:interface
+       [ni:bind-network-instance-name = current()/../ni:name]",
+    "/if:interfaces-state/if:interface
+       [if:name = /if:interfaces/if:interface
+         [ni:bind-ni-name = current()/../ni:name]/if:name]",
+    "/if:interfaces/if:interface/ip:ipv4
+       [ni:bind-network-instance-name = current()/../ni:name]",
+    "/if:interfaces-state/if:interface/ip:ipv4
+       [if:name = /if:interfaces/if:interface/ip:ipv4
+         [ni:bind-ni-name = current()/../ni:name]/if:name]",
+    "/if:interfaces/if:interface/ip:ipv6
+       [ni:bind-network-instance-name = current()/../ni:name]",
+    "/if:interfaces-state/if:interface/ip:ipv6
+       [if:name = /if:interfaces/if:interface/ip:ipv4
+         [ni:bind-ni-name = current()/../ni:name]/if:name]",
+  ]
+    </artwork>
+  </figure>
 </t>
 </section>
 
