@@ -583,23 +583,37 @@ module: ietf-interfaces
   example:
   <figure>
     <artwork>
-  "parent-reference": [
-    "/if:interfaces/if:interface
-       [ni:bind-network-instance-name = current()/../ni:name]",
-    "/if:interfaces-state/if:interface
-       [if:name = /if:interfaces/if:interface
-         [ni:bind-ni-name = current()/../ni:name]/if:name]",
-    "/if:interfaces/if:interface/ip:ipv4
-       [ni:bind-network-instance-name = current()/../ni:name]",
-    "/if:interfaces-state/if:interface/ip:ipv4
-       [if:name = /if:interfaces/if:interface/ip:ipv4
-         [ni:bind-ni-name = current()/../ni:name]/if:name]",
-    "/if:interfaces/if:interface/ip:ipv6
-       [ni:bind-network-instance-name = current()/../ni:name]",
-    "/if:interfaces-state/if:interface/ip:ipv6
-       [if:name = /if:interfaces/if:interface/ip:ipv4
-         [ni:bind-ni-name = current()/../ni:name]/if:name]",
-  ]
+    "namespace": [
+      {
+        "prefix": "if",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-interfaces"
+      },
+      {
+        "prefix": "ni",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-network-instance"
+      }
+    ],
+    "mount-point": [
+      {
+        "parent-reference": [
+          "/if:interfaces/if:interface
+             [ni:bind-network-instance-name = current()/../ni:name]",
+          "/if:interfaces-state/if:interface
+             [if:name = /if:interfaces/if:interface
+               [ni:bind-ni-name = current()/../ni:name]/if:name]",
+          "/if:interfaces/if:interface/ip:ipv4
+             [ni:bind-network-instance-name = current()/../ni:name]",
+          "/if:interfaces-state/if:interface/ip:ipv4
+             [if:name = /if:interfaces/if:interface/ip:ipv4
+               [ni:bind-ni-name = current()/../ni:name]/if:name]",
+          "/if:interfaces/if:interface/ip:ipv6
+             [ni:bind-network-instance-name = current()/../ni:name]",
+          "/if:interfaces-state/if:interface/ip:ipv6
+             [if:name = /if:interfaces/if:interface/ip:ipv4
+               [ni:bind-ni-name = current()/../ni:name]/if:name]",
+        ]
+      }
+    ],
     </artwork>
   </figure>
 </t>
