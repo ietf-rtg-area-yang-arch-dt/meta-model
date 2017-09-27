@@ -27,8 +27,8 @@ TREES := $(MODELS:.yang=.tree)
 
 %.tree: %.yang
 	@echo Updating $< revision date
-	@rm -f $<.prev; cp -pf $< $<.prev 
-	@sed 's/revision.\"[0-9]*\-[0-9]*\-[0-9]*\"/revision "'`date +%F`'"/' < $<.prev > $<
+	@rm -f $<.prev; cp -pf $< $<.prev
+	@sed 's/revision.\(\|\"\)[0-9]*\-[0-9]*\-[0-9]*\(\|\"\)/revision \1'`date +%F`'\2/' < $<.prev > $<
 	@diff $<.prev $< || exit 0
 	@echo Generating $@	
 	@PYTHONPATH=$(PYTHONPATH) pyang --ietf -f tree --tree-line-length 76 -p $(PLUGPATH) $< > $@  || exit 0
