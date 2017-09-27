@@ -54,7 +54,7 @@ module ietf-logical-network-element {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2017-03-13 {
+  revision 2017-09-27 {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -68,7 +68,6 @@ module ietf-logical-network-element {
        network element (device) instances.";
     list logical-network-element {
       key "name";
-      mandatory true;
       description
         "List of logical network elements.";
       leaf name {
@@ -91,7 +90,6 @@ module ietf-logical-network-element {
           "Description of the logical network element.";
       }
       container "root" {
-        mandatory true;
         description
           "Container for mount point.";
         yangmnt:mount-point "root" {

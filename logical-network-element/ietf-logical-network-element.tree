@@ -12,6 +12,5 @@ module: ietf-logical-network-element
   notifications:
     +---n bind-lne-name-failed
        +--ro name             -> /if:interfaces/interface/name
-       +--ro bind-lne-name
-       |       -> /if:interfaces/interface/lne:bind-lne-name
+       +--ro bind-lne-name    -> /if:interfaces/interface/lne:bind-lne-name
        +--ro error-info?      string
