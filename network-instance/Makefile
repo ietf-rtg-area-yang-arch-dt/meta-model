@@ -4,20 +4,19 @@
 #This file is considered a hack and not production grade by the author
 
 DRAFT  = draft-ietf-rtgwg-ni-model
-MODELS = \
-	ietf-network-instance.yang
 
+SHELL   = bash
+MODELS := $(shell awk '/^<CODE BEGINS>/{print gensub(/\"/,"","g",gensub(/@.*/,".yang",1,$$4))}' $(DRAFT).xml)
 #assumes standard yang modules installed in ../yang, customize as needed
 #  e.g., based on a 'cd .. ; git clone https://github.com/YangModels/yang.git'
-YANGIMPORT_BASE = ../../yang
+YANGIMPORT_BASE := $(shell if [ -e ../yang ] ; then echo ../yang ; else if [ -e ../../Xyang ] ; then echo ../../yang ; else echo YANG_IMPORT_NOT_FOUND ; fi ; fi)
 PLUGPATH    := $(shell echo `find . $(YANGIMPORT_BASE) -name \*.yang | sed 's,/[a-z0-9A-Z@_\-]*.yang$$,,' | uniq` | tr \  :)
 PYTHONPATH  := $(shell echo `find /usr/lib* /usr/local/lib* -name  site-packages ` | tr \  :)
 WITHXML2RFC := $(shell which xml2rfc > /dev/null 2>&1 ; echo $$? )
 
 ID_DIR	     = IDs
-REVS	    := $(shell \
-		 sed -e '/docName="/!d;s/.*docName="\([^"]*\)".*/\1/' $(DRAFT).xml | \
-		 awk -F- '{printf "%02d %02d",$$NF-1,$$NF}')
+REVS	    := $(shell grep docName $(DRAFT).xml | tr '"\->' '   ' | \
+		 awk '{printf "%02d %02d",$$NF-1,$$NF}')
 PREV_REV    := $(word 1, $(REVS))
 REV	    := $(word 2, $(REVS))
 OLD          = $(ID_DIR)/$(DRAFT)-$(PREV_REV)
@@ -39,27 +38,46 @@ TREES := $(MODELS:.yang=.tree)
 
 %.txt: %.xml
 	@if [ $(WITHXML2RFC) == 0 ] ; then 	\
-		rm -f $@.prev; cp -pf $@ $@.prev ; \
-		xml2rfc $< 			; \
-		diff $@.prev $@ || exit 0 	; \
+		rm -f $@.prev; cp -pf $@ $@.prev > /dev/null 2>&1 ; \
+		xml2rfc $< -o $@		; \
+		if [ -f $@.prev ] ; then diff $@.prev $@ || exit 0 ; fi ; \
 	fi
 
 %.html: %.xml
 	@if [ $(WITHXML2RFC) == 0 ] ; then 	\
-		rm -f $@.prev; cp -pf $@ $@.prev ; \
-		xml2rfc --html $< 		; \
+		rm -f $@.prev; cp -pf $@ $@.prev > /dev/null 2>&1 ; \
+		xml2rfc --html $< -o $@		; \
 	fi
 
-all:	$(TREES) $(DRAFT).txt $(DRAFT).html
+%.raw: %.xml
+	@if [ $(WITHXML2RFC) == 0 ] ; then 	\
+		rm -f $@.prev; cp -pf $@ $@.prev > /dev/null 2>&1 ; \
+		xml2rfc --raw $< -o $@	; \
+	fi
+
+all:	$(YANGIMPORT_BASE) $(TREES) $(DRAFT).txt $(DRAFT).html $(DRAFT).raw
+
+$(YANGIMPORT_BASE):
+	@if [ "$(MODELS)" != "" ] ; then \
+		echo "Unable to find Standard YANG modules in parent dirs"; \
+		echo "to fix type:"; \
+		echo "  (cd .. ; git clone https://github.com/YangModels/yang.git)"; \
+		exit 1 ; \
+	fi
 
 vars:
-	echo PYTHONPATH=$(PYTHONPATH)
-	echo PLUGPATH=$(PLUGPATH)
-	echo PREV_REV=$(PREV_REV)
-	echo REV=$(REV)
-	echo OLD=$(OLD)
+	which xml2rfc
+	@echo WITHXML2RFC=$(WITHXML2RFC)
+	@echo PYTHONPATH=$(PYTHONPATH)
+	@echo PLUGPATH=$(PLUGPATH)
+	@echo YANGIMPORT_BASE=$(YANGIMPORT_BASE)
+	@echo MODELS=$(MODELS)
+	@echo TREES=$(TREES)
+	@echo PREV_REV=$(PREV_REV)
+	@echo REV=$(REV)
+	@echo OLD=$(OLD)
 
-$(DRAFT).xml: $(MODELS)
+$(DRAFT).xml: $(YANGIMPORT_BASE) $(MODELS)
 	@rm -f $@.prev; cp -p $@ $@.prev
 	@for model in $? ; do \
 		rm -f $@.tmp; cp -p $@ $@.tmp	 		 	; \
@@ -67,7 +85,7 @@ $(DRAFT).xml: $(MODELS)
 		base=`echo $$model | cut -d. -f 1` 		 	; \
 		echo $${base};\
 		start_stop=(`awk 'BEGIN{pout=1}				\
-			/^<CODE BEGINS> file .'$${base}'/ 		\
+			/^<CODE BEGINS> file .'$${base}'@/ 		\
 				{pout=0; print NR-1;} 			\
 			pout == 0 && /^<CODE E/ 			\
 				{pout=1; print NR;}' $@.tmp`) 		; \
@@ -94,7 +112,9 @@ idnits: $(DRAFT).txt
 		wget http://tools.ietf.org/tools/idnits/idnits	;\
 		chmod 755 idnits				;\
 	fi
-	idnits $(DRAFT).txt
+	./idnits $(DRAFT).txt > $@.out
+	@cat $@.out
+	@grep -q 'Summary: 0 error' $@.out
 
 id: $(DRAFT).txt $(DRAFT).html
 	@if [ ! -e $(ID_DIR) ] ; then \
@@ -125,4 +145,4 @@ rmid:
 	@rm -f $(NEW).xml $(NEW).txt $(NEW).html
 	@git rm  $(NEW).xml $(NEW).txt $(NEW).html
 
-
+trees: $(TREES)
