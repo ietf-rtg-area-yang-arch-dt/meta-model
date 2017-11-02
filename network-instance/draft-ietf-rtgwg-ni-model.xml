@@ -532,7 +532,7 @@ module: ietf-interfaces
     "mount-point": [
       {
         "module": "ietf-network-instance",
-        "name": "vrf-root",
+        "label": "vrf-root",
         "use-schema": [
           {
             "name": "ni-schema",
@@ -1351,6 +1351,12 @@ module ietf-network-instance {
     }
   },
 
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  }
+
   "ietf-yang-library:modules-state": {
     "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
     "module": [
@@ -1440,10 +1446,42 @@ module ietf-network-instance {
     ]
   },
 
-  "ietf-system:system-state": {
-    "platform": {
-      "os-name": "NetworkOS"
-    }
+  "ietf-yang-schema-mount:schema-mounts": {
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "use-schema": [
+          {
+            "name": "ni-schema",
+            "parent-reference": [
+              "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+            ]
+          }
+        ]
+      }
+    ],
+    "schema": [
+      {
+        "name": "ni-schema",
+        "module": [
+          {
+             "name": "ietf-routing",
+             "revision": "2016-11-04",
+             "namespace":
+               "urn:ietf:params:xml:ns:yang:ietf-routing",
+             "conformance-type": "implement"
+           },
+          {
+             "name": "ietf-ospf",
+             "revision": "2017-03-12",
+             "namespace":
+               "urn:ietf:params:xml:ns:yang:ietf-ospf",
+             "conformance-type": "implement"
+          }
+        ]
+      }
+    ]
   }
 }
 ]]></artwork>
