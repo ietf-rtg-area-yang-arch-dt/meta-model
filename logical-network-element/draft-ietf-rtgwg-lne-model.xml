@@ -481,7 +481,7 @@ reference:   RFC XXXX
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2017-09-27.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2017-12-04.yang"
 module ietf-logical-network-element {
   yang-version 1.1;
 
@@ -538,7 +538,7 @@ module ietf-logical-network-element {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2017-09-27 {
+  revision 2017-12-04 {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -579,10 +579,10 @@ module ietf-logical-network-element {
         yangmnt:mount-point "root" {
           description
             "Root for models supported per logical
-             network element.  This mount point will
-             may or may not be inline based on the server
-             implementation.  It SHALL always contain a YANG
-             library and interfaces instance.
+             network element.  This mount point may or may not
+             be inline based on the server implementation.  It 
+             SHALL always contain a YANG library and interfaces
+             instance.
 
              When the associated 'managed' leaf is 'false' any
              operation that attempts to access information below
