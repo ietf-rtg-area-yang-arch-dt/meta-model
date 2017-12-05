@@ -5,14 +5,14 @@
 Network Working Group                                          L. Berger
 Internet-Draft                                   LabN Consulting, L.L.C.
 Intended status: Standards Track                                C. Hopps
-Expires: June 6, 2018                                   Deutsche Telekom
+Expires: June 7, 2018                                   Deutsche Telekom
                                                                A. Lindem
                                                            Cisco Systems
                                                            D. Bogdanovic
 
                                                                   X. Liu
                                                                    Jabil
-                                                        December 3, 2017
+                                                        December 4, 2017
 
 
                      YANG Logical Network Elements
@@ -40,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 6, 2018.
+   This Internet-Draft will expire on June 7, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 1]
+Berger, et al.            Expires June 7, 2018                  [Page 1]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 2]
+Berger, et al.            Expires June 7, 2018                  [Page 2]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -165,7 +165,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 3]
+Berger, et al.            Expires June 7, 2018                  [Page 3]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -221,7 +221,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 4]
+Berger, et al.            Expires June 7, 2018                  [Page 4]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -277,7 +277,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 5]
+Berger, et al.            Expires June 7, 2018                  [Page 5]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -333,7 +333,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 6]
+Berger, et al.            Expires June 7, 2018                  [Page 6]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -389,7 +389,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 7]
+Berger, et al.            Expires June 7, 2018                  [Page 7]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -445,7 +445,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 8]
+Berger, et al.            Expires June 7, 2018                  [Page 8]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -492,7 +492,7 @@ Internet-Draft                  YANG LNEs                  December 2017
    The structure of the model defined in this document is described by
    the YANG module below.
 
- <CODE BEGINS> file "ietf-logical-network-element@2017-09-27.yang"
+ <CODE BEGINS> file "ietf-logical-network-element@2017-12-04.yang"
  module ietf-logical-network-element {
    yang-version 1.1;
 
@@ -501,7 +501,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                  [Page 9]
+Berger, et al.            Expires June 7, 2018                  [Page 9]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -557,7 +557,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 10]
+Berger, et al.            Expires June 7, 2018                 [Page 10]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -565,7 +565,7 @@ Internet-Draft                  YANG LNEs                  December 2017
    // this note
    // RFC Ed.: please update TBD
 
-   revision 2017-09-27 {
+   revision 2017-12-04 {
      description
        "Initial revision.";
      reference "RFC TBD";
@@ -606,14 +606,14 @@ Internet-Draft                  YANG LNEs                  December 2017
          yangmnt:mount-point "root" {
            description
              "Root for models supported per logical
-              network element.  This mount point will
-              may or may not be inline based on the server
-              implementation.  It SHALL always contain a YANG
-              library and interfaces instance.
+              network element.  This mount point may or may not
+              be inline based on the server implementation.  It
+              SHALL always contain a YANG library and interfaces
+              instance.
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 11]
+Berger, et al.            Expires June 7, 2018                 [Page 11]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -669,7 +669,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 12]
+Berger, et al.            Expires June 7, 2018                 [Page 12]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -725,7 +725,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 13]
+Berger, et al.            Expires June 7, 2018                 [Page 13]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -781,7 +781,7 @@ Appendix A.  Acknowledgments
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 14]
+Berger, et al.            Expires June 7, 2018                 [Page 14]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -837,7 +837,7 @@ B.1.  Example: Host Device Managed LNE
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 15]
+Berger, et al.            Expires June 7, 2018                 [Page 15]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -893,7 +893,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 16]
+Berger, et al.            Expires June 7, 2018                 [Page 16]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -949,7 +949,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 17]
+Berger, et al.            Expires June 7, 2018                 [Page 17]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1005,7 +1005,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 18]
+Berger, et al.            Expires June 7, 2018                 [Page 18]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1061,7 +1061,7 @@ B.1.1.  Configuration Data
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 19]
+Berger, et al.            Expires June 7, 2018                 [Page 19]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 20]
+Berger, et al.            Expires June 7, 2018                 [Page 20]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1173,7 +1173,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 21]
+Berger, et al.            Expires June 7, 2018                 [Page 21]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1229,7 +1229,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 22]
+Berger, et al.            Expires June 7, 2018                 [Page 22]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1285,7 +1285,7 @@ B.1.2.  State Data
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 23]
+Berger, et al.            Expires June 7, 2018                 [Page 23]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1341,7 +1341,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 24]
+Berger, et al.            Expires June 7, 2018                 [Page 24]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1397,7 +1397,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 25]
+Berger, et al.            Expires June 7, 2018                 [Page 25]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1453,7 +1453,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 26]
+Berger, et al.            Expires June 7, 2018                 [Page 26]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1509,7 +1509,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 27]
+Berger, et al.            Expires June 7, 2018                 [Page 27]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1565,7 +1565,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 28]
+Berger, et al.            Expires June 7, 2018                 [Page 28]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1621,7 +1621,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 29]
+Berger, et al.            Expires June 7, 2018                 [Page 29]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1677,7 +1677,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 30]
+Berger, et al.            Expires June 7, 2018                 [Page 30]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1733,7 +1733,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 31]
+Berger, et al.            Expires June 7, 2018                 [Page 31]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1789,7 +1789,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 32]
+Berger, et al.            Expires June 7, 2018                 [Page 32]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1845,7 +1845,7 @@ B.2.  Example: Self Managed LNE
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 33]
+Berger, et al.            Expires June 7, 2018                 [Page 33]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1901,7 +1901,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 34]
+Berger, et al.            Expires June 7, 2018                 [Page 34]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -1957,7 +1957,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 35]
+Berger, et al.            Expires June 7, 2018                 [Page 35]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2013,7 +2013,7 @@ B.2.1.1.  Logical Network Element 'vnf1'
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 36]
+Berger, et al.            Expires June 7, 2018                 [Page 36]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2069,7 +2069,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 37]
+Berger, et al.            Expires June 7, 2018                 [Page 37]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2125,7 +2125,7 @@ B.2.1.2.  Logical Network Element 'vnf2'
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 38]
+Berger, et al.            Expires June 7, 2018                 [Page 38]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2181,7 +2181,7 @@ B.2.2.1.  Host Device
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 39]
+Berger, et al.            Expires June 7, 2018                 [Page 39]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2237,7 +2237,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 40]
+Berger, et al.            Expires June 7, 2018                 [Page 40]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2293,7 +2293,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 41]
+Berger, et al.            Expires June 7, 2018                 [Page 41]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2349,7 +2349,7 @@ B.2.2.2.  Logical Network Element 'vnf1'
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 42]
+Berger, et al.            Expires June 7, 2018                 [Page 42]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2405,7 +2405,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 43]
+Berger, et al.            Expires June 7, 2018                 [Page 43]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2461,7 +2461,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 44]
+Berger, et al.            Expires June 7, 2018                 [Page 44]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2517,7 +2517,7 @@ B.2.2.3.  Logical Network Element 'vnf2'
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 45]
+Berger, et al.            Expires June 7, 2018                 [Page 45]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2573,7 +2573,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 46]
+Berger, et al.            Expires June 7, 2018                 [Page 46]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2629,7 +2629,7 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 47]
+Berger, et al.            Expires June 7, 2018                 [Page 47]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2685,7 +2685,7 @@ Authors' Addresses
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 48]
+Berger, et al.            Expires June 7, 2018                 [Page 48]
 
 Internet-Draft                  YANG LNEs                  December 2017
 
@@ -2741,4 +2741,4 @@ Internet-Draft                  YANG LNEs                  December 2017
 
 
 
-Berger, et al.            Expires June 6, 2018                 [Page 49]
+Berger, et al.            Expires June 7, 2018                 [Page 49]
