@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-06" >
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-07">
 
 <front>
 <title abbrev="YANG NIs">YANG Network Instances</title>
@@ -190,7 +190,7 @@ The top open issues are:
    target="sec-NI"/>.
 </t>
 <t>
-   The current interface management model <xref target="RFC7223"/>
+   The current interface management model <xref target="I-D.ietf-netmod-rfc7223bis"/>
    is impacted by the definition of LNEs and
    NIs.  This document and <xref target="I-D.ietf-rtgwg-lne-model"/>
    define augmentations to the interface module to support LNEs
@@ -202,8 +202,8 @@ The top open issues are:
   device, for example the route target used when advertising VRF routes
   via the mechanisms defined in <xref target="RFC4364"/>, and
   information that relates to the internal operation of the NI, for
-  example for routing protocols <xref target="RFC8022"/> and OSPF <xref
-  target="I-D.ietf-ospf-yang"/>.  This document defines the
+  example for routing protocols <xref target="I-D.ietf-netmod-rfc8022bis"/> 
+  and OSPF <xref  target="I-D.ietf-ospf-yang"/>.  This document defines the
   network-instance module that provides a basis for the management of
   both types of information.
 </t>
@@ -389,12 +389,6 @@ module: ietf-network-instance
         +--rw (root-type)
            +--:(vrf-root)
               +--mp vrf-root
-                 +--ro rt:routing-state/
-                 |  +--ro router-id?                 yang:dotted-quad
-                 |  +--ro control-plane-protocols
-                 |     +--ro control-plane-protocol* [type name]
-                 |        +--ro ospf:ospf/
-                 |           +--ro instance* [af]
                  +--rw rt:routing/
                  |  +--rw router-id?                 yang:dotted-quad
                  |  +--rw control-plane-protocols
@@ -409,17 +403,15 @@ module: ietf-network-instance
                  |                       +--rw cost?   uint16
                  +--ro if:interfaces@
                  |  ...
-                 +--ro if:interfaces-state@
-                 |  ...
         </artwork>
       </figure>
     </t>
     <t>
-      This shows YANG Routing Management <xref target="RFC8022"/> and
-      YANG OSPF <xref target="I-D.ietf-ospf-yang"/> as mounted modules.
+      This shows YANG Routing Management <xref target="I-D.ietf-netmod-rfc8022bis"/>
+      and YANG OSPF <xref target="I-D.ietf-ospf-yang"/> as mounted modules.
       The mounted modules can reference interface information via a
       parent-reference to the containers defined in <xref
-      target="RFC7223"/>.
+      target="I-D.ietf-netmod-rfc7223bis"/>.
     </t>
   </section>
 </section>
@@ -434,14 +426,14 @@ module: ietf-network-instance
    configuration or operational state data with different types of
    interfaces (these relationships are not shown for simplicity).
    The interface management model is defined by <xref
-   target="RFC7223"/>.
+   target="I-D.ietf-netmod-rfc7223bis"/>.
 </t>
 <t>
    As shown below, the network-instance module augments the existing
    interface management model by adding a name which is used on
    interface or sub-interface types to identify an associated network
    instance.  Similarly, this name is also added for IPv4 and IPv6
-   types, as defined in <xref target="RFC7277"/>.
+   types, as defined in <xref target="I-D.ietf-netmod-rfc7277bis"/>.
 </t>
 <t>
    The following is an example of envisioned usage.  The
@@ -468,14 +460,14 @@ module: ietf-interfaces
    |     |  |        +--rw ip:netmask?         yang:dotted-quad
    |     |  +--rw ip:neighbor* [ip]
    |     |  |  +--rw ip:ip                  inet:ipv4-address-no-zone
-   |     |  |  +--rw ip:link-layer-address  yang:phys-address
+   |     |  |  +--rw ip:link-layer-address yang:phys-address
    |     |  +--rw ni:bind-network-instance-name?   string
    |     +--rw ni:bind-network-instance-name?   string
 </artwork>
 </figure>
 </t>
 <t>
-   The <xref target="RFC7223"/> defined interface model is
+   The <xref target="I-D.ietf-netmod-rfc7223bis"/> defined interface model is
    structured to include all interfaces in a flat list, without
    regard to virtual instances (e.g., VRFs) supported
    on the device.  The
@@ -549,14 +541,14 @@ module: ietf-interfaces
         "module": [
           {
              "name": "ietf-routing",
-             "revision": "2016-11-04",
+             "revision": "2018-01-25",
              "namespace":
                "urn:ietf:params:xml:ns:yang:ietf-routing",
              "conformance-type": "implement"
            },
           {
              "name": "ietf-ospf",
-             "revision": "2017-03-12",
+             "revision": "2017-10-30",
              "namespace":
                "urn:ietf:params:xml:ns:yang:ietf-ospf",
              "conformance-type": "implement"
@@ -644,6 +636,18 @@ module: ietf-interfaces
 </section>
 </section>
 <section anchor="sec-4" title="Security Considerations">
+  <t>The YANG modules specified in this document define a schema for data that 
+     is designed to be accessed via network
+     management protocols such as NETCONF <xref target="RFC6241"/> or
+     RESTCONF <xref target="RFC8040"/>. The lowest NETCONF layer is the secure transport
+     layer, and the mandatory-to-implement secure transport is Secure Shell (SSH)
+     <xref target="RFC6242"/>. The lowest RESTCONF layer is HTTPS, and the
+     mandatory-to-implement secure transport is TLS <xref target="RFC5246"/>.</t>
+
+ <t>The NETCONF access control model <xref target="RFC6536"/> provides the means to
+    restrict access for particular NETCONF or RESTCONF users to a preconfigured subset
+    of all available NETCONF or RESTCONF protocol operations and content.</t>
+
   <t>
     There are two different sets of security considerations to consider
     in the context of this document.  One set is security related to
@@ -651,9 +655,10 @@ module: ietf-interfaces
     considerations for mounted modules are not substantively changed
     based on the information being accessible within the context of an
     NI.  For example, when considering the modules defined in <xref
-    target="RFC8022"/>, the security considerations identified in that
-    document are equally applicable, whether those modules are accessed
-    at a server's root or under an NI instance's root node.
+    target="I-D.ietf-netmod-rfc8022bis"/>, the security considerations
+    identified in that  document are equally applicable, whether those 
+    modules are accessed at a server's root or under an NI instance's
+    root node.
   </t>
   <t>
     The second area for consideration is information contained in the NI
@@ -661,8 +666,8 @@ module: ietf-interfaces
     route distribution policy information. As such, the security of this
     information is important, but it is fundamentally no different than
     any other interface or routing configuration information that has
-    already been covered in <xref target="RFC7223"/> and <xref
-    target="RFC8022"/>.
+    already been covered in <xref target="I-D.ietf-netmod-rfc7223bis"/> 
+    and <xref target="I-D.ietf-netmod-rfc8022bis"/>.
   </t>
   <t>The vulnerable "config true" parameters and subtrees are the
   following:
@@ -722,7 +727,7 @@ module: ietf-interfaces
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2017-12-04.yang"
+<CODE BEGINS> file "ietf-network-instance@2018-02-03.yang"
 module ietf-network-instance {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
@@ -732,12 +737,13 @@ module ietf-network-instance {
 
   import ietf-interfaces {
     prefix if;
-    reference "RFC 7223: A YANG Data Model for Interface
-               Management";
+    reference "draft-ietf-netmod-rfc7223bis: A YANG Data Model
+               for Interface Management";
   }
   import ietf-ip {
     prefix ip;
-    reference "RFC 7277: A YANG Data Model for IP Management";
+    reference "draft-ietf-netmod-rfc7277bis: A YANG Data Model
+               for IP Management";
   }
   import ietf-yang-schema-mount {
     prefix yangmnt;
@@ -783,7 +789,7 @@ module ietf-network-instance {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2017-12-04 {
+  revision 2018-02-03 {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -796,8 +802,8 @@ module ietf-network-instance {
       "Network instances each of which consists of a
        VRFs (virtual routing and forwarding) and/or
        VSIs (virtual switching instances).";
-    reference "RFC 8022 - A YANG Data Model for Routing
-               Management";
+    reference "draft-ietf-rtgwg-rfc8022bis - A YANG Data Model
+               for Routing Management";
     list network-instance {
       key "name";
       description
@@ -1013,12 +1019,17 @@ module ietf-network-instance {
 <?rfc needLines="20"?>
 <back>
 <references title="Normative References">
+  <?rfc include="reference.RFC.5246"?>
+  <?rfc include="reference.RFC.6241"?>
+  <?rfc include="reference.RFC.6242"?>
+  <?rfc include="reference.RFC.6536"?>
+  <?rfc include="reference.RFC.8040"?>
   <?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
   <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams.xml"?>
   <?rfc include="reference.RFC.2119"?>
   <?rfc include="reference.RFC.6020"?>
-  <?rfc include="reference.RFC.7223"?>
-  <?rfc include="reference.RFC.7277"?>
+  <?rfc include="reference.I-D.ietf-netmod-rfc7223bis.xml"?>
+  <?rfc include="reference.I-D.ietf-netmod-rfc7277bis.xml"?>
   <?rfc include="reference.RFC.3688"?>
 
 </references>
@@ -1033,7 +1044,7 @@ module ietf-network-instance {
 <?rfc include="reference.RFC.4364"?>
 <?rfc include="reference.RFC.4664"?>
 <?rfc include="reference.RFC.7950"?>
-<?rfc include="reference.RFC.8022"?>
+<?rfc include="reference.I-D.ietf-netmod-rfc8022bis.xml"?>
 
 </references>
 
@@ -1047,6 +1058,10 @@ module ietf-network-instance {
 <t>
    This document was motivated by, and derived from,
    <xref target="I-D.ietf-rtgwg-device-model"/>.
+</t>
+
+<t> 
+  Thanks for AD and IETF last call comments from Alia Atlas and Liang Xia.
 </t>
 
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
