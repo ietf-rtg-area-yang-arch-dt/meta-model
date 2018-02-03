@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-07">
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-08">
 
 <front>
 <title abbrev="YANG NIs">YANG Network Instances</title>
@@ -110,12 +110,11 @@
 </t>
 
 <section title="Terminology" anchor="sec-definitions">
-  <t>
-    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-    NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
-    "OPTIONAL" in this document are to be interpreted as described
-    in <xref target="RFC2119"/>.
-  </t>
+     <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+      "MAY", and "OPTIONAL" in this document are to be interpreted as
+      described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> 
+      when, and only when, they appear in all capitals, as shown here.</t>
   <t>
     Readers are expected to be familiar with terms and concepts of
     YANG <xref target="RFC7950"/> and YANG Schema Mount <xref
@@ -1031,6 +1030,7 @@ module ietf-network-instance {
   <?rfc include="reference.I-D.ietf-netmod-rfc7223bis.xml"?>
   <?rfc include="reference.I-D.ietf-netmod-rfc7277bis.xml"?>
   <?rfc include="reference.RFC.3688"?>
+  <?rfc include="reference.RFC.8174"?>
 
 </references>
 
