@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-08">
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-09">
 
 <front>
 <title abbrev="YANG NIs">YANG Network Instances</title>
@@ -126,27 +126,13 @@
   </t>
 
 </section>
-<section anchor="sec-1.1" title="Status of Work and Open Issues">
-<t>
-The top open issues are:
-  <list style="numbers">
-    <t>
-      Schema mount currently doesn't allow parent-reference filtering on
-      the instance of the mount point, but rather just the schema.  This
-      means it is not possible to filter based on actual data, e.g.,
-      bind-network-instance-name="green".  In the schema mount
-      definition, the text and examples should be updated to cover this
-      case.
-    </t>
-   </list>
- </t>
-</section>
 </section>
 <section anchor="sec-2" title="Overview">
                                   <t>
    In this document, we consider network devices that support protocols
-   and functions defined within the IETF Routing Area, e.g, routers,
-   firewalls, and hosts. Such devices may be physical or virtual, e.g., a
+   and functions defined within the IETF, e.g, routers, firewalls, 
+   and hosts.
+   Such devices may be physical or virtual, e.g., a
    classic router with custom hardware or one residing within a
    server-based virtual machine implementing a virtual network function
    (VNF). Each device may sub-divide their resources into logical
