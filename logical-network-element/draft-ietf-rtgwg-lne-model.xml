@@ -51,8 +51,8 @@
   <date/>
   <abstract>
 <t>
-   This document defines a logical network element module. This module
-   can be used to manage the
+   This document defines a logical network element YANG module. 
+   This module can be used to manage the
    logical resource partitioning that may be present on a
    network device. Examples of common industry terms for logical
    resource partitioning are Logical Systems or Logical Routers.
@@ -77,9 +77,9 @@
 <t>
   This document also defines the necessary augmentations for allocating
   host resources to a given LNE.  As the interface management model
-  <xref target="RFC7223"/> is the only a module that currently defines
-  host resources, this document currently defines only a single
-  augmentation to cover the assignment of interfaces to an LNE. Future
+  <xref target="I-D.ietf-netmod-rfc7223bis"/> is the only a module that
+  currently defines host resources, this document currently defines only
+  a single augmentation to cover the assignment of interfaces to an LNE. Future
   modules that define support for the control of host device resources
   are expected to, where appropriate, provide parallel support for the
   assignment of controlled resources to LNEs.
@@ -111,10 +111,11 @@
 </t>
     <section title="Terminology" anchor="sec-definitions">
       <t>
-        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
-        "OPTIONAL" in this document are to be interpreted as described
-        in <xref target="RFC2119"/>.
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+      "MAY", and "OPTIONAL" in this document are to be interpreted as
+      described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> 
+      when, and only when, they appear in all capitals, as shown here.
       </t>
       <t>
         Readers are expected to be familiar with terms and concepts of
@@ -175,8 +176,8 @@
    target="I-D.ietf-rtgwg-ni-model"/>.
 </t>
 <t>
-   The interface management model <xref target="RFC7223"/> is an
-   existing model that is impacted by the definition of LNEs and
+   The interface management model  <xref target="I-D.ietf-netmod-rfc7223bis"/>
+   is an  existing model that is impacted by the definition of LNEs and
    network instances.  This document and <xref target="I-D.ietf-rtgwg-ni-model"/>
    define augmentations to the interface module to support LNEs
    and NIs.  Similar elements, although perhaps only for LNEs, may
@@ -192,8 +193,8 @@
    and layer 2 and layer 3 protocols may also associate
    configuration or operational state data with different types of
    interfaces (these relationships are not shown for simplicity).
-   The interface management model is defined by <xref
-   target="RFC7223"/>.
+   The interface management model is defined by 
+   <xref target="I-D.ietf-netmod-rfc7223bis"/>.
    The logical-network-element module
    augments existing interface management model by adding an
    identifier which is used on physical interface types to
@@ -211,7 +212,8 @@
 </figure>
 </t>
 <t>
-   The interface model defined in <xref target="RFC7223"/> is
+   The interface model defined in 
+   <xref target="I-D.ietf-netmod-rfc7223bis"/> is
    structured to include all interfaces in a flat list, without
    regard to logical assignment of resources supported
    on the device.  The bind-lne-name and
@@ -279,7 +281,8 @@ module: ietf-logical-network-element
 </t>
 <t>
   An LNE root MUST contain at least the YANG library <xref
-  target="RFC7895"/> and Interfaces <xref target="RFC7223"/> modules.
+  target="RFC7895"/> and Interfaces 
+  <xref target="I-D.ietf-netmod-rfc7223bis"/> modules.
 </t>
 
 <section anchor="sec-LNE.MOUNT" title="LNE Instantiation and Resource Assignment">
@@ -312,7 +315,7 @@ module: ietf-logical-network-element
     completely different, and mapped from and to, the name used in
     the context of the host device.  The system created interface
     SHOULD be exposed via the LNE-specific instance of the
-    interfaces module <xref target="RFC7223"/>.
+    interfaces module  <xref target="I-D.ietf-netmod-rfc7223bis"/>.
   </t>
 </section>
 
@@ -409,13 +412,24 @@ module: ietf-logical-network-element
 </section>
 
 <section anchor="sec-4" title="  Security Considerations">
+  <t>The YANG modules specified in this document define a schema for data that 
+     is designed to be accessed via network
+     management protocols such as NETCONF <xref target="RFC6241"/> or
+     RESTCONF <xref target="RFC8040"/>. The lowest NETCONF layer is the secure transport
+     layer, and the mandatory-to-implement secure transport is Secure Shell (SSH)
+     <xref target="RFC6242"/>. The lowest RESTCONF layer is HTTPS, and the
+     mandatory-to-implement secure transport is TLS <xref target="RFC5246"/>.</t>
+
+ <t>The NETCONF access control model <xref target="RFC6536"/> provides the means to
+    restrict access for particular NETCONF or RESTCONF users to a preconfigured subset
+    of all available NETCONF or RESTCONF protocol operations and content.</t>
   <t>
     LNE information represents device and network configuration
     information. As such, the security of this information is important,
     but it is fundamentally no different than any other interface or
     device configuration information that has already been covered in
-    other documents such as <xref target="RFC7223"/>, <xref
-    target="RFC7317"/> and <xref target="RFC8022"/>.
+    other documents such as  <xref target="I-D.ietf-netmod-rfc7223bis"/>,
+    <xref target="RFC7317"/> and <xref target="I-D.ietf-netmod-rfc8022bis"/>.
   </t>
   <t>The vulnerable "config true" parameters and subtrees are the
   following:
@@ -481,20 +495,22 @@ reference:   RFC XXXX
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2017-12-04.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2018-02-06.yang"
 module ietf-logical-network-element {
   yang-version 1.1;
 
   // namespace
 
-  namespace "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
+  namespace
+     "urn:ietf:params:xml:ns:yang:ietf-logical-network-element";
   prefix lne;
 
   // import some basic types
 
   import ietf-interfaces {
     prefix if;
-    reference "RFC 7223: A YANG Data Model for Interface Management";
+    reference "draft-ietf-netmod-rfc7223bis:
+               A YANG Data Model for Interface Management";
   }
   import ietf-yang-schema-mount {
     prefix yangmnt;
@@ -526,9 +542,9 @@ module ietf-logical-network-element {
 
      Redistribution and use in source and binary forms, with or
      without modification, is permitted pursuant to, and subject
-     to the license terms contained in, the Simplified BSD License
-     set forth in Section 4.c of the IETF Trust's Legal Provisions
-     Relating to IETF Documents
+     to the license terms contained in, the Simplified BSD
+     License set forth in Section 4.c of the IETF Trust's Legal
+     Provisions Relating to IETF Documents
      (http://trustee.ietf.org/license-info).
 
      This version of this YANG module is part of RFC XXXX; see
@@ -538,10 +554,10 @@ module ietf-logical-network-element {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2017-12-04 {
+  revision 2018-02-06 {
     description
       "Initial revision.";
-    reference "RFC TBD";
+    reference "RFC XXXX";
   }
 
   // top level device definition statements
@@ -580,7 +596,7 @@ module ietf-logical-network-element {
           description
             "Root for models supported per logical
              network element.  This mount point may or may not
-             be inline based on the server implementation.  It 
+             be inline based on the server implementation.  It
              SHALL always contain a YANG library and interfaces
              instance.
 
@@ -599,19 +615,21 @@ module ietf-logical-network-element {
   augment "/if:interfaces/if:interface" {
     description
       "Add a node for the identification of the logical network
-       element associated with an interface. Applies to interfaces
-       that can be assigned on a per logical network element basis.
+       element associated with an interface. Applies to
+       interfaces that can be assigned on a per logical network
+       element basis.
 
        Note that a standard error will be returned if the
-       identified leafref isn't present.  If an interfaces cannot
-       be assigned for any other reason, the operation SHALL fail
-       with an error-tag of 'operation-failed' and an error-app-tag
-       of 'lne-assignment-failed'.  A meaningful error-info that
-       indicates the source of the assignment failure SHOULD also
-       be provided.";
+       identified leafref isn't present.  If an interfaces
+       cannot be assigned for any other reason, the operation
+       SHALL fail with an error-tag of 'operation-failed' and an
+       error-app-tag of 'lne-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
     leaf bind-lne-name {
       type leafref {
-        path "/logical-network-elements/logical-network-element/name";
+        path
+         "/logical-network-elements/logical-network-element/name";
       }
       description
         "Logical network element ID to which interface is bound.";
@@ -664,8 +682,14 @@ module ietf-logical-network-element {
 <?rfc include="reference.I-D.ietf-netmod-schema-mount.xml"?>
 <?rfc include="reference.RFC.2119"?>
 <?rfc include="reference.RFC.3688"?>
+<?rfc include="reference.RFC.5246"?>
 <?rfc include="reference.RFC.6020"?>
-<?rfc include="reference.RFC.7223"?>
+<?rfc include="reference.RFC.6241"?>
+<?rfc include="reference.RFC.6242"?>
+<?rfc include="reference.RFC.6536"?>
+<?rfc include="reference.I-D.ietf-netmod-rfc7223bis.xml"?>
+<?rfc include="reference.RFC.8040"?>
+<?rfc include="reference.RFC.8174"?>
 </references>
 
 <references title="Informative References">
@@ -676,7 +700,7 @@ module ietf-logical-network-element {
 <?rfc include="reference.RFC.7317"?>
 <?rfc include="reference.RFC.7895"?>
 <?rfc include="reference.RFC.7950"?>
-<?rfc include="reference.RFC.8022"?>
+<?rfc include="reference.I-D.ietf-netmod-rfc8022bis.xml"?>
 </references>
 
 <?rfc needLines="100"?>
@@ -691,6 +715,7 @@ module ietf-logical-network-element {
 </t>
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
    <vspace blankLines="100"/></t>
+  <t>Thanks to Alvaro Retana for IESG review.</t>
 </section>
 
 <section anchor="sec-examples" title="Examples">
@@ -703,10 +728,10 @@ module ietf-logical-network-element {
     mount to achieve the parent management. An example
     device supports multiple instances of LNEs
     (logical routers), each of which supports features of layer 2 and
-    layer 3 interfaces <xref target="RFC7223"/>, routing information base
-    <xref target="RFC8022"/>, and OSPF protocol. Each of these features
-    is specified by a YANG model, and they are combined using YANG
-    Schema Mount as follows:
+    layer 3 interfaces  <xref target="I-D.ietf-netmod-rfc7223bis"/>,
+    routing information base <xref target="I-D.ietf-netmod-rfc8022bis"/>, and
+    OSPF protocol. Each of these features  is specified by a YANG model, and
+    they are combined using YANG Schema Mount as follows:
   </t>
   <t>
     <figure>
@@ -734,13 +759,6 @@ module: ietf-logical-network-element
             |           +--rw key-data     binary
             +--ro sys:system-state/
             |     ...
-            +--ro rt:routing-state/
-            |  +--ro router-id?                 yang:dotted-quad
-            |  +--ro control-plane-protocols
-            |     +--ro control-plane-protocol* [type name]
-            |        +--ro ospf:ospf/
-            |           +--ro instance* [af]
-            |           ...
             +--rw rt:routing/
             |  +--rw router-id?                 yang:dotted-quad
             |  +--rw control-plane-protocols
@@ -754,26 +772,17 @@ module: ietf-logical-network-element
             |                          +--rw name if:interface-ref
             |                          +--rw cost?   uint16
             +--rw if:interfaces/
-            |  +--rw interface* [name]
-            |     +--rw name            string
-            |     +--rw ip:ipv4!/
-            |     |  +--rw address* [ip]
-            |     |  ...
-            +--ro if:interfaces-state/
-               +--ro interface* [name]
-                  +--ro name               string
-                  +--ro ip:ipv4!/
-                  |  +--ro address* [ip]
+               +--rw interface* [name]
+                  +--rw name            string
+                  +--rw ip:ipv4!/
+                  |  +--rw address* [ip]
                   |  ...
 
 module: ietf-interfaces
    +--rw interfaces
-   |  +--rw interface* [name]
-   |     +--rw name                        string
-   |     +--rw lne:bind-lne-name?          string
-   +--ro interfaces-state
-      +--ro interface* [name]
-         +--ro name               string
+      +--rw interface* [name]
+         +--rw name                        string
+         +--rw lne:bind-lne-name?          string
          +--ro oper-status        enumeration
 
 module: ietf-yang-library
@@ -912,17 +921,11 @@ module: ietf-system
    |           +--rw key-data     binary
    +--ro system-state
       +--ro platform
-      |  +--ro os-name?      string
-      |  +--ro os-release?   string
+         +--ro os-name?      string
+         +--ro os-release?   string
 
 module: ietf-routing
-   +--ro routing-state
-   |  +--ro router-id?                 yang:dotted-quad
-   |  +--ro control-plane-protocols
-   |  |  +--ro control-plane-protocol* [type name]
-   |  |     +--ro ospf:ospf/
-   |  |        +--ro instance* [af]
-   +--rw routing
+   rw-- routing
       +--rw router-id?                 yang:dotted-quad
       +--rw control-plane-protocols
          +--rw control-plane-protocol* [type name]
@@ -937,12 +940,9 @@ module: ietf-routing
 
 module: ietf-interfaces
    +--rw interfaces
-   |  +--rw interface* [name]
-   |     +--rw name                        string
-   +--ro interfaces-state
-      +--ro interface* [name]
-      +--ro name               string
-      +--ro oper-status        enumeration
+      +--rw interface* [name]
+         +--rw name                        string
+         +--ro oper-status        enumeration
       ]]></artwork>
     </figure>
   </t>
@@ -1223,7 +1223,7 @@ module: ietf-interfaces
               }
             }
           },
-          "ietf-routing:routing-state": {
+          "ietf-routing:routing": {
             "router-id": "192.0.2.1",
             "control-plane-protocols": {
               "control-plane-protocol": [
@@ -1256,7 +1256,7 @@ module: ietf-interfaces
               ]
             }
           },
-          "ietf-interfaces:interfaces-state": {
+          "ietf-interfaces:interfaces": {
             "interfaces": {
               "interface": [
                 {
@@ -1363,7 +1363,7 @@ module: ietf-interfaces
               }
             }
           },
-          "ietf-routing:routing-state": {
+          "ietf-routing:routing": {
             "router-id": "192.0.2.2",
             "control-plane-protocols": {
               "control-plane-protocol": [
@@ -1396,7 +1396,7 @@ module: ietf-interfaces
               ]
             }
           }
-          "ietf-interfaces:interfaces-state": {
+          "ietf-interfaces:interfaces": {
             "interfaces": {
               {
                 "name": "eth1",
@@ -1422,7 +1422,7 @@ module: ietf-interfaces
     ]
   },
 
-  "ietf-interfaces:interfaces-state": {
+  "ietf-interfaces:interfaces": {
     "interfaces": {
       "interface": [
         {
@@ -1634,9 +1634,9 @@ module: ietf-interfaces
     mount to achieve child independent management. An example device
     supports multiple instances of LNEs (logical
     routers), each of them has the features of layer 2 and layer 3
-    interfaces <xref target="RFC7223"/>, routing information base
-    <xref target="RFC8022"/>, and the OSPF
-    protocol. Each of these features is specified by a YANG model, and
+    interfaces  <xref target="I-D.ietf-netmod-rfc7223bis"/>, routing
+    information base <xref target="I-D.ietf-netmod-rfc8022bis"/>, and
+    the OSPF protocol. Each of these features is specified by a YANG model, and
     they are put together by the YANG Schema Mount as following:
   </t>
   <t>
@@ -1654,12 +1654,9 @@ module: ietf-interfaces
 
 module: ietf-interfaces
    +--rw interfaces
-   |  +--rw interface* [name]
-   |     +--rw name                        string
-   |     +--rw lne:bind-lne-name?          string
-   +--ro interfaces-state
-      +--ro interface* [name]
-         +--ro name               string
+      +--rw interface* [name]
+         +--rw name                        string
+         +--rw lne:bind-lne-name?          string
          +--ro oper-status        enumeration
 
 module: ietf-yang-library
@@ -1746,12 +1743,6 @@ module: ietf-system
       |  +--ro os-release?   string
 
 module: ietf-routing
-   +--ro routing-state
-   |  +--ro router-id?                 yang:dotted-quad
-   |  +--ro control-plane-protocols
-   |  |  +--ro control-plane-protocol* [type name]
-   |  |     +--ro ospf:ospf/
-   |  |        +--ro instance* [af]
    +--rw routing
       +--rw router-id?                 yang:dotted-quad
       +--rw control-plane-protocols
@@ -1767,12 +1758,9 @@ module: ietf-routing
 
 module: ietf-interfaces
    +--rw interfaces
-   |  +--rw interface* [name]
-   |     +--rw name                        string
-   +--ro interfaces-state
-      +--ro interface* [name]
-      +--ro name               string
-      +--ro oper-status        enumeration
+      +--rw interface* [name]
+         +--rw name                        string
+         +--ro oper-status        enumeration
       ]]></artwork>
     </figure>
   </t>
@@ -1963,7 +1951,7 @@ module: ietf-interfaces
     ]
   },
 
-  "ietf-interfaces:interfaces-state": {
+  "ietf-interfaces:interfaces": {
     "interfaces": {
       "interface": [
         {
@@ -2188,7 +2176,7 @@ module: ietf-interfaces
     }
   },
 
-  "ietf-routing:routing-state": {
+  "ietf-routing:routing": {
     "router-id": "192.0.2.1",
     "control-plane-protocols": {
       "control-plane-protocol": [
@@ -2222,7 +2210,7 @@ module: ietf-interfaces
     }
   },
 
-  "ietf-interfaces:interfaces-state": {
+  "ietf-interfaces:interfaces": {
     "interfaces": {
       "interface": [
         {
@@ -2337,7 +2325,7 @@ module: ietf-interfaces
     }
   },
 
-  "ietf-routing:routing-state": {
+  "ietf-routing:routing": {
     "router-id": "192.0.2.2",
     "control-plane-protocols": {
       "control-plane-protocol": [
@@ -2371,7 +2359,7 @@ module: ietf-interfaces
     }
   },
 
-  "ietf-interfaces:interfaces-state": {
+  "ietf-interfaces:interfaces": {
     "interfaces": {
       "interface": [
         {
