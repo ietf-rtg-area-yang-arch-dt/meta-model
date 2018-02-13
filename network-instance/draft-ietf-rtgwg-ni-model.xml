@@ -591,6 +591,45 @@ module: ietf-interfaces
     </artwork>
   </figure>
 </t>
+<t>The same such "parent-reference" restrictions for non-NDMA 
+implementations can be represented based on the <xref target="RFC7223"/> 
+and <xref target="RFC7277"/> as: 
+  <figure>
+    <artwork>
+    "namespace": [
+      {
+        "prefix": "if",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-interfaces"
+      },
+      {
+        "prefix": "ni",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-network-instance"
+      }
+    ],
+    "mount-point": [
+      {
+        "parent-reference": [
+          "/if:interfaces/if:interface
+             [ni:bind-network-instance-name = current()/../ni:name]",
+          "/if:interfaces-state/if:interface
+             [if:name = /if:interfaces/if:interface
+               [ni:bind-ni-name = current()/../ni:name]/if:name]",
+          "/if:interfaces/if:interface/ip:ipv4
+             [ni:bind-network-instance-name = current()/../ni:name]",
+          "/if:interfaces-state/if:interface/ip:ipv4
+             [if:name = /if:interfaces/if:interface/ip:ipv4
+               [ni:bind-ni-name = current()/../ni:name]/if:name]",
+          "/if:interfaces/if:interface/ip:ipv6
+             [ni:bind-network-instance-name = current()/../ni:name]",
+          "/if:interfaces-state/if:interface/ip:ipv6
+             [if:name = /if:interfaces/if:interface/ip:ipv4
+               [ni:bind-ni-name = current()/../ni:name]/if:name]",
+        ]
+      }
+    ],
+    </artwork>
+  </figure>
+</t>
 </section>
 
 <section anchor="sec-NI.3" title="  Network Instance Instantiation">
@@ -1027,6 +1066,9 @@ module ietf-network-instance {
 <?rfc include="reference.RFC.4026"?>
 <?rfc include="reference.RFC.4364"?>
 <?rfc include="reference.RFC.4664"?>
+<?rfc include="reference.RFC.7223"?>
+<?rfc include="reference.RFC.7277"?>
+<?rfc include="reference.RFC.8022"?>
 <?rfc include="reference.RFC.7950"?>
 <?rfc include="reference.I-D.ietf-netmod-rfc8022bis.xml"?>
 
@@ -1046,7 +1088,7 @@ module ietf-network-instance {
 
 <t> 
   Thanks for AD and IETF last call comments from Alia Atlas, Liang Xia, 
-  and Benoit Claise.
+  Benoit Claise, and Adam Roach.
 </t>
 
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
@@ -1079,26 +1121,22 @@ module ietf-network-instance {
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                        "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth1",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
@@ -1117,26 +1155,22 @@ module ietf-network-instance {
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                        "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth2",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth2",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
@@ -1160,6 +1194,14 @@ module ietf-network-instance {
               }
             ]
           }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::10",
+                "prefix-length": 64,
+              }
+            ]
+          }
         },
         {
           "name": "eth1",
@@ -1168,6 +1210,14 @@ module ietf-network-instance {
               {
                 "ip": "192.0.2.11",
                 "prefix-length": 24,
+              }
+            ]
+          },
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
               }
             ]
           },
@@ -1180,6 +1230,14 @@ module ietf-network-instance {
               {
                 "ip": "192.0.2.11",
                 "prefix-length": 24,
+              }
+            ]
+          },
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
               }
             ]
           },
@@ -1204,9 +1262,11 @@ module ietf-network-instance {
 </figure>
 </t>
   </section>
-  <section anchor="sec-ex1sd" title="State Data">
+  <section anchor="sec-ex1sd" title="State Data - Non-NDMA Version">
     <t>
-      The following shows state data for the example above.
+      The following shows state data for the configuration example above 
+      based on <xref target="RFC7223"/>, <xref target="RFC7277"/>, and
+      <xref target="RFC8022"/>. 
     </t>
 <t>
 <figure>
@@ -1217,7 +1277,7 @@ module ietf-network-instance {
       {
         "name": "vrf-red",
         "vrf-root": {
-          "ietf-routing:routing": {
+          "ietf-routing:routing-state": {
             "router-id": "192.0.2.1",
             "control-plane-protocols": {
               "control-plane-protocol": [
@@ -1225,26 +1285,22 @@ module ietf-network-instance {
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                        "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth1",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
@@ -1255,7 +1311,7 @@ module ietf-network-instance {
       {
         "name": "vrf-blue",
         "vrf-root": {
-          "ietf-routing:routing": {
+          "ietf-routing:routing-state": {
             "router-id": "192.0.2.2",
             "control-plane-protocols": {
               "control-plane-protocol": [
@@ -1263,26 +1319,22 @@ module ietf-network-instance {
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                        "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth2",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth2",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
@@ -1293,7 +1345,7 @@ module ietf-network-instance {
     ]
   },
 
-  "ietf-interfaces:interfaces": {
+  "ietf-interfaces:interfaces-state": {
     "interfaces": {
       "interface": [
         {
@@ -1309,6 +1361,14 @@ module ietf-network-instance {
               {
                 "ip": "192.0.2.10",
                 "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::10",
+                "prefix-length": 64,
               }
             ]
           }
@@ -1329,6 +1389,14 @@ module ietf-network-instance {
               }
             ]
           }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          }
         },
         {
           "name": "eth2",
@@ -1343,6 +1411,14 @@ module ietf-network-instance {
               {
                 "ip": "192.0.2.11",
                 "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
               }
             ]
           }
@@ -1394,7 +1470,7 @@ module ietf-network-instance {
       },
       {
         "name": "ietf-network-instance",
-        "revision": "2017-03-13",
+        "revision": "2018-02-03",
         "feature": [
           "bind-network-instance-name"
         ],
@@ -1475,6 +1551,307 @@ module ietf-network-instance {
           {
              "name": "ietf-ospf",
              "revision": "2017-03-12",
+             "namespace":
+               "urn:ietf:params:xml:ns:yang:ietf-ospf",
+             "conformance-type": "implement"
+          }
+        ]
+      }
+    ]
+  }
+}
+]]></artwork>
+</figure>
+</t>
+  </section>
+  <section anchor="sec-ex1sd-ndma" title="State Data - NDMA Version">
+    <t>The following shows state data for the configuration example above 
+    based on <xref target="I-D.ietf-netmod-rfc7223bis"/>, 
+    <xref target="I-D.ietf-netmod-rfc7277bis"/>, and 
+    <xref target="I-D.ietf-netmod-rfc8022bis"/>.
+</t>
+<t>
+<figure>
+<artwork><![CDATA[
+{
+  "ietf-network-instance:network-instances": {
+    "network-instance": [
+      {
+        "name": "vrf-red",
+        "vrf-root": {
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "vrf-blue",
+        "vrf-root": {
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth2",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C0",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::10",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C1",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth2",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C2",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  }
+
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2018-01-09",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2018-01-09",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-network-instance",
+        "revision": "2018-02-03",
+        "feature": [
+          "bind-network-instance-name"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-network-instance",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ospf",
+        "revision": "2017-10-30",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-ospf",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2018-01-25",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-schema-mount",
+        "revision": "2017-05-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-yang-schema-mount:schema-mounts": {
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "use-schema": [
+          {
+            "name": "ni-schema",
+            "parent-reference": [
+              "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+            ]
+          }
+        ]
+      }
+    ],
+    "schema": [
+      {
+        "name": "ni-schema",
+        "module": [
+          {
+             "name": "ietf-routing",
+             "revision": "2018-01-25",
+             "namespace":
+               "urn:ietf:params:xml:ns:yang:ietf-routing",
+             "conformance-type": "implement"
+           },
+          {
+             "name": "ietf-ospf",
+             "revision": "2017-10-30",
              "namespace":
                "urn:ietf:params:xml:ns:yang:ietf-ospf",
              "conformance-type": "implement"
