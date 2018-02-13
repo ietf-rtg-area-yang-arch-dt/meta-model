@@ -7,10 +7,10 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-09">
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-ni-model-10">
 
 <front>
-<title abbrev="YANG NIs">YANG Network Instances</title>
+<title abbrev="YANG NIs">YANG Model for Network Instances</title>
     <author initials='L.' surname="Berger" fullname='Lou Berger'>
      <organization>LabN Consulting, L.L.C.</organization>
      <address>
@@ -59,6 +59,11 @@
   Routing and Forwarding (VRF) instances and Virtual Switch Instances
   (VSIs).
 </t>
+<t>
+The YANG model in this document conforms to the Network Management
+Datastore Architecture defined in I-D.ietf-netmod-revised-datastores.
+</t>
+
 </abstract>
 </front>
 
@@ -71,6 +76,12 @@
    management and networking perspectives.  Both leverage the
    YANG functionality enabled by YANG Schema Mount <xref
    target="I-D.ietf-netmod-schema-mount"/>.
+</t>
+<t>
+The YANG model in this document conforms to the Network Management
+Datastore Architecture defined in 
+the <xref target="I-D.ietf-netmod-revised-datastores"/>.
+
 </t>
 <t>
    The first form of resource partitioning
@@ -215,10 +226,6 @@
    instances.  Core/provider instance information is accessible at the
    top level of the server, while virtual instance information is
    accessible under the root schema mount points.
-</t>
-<t>
-  The NI model can be represented using the tree format defined in <xref
-   target="I-D.ietf-netmod-yang-tree-diagrams"/> as:
 </t>
 <t>
 <figure>
@@ -575,20 +582,10 @@ module: ietf-interfaces
         "parent-reference": [
           "/if:interfaces/if:interface
              [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces-state/if:interface
-             [if:name = /if:interfaces/if:interface
-               [ni:bind-ni-name = current()/../ni:name]/if:name]",
           "/if:interfaces/if:interface/ip:ipv4
              [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces-state/if:interface/ip:ipv4
-             [if:name = /if:interfaces/if:interface/ip:ipv4
-               [ni:bind-ni-name = current()/../ni:name]/if:name]",
           "/if:interfaces/if:interface/ip:ipv6
              [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces-state/if:interface/ip:ipv6
-             [if:name = /if:interfaces/if:interface/ip:ipv4
-               [ni:bind-ni-name = current()/../ni:name]/if:name]",
-        ]
       }
     ],
     </artwork>
@@ -1015,6 +1012,7 @@ module ietf-network-instance {
   <?rfc include="reference.RFC.6020"?>
   <?rfc include="reference.I-D.ietf-netmod-rfc7223bis.xml"?>
   <?rfc include="reference.I-D.ietf-netmod-rfc7277bis.xml"?>
+  <?rfc include="reference.I-D.ietf-netmod-revised-datastores.xml"?>
   <?rfc include="reference.RFC.3688"?>
   <?rfc include="reference.RFC.8174"?>
 
@@ -1047,7 +1045,8 @@ module ietf-network-instance {
 </t>
 
 <t> 
-  Thanks for AD and IETF last call comments from Alia Atlas and Liang Xia.
+  Thanks for AD and IETF last call comments from Alia Atlas, Liang Xia, 
+  and Benoit Claise.
 </t>
 
   <t>The RFC text was produced using Marshall Rose's xml2rfc tool.
@@ -1218,7 +1217,7 @@ module ietf-network-instance {
       {
         "name": "vrf-red",
         "vrf-root": {
-          "ietf-routing:routing-state": {
+          "ietf-routing:routing": {
             "router-id": "192.0.2.1",
             "control-plane-protocols": {
               "control-plane-protocol": [
@@ -1256,7 +1255,7 @@ module ietf-network-instance {
       {
         "name": "vrf-blue",
         "vrf-root": {
-          "ietf-routing:routing-state": {
+          "ietf-routing:routing": {
             "router-id": "192.0.2.2",
             "control-plane-protocols": {
               "control-plane-protocol": [
@@ -1294,7 +1293,7 @@ module ietf-network-instance {
     ]
   },
 
-  "ietf-interfaces:interfaces-state": {
+  "ietf-interfaces:interfaces": {
     "interfaces": {
       "interface": [
         {
