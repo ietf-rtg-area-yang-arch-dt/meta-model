@@ -449,7 +449,12 @@ module: ietf-logical-network-element
     </t>
     <t hangText="/if:interfaces/if:interface/bind-lne-name:">
       This leaf indicates the LNE instance to which an interface is
-      assigned.
+      assigned. Implementations should pay particular attention to when
+      changes to this leaf are permitted as removal of an interface from
+      an LNE can have major impact on the LNEs operation as it is
+      similar to physically removing an interface from the
+      device. Implementations can reject an reassignment using the
+      previously described error message generation.
     </t>
   </list>
   Unauthorized access to any of these lists can adversely affect the
@@ -709,8 +714,8 @@ module ietf-logical-network-element {
    <t>The Routing Area Yang Architecture design team members included Acee
    Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger,
    Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang. Useful review
-   comments were also received by Martin Bjorklund, John Scudder and
-   Dan Romascanu.</t>
+   comments were also received by Martin Bjorklund, John Scudder,
+   Dan Romascanu and Taylor Yu.</t>
 <t>
    This document was motivated by, and derived from,
    <xref target="I-D.ietf-rtgwg-device-model"/>.
