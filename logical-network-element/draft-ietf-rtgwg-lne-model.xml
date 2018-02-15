@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-07" >
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-08" >
 
 <front>
 <title abbrev="YANG LNEs">YANG Model for Logical Network Elements</title>
