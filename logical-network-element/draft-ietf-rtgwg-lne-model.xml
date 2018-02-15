@@ -1023,6 +1023,14 @@ module: ietf-interfaces
                         "prefix-length": 24,
                       }
                     ]
+                  },
+                  "ip:ipv6": {
+                    "address": [
+                      {
+                        "ip": "2001:db8:0:2::11",
+                        "prefix-length": 64,
+                      }
+                    ]
                   }
                 }
               ]
@@ -1106,6 +1114,14 @@ module: ietf-interfaces
               {
                 "ip": "192.0.2.10",
                 "prefix-length": 24,
+              }
+            ]
+          },
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::10",
+                "prefix-length": 64,
               }
             ]
           }
