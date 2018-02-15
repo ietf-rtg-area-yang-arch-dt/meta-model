@@ -10,7 +10,7 @@
 <rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-06" >
 
 <front>
-<title abbrev="YANG LNEs">YANG Logical Network Elements</title>
+<title abbrev="YANG LNEs">YANG Model for Logical Network Elements</title>
     <author initials='L.' surname="Berger" fullname='Lou Berger'>
      <organization>LabN Consulting, L.L.C.</organization>
      <address>
@@ -197,7 +197,7 @@
    <xref target="I-D.ietf-netmod-rfc7223bis"/>.
    The logical-network-element module
    augments existing interface management model by adding an
-   identifier which is used on physical interface types to
+   identifier which is used on interfaces  to
    identify an associated LNE.
 </t>
 <t>
@@ -701,6 +701,7 @@ module ietf-logical-network-element {
 <?rfc include="reference.RFC.7895"?>
 <?rfc include="reference.RFC.7950"?>
 <?rfc include="reference.I-D.ietf-netmod-rfc8022bis.xml"?>
+<?rfc include="reference.I-D.ietf-netmod-entity.xml"?>
 </references>
 
 <?rfc needLines="100"?>
@@ -708,7 +709,8 @@ module ietf-logical-network-element {
    <t>The Routing Area Yang Architecture design team members included Acee
    Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger,
    Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang. Useful review
-   comments were also received by Martin Bjorklund and John Scudder.</t>
+   comments were also received by Martin Bjorklund, John Scudder and
+   Dan Romascanu.</t>
 <t>
    This document was motivated by, and derived from,
    <xref target="I-D.ietf-rtgwg-device-model"/>.
@@ -731,7 +733,10 @@ module ietf-logical-network-element {
     layer 3 interfaces  <xref target="I-D.ietf-netmod-rfc7223bis"/>,
     routing information base <xref target="I-D.ietf-netmod-rfc8022bis"/>, and
     OSPF protocol. Each of these features  is specified by a YANG model, and
-    they are combined using YANG Schema Mount as follows:
+    they are combined using YANG Schema Mount as shown
+    below.  Not all possible mounted modules are shown. For example
+    implementations could also mount the model defined in <xref
+    target="I-D.ietf-netmod-entity"/>.
   </t>
   <t>
     <figure>
