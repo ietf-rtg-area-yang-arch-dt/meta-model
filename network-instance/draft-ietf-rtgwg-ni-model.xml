@@ -1193,7 +1193,7 @@ module ietf-network-instance {
                 "prefix-length": 24,
               }
             ]
-          }
+          },
           "ip:ipv6": {
             "address": [
               {
