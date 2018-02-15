@@ -245,8 +245,7 @@
    routing and switching protocols.
 </t>
 <t>
-  The LNE model can be represented using the tree format defined in <xref
-   target="I-D.ietf-netmod-yang-tree-diagrams"/> as:
+  The LNE model can be represented as:
 </t>
 <t>
 <figure>
