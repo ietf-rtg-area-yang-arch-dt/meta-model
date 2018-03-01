@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-08" >
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-09">
 
 <front>
 <title abbrev="YANG LNEs">YANG Model for Logical Network Elements</title>
@@ -1755,13 +1755,12 @@ module: ietf-routing
       +--rw control-plane-protocols
          +--rw control-plane-protocol* [type name]
             +--rw ospf:ospf/
-               +--rw instance* [af]
-                  +--rw areas
-                     +--rw area* [area-id]
-                        +--rw interfaces
-                           +--rw interface* [name]
-                              +--rw name    if:interface-ref
-                              +--rw cost?   uint16
+               +--rw areas
+                 +--rw area* [area-id]
+                    +--rw interfaces
+                       +--rw interface* [name]
+                          +--rw name    if:interface-ref
+                          +--rw cost?   uint16
 
 module: ietf-interfaces
    +--rw interfaces
