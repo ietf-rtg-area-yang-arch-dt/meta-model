@@ -773,13 +773,12 @@ module: ietf-logical-network-element
             |  +--rw control-plane-protocols
             |     +--rw control-plane-protocol* [type name]
             |        +--rw ospf:ospf/
-            |           +--rw instance* [af]
-            |              +--rw areas
-            |                 +--rw area* [area-id]
-            |                    +--rw interfaces
-            |                       +--rw interface* [name]
-            |                          +--rw name if:interface-ref
-            |                          +--rw cost?   uint16
+            |          +--rw areas
+            |             +--rw area* [area-id]
+            |                +--rw interfaces
+            |                   +--rw interface* [name]
+            |                      +--rw name if:interface-ref
+            |                      +--rw cost?   uint16
             +--rw if:interfaces/
                +--rw interface* [name]
                   +--rw name            string
@@ -939,13 +938,12 @@ module: ietf-routing
       +--rw control-plane-protocols
          +--rw control-plane-protocol* [type name]
             +--rw ospf:ospf/
-               +--rw instance* [af]
-                  +--rw areas
-                     +--rw area* [area-id]
-                        +--rw interfaces
-                           +--rw interface* [name]
-                              +--rw name    if:interface-ref
-                              +--rw cost?   uint16
+              +--rw areas
+                 +--rw area* [area-id]
+                    +--rw interfaces
+                       +--rw interface* [name]
+                          +--rw name    if:interface-ref
+                          +--rw cost?   uint16
 
 module: ietf-interfaces
    +--rw interfaces
@@ -986,26 +984,22 @@ module: ietf-interfaces
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                      "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth1",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
@@ -1059,31 +1053,27 @@ module: ietf-interfaces
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                        "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth1",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
             }
-          }
+          },
           "ietf-interfaces:interfaces": {
             "interfaces": {
               {
@@ -1256,26 +1246,22 @@ module: ietf-interfaces
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                      "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth1",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
@@ -1396,26 +1382,22 @@ module: ietf-interfaces
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
-                    "instance": [
-                      {
-                        "af": "ipv4",
-                        "areas": {
-                          "area": [
-                            {
-                              "area-id": "203.0.113.1",
-                              "interfaces": {
-                                "interface": [
-                                  {
-                                    "name": "eth1",
-                                    "cost": 10
-                                  }
-                                ]
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
                               }
-                            }
-                          ]
+                            ]
+                          }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 }
               ]
@@ -1821,26 +1803,22 @@ module: ietf-interfaces
           "type": "ietf-routing:ospf",
           "name": "1",
           "ietf-ospf:ospf": {
-            "instance": [
-              {
-                "af": "ipv4",
-                "areas": {
-                  "area": [
-                    {
-                      "area-id": "203.0.113.1",
-                      "interfaces": {
-                        "interface": [
-                          {
-                            "name": "eth1",
-                            "cost": 10
-                          }
-                        ]
+            "af": "ipv4",
+            "areas": {
+              "area": [
+                {
+                  "area-id": "203.0.113.1",
+                  "interfaces": {
+                    "interface": [
+                      {
+                        "name": "eth1",
+                        "cost": 10
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         }
       ]
@@ -1895,26 +1873,22 @@ module: ietf-interfaces
           "type": "ietf-routing:ospf",
           "name": "1",
           "ietf-ospf:ospf": {
-            "instance": [
-              {
-                "af": "ipv4",
-                "areas": {
-                  "area": [
-                    {
-                      "area-id": "203.0.113.1",
-                      "interfaces": {
-                        "interface": [
-                          {
-                            "name": "eth1",
-                            "cost": 10
-                          }
-                        ]
+            "af": "ipv4",
+            "areas": {
+              "area": [
+                {
+                  "area-id": "203.0.113.1",
+                  "interfaces": {
+                    "interface": [
+                      {
+                        "name": "eth1",
+                        "cost": 10
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         }
       ]
@@ -2209,26 +2183,22 @@ module: ietf-interfaces
           "type": "ietf-routing:ospf",
           "name": "1",
           "ietf-ospf:ospf": {
-            "instance": [
-              {
-                "af": "ipv4",
-                "areas": {
-                  "area": [
-                    {
-                      "area-id": "203.0.113.1",
-                      "interfaces": {
-                        "interface": [
-                          {
-                            "name": "eth1",
-                            "cost": 10
-                          }
-                        ]
+            "af": "ipv4",
+            "areas": {
+              "area": [
+                {
+                  "area-id": "203.0.113.1",
+                  "interfaces": {
+                    "interface": [
+                      {
+                        "name": "eth1",
+                        "cost": 10
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         }
       ]
@@ -2358,26 +2328,22 @@ module: ietf-interfaces
           "type": "ietf-routing:ospf",
           "name": "1",
           "ietf-ospf:ospf": {
-            "instance": [
-              {
-                "af": "ipv4",
-                "areas": {
-                  "area": [
-                    {
-                      "area-id": "203.0.113.1",
-                      "interfaces": {
-                        "interface": [
-                          {
-                            "name": "eth1",
-                            "cost": 10
-                          }
-                        ]
+            "af": "ipv4",
+            "areas": {
+              "area": [
+                {
+                  "area-id": "203.0.113.1",
+                  "interfaces": {
+                    "interface": [
+                      {
+                        "name": "eth1",
+                        "cost": 10
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         }
       ]
