@@ -386,13 +386,11 @@ module: ietf-network-instance
                  |  +--rw control-plane-protocols
                  |     +--rw control-plane-protocol* [type name]
                  |     +--rw ospf:ospf/
-                 |        +--rw instance* [af]
-                 |           +--rw areas
-                 |              +--rw area* [area-id]
-                 |                 +--rw interfaces
-                 |                    +--rw interface* [name]
-                 |                       +--rw name if:interface-ref
-                 |                       +--rw cost?   uint16
+                 |          +--rw area* [area-id]
+                 |             +--rw interfaces
+                 |                +--rw interface* [name]
+                 |                   +--rw name if:interface-ref
+                 |                   +--rw cost?   uint16
                  +--ro if:interfaces@
                  |  ...
         </artwork>
@@ -1621,6 +1619,7 @@ module ietf-network-instance {
                   "type": "ietf-routing:ospf",
                   "name": "1",
                   "ietf-ospf:ospf": {
+                    "af": "ipv4",
                     "areas": {
                       "area": [
                         {
