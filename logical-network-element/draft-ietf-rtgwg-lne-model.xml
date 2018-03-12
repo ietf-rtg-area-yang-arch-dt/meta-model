@@ -7,7 +7,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc iprnotified="no" ?>
 <?rfc strict="yes" ?>
-<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-09">
+<rfc category="std" ipr="trust200902" docName="draft-ietf-rtgwg-lne-model-10">
 
 <front>
 <title abbrev="YANG LNEs">YANG Model for Logical Network Elements</title>
@@ -56,6 +56,8 @@
    logical resource partitioning that may be present on a
    network device. Examples of common industry terms for logical
    resource partitioning are Logical Systems or Logical Routers.
+   The YANG model in this document conforms to the Network Management
+   Datastore Architecture as defined in RFCXXXX.
 </t>
 </abstract>
 </front>
@@ -73,6 +75,9 @@
   a "Guest", and the containing network-device as the "Host". While
   LNEs may be implemented via host-virtualization technologies this
   is not a requirement.
+  The YANG model in this document conforms to the Network Management
+  Datastore Architecture defined in 
+  the <xref target="I-D.ietf-netmod-revised-datastores"/>.
 </t>
 <t>
   This document also defines the necessary augmentations for allocating
@@ -694,6 +699,7 @@ module ietf-logical-network-element {
 <?rfc include="reference.I-D.ietf-netmod-rfc7223bis.xml"?>
 <?rfc include="reference.RFC.8040"?>
 <?rfc include="reference.RFC.8174"?>
+<?rfc include="reference.I-D.ietf-netmod-revised-datastores.xml"?>
 </references>
 
 <references title="Informative References">
