@@ -515,35 +515,11 @@ module: ietf-interfaces
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": [
-          {
-            "name": "ni-schema",
-            "parent-reference": [
-              "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
-            ]
-          }
-        ]
-      }
-    ],
-    "schema": [
-      {
-        "name": "ni-schema",
-        "module": [
-          {
-             "name": "ietf-routing",
-             "revision": "2018-01-25",
-             "namespace":
-               "urn:ietf:params:xml:ns:yang:ietf-routing",
-             "conformance-type": "implement"
-           },
-          {
-             "name": "ietf-ospf",
-             "revision": "2017-10-30",
-             "namespace":
-               "urn:ietf:params:xml:ns:yang:ietf-ospf",
-             "conformance-type": "implement"
-          }
-        ]
+        "use-schema": {
+          "parent-reference": [
+            "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+          ]
+        }
       }
     ]
   }
@@ -551,7 +527,7 @@ module: ietf-interfaces
   </figure>
 </t>
 <t>
-  Module data identified under "schema" will be instantiated under the
+  Module data identified according to the ietf-yang-schema-mount module will be instantiated under the
   mount point identified under "mount-point".  These modules will be
   able to reference information for nodes belonging to top-level modules
   that are identified under "parent-reference".  Parent referenced
@@ -577,13 +553,18 @@ module: ietf-interfaces
     ],
     "mount-point": [
       {
-        "parent-reference": [
-          "/if:interfaces/if:interface
-             [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces/if:interface/ip:ipv4
-             [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces/if:interface/ip:ipv6
-             [ni:bind-network-instance-name = current()/../ni:name]",
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "use-schema": {
+          "parent-reference": [
+            "/if:interfaces/if:interface
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces/if:interface/ip:ipv4
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces/if:interface/ip:ipv6
+               [ni:bind-network-instance-name = current()/../ni:name]"
+          ]
+        }
       }
     ],
     </artwork>
@@ -606,23 +587,27 @@ and <xref target="RFC7277"/> as:
     ],
     "mount-point": [
       {
-        "parent-reference": [
-          "/if:interfaces/if:interface
-             [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces-state/if:interface
-             [if:name = /if:interfaces/if:interface
-               [ni:bind-ni-name = current()/../ni:name]/if:name]",
-          "/if:interfaces/if:interface/ip:ipv4
-             [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces-state/if:interface/ip:ipv4
-             [if:name = /if:interfaces/if:interface/ip:ipv4
-               [ni:bind-ni-name = current()/../ni:name]/if:name]",
-          "/if:interfaces/if:interface/ip:ipv6
-             [ni:bind-network-instance-name = current()/../ni:name]",
-          "/if:interfaces-state/if:interface/ip:ipv6
-             [if:name = /if:interfaces/if:interface/ip:ipv4
-               [ni:bind-ni-name = current()/../ni:name]/if:name]",
-        ]
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "use-schema": {
+          "parent-reference": [
+            "/if:interfaces/if:interface
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces-state/if:interface
+               [if:name = /if:interfaces/if:interface
+                 [ni:bind-ni-name = current()/../ni:name]/if:name]",
+            "/if:interfaces/if:interface/ip:ipv4
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces-state/if:interface/ip:ipv4
+               [if:name = /if:interfaces/if:interface/ip:ipv4
+                 [ni:bind-ni-name = current()/../ni:name]/if:name]",
+            "/if:interfaces/if:interface/ip:ipv6
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces-state/if:interface/ip:ipv6
+               [if:name = /if:interfaces/if:interface/ip:ipv4
+                 [ni:bind-ni-name = current()/../ni:name]/if:name]"
+          ]
+        }
       }
     ],
     </artwork>
@@ -1275,6 +1260,32 @@ module ietf-network-instance {
       {
         "name": "vrf-red",
         "vrf-root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2017-03-12",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2016-11-04",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              }
+            ]
+          },
           "ietf-routing:routing-state": {
             "router-id": "192.0.2.1",
             "control-plane-protocols": {
@@ -1309,6 +1320,32 @@ module ietf-network-instance {
       {
         "name": "vrf-blue",
         "vrf-root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2017-03-12",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2016-11-04",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              }
+            ]
+          },
           "ietf-routing:routing-state": {
             "router-id": "192.0.2.2",
             "control-plane-protocols": {
@@ -1525,35 +1562,11 @@ module ietf-network-instance {
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": [
-          {
-            "name": "ni-schema",
-            "parent-reference": [
-              "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
-            ]
-          }
-        ]
-      }
-    ],
-    "schema": [
-      {
-        "name": "ni-schema",
-        "module": [
-          {
-             "name": "ietf-routing",
-             "revision": "2016-11-04",
-             "namespace":
-               "urn:ietf:params:xml:ns:yang:ietf-routing",
-             "conformance-type": "implement"
-           },
-          {
-             "name": "ietf-ospf",
-             "revision": "2017-03-12",
-             "namespace":
-               "urn:ietf:params:xml:ns:yang:ietf-ospf",
-             "conformance-type": "implement"
-          }
-        ]
+        "use-schema": {
+          "parent-reference": [
+            "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+          ]
+        }
       }
     ]
   }
@@ -1577,6 +1590,58 @@ module ietf-network-instance {
       {
         "name": "vrf-red",
         "vrf-root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2017-03-12",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2016-11-04",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              }
+            ]
+          },
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2017-03-12",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2016-11-04",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              }
+            ]
+          },
           "ietf-routing:routing": {
             "router-id": "192.0.2.1",
             "control-plane-protocols": {
@@ -1611,6 +1676,32 @@ module ietf-network-instance {
       {
         "name": "vrf-blue",
         "vrf-root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2017-03-12",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2016-11-04",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              }
+            ]
+          },
           "ietf-routing:routing": {
             "router-id": "192.0.2.2",
             "control-plane-protocols": {
@@ -1827,35 +1918,11 @@ module ietf-network-instance {
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": [
-          {
-            "name": "ni-schema",
-            "parent-reference": [
-              "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
-            ]
-          }
-        ]
-      }
-    ],
-    "schema": [
-      {
-        "name": "ni-schema",
-        "module": [
-          {
-             "name": "ietf-routing",
-             "revision": "2018-01-25",
-             "namespace":
-               "urn:ietf:params:xml:ns:yang:ietf-routing",
-             "conformance-type": "implement"
-           },
-          {
-             "name": "ietf-ospf",
-             "revision": "2017-10-30",
-             "namespace":
-               "urn:ietf:params:xml:ns:yang:ietf-ospf",
-             "conformance-type": "implement"
-          }
-        ]
+        "use-schema": {
+          "parent-reference": [
+            "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+          ]
+        }
       }
     ]
   }
