@@ -1590,31 +1590,42 @@ module ietf-network-instance {
       {
         "name": "vrf-red",
         "vrf-root": {
-          "ietf-yang-library:modules-set": {
-            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
-            "module": [
+          "ietf-yang-library:yang-library": {
+            "module-set": [
               {
-                "name": "ietf-yang-library",
-                "revision": "2016-06-21",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-ospf",
-                "revision": "2017-03-12",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-ospf",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-routing",
-                "revision": "2016-11-04",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-routing",
-                "conformance-type": "implement"
+                "name": "ni-modules",
+                "module": [
+                  {
+                    "name": "ietf-yang-library",
+                    "revision": "2016-06-21",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-ospf",
+                    "revision": "2017-03-12",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-routing",
+                    "revision": "2016-11-04",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-routing",
+                    "conformance-type": "implement"
+                  }
+                ]
               }
-            ]
+            ],
+            "schema": [
+              {
+                "name": "ni-schema",
+                "module-set": [ "ni-modules" ]
+              }
+            ],
+            ...
           },
           "ietf-routing:routing": {
             "router-id": "192.0.2.1",
@@ -1650,31 +1661,42 @@ module ietf-network-instance {
       {
         "name": "vrf-blue",
         "vrf-root": {
-          "ietf-yang-library:modules-state": {
-            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
-            "module": [
+          "ietf-yang-library:yang-library": {
+            "module-set": [
               {
-                "name": "ietf-yang-library",
-                "revision": "2016-06-21",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-ospf",
-                "revision": "2017-03-12",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-ospf",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-routing",
-                "revision": "2016-11-04",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-routing",
-                "conformance-type": "implement"
+                "name": "ni-modules",
+                "module": [
+                  {
+                    "name": "ietf-yang-library",
+                    "revision": "2016-06-21",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-ospf",
+                    "revision": "2017-03-12",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-routing",
+                    "revision": "2016-11-04",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-routing",
+                    "conformance-type": "implement"
+                  }
+                ]
               }
-            ]
+            ],
+            "schema": [
+              {
+                "name": "ni-schema",
+                "module-set": [ "ni-modules" ]
+              }
+            ],
+            ...
           },
           "ietf-routing:routing": {
             "router-id": "192.0.2.2",
