@@ -570,7 +570,7 @@ module: ietf-interfaces
     </artwork>
   </figure>
 </t>
-<t>The same such "parent-reference" restrictions for non-NDMA 
+<t>The same such "parent-reference" restrictions for non-NMDA 
 implementations can be represented based on the <xref target="RFC7223"/> 
 and <xref target="RFC7277"/> as: 
   <figure>
@@ -1245,7 +1245,7 @@ module ietf-network-instance {
 </figure>
 </t>
   </section>
-  <section anchor="sec-ex1sd" title="State Data - Non-NDMA Version">
+  <section anchor="sec-ex1sd" title="State Data - Non-NMDA Version">
     <t>
       The following shows state data for the configuration example above 
       based on <xref target="RFC7223"/>, <xref target="RFC7277"/>, and
@@ -1575,7 +1575,7 @@ module ietf-network-instance {
 </figure>
 </t>
   </section>
-  <section anchor="sec-ex1sd-ndma" title="State Data - NDMA Version">
+  <section anchor="sec-ex1sd-nmda" title="State Data - NMDA Version">
     <t>The following shows state data for the configuration example above 
     based on <xref target="I-D.ietf-netmod-rfc7223bis"/>, 
     <xref target="I-D.ietf-netmod-rfc7277bis"/>, and 
@@ -1590,33 +1590,7 @@ module ietf-network-instance {
       {
         "name": "vrf-red",
         "vrf-root": {
-          "ietf-yang-library:modules-state": {
-            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
-            "module": [
-              {
-                "name": "ietf-yang-library",
-                "revision": "2016-06-21",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-ospf",
-                "revision": "2017-03-12",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-ospf",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-routing",
-                "revision": "2016-11-04",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-routing",
-                "conformance-type": "implement"
-              }
-            ]
-          },
-          "ietf-yang-library:modules-state": {
+          "ietf-yang-library:modules-set": {
             "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
             "module": [
               {
