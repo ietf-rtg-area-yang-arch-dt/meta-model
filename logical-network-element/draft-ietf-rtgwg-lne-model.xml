@@ -393,13 +393,13 @@ module: ietf-logical-network-element
 </t>
 <t>
   An implementation MAY represent an LNE's schema using either the
-  'inline' or 'use-schema' approaches defined in <xref
+  'inline' or 'shared-schema' approaches defined in <xref
   target="I-D.ietf-netmod-schema-mount"/>.  The choice of which to
   use is completely an implementation choice.  The inline case is
   anticipated to be generally used in the cases where the 'managed'
-  will always be 'false'.  The 'use-schema' approach is expected to be be
+  will always be 'false'.  The 'shared-schema' approach is expected to be be
   most useful in the case where all LNEs share the same
-  schema. When 'use-schema' is used with an LNE mount point, the
+  schema. When 'shared-schema' is used with an LNE mount point, the
   YANG library rooted in the LNE's mount point MUST match the
   associated schema defined according to the ietf-yang-schema-mount
   module.
@@ -836,7 +836,7 @@ To realize the above schema, the example device implements the following schema 
     {
       "module": "ietf-logical-network-element",
       "label": "root",
-      "use-schema":  [null]
+      "shared-schema":  {}
     }
   ]
 }
@@ -1525,7 +1525,7 @@ module: ietf-interfaces
       {
         "module": "ietf-logical-network-element",
         "label": "root",
-        "use-schema": [null]
+        "shared-schema": {}
       }
     ]
   }
@@ -1604,7 +1604,7 @@ module: ietf-system
     {
       "module": "ietf-logical-network-element",
       "label": "root",
-      "inline": [null]
+      "inline": {}
     }
   ]
 }
@@ -1978,7 +1978,7 @@ module: ietf-interfaces
       {
         "module": "ietf-logical-network-element",
         "label": "root",
-        "inline": [null]
+        "inline": {}
       }
     ]
   }

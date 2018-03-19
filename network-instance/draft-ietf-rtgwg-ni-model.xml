@@ -479,12 +479,12 @@ module: ietf-interfaces
    represent network instance
    information will be available under the ni-type specific
    'root' mount point.  The
-   use-schema mechanism defined as part of the Schema Mount module
+   "shared-schema" method defined in the "ietf-yang-schema-mount" module
    <xref target="I-D.ietf-netmod-schema-mount"/>
-   MUST be used with the module defined in this document to identify
+   MUST be used to identify
    accessible modules.
    A future version of this document could relax this requirement.
-   Mounted modules in the non-inline case SHOULD be defined with
+   Mounted modules SHOULD be defined with
    access, via the appropriate schema mount parent-references <xref
    target="I-D.ietf-netmod-schema-mount"/>, to
    device resources such as interfaces. An implementation MAY choose to
@@ -515,7 +515,7 @@ module: ietf-interfaces
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": {
+        "shared-schema": {
           "parent-reference": [
             "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
           ]
@@ -555,7 +555,7 @@ module: ietf-interfaces
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": {
+        "shared-schema": {
           "parent-reference": [
             "/if:interfaces/if:interface
                [ni:bind-network-instance-name = current()/../ni:name]",
@@ -589,7 +589,7 @@ and <xref target="RFC7277"/> as:
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": {
+        "shared-schema": {
           "parent-reference": [
             "/if:interfaces/if:interface
                [ni:bind-network-instance-name = current()/../ni:name]",
@@ -1562,7 +1562,7 @@ module ietf-network-instance {
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": {
+        "shared-schema": {
           "parent-reference": [
             "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
           ]
@@ -1918,7 +1918,7 @@ module ietf-network-instance {
       {
         "module": "ietf-network-instance",
         "label": "vrf-root",
-        "use-schema": {
+        "shared-schema": {
           "parent-reference": [
             "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
           ]
