@@ -570,7 +570,7 @@ module: ietf-interfaces
     </artwork>
   </figure>
 </t>
-<t>The same such "parent-reference" restrictions for non-NDMA 
+<t>The same such "parent-reference" restrictions for non-NMDA 
 implementations can be represented based on the <xref target="RFC7223"/> 
 and <xref target="RFC7277"/> as: 
   <figure>
@@ -731,7 +731,7 @@ and <xref target="RFC7277"/> as:
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-network-instance@2018-02-03.yang"
+<CODE BEGINS> file "ietf-network-instance@2018-03-20.yang"
 module ietf-network-instance {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
@@ -793,7 +793,7 @@ module ietf-network-instance {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2018-02-03 {
+  revision 2018-03-20 {
     description
       "Initial revision.";
     reference "RFC TBD";
@@ -1245,7 +1245,7 @@ module ietf-network-instance {
 </figure>
 </t>
   </section>
-  <section anchor="sec-ex1sd" title="State Data - Non-NDMA Version">
+  <section anchor="sec-ex1sd" title="State Data - Non-NMDA Version">
     <t>
       The following shows state data for the configuration example above 
       based on <xref target="RFC7223"/>, <xref target="RFC7277"/>, and
@@ -1272,14 +1272,14 @@ module ietf-network-instance {
               },
               {
                 "name": "ietf-ospf",
-                "revision": "2017-03-12",
+                "revision": "2018-03-03",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
                 "conformance-type": "implement"
               },
               {
                 "name": "ietf-routing",
-                "revision": "2016-11-04",
+                "revision": "2018-03-13",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-routing",
                 "conformance-type": "implement"
@@ -1332,14 +1332,14 @@ module ietf-network-instance {
               },
               {
                 "name": "ietf-ospf",
-                "revision": "2017-03-12",
+                "revision": "2018-03-03",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
                 "conformance-type": "implement"
               },
               {
                 "name": "ietf-routing",
-                "revision": "2016-11-04",
+                "revision": "2018-03-13",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-routing",
                 "conformance-type": "implement"
@@ -1515,13 +1515,13 @@ module ietf-network-instance {
       },
       {
         "name": "ietf-ospf",
-        "revision": "2017-03-12",
+        "revision": "2018-03-03",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-ospf",
         "conformance-type": "implement"
       },
       {
         "name": "ietf-routing",
-        "revision": "2016-11-04",
+        "revision": "2018-03-13",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-routing",
         "conformance-type": "implement"
@@ -1575,7 +1575,7 @@ module ietf-network-instance {
 </figure>
 </t>
   </section>
-  <section anchor="sec-ex1sd-ndma" title="State Data - NDMA Version">
+  <section anchor="sec-ex1sd-nmda" title="State Data - NMDA Version">
     <t>The following shows state data for the configuration example above 
     based on <xref target="I-D.ietf-netmod-rfc7223bis"/>, 
     <xref target="I-D.ietf-netmod-rfc7277bis"/>, and 
@@ -1590,55 +1590,67 @@ module ietf-network-instance {
       {
         "name": "vrf-red",
         "vrf-root": {
-          "ietf-yang-library:modules-state": {
-            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
-            "module": [
+          "ietf-yang-library:yang-library": {
+            "checksum": "41e2ab5dc325f6d86f743e8da3de323f1a61a801",
+            "module-set": [
               {
-                "name": "ietf-yang-library",
-                "revision": "2016-06-21",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-ospf",
-                "revision": "2017-03-12",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-ospf",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-routing",
-                "revision": "2016-11-04",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-routing",
-                "conformance-type": "implement"
+                "name": "ni-modules",
+                "module": [
+                  {
+                    "name": "ietf-yang-library",
+                    "revision": "2016-06-21",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-ospf",
+                    "revision": "2018-03-03",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-routing",
+                    "revision": "2018-03-13",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-routing",
+                    "conformance-type": "implement"
+                  }
+                ],
+                "import-only-module": [
+                  {
+                    "name": "ietf-inet-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types"
+                  },
+                  {
+                    "name": "ietf-yang-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types"
+                  },
+                  {
+                    "name": "ietf-datastores",
+                    "revision": "2018-02-14",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-datastores"
+                  }
+                ]
               }
-            ]
-          },
-          "ietf-yang-library:modules-state": {
-            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
-            "module": [
+            ],
+            "schema": [
               {
-                "name": "ietf-yang-library",
-                "revision": "2016-06-21",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
-                "conformance-type": "implement"
+                "name": "ni-schema",
+                "module-set": [ "ni-modules" ]
+              }
+            ],
+            "datastore": [
+              {
+                "name": "ietf-datastores:running",
+                "schema": "ni-schema"
               },
               {
-                "name": "ietf-ospf",
-                "revision": "2017-03-12",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-ospf",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-routing",
-                "revision": "2016-11-04",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-routing",
-                "conformance-type": "implement"
+                "name": "ietf-datastores:operational",
+                "schema": "ni-schema"
               }
             ]
           },
@@ -1676,29 +1688,67 @@ module ietf-network-instance {
       {
         "name": "vrf-blue",
         "vrf-root": {
-          "ietf-yang-library:modules-state": {
-            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
-            "module": [
+          "ietf-yang-library:yang-library": {
+            "checksum": "41e2ab5dc325f6d86f743e8da3de323f1a61a801",
+            "module-set": [
               {
-                "name": "ietf-yang-library",
-                "revision": "2016-06-21",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
-                "conformance-type": "implement"
+                "name": "ni-modules",
+                "module": [
+                  {
+                    "name": "ietf-yang-library",
+                    "revision": "2016-06-21",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-ospf",
+                    "revision": "2018-03-03",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-routing",
+                    "revision": "2018-03-13",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-routing",
+                    "conformance-type": "implement"
+                  }
+                ],
+                "import-only-module": [
+                  {
+                    "name": "ietf-inet-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types"
+                  },
+                  {
+                    "name": "ietf-yang-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types"
+                  },
+                  {
+                    "name": "ietf-datastores",
+                    "revision": "2018-02-14",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-datastores"
+                  }
+                ]
+              }
+            ],
+            "schema": [
+              {
+                "name": "ni-schema",
+                "module-set": [ "ni-modules" ]
+              }
+            ],
+            "datastore": [
+              {
+                "name": "ietf-datastores:running",
+                "schema": "ni-schema"
               },
               {
-                "name": "ietf-ospf",
-                "revision": "2017-03-12",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-ospf",
-                "conformance-type": "implement"
-              },
-              {
-                "name": "ietf-routing",
-                "revision": "2016-11-04",
-                "namespace":
-                "urn:ietf:params:xml:ns:yang:ietf-routing",
-                "conformance-type": "implement"
+                "name": "ietf-datastores:operational",
+                "schema": "ni-schema"
               }
             ]
           },

@@ -56,7 +56,7 @@ module ietf-logical-network-element {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2018-02-14 {
+  revision 2018-03-20 {
     description
       "Initial revision.";
     reference "RFC XXXX";

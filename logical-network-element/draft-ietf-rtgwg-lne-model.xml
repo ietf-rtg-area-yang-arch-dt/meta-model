@@ -504,7 +504,7 @@ reference:   RFC XXXX
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2018-02-14.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2018-03-20.yang"
 module ietf-logical-network-element {
   yang-version 1.1;
 
@@ -563,7 +563,7 @@ module ietf-logical-network-element {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2018-02-14 {
+  revision 2018-03-20 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -1149,14 +1149,14 @@ module: ietf-interfaces
               },
               {
                 "name": "ietf-ospf",
-                "revision": "2017-03-12",
+                "revision": "2018-03-03",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
                 "conformance-type": "implement"
               },
               {
                 "name": "ietf-routing",
-                "revision": "2016-11-04",
+                "revision": "2018-03-13",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-routing",
                 "conformance-type": "implement"
@@ -1285,14 +1285,14 @@ module: ietf-interfaces
               },
               {
                 "name": "ietf-ospf",
-                "revision": "2017-03-12",
+                "revision": "2018-03-03",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
                 "conformance-type": "implement"
               },
               {
                 "name": "ietf-routing",
-                "revision": "2016-11-04",
+                "revision": "2018-03-13",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-routing",
                 "conformance-type": "implement"
@@ -1477,14 +1477,14 @@ module: ietf-interfaces
       },
       {
         "name": "ietf-ospf",
-        "revision": "2017-03-12",
+        "revision": "2018-03-03",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-ospf",
         "conformance-type": "implement"
       },
       {
         "name": "ietf-routing",
-        "revision": "2016-11-04",
+        "revision": "2018-03-13",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-routing",
         "conformance-type": "implement"
@@ -2032,14 +2032,14 @@ module: ietf-interfaces
       },
       {
         "name": "ietf-ospf",
-        "revision": "2017-03-12",
+        "revision": "2018-03-03",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-ospf",
         "conformance-type": "implement"
       },
       {
         "name": "ietf-routing",
-        "revision": "2016-11-04",
+        "revision": "2018-03-13",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-routing",
         "conformance-type": "implement"
@@ -2177,14 +2177,14 @@ module: ietf-interfaces
       },
       {
         "name": "ietf-ospf",
-        "revision": "2017-03-12",
+        "revision": "2018-03-03",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-ospf",
         "conformance-type": "implement"
       },
       {
         "name": "ietf-routing",
-        "revision": "2016-11-04",
+        "revision": "2018-03-13",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-routing",
         "conformance-type": "implement"
