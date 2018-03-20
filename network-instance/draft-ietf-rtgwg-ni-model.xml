@@ -1272,14 +1272,14 @@ module ietf-network-instance {
               },
               {
                 "name": "ietf-ospf",
-                "revision": "2017-03-12",
+                "revision": "2018-03-03",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
                 "conformance-type": "implement"
               },
               {
                 "name": "ietf-routing",
-                "revision": "2016-11-04",
+                "revision": "2018-03-13",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-routing",
                 "conformance-type": "implement"
@@ -1332,14 +1332,14 @@ module ietf-network-instance {
               },
               {
                 "name": "ietf-ospf",
-                "revision": "2017-03-12",
+                "revision": "2018-03-03",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-ospf",
                 "conformance-type": "implement"
               },
               {
                 "name": "ietf-routing",
-                "revision": "2016-11-04",
+                "revision": "2018-03-13",
                 "namespace":
                 "urn:ietf:params:xml:ns:yang:ietf-routing",
                 "conformance-type": "implement"
@@ -1515,13 +1515,13 @@ module ietf-network-instance {
       },
       {
         "name": "ietf-ospf",
-        "revision": "2017-03-12",
+        "revision": "2018-03-03",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-ospf",
         "conformance-type": "implement"
       },
       {
         "name": "ietf-routing",
-        "revision": "2016-11-04",
+        "revision": "2018-03-13",
         "namespace":
         "urn:ietf:params:xml:ns:yang:ietf-routing",
         "conformance-type": "implement"
@@ -1591,6 +1591,7 @@ module ietf-network-instance {
         "name": "vrf-red",
         "vrf-root": {
           "ietf-yang-library:yang-library": {
+            "checksum": "41e2ab5dc325f6d86f743e8da3de323f1a61a801",
             "module-set": [
               {
                 "name": "ni-modules",
@@ -1604,17 +1605,34 @@ module ietf-network-instance {
                   },
                   {
                     "name": "ietf-ospf",
-                    "revision": "2017-03-12",
+                    "revision": "2018-03-03",
                     "namespace":
                     "urn:ietf:params:xml:ns:yang:ietf-ospf",
                     "conformance-type": "implement"
                   },
                   {
                     "name": "ietf-routing",
-                    "revision": "2016-11-04",
+                    "revision": "2018-03-13",
                     "namespace":
                     "urn:ietf:params:xml:ns:yang:ietf-routing",
                     "conformance-type": "implement"
+                  }
+                ],
+                "import-only-module": [
+                  {
+                    "name": "ietf-inet-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types"
+                  },
+                  {
+                    "name": "ietf-yang-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types"
+                  },
+                  {
+                    "name": "ietf-datastores",
+                    "revision": "2018-02-14",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-datastores"
                   }
                 ]
               }
@@ -1625,7 +1643,16 @@ module ietf-network-instance {
                 "module-set": [ "ni-modules" ]
               }
             ],
-            ...
+            "datastore": [
+              {
+                "name": "ietf-datastores:running",
+                "schema": "ni-schema"
+              },
+              {
+                "name": "ietf-datastores:operational",
+                "schema": "ni-schema"
+              }
+            ]
           },
           "ietf-routing:routing": {
             "router-id": "192.0.2.1",
@@ -1662,6 +1689,7 @@ module ietf-network-instance {
         "name": "vrf-blue",
         "vrf-root": {
           "ietf-yang-library:yang-library": {
+            "checksum": "41e2ab5dc325f6d86f743e8da3de323f1a61a801",
             "module-set": [
               {
                 "name": "ni-modules",
@@ -1675,17 +1703,34 @@ module ietf-network-instance {
                   },
                   {
                     "name": "ietf-ospf",
-                    "revision": "2017-03-12",
+                    "revision": "2018-03-03",
                     "namespace":
                     "urn:ietf:params:xml:ns:yang:ietf-ospf",
                     "conformance-type": "implement"
                   },
                   {
                     "name": "ietf-routing",
-                    "revision": "2016-11-04",
+                    "revision": "2018-03-13",
                     "namespace":
                     "urn:ietf:params:xml:ns:yang:ietf-routing",
                     "conformance-type": "implement"
+                  }
+                ],
+                "import-only-module": [
+                  {
+                    "name": "ietf-inet-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types"
+                  },
+                  {
+                    "name": "ietf-yang-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types"
+                  },
+                  {
+                    "name": "ietf-datastores",
+                    "revision": "2018-02-14",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-datastores"
                   }
                 ]
               }
@@ -1696,7 +1741,16 @@ module ietf-network-instance {
                 "module-set": [ "ni-modules" ]
               }
             ],
-            ...
+            "datastore": [
+              {
+                "name": "ietf-datastores:running",
+                "schema": "ni-schema"
+              },
+              {
+                "name": "ietf-datastores:operational",
+                "schema": "ni-schema"
+              }
+            ]
           },
           "ietf-routing:routing": {
             "router-id": "192.0.2.2",
