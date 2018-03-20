@@ -59,7 +59,7 @@ module ietf-network-instance {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2018-02-03 {
+  revision 2018-03-20 {
     description
       "Initial revision.";
     reference "RFC TBD";

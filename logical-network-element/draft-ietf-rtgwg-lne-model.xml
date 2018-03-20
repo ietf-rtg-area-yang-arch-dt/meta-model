@@ -504,7 +504,7 @@ reference:   RFC XXXX
 <t>
 <figure>
 <artwork><![CDATA[
-<CODE BEGINS> file "ietf-logical-network-element@2018-02-14.yang"
+<CODE BEGINS> file "ietf-logical-network-element@2018-03-20.yang"
 module ietf-logical-network-element {
   yang-version 1.1;
 
@@ -563,7 +563,7 @@ module ietf-logical-network-element {
   // this note
   // RFC Ed.: please update TBD
 
-  revision 2018-02-14 {
+  revision 2018-03-20 {
     description
       "Initial revision.";
     reference "RFC XXXX";
