@@ -1,0 +1,2290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>YANG Model for Network Instances</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Terminology">
+<link href="#rfc.section.2" rel="Chapter" title="2 Overview">
+<link href="#rfc.section.3" rel="Chapter" title="3 Network Instances">
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 NI Types and Mount Points">
+<link href="#rfc.section.3.1.1" rel="Chapter" title="3.1.1 Well Known Mount Points">
+<link href="#rfc.section.3.1.2" rel="Chapter" title="3.1.2 NI Type Example">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 NIs and Interfaces">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Network Instance Management">
+<link href="#rfc.section.3.4" rel="Chapter" title="3.4 Network Instance Instantiation">
+<link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
+<link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
+<link href="#rfc.section.6" rel="Chapter" title="6 Network Instance Model">
+<link href="#rfc.references" rel="Chapter" title="7 References">
+<link href="#rfc.references.1" rel="Chapter" title="7.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="7.2 Informative References">
+<link href="#rfc.appendix.A" rel="Chapter" title="A Acknowledgments">
+<link href="#rfc.appendix.B" rel="Chapter" title="B Example NI usage">
+<link href="#rfc.appendix.B.1" rel="Chapter" title="B.1 Configuration Data">
+<link href="#rfc.appendix.B.2" rel="Chapter" title="B.2 State Data - Non-NMDA Version">
+<link href="#rfc.appendix.B.3" rel="Chapter" title="B.3 State Data - NMDA Version">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.8.5 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Berger, L., Hopps, C., Lindem, A., Bogdanovic, D., and X. Liu" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-rtgwg-ni-model-12" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-3-20" />
+  <meta name="dct.abstract" content="This document defines a network instance module. This module can be used to manage the virtual resource partitioning that may be present on a network device. Examples of common industry terms for virtual resource partitioning are Virtual Routing and Forwarding (VRF) instances and Virtual Switch Instances (VSIs).  " />
+  <meta name="description" content="This document defines a network instance module. This module can be used to manage the virtual resource partitioning that may be present on a network device. Examples of common industry terms for virtual resource partitioning are Virtual Routing and Forwarding (VRF) instances and Virtual Switch Instances (VSIs).  " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">Network Working Group</td>
+<td class="right">L. Berger</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">LabN Consulting, L.L.C.</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right">C. Hopps</td>
+</tr>
+<tr>
+<td class="left">Expires: September 21, 2018</td>
+<td class="right">Deutsche Telekom</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">A. Lindem</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Cisco Systems</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">D. Bogdanovic</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right"></td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">X. Liu</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Jabil</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">March 20, 2018</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">YANG Model for Network Instances<br />
+  <span class="filename">draft-ietf-rtgwg-ni-model-12</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>This document defines a network instance module. This module can be used to manage the virtual resource partitioning that may be present on a network device. Examples of common industry terms for virtual resource partitioning are Virtual Routing and Forwarding (VRF) instances and Virtual Switch Instances (VSIs).  </p>
+<p>The YANG model in this document conforms to the Network Management Datastore Architecture defined in I-D.ietf-netmod-revised-datastores.  </p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on September 21, 2018.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Terminology</a>
+</li>
+</ul><li>2.   <a href="#rfc.section.2">Overview</a>
+</li>
+<li>3.   <a href="#rfc.section.3">Network Instances</a>
+</li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">NI Types and Mount Points</a>
+</li>
+<ul><li>3.1.1.   <a href="#rfc.section.3.1.1">Well Known Mount Points</a>
+</li>
+<li>3.1.2.   <a href="#rfc.section.3.1.2">NI Type Example</a>
+</li>
+</ul><li>3.2.   <a href="#rfc.section.3.2">NIs and Interfaces</a>
+</li>
+<li>3.3.   <a href="#rfc.section.3.3">Network Instance Management</a>
+</li>
+<li>3.4.   <a href="#rfc.section.3.4">Network Instance Instantiation</a>
+</li>
+</ul><li>4.   <a href="#rfc.section.4">Security Considerations</a>
+</li>
+<li>5.   <a href="#rfc.section.5">IANA Considerations</a>
+</li>
+<li>6.   <a href="#rfc.section.6">Network Instance Model</a>
+</li>
+<li>7.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>7.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>7.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">Acknowledgments</a>
+</li>
+<li>Appendix B.   <a href="#rfc.appendix.B">Example NI usage</a>
+</li>
+<ul><li>B.1.   <a href="#rfc.appendix.B.1">Configuration Data</a>
+</li>
+<li>B.2.   <a href="#rfc.appendix.B.2">State Data - Non-NMDA Version</a>
+</li>
+<li>B.3.   <a href="#rfc.appendix.B.3">State Data - NMDA Version</a>
+</li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#sec-1" id="sec-1">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">This document defines the second of two new modules that are defined to support the configuration and operation of network-devices that allow for the partitioning of resources from both, or either, management and networking perspectives.  Both leverage the YANG functionality enabled by YANG Schema Mount <a href="#I-D.ietf-netmod-schema-mount" class="xref">[I-D.ietf-netmod-schema-mount]</a>.  </p>
+<p id="rfc.section.1.p.2">The YANG model in this document conforms to the Network Management Datastore Architecture defined in the <a href="#I-D.ietf-netmod-revised-datastores" class="xref">[I-D.ietf-netmod-revised-datastores]</a>.  </p>
+<p id="rfc.section.1.p.3">The first form of resource partitioning provides a logical partitioning of a network device where each partition is separately managed as essentially an independent network element which is 'hosted' by the base network device.  These hosted network elements are referred to as logical network elements, or LNEs, and are supported by the logical-network-element module defined in <a href="#I-D.ietf-rtgwg-lne-model" class="xref">[I-D.ietf-rtgwg-lne-model]</a>.  That module is used to identify LNEs and associate resources from the network-device with each LNE.  LNEs themselves are represented in YANG as independent network devices; each accessed independently.  Examples of vendor terminology for an LNE include logical system or logical router, and virtual switch, chassis, or fabric.  </p>
+<p id="rfc.section.1.p.4">The second form, which is defined in this document, provides support for what is commonly referred to as Virtual Routing and Forwarding (VRF) instances as well as Virtual Switch Instances (VSI), see <a href="#RFC4026" class="xref">[RFC4026]</a> and <a href="#RFC4664" class="xref">[RFC4664]</a>.  In this form of resource partitioning, multiple control plane and forwarding/bridging instances are provided by and managed via a single (physical or logical) network device.  This form of resource partitioning is referred to as a Network Instance and is supported by the network-instance module defined below.  Configuration and operation of each network-instance is always via the network device and the network-instance module.  </p>
+<p id="rfc.section.1.p.5">One notable difference between the LNE model and the NI model is that the NI model provides a framework for VRF and VSI management.  This document envisions the separate definition of VRF and VSI, i.e., L3 and L2 VPN, technology specific models.  An example of such can be found in the emerging L3VPN model defined in <a href="#I-D.ietf-bess-l3vpn-yang" class="xref">[I-D.ietf-bess-l3vpn-yang]</a> and the examples discussed below.  </p>
+<h1 id="rfc.section.1.1">
+<a href="#rfc.section.1.1">1.1.</a> <a href="#sec-definitions" id="sec-definitions">Terminology</a>
+</h1>
+<p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <a href="#RFC2119" class="xref">[RFC2119]</a> <a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.</p>
+<p id="rfc.section.1.1.p.2">Readers are expected to be familiar with terms and concepts of YANG <a href="#RFC7950" class="xref">[RFC7950]</a> and YANG Schema Mount <a href="#I-D.ietf-netmod-schema-mount" class="xref">[I-D.ietf-netmod-schema-mount]</a>.  </p>
+<p id="rfc.section.1.1.p.3">This document uses the graphical representation of data models defined in <a href="#I-D.ietf-netmod-yang-tree-diagrams" class="xref">[I-D.ietf-netmod-yang-tree-diagrams]</a>.  </p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#sec-2" id="sec-2">Overview</a>
+</h1>
+<p id="rfc.section.2.p.1">In this document, we consider network devices that support protocols and functions defined within the IETF, e.g, routers, firewalls, and hosts.  Such devices may be physical or virtual, e.g., a classic router with custom hardware or one residing within a server-based virtual machine implementing a virtual network function (VNF). Each device may sub-divide their resources into logical network elements (LNEs) each of which provides a managed logical device.  Examples of vendor terminology for an LNE include logical system or logical router, and virtual switch, chassis, or fabric. Each LNE may also support virtual routing and forwarding (VRF) and virtual switching instance (VSI) functions, which are referred to below as a network instances (NIs). This breakdown is represented in Figure 1.  </p>
+<pre>
+
+           ,''''''''''''''''''''''''''''''''''''''''''''''`.
+           |      Network Device (Physical or Virtual)     |
+           | .....................   ..................... |
+           | :  Logical Network  :   :  Logical Network  : |
+           | :      Element      :   :      Element      : |
+           | :+-----+-----+-----+:   :+-----+-----+-----+: |
+           | :| Net | Net | Net |:   :| Net | Net | Net |: |
+           | :|Inst.|Inst.|Inst.|:   :|Inst.|Inst.|Inst.|: |
+           | :+-----+-----+-----+:   :+-----+-----+-----+: |
+           | :  | |   | |   | |  :   :  | |   | |   | |  : |
+           | :..|.|...|.|...|.|..:   :..|.|...|.|...|.|..: |
+           |    | |   | |   | |         | |   | |   | |    |
+            `'''|'|'''|'|'''|'|'''''''''|'|'''|'|'''|'|'''''
+                | |   | |   | |         | |   | |   | |
+                   Interfaces              Interfaces
+</pre>
+<p></p>
+<p id="rfc.section.2.p.3">Figure 1: Module Element Relationships </p>
+<p id="rfc.section.2.p.4">A model for LNEs is described in <a href="#I-D.ietf-rtgwg-lne-model" class="xref">[I-D.ietf-rtgwg-lne-model]</a> and the model for NIs is covered in this document in <a href="#sec-NI" class="xref">Section 3</a>.  </p>
+<p id="rfc.section.2.p.5">The current interface management model <a href="#I-D.ietf-netmod-rfc7223bis" class="xref">[I-D.ietf-netmod-rfc7223bis]</a> is impacted by the definition of LNEs and NIs.  This document and <a href="#I-D.ietf-rtgwg-lne-model" class="xref">[I-D.ietf-rtgwg-lne-model]</a> define augmentations to the interface module to support LNEs and NIs.  </p>
+<p id="rfc.section.2.p.6">The network instance model supports the configuration of VRFs and VSIs.  Each instance is supported by information that relates to the device, for example the route target used when advertising VRF routes via the mechanisms defined in <a href="#RFC4364" class="xref">[RFC4364]</a>, and information that relates to the internal operation of the NI, for example for routing protocols <a href="#I-D.ietf-netmod-rfc8022bis" class="xref">[I-D.ietf-netmod-rfc8022bis]</a> and OSPF <a href="#I-D.ietf-ospf-yang" class="xref">[I-D.ietf-ospf-yang]</a>.  This document defines the network-instance module that provides a basis for the management of both types of information.  </p>
+<p id="rfc.section.2.p.7">NI information that relates to the device, including the assignment of interfaces to NIs, is defined as part of this document. The defined module also provides a placeholder for the definition of NI-technology specific information both at the device level and for NI internal operation.  Information related to NI internal operation is supported via schema mount <a href="#I-D.ietf-netmod-schema-mount" class="xref">[I-D.ietf-netmod-schema-mount]</a> and mounting appropriate modules under the mount point.  Well known mount points are defined for L3VPN, L2VPN, and L2+L3VPN NI types.  </p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#sec-NI" id="sec-NI">Network Instances</a>
+</h1>
+<p id="rfc.section.3.p.1">The network instance container is used to represent virtual routing and forwarding instances (VRFs) and virtual switching instances (VSIs).  VRFs and VSIs are commonly used to isolate routing and switching domains, for example to create virtual private networks, each with their own active protocols and routing/switching policies.  The model supports both core/provider and virtual instances.  Core/provider instance information is accessible at the top level of the server, while virtual instance information is accessible under the root schema mount points.  </p>
+<pre>
+module: ietf-network-instance
+  +--rw network-instances
+     +--rw network-instance* [name]
+        +--rw name           string
+        +--rw enabled?       boolean
+        +--rw description?   string
+        +--rw (ni-type)?
+        +--rw (root-type)
+           +--:(vrf-root)
+           |  +--mp vrf-root
+           +--:(vsi-root)
+           |  +--mp vsi-root
+           +--:(vv-root)
+              +--mp vv-root
+augment /if:interfaces/if:interface:
+  +--rw bind-ni-name?   -&gt; /network-instances/network-instance/name
+augment /if:interfaces/if:interface/ip:ipv4:
+  +--rw bind-ni-name?   -&gt; /network-instances/network-instance/name
+augment /if:interfaces/if:interface/ip:ipv6:
+  +--rw bind-ni-name?   -&gt; /network-instances/network-instance/name
+
+notifications:
+  +---n bind-ni-name-failed
+     +--ro name          -&gt; /if:interfaces/interface/name
+     +--ro interface
+     |  +--ro bind-ni-name?
+     |                  -&gt; /if:interfaces/interface/ni:bind-ni-name
+     +--ro ipv4
+     |  +--ro bind-ni-name?
+     |          -&gt; /if:interfaces/interface/ip:ipv4/ni:bind-ni-name
+     +--ro ipv6
+     |  +--ro bind-ni-name?
+     |          -&gt; /if:interfaces/interface/ip:ipv6/ni:bind-ni-name
+     +--ro error-info?   string
+</pre>
+<p></p>
+<p id="rfc.section.3.p.3">A network instance is identified by a 'name' string.  This string is used both as an index within the network-instance module and to associate resources with a network instance as shown above in the interface augmentation. The ni-type and root-type choice statements are used to support different types of L2 and L3 VPN technologies.  The bind-ni-name-failed notification is used in certain failure cases.  </p>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> <a href="#sec-2.nit" id="sec-2.nit">NI Types and Mount Points</a>
+</h1>
+<p id="rfc.section.3.1.p.1">The network-instance module is structured to facilitate the definition of information models for specific types of VRFs and VSIs using augmentations.  For example, the information needed to support VPLS, VxLAN and EVPN based L2VPNs are likely to be quite different.  Example models under development that could be restructured to take advantage on NIs include, for L3VPNs <a href="#I-D.ietf-bess-l3vpn-yang" class="xref">[I-D.ietf-bess-l3vpn-yang]</a> and for L2VPNs <a href="#I-D.ietf-bess-l2vpn-yang" class="xref">[I-D.ietf-bess-l2vpn-yang]</a>.  </p>
+<p id="rfc.section.3.1.p.2">Documents defining new YANG models for the support of specific types of network instances should augment the network instance module.  The basic structure that should be used for such augmentations include a case statement, with containers for configuration and state data and finally, when needed, a type specific mount point.  Generally ni types, are expected to not need to define type specific mount points, but rather reuse one of the well known mount point, as defined in the next section. The following is an example type specific augmentation: </p>
+<pre>
+ augment "/ni:network-instances/ni:network-instance/ni:ni-type" {
+   case l3vpn {
+     container l3vpn {
+         ...
+     }
+     container l3vpn-state {
+         ...
+     }
+   }
+ }
+      </pre>
+<p></p>
+<h1 id="rfc.section.3.1.1">
+<a href="#rfc.section.3.1.1">3.1.1.</a> <a href="#sec-2.nit.stdt" id="sec-2.nit.stdt">Well Known Mount Points</a>
+</h1>
+<p id="rfc.section.3.1.1.p.1">YANG Schema Mount, <a href="#I-D.ietf-netmod-schema-mount" class="xref">[I-D.ietf-netmod-schema-mount]</a>, identifies mount points by name within a module.  This definition allows for the definition of mount points whose schema can be shared across ni-types. As discussed above, ni-types largely differ in the configuration information needed in the core/top level instance to support the NI, rather than in the information represented within an NI.  This allows the use of shared mount points across certain NI types.  </p>
+<p id="rfc.section.3.1.1.p.2">The expectation is that there are actually very few different schema that need to be defined to support NIs on an implementation. In particular, it is expected that the following three forms of NI schema are needed, and each can be defined with a well known mount point that can be reused by future modules defining ni-types.  </p>
+<p id="rfc.section.3.1.1.p.3">The three well known mount points are: </p>
+
+<dl>
+<dt>vrf-root</dt>
+<dd style="margin-left: 8">
+<br> vrf-root is intended for use with L3VPN type ni-types.  </dd>
+<dt>vsi-root</dt>
+<dd style="margin-left: 8">
+<br> vsi-root is intended for use with L2VPN type ni-types.  </dd>
+<dt>vv-root</dt>
+<dd style="margin-left: 8">
+<br> vv-root is intended for use with ni-types that simultaneously support L2VPN bridging and L3VPN routing capabilities.  </dd>
+</dl>
+
+<p> </p>
+<p id="rfc.section.3.1.1.p.4">Future model definitions should use the above mount points whenever possible.  When a well known mount point isn't appropriate, a model may define a type specific mount point via augmentation.  </p>
+<h1 id="rfc.section.3.1.2">
+<a href="#rfc.section.3.1.2">3.1.2.</a> <a href="#sec-2.nit.ex" id="sec-2.nit.ex">NI Type Example</a>
+</h1>
+<p id="rfc.section.3.1.2.p.1">The following is an example of an L3VPN VRF using a hypothetical augmentation to the networking instance schema defined in <a href="#I-D.ietf-bess-l3vpn-yang" class="xref">[I-D.ietf-bess-l3vpn-yang]</a>. More detailed examples can be found in <a href="#sec-examples" class="xref">Appendix B</a>.  </p>
+<pre>
+module: ietf-network-instance
+  +--rw network-instances
+     +--rw network-instance* [name]
+        +--rw name           string
+        +--rw enabled?       boolean
+        +--rw description?   string
+        +--rw (ni-type)?
+        |  +--:(l3vpn)
+        |     +--rw l3vpn:l3vpn
+        |     |  ... // config data
+        |     +--ro l3vpn:l3vpn-state
+        |     |  ... // state data
+        +--rw (root-type)
+           +--:(vrf-root)
+              +--mp vrf-root
+                 +--rw rt:routing/
+                 |  +--rw router-id?                 yang:dotted-quad
+                 |  +--rw control-plane-protocols
+                 |     +--rw control-plane-protocol* [type name]
+                 |     +--rw ospf:ospf/
+                 |          +--rw area* [area-id]
+                 |             +--rw interfaces
+                 |                +--rw interface* [name]
+                 |                   +--rw name if:interface-ref
+                 |                   +--rw cost?   uint16
+                 +--ro if:interfaces@
+                 |  ...
+        </pre>
+<p></p>
+<p id="rfc.section.3.1.2.p.3">This shows YANG Routing Management <a href="#I-D.ietf-netmod-rfc8022bis" class="xref">[I-D.ietf-netmod-rfc8022bis]</a> and YANG OSPF <a href="#I-D.ietf-ospf-yang" class="xref">[I-D.ietf-ospf-yang]</a> as mounted modules.  The mounted modules can reference interface information via a parent-reference to the containers defined in <a href="#I-D.ietf-netmod-rfc7223bis" class="xref">[I-D.ietf-netmod-rfc7223bis]</a>.  </p>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> <a href="#sec-2.int" id="sec-2.int">NIs and Interfaces</a>
+</h1>
+<p id="rfc.section.3.2.p.1">Interfaces are a crucial part of any network device's configuration and operational state.  They generally include a combination of raw physical interfaces, link-layer interfaces, addressing configuration, and logical interfaces that may not be tied to any physical interface.  Several system services, and layer 2 and layer 3 protocols may also associate configuration or operational state data with different types of interfaces (these relationships are not shown for simplicity).  The interface management model is defined by <a href="#I-D.ietf-netmod-rfc7223bis" class="xref">[I-D.ietf-netmod-rfc7223bis]</a>.  </p>
+<p id="rfc.section.3.2.p.2">As shown below, the network-instance module augments the existing interface management model by adding a name which is used on interface or sub-interface types to identify an associated network instance.  Similarly, this name is also added for IPv4 and IPv6 types, as defined in <a href="#I-D.ietf-netmod-rfc7277bis" class="xref">[I-D.ietf-netmod-rfc7277bis]</a>.  </p>
+<p id="rfc.section.3.2.p.3">The following is an example of envisioned usage.  The interfaces container includes a number of commonly used components as examples: </p>
+<pre>
+module: ietf-interfaces
+   +--rw interfaces
+   |  +--rw interface* [name]
+   |     +--rw name                        string
+   |     +--rw ip:ipv4!
+   |     |  +--rw ip:enabled?                      boolean
+   |     |  +--rw ip:forwarding?                   boolean
+   |     |  +--rw ip:mtu?                          uint16
+   |     |  +--rw ip:address* [ip]
+   |     |  |  +--rw ip:ip               inet:ipv4-address-no-zone
+   |     |  |  +--rw (ip:subnet)
+   |     |  |     +--:(ip:prefix-length)
+   |     |  |     |  +--rw ip:prefix-length?   uint8
+   |     |  |     +--:(ip:netmask)
+   |     |  |        +--rw ip:netmask?         yang:dotted-quad
+   |     |  +--rw ip:neighbor* [ip]
+   |     |  |  +--rw ip:ip                  inet:ipv4-address-no-zone
+   |     |  |  +--rw ip:link-layer-address yang:phys-address
+   |     |  +--rw ni:bind-network-instance-name?   string
+   |     +--rw ni:bind-network-instance-name?   string
+</pre>
+<p></p>
+<p id="rfc.section.3.2.p.5">The <a href="#I-D.ietf-netmod-rfc7223bis" class="xref">[I-D.ietf-netmod-rfc7223bis]</a> defined interface model is structured to include all interfaces in a flat list, without regard to virtual instances (e.g., VRFs) supported on the device.  The bind-network-instance-name leaf provides the association between an interface and its associated NI (e.g., VRF or VSI).  Note that as currently defined, to assign an interface to both an LNE and NI, the interface would first be assigned to the LNE using the mechanisms defined in <a href="#I-D.ietf-rtgwg-lne-model" class="xref">[I-D.ietf-rtgwg-lne-model]</a> and then within that LNE's interface module, the LNE's representation of that interface would be assigned to an NI.  </p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> <a href="#sec-NI.2" id="sec-NI.2">Network Instance Management</a>
+</h1>
+<p id="rfc.section.3.3.p.1">Modules that may be used to represent network instance information will be available under the ni-type specific 'root' mount point.  The "shared-schema" method defined in the "ietf-yang-schema-mount" module <a href="#I-D.ietf-netmod-schema-mount" class="xref">[I-D.ietf-netmod-schema-mount]</a> MUST be used to identify accessible modules.  A future version of this document could relax this requirement.  Mounted modules SHOULD be defined with access, via the appropriate schema mount parent-references <a href="#I-D.ietf-netmod-schema-mount" class="xref">[I-D.ietf-netmod-schema-mount]</a>, to device resources such as interfaces. An implementation MAY choose to restrict parent referenced information to information related to a specific instance, e.g., only allowing references to interfaces that have a "bind-network-instance-name" which is identical to the instance's "name".  </p>
+<p id="rfc.section.3.3.p.2">All modules that represent control-plane and data-plane information may be present at the 'root' mount point, and be accessible via paths modified per <a href="#I-D.ietf-netmod-schema-mount" class="xref">[I-D.ietf-netmod-schema-mount]</a>.  The list of available modules is expected to be implementation dependent, as is the method used by an implementation to support NIs.  </p>
+<p id="rfc.section.3.3.p.3">For example, the following could be used to define the data organization of the example NI shown in <a href="#sec-2.nit.ex" class="xref">Section 3.1.2</a>: </p>
+<pre>
+  "ietf-yang-schema-mount:schema-mounts": {
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "shared-schema": {
+          "parent-reference": [
+            "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+          ]
+        }
+      }
+    ]
+  }
+    </pre>
+<p></p>
+<p id="rfc.section.3.3.p.5">Module data identified according to the ietf-yang-schema-mount module will be instantiated under the mount point identified under "mount-point".  These modules will be able to reference information for nodes belonging to top-level modules that are identified under "parent-reference".  Parent referenced information is available to clients via their top level paths only, and not under the associated mount point.  </p>
+<pre>
+    "namespace": [
+      {
+        "prefix": "if",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-interfaces"
+      },
+      {
+        "prefix": "ni",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-network-instance"
+      }
+    ],
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "shared-schema": {
+          "parent-reference": [
+            "/if:interfaces/if:interface
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces/if:interface/ip:ipv4
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces/if:interface/ip:ipv6
+               [ni:bind-network-instance-name = current()/../ni:name]"
+          ]
+        }
+      }
+    ],
+    </pre>
+<p id="rfc.section.3.3.p.6">To allow a client to understand the previously mentioned instance restrictions on parent referenced information, an implementation MAY represent such restrictions in the "parent-reference" leaf-list. For example: </p>
+<pre>
+    "namespace": [
+      {
+        "prefix": "if",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-interfaces"
+      },
+      {
+        "prefix": "ni",
+        "uri": "urn:ietf:params:xml:ns:yang:ietf-network-instance"
+      }
+    ],
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "shared-schema": {
+          "parent-reference": [
+            "/if:interfaces/if:interface
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces-state/if:interface
+               [if:name = /if:interfaces/if:interface
+                 [ni:bind-ni-name = current()/../ni:name]/if:name]",
+            "/if:interfaces/if:interface/ip:ipv4
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces-state/if:interface/ip:ipv4
+               [if:name = /if:interfaces/if:interface/ip:ipv4
+                 [ni:bind-ni-name = current()/../ni:name]/if:name]",
+            "/if:interfaces/if:interface/ip:ipv6
+               [ni:bind-network-instance-name = current()/../ni:name]",
+            "/if:interfaces-state/if:interface/ip:ipv6
+               [if:name = /if:interfaces/if:interface/ip:ipv4
+                 [ni:bind-ni-name = current()/../ni:name]/if:name]"
+          ]
+        }
+      }
+    ],
+    </pre>
+<p id="rfc.section.3.3.p.7">The same such "parent-reference" restrictions for non-NMDA implementations can be represented based on the <a href="#RFC7223" class="xref">[RFC7223]</a> and <a href="#RFC7277" class="xref">[RFC7277]</a> as: </p>
+<h1 id="rfc.section.3.4">
+<a href="#rfc.section.3.4">3.4.</a> <a href="#sec-NI.3" id="sec-NI.3">Network Instance Instantiation</a>
+</h1>
+<p id="rfc.section.3.4.p.1">Network instances may be controlled by clients using existing list operations.  When a list entry is created, a new instance is instantiated. The models mounted under an NI root are expected to be dependent on the server implementation.  When a list entry is deleted, an existing network instance is destroyed. For more information, see <a href="#RFC7950" class="xref">[RFC7950]</a> Section 7.8.6.  </p>
+<p id="rfc.section.3.4.p.2">Once instantiated, host network device resources can be associated with the new NI.  As previously mentioned, this document augments ietf-interfaces with the bind-ni-name leaf to support such associations for interfaces.  When a bind-ni-name is set to a valid NI name, an implementation MUST take whatever steps are internally necessary to assign the interface to the NI or provide an error message (defined below) with an indication of why the assignment failed.  It is possible for the assignment to fail while processing the set operation, or after asynchronous processing.  Error notification in the latter case is supported via a notification.  </p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#sec-4" id="sec-4">Security Considerations</a>
+</h1>
+<p id="rfc.section.4.p.1">The YANG modules specified in this document define a schema for data that is designed to be accessed via network management protocols such as NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a> or RESTCONF <a href="#RFC8040" class="xref">[RFC8040]</a>. The lowest NETCONF layer is the secure transport layer, and the mandatory-to-implement secure transport is Secure Shell (SSH) <a href="#RFC6242" class="xref">[RFC6242]</a>. The lowest RESTCONF layer is HTTPS, and the mandatory-to-implement secure transport is TLS <a href="#RFC5246" class="xref">[RFC5246]</a>.</p>
+<p id="rfc.section.4.p.2">The NETCONF access control model <a href="#RFC6536" class="xref">[RFC6536]</a> provides the means to restrict access for particular NETCONF or RESTCONF users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.</p>
+<p id="rfc.section.4.p.3">There are two different sets of security considerations to consider in the context of this document.  One set is security related to information contained within mounted modules.  The security considerations for mounted modules are not substantively changed based on the information being accessible within the context of an NI.  For example, when considering the modules defined in <a href="#I-D.ietf-netmod-rfc8022bis" class="xref">[I-D.ietf-netmod-rfc8022bis]</a>, the security considerations identified in that  document are equally applicable, whether those modules are accessed at a server's root or under an NI instance's root node.  </p>
+<p id="rfc.section.4.p.4">The second area for consideration is information contained in the NI module itself.  NI information represents network configuration and route distribution policy information. As such, the security of this information is important, but it is fundamentally no different than any other interface or routing configuration information that has already been covered in <a href="#I-D.ietf-netmod-rfc7223bis" class="xref">[I-D.ietf-netmod-rfc7223bis]</a> and <a href="#I-D.ietf-netmod-rfc8022bis" class="xref">[I-D.ietf-netmod-rfc8022bis]</a>.  </p>
+<p id="rfc.section.4.p.5">The vulnerable "config true" parameters and subtrees are the following: </p>
+
+<dl>
+<dt>/network-instances/network-instance:</dt>
+<dd style="margin-left: 8">This list specifies the network instances and the related control plane protocols configured on a device.  </dd>
+<dt>/if:interfaces/if:interface/*/bind-network-instance-name:</dt>
+<dd style="margin-left: 8">This leaf indicates the NI instance to which an interface is assigned.  </dd>
+</dl>
+
+<p> Unauthorized access to any of these lists can adversely affect the routing subsystem of both the local device and the network. This may lead to network malfunctions, delivery of packets to inappropriate destinations and other problems.  </p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#sec-5" id="sec-5">IANA Considerations</a>
+</h1>
+<p id="rfc.section.5.p.1">This document registers a URI in the IETF XML registry <a href="#RFC3688" class="xref">[RFC3688]</a>.  Following the format in RFC 3688, the following registration is requested to be made.  </p>
+<pre>
+     URI: urn:ietf:params:xml:ns:yang:ietf-network-instance
+
+     Registrant Contact: The IESG.
+
+     XML: N/A, the requested URI is an XML namespace.
+     </pre>
+<p id="rfc.section.5.p.2">This document registers a YANG module in the YANG Module Names registry <a href="#RFC6020" class="xref">[RFC6020]</a>.  </p>
+<pre>
+  name:        ietf-network-instance
+  namespace:   urn:ietf:params:xml:ns:yang:ietf-network-instance
+  prefix:      ni
+  reference:   RFC XXXX
+  </pre>
+<p></p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#sec-6.3" id="sec-6.3">Network Instance Model</a>
+</h1>
+<p id="rfc.section.6.p.1">The structure of the model defined in this document is described by the YANG module below.  </p>
+<pre>
+&lt;CODE BEGINS&gt; file "ietf-network-instance@2018-03-20.yang"
+module ietf-network-instance {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-network-instance";
+  prefix ni;
+
+  // import some basic types
+
+  import ietf-interfaces {
+    prefix if;
+    reference "draft-ietf-netmod-rfc7223bis: A YANG Data Model
+               for Interface Management";
+  }
+  import ietf-ip {
+    prefix ip;
+    reference "draft-ietf-netmod-rfc7277bis: A YANG Data Model
+               for IP Management";
+  }
+  import ietf-yang-schema-mount {
+    prefix yangmnt;
+    reference "draft-ietf-netmod-schema-mount: YANG Schema Mount";
+    // RFC Ed.: Please replace this draft name with the
+    // corresponding RFC number
+  }
+
+  organization
+    "IETF Routing Area (rtgwg) Working Group";
+  contact
+    "WG Web:   &lt;http://tools.ietf.org/wg/rtgwg/&gt;
+     WG List:  &lt;mailto:rtgwg@ietf.org&gt;
+
+     Author:   Lou Berger
+               &lt;mailto:lberger@labn.net&gt;
+     Author:   Christan Hopps
+               &lt;mailto:chopps@chopps.org&gt;
+     Author:   Acee Lindem
+               &lt;mailto:acee@cisco.com&gt;
+     Author:   Dean Bogdanovic
+               &lt;mailto:ivandean@gmail.com&gt;";
+  description
+    "This module is used to support multiple network instances
+     within a single physical or virtual device.  Network
+     instances are commonly known as VRFs (virtual routing
+     and forwarding) and VSIs (virtual switching instances).
+
+     Copyright (c) 2017 IETF Trust and the persons
+     identified as authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (http://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX; see
+     the RFC itself for full legal notices.";
+
+  // RFC Ed.: replace XXXX with actual RFC number and remove
+  // this note
+  // RFC Ed.: please update TBD
+
+  revision 2018-03-20 {
+    description
+      "Initial revision.";
+    reference "RFC TBD";
+  }
+
+  // top level device definition statements
+
+  container network-instances {
+    description
+      "Network instances each of which consists of a
+       VRFs (virtual routing and forwarding) and/or
+       VSIs (virtual switching instances).";
+    reference "draft-ietf-rtgwg-rfc8022bis - A YANG Data Model
+               for Routing Management";
+    list network-instance {
+      key "name";
+      description
+        "List of network-instances.";
+      leaf name {
+        type string;
+        mandatory true;
+        description
+          "device scoped identifier for the network
+           instance.";
+      }
+      leaf enabled {
+        type boolean;
+        default "true";
+        description
+          "Flag indicating whether or not the network
+           instance is enabled.";
+      }
+      leaf description {
+        type string;
+        description
+          "Description of the network instance
+           and its intended purpose.";
+      }
+      choice ni-type {
+        description
+          "This node serves as an anchor point for different types
+           of network instances.  Each 'case' is expected to
+           differ in terms of the information needed in the
+           parent/core to support the NI, and may differ in their
+           mounted schema definition. When the mounted schema is
+           not expected to be the same for a specific type of NI
+           a mount point should be defined.";
+      }
+      choice root-type {
+        mandatory true;
+        description
+          "Well known mount points.";
+        container vrf-root {
+          description
+            "Container for mount point.";
+          yangmnt:mount-point "vrf-root" {
+            description
+              "Root for L3VPN type models. This will typically
+               not be an inline type mount point.";
+          }
+        }
+        container vsi-root {
+          description
+            "Container for mount point.";
+          yangmnt:mount-point "vsi-root" {
+            description
+              "Root for L2VPN type models. This will typically
+               not be an inline type mount point.";
+          }
+        }
+        container vv-root {
+          description
+            "Container for mount point.";
+          yangmnt:mount-point "vv-root" {
+            description
+              "Root models that support both L2VPN type bridging
+               and L3VPN type routing. This will typically
+               not be an inline type mount point.";
+          }
+        }
+      }
+    }
+  }
+
+  // augment statements
+
+  augment "/if:interfaces/if:interface" {
+    description
+      "Add a node for the identification of the network
+       instance associated with the information configured
+       on a interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
+    leaf bind-ni-name {
+      type leafref {
+        path "/network-instances/network-instance/name";
+      }
+      description
+        "Network Instance to which an interface is bound.";
+    }
+  }
+  augment "/if:interfaces/if:interface/ip:ipv4" {
+    description
+      "Add a node for the identification of the network
+       instance associated with the information configured
+       on an IPv4 interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
+    leaf bind-ni-name {
+      type leafref {
+        path "/network-instances/network-instance/name";
+      }
+      description
+        "Network Instance to which IPv4 interface is bound.";
+    }
+  }
+  augment "/if:interfaces/if:interface/ip:ipv6" {
+    description
+      "Add a node for the identification of the network
+       instance associated with the information configured
+       on an IPv6 interface.
+
+       Note that a standard error will be returned if the
+       identified leafref isn't present.  If an interfaces cannot
+       be assigned for any other reason, the operation SHALL fail
+       with an error-tag of 'operation-failed' and an
+       error-app-tag of 'ni-assignment-failed'.  A meaningful
+       error-info that indicates the source of the assignment
+       failure SHOULD also be provided.";
+    leaf bind-ni-name {
+      type leafref {
+        path "/network-instances/network-instance/name";
+      }
+      description
+        "Network Instance to which IPv6 interface is bound.";
+    }
+  }
+
+  // notification statements
+
+  notification bind-ni-name-failed {
+    description
+      "Indicates an error in the association of an interface to an
+       NI. Only generated after success is initially returned when
+       bind-ni-name is set.
+
+       Note: some errors may need to be reported for multiple
+       associations, e.g., a single error may need to be reported
+       for an IPv4 and an IPv6 bind-ni-name.
+
+       At least one container with a bind-ni-name leaf MUST be
+       included in this notification.";
+    leaf name {
+      type leafref {
+        path "/if:interfaces/if:interface/if:name";
+      }
+      mandatory true;
+      description
+        "Contains the interface name associated with the
+        failure.";
+    }
+    container interface {
+      description
+        "Generic interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface/ni:bind-ni-name";
+        }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
+      }
+    }
+    container ipv4 {
+      description
+        "IPv4 interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface"
+            + "/ip:ipv4/ni:bind-ni-name";
+        }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
+      }
+    }
+    container ipv6 {
+      description
+        "IPv6 interface type.";
+      leaf bind-ni-name {
+        type leafref {
+          path "/if:interfaces/if:interface"
+            + "/ip:ipv6/ni:bind-ni-name";
+        }
+        description
+          "Contains the bind-ni-name associated with the
+           failure.";
+      }
+    }
+    leaf error-info {
+      type string;
+      description
+        "Optionally, indicates the source of the assignment
+         failure.";
+    }
+  }
+}
+&lt;CODE ENDS&gt;
+</pre>
+<p></p>
+<h1 id="rfc.references">
+<a href="#rfc.references">7.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">7.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-netmod-revised-datastores">[I-D.ietf-netmod-revised-datastores]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a>, <a>Shafer, P.</a>, <a>Watsen, K.</a> and <a>R. Wilton</a>, "<a href="https://tools.ietf.org/html/draft-ietf-netmod-revised-datastores-10">Network Management Datastore Architecture</a>", Internet-Draft draft-ietf-netmod-revised-datastores-10, January 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-netmod-rfc7223bis">[I-D.ietf-netmod-rfc7223bis]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/draft-ietf-netmod-rfc7223bis-03">A YANG Data Model for Interface Management</a>", Internet-Draft draft-ietf-netmod-rfc7223bis-03, January 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-netmod-rfc7277bis">[I-D.ietf-netmod-rfc7277bis]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/draft-ietf-netmod-rfc7277bis-03">A YANG Data Model for IP Management</a>", Internet-Draft draft-ietf-netmod-rfc7277bis-03, January 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-netmod-schema-mount">[I-D.ietf-netmod-schema-mount]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a> and <a>L. Lhotka</a>, "<a href="https://tools.ietf.org/html/draft-ietf-netmod-schema-mount-08">YANG Schema Mount</a>", Internet-Draft draft-ietf-netmod-schema-mount-08, October 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-netmod-yang-tree-diagrams">[I-D.ietf-netmod-yang-tree-diagrams]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a> and <a>L. Berger</a>, "<a href="https://tools.ietf.org/html/draft-ietf-netmod-yang-tree-diagrams-06">YANG Tree Diagrams</a>", Internet-Draft draft-ietf-netmod-yang-tree-diagrams-06, February 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC3688">[RFC3688]</b></td>
+<td class="top">
+<a>Mealling, M.</a>, "<a href="https://tools.ietf.org/html/rfc3688">The IETF XML Registry</a>", BCP 81, RFC 3688, DOI 10.17487/RFC3688, January 2004.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5246">[RFC5246]</b></td>
+<td class="top">
+<a>Dierks, T.</a> and <a>E. Rescorla</a>, "<a href="https://tools.ietf.org/html/rfc5246">The Transport Layer Security (TLS) Protocol Version 1.2</a>", RFC 5246, DOI 10.17487/RFC5246, August 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6020">[RFC6020]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc6020">YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</a>", RFC 6020, DOI 10.17487/RFC6020, October 2010.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6241">[RFC6241]</b></td>
+<td class="top">
+<a>Enns, R.</a>, <a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a> and <a>A. Bierman</a>, "<a href="https://tools.ietf.org/html/rfc6241">Network Configuration Protocol (NETCONF)</a>", RFC 6241, DOI 10.17487/RFC6241, June 2011.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6242">[RFC6242]</b></td>
+<td class="top">
+<a>Wasserman, M.</a>, "<a href="https://tools.ietf.org/html/rfc6242">Using the NETCONF Protocol over Secure Shell (SSH)</a>", RFC 6242, DOI 10.17487/RFC6242, June 2011.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6536">[RFC6536]</b></td>
+<td class="top">
+<a>Bierman, A.</a> and <a>M. Bjorklund</a>, "<a href="https://tools.ietf.org/html/rfc6536">Network Configuration Protocol (NETCONF) Access Control Model</a>", RFC 6536, DOI 10.17487/RFC6536, March 2012.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8040">[RFC8040]</b></td>
+<td class="top">
+<a>Bierman, A.</a>, <a>Bjorklund, M.</a> and <a>K. Watsen</a>, "<a href="https://tools.ietf.org/html/rfc8040">RESTCONF Protocol</a>", RFC 8040, DOI 10.17487/RFC8040, January 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8174">[RFC8174]</b></td>
+<td class="top">
+<a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">7.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-bess-l2vpn-yang">[I-D.ietf-bess-l2vpn-yang]</b></td>
+<td class="top">
+<a>Shah, H.</a>, <a>Brissette, P.</a>, <a>Chen, I.</a>, <a>Hussain, I.</a>, <a>Wen, B.</a> and <a>K. Tiruveedhula</a>, "<a href="https://tools.ietf.org/html/draft-ietf-bess-l2vpn-yang-08">YANG Data Model for MPLS-based L2VPN</a>", Internet-Draft draft-ietf-bess-l2vpn-yang-08, February 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-bess-l3vpn-yang">[I-D.ietf-bess-l3vpn-yang]</b></td>
+<td class="top">
+<a>Jain, D.</a>, <a>Patel, K.</a>, <a>Brissette, P.</a>, <a>Li, Z.</a>, <a>Zhuang, S.</a>, <a>Liu, X.</a>, <a>Haas, J.</a>, <a>Esale, S.</a> and <a>B. Wen</a>, "<a href="https://tools.ietf.org/html/draft-ietf-bess-l3vpn-yang-02">Yang Data Model for BGP/MPLS L3 VPNs</a>", Internet-Draft draft-ietf-bess-l3vpn-yang-02, October 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-netmod-rfc8022bis">[I-D.ietf-netmod-rfc8022bis]</b></td>
+<td class="top">
+<a>Lhotka, L.</a>, <a>Lindem, A.</a> and <a>Y. Qu</a>, "<a href="https://tools.ietf.org/html/draft-ietf-netmod-rfc8022bis-11">A YANG Data Model for Routing Management (NMDA Version)</a>", Internet-Draft draft-ietf-netmod-rfc8022bis-11, January 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-ospf-yang">[I-D.ietf-ospf-yang]</b></td>
+<td class="top">
+<a>Yeung, D.</a>, <a>Qu, Y.</a>, <a>Zhang, Z.</a>, <a>Chen, I.</a> and <a>A. Lindem</a>, "<a href="https://tools.ietf.org/html/draft-ietf-ospf-yang-10">Yang Data Model for OSPF Protocol</a>", Internet-Draft draft-ietf-ospf-yang-10, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-rtgwg-device-model">[I-D.ietf-rtgwg-device-model]</b></td>
+<td class="top">
+<a>Lindem, A.</a>, <a>Berger, L.</a>, <a>Bogdanovic, D.</a> and <a>C. Hopps</a>, "<a href="https://tools.ietf.org/html/draft-ietf-rtgwg-device-model-02">Network Device YANG Logical Organization</a>", Internet-Draft draft-ietf-rtgwg-device-model-02, March 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-rtgwg-lne-model">[I-D.ietf-rtgwg-lne-model]</b></td>
+<td class="top">
+<a>Berger, L.</a>, <a>Hopps, C.</a>, <a>Lindem, A.</a>, <a>Bogdanovic, D.</a> and <a>X. Liu</a>, "<a href="https://tools.ietf.org/html/draft-ietf-rtgwg-lne-model-09">YANG Model for Logical Network Elements</a>", Internet-Draft draft-ietf-rtgwg-lne-model-09, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4026">[RFC4026]</b></td>
+<td class="top">
+<a>Andersson, L.</a> and <a>T. Madsen</a>, "<a href="https://tools.ietf.org/html/rfc4026">Provider Provisioned Virtual Private Network (VPN) Terminology</a>", RFC 4026, DOI 10.17487/RFC4026, March 2005.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4364">[RFC4364]</b></td>
+<td class="top">
+<a>Rosen, E.</a> and <a>Y. Rekhter</a>, "<a href="https://tools.ietf.org/html/rfc4364">BGP/MPLS IP Virtual Private Networks (VPNs)</a>", RFC 4364, DOI 10.17487/RFC4364, February 2006.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4664">[RFC4664]</b></td>
+<td class="top">
+<a>Andersson, L.</a> and <a>E. Rosen</a>, "<a href="https://tools.ietf.org/html/rfc4664">Framework for Layer 2 Virtual Private Networks (L2VPNs)</a>", RFC 4664, DOI 10.17487/RFC4664, September 2006.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7223">[RFC7223]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7223">A YANG Data Model for Interface Management</a>", RFC 7223, DOI 10.17487/RFC7223, May 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7277">[RFC7277]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7277">A YANG Data Model for IP Management</a>", RFC 7277, DOI 10.17487/RFC7277, June 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7950">[RFC7950]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7950">The YANG 1.1 Data Modeling Language</a>", RFC 7950, DOI 10.17487/RFC7950, August 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8022">[RFC8022]</b></td>
+<td class="top">
+<a>Lhotka, L.</a> and <a>A. Lindem</a>, "<a href="https://tools.ietf.org/html/rfc8022">A YANG Data Model for Routing Management</a>", RFC 8022, DOI 10.17487/RFC8022, November 2016.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.appendix.A">
+<a href="#rfc.appendix.A">Appendix A.</a> Acknowledgments</h1>
+<p id="rfc.section.A.p.1">The Routing Area Yang Architecture design team members included Acee Lindem, Anees Shaikh, Christian Hopps, Dean Bogdanovic, Lou Berger, Qin Wu, Rob Shakir, Stephane Litkowski, and Yan Gang. Useful review comments were also received by Martin Bjorklund and John Scudder.</p>
+<p id="rfc.section.A.p.2">This document was motivated by, and derived from, <a href="#I-D.ietf-rtgwg-device-model" class="xref">[I-D.ietf-rtgwg-device-model]</a>.  </p>
+<p id="rfc.section.A.p.3">Thanks for AD and IETF last call comments from Alia Atlas, Liang Xia, Benoit Claise, and Adam Roach.  </p>
+<p id="rfc.section.A.p.4">The RFC text was produced using Marshall Rose's xml2rfc tool.  </p>
+<h1 id="rfc.appendix.B">
+<a href="#rfc.appendix.B">Appendix B.</a> <a href="#sec-examples" id="sec-examples">Example NI usage</a>
+</h1>
+<p id="rfc.section.B.p.1">The following subsections provide example uses of NIs.  </p>
+<h1 id="rfc.appendix.B.1">
+<a href="#rfc.appendix.B.1">B.1.</a> <a href="#sec-ex1cd" id="sec-ex1cd">Configuration Data</a>
+</h1>
+<p id="rfc.section.B.1.p.1">The following shows an example where two customer specific network instances are configured: </p>
+<pre>
+{
+  "ietf-network-instance:network-instances": {
+    "network-instance": [
+      {
+        "name": "vrf-red",
+        "vrf-root": {
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "vrf-blue",
+        "vrf-root": {
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth2",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          },
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::10",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth1",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          },
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          },
+          "ni:bind-network-instance-name": "vrf-red"
+        },
+        {
+          "name": "eth2",
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          },
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          },
+          "ni:bind-network-instance-name": "vrf-blue"
+        }
+      ]
+    }
+  },
+
+  "ietf-system:system": {
+    "authentication": {
+      "user": [
+        {
+          "name": "john",
+          "password": "$0$password"
+        }
+      ]
+    }
+  }
+}
+</pre>
+<p></p>
+<h1 id="rfc.appendix.B.2">
+<a href="#rfc.appendix.B.2">B.2.</a> <a href="#sec-ex1sd" id="sec-ex1sd">State Data - Non-NMDA Version</a>
+</h1>
+<p id="rfc.section.B.2.p.1">The following shows state data for the configuration example above based on <a href="#RFC7223" class="xref">[RFC7223]</a>, <a href="#RFC7277" class="xref">[RFC7277]</a>, and <a href="#RFC8022" class="xref">[RFC8022]</a>.  </p>
+<pre>
+{
+  "ietf-network-instance:network-instances": {
+    "network-instance": [
+      {
+        "name": "vrf-red",
+        "vrf-root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2018-03-03",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2018-03-13",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              }
+            ]
+          },
+          "ietf-routing:routing-state": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "vrf-blue",
+        "vrf-root": {
+          "ietf-yang-library:modules-state": {
+            "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+            "module": [
+              {
+                "name": "ietf-yang-library",
+                "revision": "2016-06-21",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-ospf",
+                "revision": "2018-03-03",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                "conformance-type": "implement"
+              },
+              {
+                "name": "ietf-routing",
+                "revision": "2018-03-13",
+                "namespace":
+                "urn:ietf:params:xml:ns:yang:ietf-routing",
+                "conformance-type": "implement"
+              }
+            ]
+          },
+          "ietf-routing:routing-state": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth2",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces-state": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C0",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::10",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C1",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth2",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C2",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  }
+
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2014-05-08",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2014-06-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-network-instance",
+        "revision": "2018-02-03",
+        "feature": [
+          "bind-network-instance-name"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-network-instance",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ospf",
+        "revision": "2018-03-03",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-ospf",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2018-03-13",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-schema-mount",
+        "revision": "2017-05-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-yang-schema-mount:schema-mounts": {
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "shared-schema": {
+          "parent-reference": [
+            "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+          ]
+        }
+      }
+    ]
+  }
+}
+</pre>
+<p></p>
+<h1 id="rfc.appendix.B.3">
+<a href="#rfc.appendix.B.3">B.3.</a> <a href="#sec-ex1sd-nmda" id="sec-ex1sd-nmda">State Data - NMDA Version</a>
+</h1>
+<p id="rfc.section.B.3.p.1">The following shows state data for the configuration example above based on <a href="#I-D.ietf-netmod-rfc7223bis" class="xref">[I-D.ietf-netmod-rfc7223bis]</a>, <a href="#I-D.ietf-netmod-rfc7277bis" class="xref">[I-D.ietf-netmod-rfc7277bis]</a>, and <a href="#I-D.ietf-netmod-rfc8022bis" class="xref">[I-D.ietf-netmod-rfc8022bis]</a>.  </p>
+<pre>
+{
+  "ietf-network-instance:network-instances": {
+    "network-instance": [
+      {
+        "name": "vrf-red",
+        "vrf-root": {
+          "ietf-yang-library:yang-library": {
+            "checksum": "41e2ab5dc325f6d86f743e8da3de323f1a61a801",
+            "module-set": [
+              {
+                "name": "ni-modules",
+                "module": [
+                  {
+                    "name": "ietf-yang-library",
+                    "revision": "2016-06-21",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-ospf",
+                    "revision": "2018-03-03",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-routing",
+                    "revision": "2018-03-13",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-routing",
+                    "conformance-type": "implement"
+                  }
+                ],
+                "import-only-module": [
+                  {
+                    "name": "ietf-inet-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types"
+                  },
+                  {
+                    "name": "ietf-yang-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types"
+                  },
+                  {
+                    "name": "ietf-datastores",
+                    "revision": "2018-02-14",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-datastores"
+                  }
+                ]
+              }
+            ],
+            "schema": [
+              {
+                "name": "ni-schema",
+                "module-set": [ "ni-modules" ]
+              }
+            ],
+            "datastore": [
+              {
+                "name": "ietf-datastores:running",
+                "schema": "ni-schema"
+              },
+              {
+                "name": "ietf-datastores:operational",
+                "schema": "ni-schema"
+              }
+            ]
+          },
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.1",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth1",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "vrf-blue",
+        "vrf-root": {
+          "ietf-yang-library:yang-library": {
+            "checksum": "41e2ab5dc325f6d86f743e8da3de323f1a61a801",
+            "module-set": [
+              {
+                "name": "ni-modules",
+                "module": [
+                  {
+                    "name": "ietf-yang-library",
+                    "revision": "2016-06-21",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-ospf",
+                    "revision": "2018-03-03",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-ospf",
+                    "conformance-type": "implement"
+                  },
+                  {
+                    "name": "ietf-routing",
+                    "revision": "2018-03-13",
+                    "namespace":
+                    "urn:ietf:params:xml:ns:yang:ietf-routing",
+                    "conformance-type": "implement"
+                  }
+                ],
+                "import-only-module": [
+                  {
+                    "name": "ietf-inet-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types"
+                  },
+                  {
+                    "name": "ietf-yang-types",
+                    "revision": "2013-07-15",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types"
+                  },
+                  {
+                    "name": "ietf-datastores",
+                    "revision": "2018-02-14",
+                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-datastores"
+                  }
+                ]
+              }
+            ],
+            "schema": [
+              {
+                "name": "ni-schema",
+                "module-set": [ "ni-modules" ]
+              }
+            ],
+            "datastore": [
+              {
+                "name": "ietf-datastores:running",
+                "schema": "ni-schema"
+              },
+              {
+                "name": "ietf-datastores:operational",
+                "schema": "ni-schema"
+              }
+            ]
+          },
+          "ietf-routing:routing": {
+            "router-id": "192.0.2.2",
+            "control-plane-protocols": {
+              "control-plane-protocol": [
+                {
+                  "type": "ietf-routing:ospf",
+                  "name": "1",
+                  "ietf-ospf:ospf": {
+                    "af": "ipv4",
+                    "areas": {
+                      "area": [
+                        {
+                          "area-id": "203.0.113.1",
+                          "interfaces": {
+                            "interface": [
+                              {
+                                "name": "eth2",
+                                "cost": 10
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+
+  "ietf-interfaces:interfaces": {
+    "interfaces": {
+      "interface": [
+        {
+          "name": "eth0",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C0",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.10",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::10",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth1",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C1",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        },
+        {
+          "name": "eth2",
+          "type": "iana-if-type:ethernetCsmacd",
+          "oper-status": "up",
+          "phys-address": "00:01:02:A1:B1:C2",
+          "statistics": {
+             "discontinuity-time": "2017-06-26T12:34:56-05:00"
+          },
+          "ip:ipv4": {
+            "address": [
+              {
+                "ip": "192.0.2.11",
+                "prefix-length": 24,
+              }
+            ]
+          }
+          "ip:ipv6": {
+            "address": [
+              {
+                "ip": "2001:db8:0:2::11",
+                "prefix-length": 64,
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+
+  "ietf-system:system-state": {
+    "platform": {
+      "os-name": "NetworkOS"
+    }
+  }
+
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "123e4567-e89b-12d3-a456-426655440000",
+    "module": [
+      {
+        "name": "iana-if-type",
+        "revision": "2014-05-08",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:iana-if-type",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import"
+      },
+      {
+        "name": "ietf-interfaces",
+        "revision": "2018-01-09",
+        "feature": [
+          "arbitrary-names",
+          "pre-provisioning"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2018-01-09",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-network-instance",
+        "revision": "2018-02-03",
+        "feature": [
+          "bind-network-instance-name"
+        ],
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-network-instance",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-ospf",
+        "revision": "2017-10-30",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-ospf",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2018-01-25",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-system",
+        "revision": "2014-08-06",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-system",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-library",
+        "revision": "2016-06-21",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-library",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-schema-mount",
+        "revision": "2017-05-16",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount",
+        "conformance-type": "implement"
+      },
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace":
+        "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import"
+      }
+    ]
+  },
+
+  "ietf-yang-schema-mount:schema-mounts": {
+    "mount-point": [
+      {
+        "module": "ietf-network-instance",
+        "label": "vrf-root",
+        "shared-schema": {
+          "parent-reference": [
+            "/*[namespace-uri() = 'urn:ietf:...:ietf-interfaces']"
+          ]
+        }
+      }
+    ]
+  }
+}
+</pre>
+<p></p>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Lou Berger</span> 
+	  <span class="n hidden">
+		<span class="family-name">Berger</span>
+	  </span>
+	</span>
+	<span class="org vcardline">LabN Consulting, L.L.C.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:lberger@labn.net">lberger@labn.net</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Christan Hopps</span> 
+	  <span class="n hidden">
+		<span class="family-name">Hopps</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Deutsche Telekom</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:chopps@chopps.org">chopps@chopps.org</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Acee Lindem</span> 
+	  <span class="n hidden">
+		<span class="family-name">Lindem</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems</span>
+	<span class="adr">
+	  <span class="vcardline">301 Midenhall Way</span>
+
+	  <span class="vcardline">
+		<span class="locality">Cary</span>,  
+		<span class="region">NC</span> 
+		<span class="code">27513</span>
+	  </span>
+	  <span class="country-name vcardline">USA</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:acee@cisco.com">acee@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Dean Bogdanovic</span> 
+	  <span class="n hidden">
+		<span class="family-name">Bogdanovic</span>
+	  </span>
+	</span>
+	<span class="org vcardline"></span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:ivandean@gmail.com">ivandean@gmail.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Xufeng Liu</span> 
+	  <span class="n hidden">
+		<span class="family-name">Liu</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Jabil</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:Xufeng_Liu@jabil.com">Xufeng_Liu@jabil.com</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
